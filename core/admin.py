@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import profile, skill, Interest, Opportunity, SavedOpportunity, CVTip, MotivationalNudge, Story
-
+from .models import Profile, Skill, Interest, Opportunity, SavedOpportunity, CVTip, MotivationalNudge, Story
+admin.site.register(Opportunity)
 
 

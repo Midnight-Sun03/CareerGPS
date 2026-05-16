@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-class profile(models.Model):
+class   Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     degree = models.CharField(max_length=200)
     institution = models.CharField(max_length=200)
@@ -13,6 +13,9 @@ class profile(models.Model):
     applications_started = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    # ADDED THIS NEW FIELD - For tracking last email notification
+    last_notification_time = models.DateTimeField(null=True, blank=True)
+    cv = models.FileField(upload_to='cvs/', null=True, blank=True)
 
     def __str__(self):
         return f"{self.user.username} - Profile"
@@ -121,33 +124,21 @@ class MotivationalNudge(models.Model):
         return f"{self.title} ({self.trigger})"
     
 class Story(models.Model):
-
     STATUS_CHOICES = [
         ('pending', 'Pending'),
         ('approved', 'Approved'),
         ('rejected', 'Rejected'),
     ]
-
-    user = models.ForeignKey(
-        User, 
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True
-    )
-
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     display_name = models.CharField(max_length=200)
     degree = models.CharField(max_length=200, blank=True)
     institution = models.CharField(max_length=200, blank=True)
     title = models.CharField(max_length=200)
     content = models.TextField()
-    status = models.CharField(
-        max_length=20,
-        choices=STATUS_CHOICES,
-        default='pending'
-    )
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
     submitted_at = models.DateTimeField(auto_now_add=True)
     approved_at = models.DateTimeField(null=True, blank=True)
-
+    
     class Meta:
         ordering = ['-submitted_at']
 

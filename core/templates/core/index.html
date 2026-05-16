@@ -1,0 +1,589 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CareerGPS – Your Personal Career Navigator</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'core/css/index.css' %}" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- ══════════════════════════════════════════
+       NAV
+  ══════════════════════════════════════════ -->
+    <nav class="nav" id="mainNav">
+      <a href="{% url 'home' %}" class="nav__logo">
+        <span class="nav__logo-icon">C</span>
+        <span class="nav__logo-text">CareerGPS</span>
+      </a>
+      <div class="nav__actions">
+        <a href="{% url 'signin' %}" class="nav__signin">Sign In</a>
+        <a href="{% url 'register' %}" class="nav__register">Register</a>
+      </div>
+      <!-- Mobile hamburger -->
+      <button class="nav__burger" id="burger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+
+    <!-- Mobile menu -->
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="{% url 'signin' %}" class="mobile-menu__link">Sign In</a>
+      <a
+        href="{% url 'register' %}"
+        class="mobile-menu__link mobile-menu__link--primary"
+        >Register</a
+      >
+    </div>
+
+    <!-- ══════════════════════════════════════════
+       HERO
+  ══════════════════════════════════════════ -->
+    <section class="hero" id="hero">
+      <div class="hero__content">
+        <h1 class="hero__title">
+          CareerGPS –<br />Your personal<br /><em>career navigator</em>
+        </h1>
+        <p class="hero__desc">
+          Explore internships, learnerships, and graduate programmes in Tech,
+          Finance, Business, and beyond. CareerGPS curates opportunities
+          tailored to your qualification, skills, and ambitions, with targeted
+          CV tips and tailored resources to help you apply confidently and stand
+          out.
+        </p>
+
+        <!-- Search bar -->
+        <div class="search-bar" id="searchBar">
+          <svg
+            class="search-bar__icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <circle cx="11" cy="11" r="8" />
+            <path d="m21 21-4.35-4.35" />
+          </svg>
+          <input
+            class="search-bar__input"
+            type="text"
+            id="searchInput"
+            placeholder="search internships by title or location.."
+            autocomplete="off"
+          />
+          <button class="search-bar__btn" id="searchBtn" type="button">
+            Search
+          </button>
+        </div>
+
+        <!-- Indeed-style results panel -->
+        <div class="results-panel" id="resultsPanel" hidden>
+          <div class="results-panel__header">
+            <span class="results-panel__count" id="resultsCount"></span>
+            <button
+              class="results-panel__close"
+              id="closeResults"
+              aria-label="Close results"
+            >
+              ✕
+            </button>
+          </div>
+          <div class="results-list" id="resultsList"></div>
+          <div class="results-panel__empty" id="resultsEmpty" hidden>
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              style="
+                width: 36px;
+                height: 36px;
+                color: #bdb0a8;
+                margin-bottom: 10px;
+              "
+            >
+              <circle cx="11" cy="11" r="8" />
+              <path d="m21 21-4.35-4.35" />
+            </svg>
+            <p>
+              No results for that search.<br />Try a different title or
+              location.
+            </p>
+          </div>
+        </div>
+
+        <div class="hero__ctas">
+          <a href="{% url 'register' %}" class="btn btn--primary">Get Started</a>
+          <a href="#why" class="btn btn--outline">Learn More</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════
+       STATS STRIP
+  ══════════════════════════════════════════ -->
+    <div class="stats-strip">
+      <div class="stat">
+        <span class="stat__num" data-target="1200">0</span>+
+        <span class="stat__label">Opportunities</span>
+      </div>
+      <div class="stat__divider"></div>
+      <div class="stat">
+        <span class="stat__num" data-target="340">0</span>+
+        <span class="stat__label">Companies</span>
+      </div>
+      <div class="stat__divider"></div>
+      <div class="stat">
+        <span class="stat__num" data-target="8500">0</span>+
+        <span class="stat__label">Students Helped</span>
+      </div>
+      <div class="stat__divider"></div>
+      <div class="stat">
+        <span class="stat__num" data-target="94">0</span>%
+        <span class="stat__label">Satisfaction Rate</span>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+       WHY CAREERGPS
+  ══════════════════════════════════════════ -->
+    <section class="why" id="why">
+      <div class="section-header">
+        <h2 class="section-title">Why CareerGPS?</h2>
+        <p class="section-sub">
+          Everything you need to land your first or next big opportunity.
+        </p>
+      </div>
+
+      <div class="why__grid">
+        <a href="{% url 'register' %}" class="why-card reveal">
+          <div class="why-card__icon-wrap">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#C0410A"
+              stroke-width="2"
+              class="why-card__icon"
+            >
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+              <polyline points="22 4 12 14.01 9 11.01" />
+            </svg>
+          </div>
+          <h3 class="why-card__title">Guidance &amp; Support</h3>
+          <p class="why-card__body">
+            Tailored CV tips and career guidance to help you stand out and apply
+            confidently.
+          </p>
+          <span class="why-card__cta">Explore guidance →</span>
+        </a>
+
+        <a href="{% url 'register' %}" class="why-card reveal">
+          <div class="why-card__icon-wrap">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#C0410A"
+              stroke-width="2"
+              class="why-card__icon"
+            >
+              <circle cx="12" cy="8" r="6" />
+              <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11" />
+            </svg>
+          </div>
+          <h3 class="why-card__title">Verified Opportunities</h3>
+          <p class="why-card__body">
+            Every programme is curated to ensure relevance and quality for your
+            career path.
+          </p>
+          <span class="why-card__cta">Browse opportunities →</span>
+        </a>
+
+        <a href="{% url 'register' %}" class="why-card reveal">
+          <div class="why-card__icon-wrap">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#C0410A"
+              stroke-width="2"
+              class="why-card__icon"
+            >
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+            </svg>
+          </div>
+          <h3 class="why-card__title">Future-ready Skills</h3>
+          <p class="why-card__body">
+            Resources to prepare you for the evolving world of work and emerging
+            opportunities.
+          </p>
+          <span class="why-card__cta">View resources →</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════
+       HOW IT WORKS
+  ══════════════════════════════════════════ -->
+    <section class="how" id="how">
+      <div class="section-header">
+        <h2 class="section-title">How it works</h2>
+        <p class="section-sub">Three simple steps to your next opportunity.</p>
+      </div>
+
+      <div class="how__steps">
+        <div class="how-step reveal">
+          <div class="how-step__num">01</div>
+          <h3 class="how-step__title">Create your profile</h3>
+          <p class="how-step__body">
+            Tell us about your qualifications, skills, and the kind of role
+            you're looking for.
+          </p>
+        </div>
+        <div class="how-step__arrow" aria-hidden="true">→</div>
+        <div class="how-step reveal">
+          <div class="how-step__num">02</div>
+          <h3 class="how-step__title">Explore matches</h3>
+          <p class="how-step__body">
+            Browse curated internships, learnerships, and grad programmes
+            tailored just for you.
+          </p>
+        </div>
+        <div class="how-step__arrow" aria-hidden="true">→</div>
+        <div class="how-step reveal">
+          <div class="how-step__num">03</div>
+          <h3 class="how-step__title">Apply with confidence</h3>
+          <p class="how-step__body">
+            Use our CV tips and resources to submit a standout application every
+            time.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════
+       CTA BANNER
+  ══════════════════════════════════════════ -->
+    <section class="cta-section" id="cta">
+      <div class="cta-section__inner reveal">
+        <h2 class="cta-section__title">Ready to find your next opportunity?</h2>
+        <p class="cta-section__sub">
+          Join thousands of students and graduates discovering their perfect
+          career path with CareerGPS.
+        </p>
+        <a href="{% url 'register' %}" class="btn btn--primary btn--lg"
+          >Start Your Journey</a
+        >
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════
+       FOOTER
+  ══════════════════════════════════════════ -->
+    <footer class="footer">
+      <div class="footer__inner">
+        <div class="footer__logo">
+          <span class="nav__logo-icon">C</span>
+          <span class="nav__logo-text">CareerGPS</span>
+        </div>
+        <nav class="footer__links">
+          <a href="#" class="footer__link">Disclaimer</a>
+          <a href="#" class="footer__link">Privacy Policy</a>
+          <a href="#" class="footer__link">Terms and Conditions</a>
+          <a href="#" class="footer__link">Contact Us</a>
+          <a href="#" class="footer__link">About Us</a>
+        </nav>
+        <span class="footer__copy">@2026CareerGPS</span>
+      </div>
+    </footer>
+
+    <script>
+      /* ── Sticky nav shadow ────────────────────────────────── */
+      const nav = document.getElementById("mainNav");
+      window.addEventListener("scroll", () => {
+        nav.classList.toggle("nav--scrolled", window.scrollY > 10);
+      });
+
+      /* ── Mobile burger ────────────────────────────────────── */
+      const burger = document.getElementById("burger");
+      const mobileMenu = document.getElementById("mobileMenu");
+      burger.addEventListener("click", () => {
+        const open = mobileMenu.classList.toggle("mobile-menu--open");
+        burger.classList.toggle("burger--open", open);
+      });
+      mobileMenu.querySelectorAll("a").forEach((a) =>
+        a.addEventListener("click", () => {
+          mobileMenu.classList.remove("mobile-menu--open");
+          burger.classList.remove("burger--open");
+        }),
+      );
+
+      /* ── Job listings data ────────────────────────────────── */
+      const JOBS = [
+        {
+          title: "Software Development Intern",
+          company: "Tech Template",
+          location: "Cape Town",
+          type: "Internship",
+          field: "Tech",
+          closing: "31 Aug 2025",
+        },
+        {
+          title: "Business Analyst Learnership",
+          company: "Finance House",
+          location: "Johannesburg",
+          type: "Learnership",
+          field: "Finance",
+          closing: "15 Jul 2025",
+        },
+        {
+          title: "Data Science Graduate Programme",
+          company: "DataCo",
+          location: "Remote",
+          type: "Graduate",
+          field: "Tech",
+          closing: "30 Sep 2025",
+        },
+        {
+          title: "Marketing Intern",
+          company: "BrandWorks",
+          location: "Durban",
+          type: "Internship",
+          field: "Business",
+          closing: "20 Jun 2025",
+        },
+        {
+          title: "Finance Learnership",
+          company: "CapitalGroup",
+          location: "Pretoria",
+          type: "Learnership",
+          field: "Finance",
+          closing: "10 Aug 2025",
+        },
+        {
+          title: "UX Design Graduate",
+          company: "Creative Studio",
+          location: "Cape Town",
+          type: "Graduate",
+          field: "Tech",
+          closing: "25 Jul 2025",
+        },
+        {
+          title: "HR Intern",
+          company: "PeopleFirst",
+          location: "Johannesburg",
+          type: "Internship",
+          field: "Business",
+          closing: "5 Aug 2025",
+        },
+        {
+          title: "Accounting Learnership",
+          company: "AuditPlus",
+          location: "Port Elizabeth",
+          type: "Learnership",
+          field: "Finance",
+          closing: "18 Jul 2025",
+        },
+        {
+          title: "Cybersecurity Intern",
+          company: "SecureNet",
+          location: "Remote",
+          type: "Internship",
+          field: "Tech",
+          closing: "22 Sep 2025",
+        },
+        {
+          title: "Mechanical Engineering Graduate",
+          company: "BuildCo",
+          location: "Durban",
+          type: "Graduate",
+          field: "Tech",
+          closing: "1 Oct 2025",
+        },
+        {
+          title: "Graphic Design Intern",
+          company: "VisualArts Agency",
+          location: "Cape Town",
+          type: "Internship",
+          field: "Business",
+          closing: "14 Jun 2025",
+        },
+        {
+          title: "Supply Chain Learnership",
+          company: "LogisticsSA",
+          location: "Johannesburg",
+          type: "Learnership",
+          field: "Business",
+          closing: "30 Jun 2025",
+        },
+        {
+          title: "Cloud Engineering Graduate",
+          company: "CloudBase",
+          location: "Remote",
+          type: "Graduate",
+          field: "Tech",
+          closing: "15 Oct 2025",
+        },
+        {
+          title: "Legal Intern",
+          company: "LexFirm",
+          location: "Pretoria",
+          type: "Internship",
+          field: "Business",
+          closing: "8 Jul 2025",
+        },
+        {
+          title: "Banking Learnership",
+          company: "NationalBank",
+          location: "Johannesburg",
+          type: "Learnership",
+          field: "Finance",
+          closing: "20 Aug 2025",
+        },
+      ];
+
+      const TYPE_COLOURS = {
+        Internship: { bg: "#E3F2FD", color: "#1565C0" },
+        Learnership: { bg: "#FFF3E0", color: "#E65100" },
+        Graduate: { bg: "#E8F5E9", color: "#2E7D32" },
+      };
+
+      function buildResultCard(job) {
+        const tc = TYPE_COLOURS[job.type] || { bg: "#F5F5F5", color: "#555" };
+        return `
+        <div class="result-card">
+          <div class="result-card__left">
+            <div class="result-card__logo">${job.company.charAt(0)}</div>
+          </div>
+          <div class="result-card__body">
+            <div class="result-card__title">${job.title}</div>
+            <div class="result-card__company">${job.company}</div>
+            <div class="result-card__meta">
+              <span class="result-card__location">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px;vertical-align:-2px;margin-right:3px"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                ${job.location}
+              </span>
+              <span class="result-card__closing">Closes ${job.closing}</span>
+            </div>
+          </div>
+          <div class="result-card__right">
+            <span class="result-card__type" style="background:${tc.bg};color:${tc.color}">${job.type}</span>
+            <a href="login.html" class="result-card__apply">Apply</a>
+          </div>
+        </div>`;
+      }
+
+      /* ── Search logic ─────────────────────────────────────── */
+      const searchInput = document.getElementById("searchInput");
+      const searchBtn = document.getElementById("searchBtn");
+      const resultsPanel = document.getElementById("resultsPanel");
+      const resultsList = document.getElementById("resultsList");
+      const resultsCount = document.getElementById("resultsCount");
+      const resultsEmpty = document.getElementById("resultsEmpty");
+      const closeResults = document.getElementById("closeResults");
+
+      function runSearch() {
+        const q = searchInput.value.trim().toLowerCase();
+        if (!q) return;
+
+        const hits = JOBS.filter(
+          (j) =>
+            j.title.toLowerCase().includes(q) ||
+            j.company.toLowerCase().includes(q) ||
+            j.location.toLowerCase().includes(q) ||
+            j.type.toLowerCase().includes(q) ||
+            j.field.toLowerCase().includes(q),
+        );
+
+        resultsPanel.hidden = false;
+        if (hits.length === 0) {
+          resultsList.innerHTML = "";
+          resultsEmpty.hidden = false;
+          resultsCount.textContent = "0 results";
+        } else {
+          resultsEmpty.hidden = true;
+          resultsCount.textContent = `${hits.length} result${hits.length !== 1 ? "s" : ""} for "${searchInput.value.trim()}"`;
+          resultsList.innerHTML = hits.map(buildResultCard).join("");
+        }
+        // Scroll panel into view smoothly
+        setTimeout(
+          () =>
+            resultsPanel.scrollIntoView({
+              behavior: "smooth",
+              block: "nearest",
+            }),
+          50,
+        );
+      }
+
+      searchBtn.addEventListener("click", runSearch);
+      searchInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") runSearch();
+      });
+      closeResults.addEventListener("click", () => {
+        resultsPanel.hidden = true;
+        searchInput.value = "";
+      });
+
+      /* ── Counter animation ────────────────────────────────── */
+      function animateCounter(el) {
+        const target = parseInt(el.dataset.target);
+        const step = target / (1600 / 16);
+        let current = 0;
+        const timer = setInterval(() => {
+          current += step;
+          if (current >= target) {
+            current = target;
+            clearInterval(timer);
+          }
+          el.textContent = Math.floor(current).toLocaleString();
+        }, 16);
+      }
+      const statsObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target
+                .querySelectorAll("[data-target]")
+                .forEach(animateCounter);
+              statsObserver.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.4 },
+      );
+      const statsStrip = document.querySelector(".stats-strip");
+      if (statsStrip) statsObserver.observe(statsStrip);
+
+      /* ── Scroll reveal ────────────────────────────────────── */
+      const revealObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("reveal--visible");
+              revealObserver.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.15 },
+      );
+      document
+        .querySelectorAll(".reveal")
+        .forEach((el) => revealObserver.observe(el));
+
+      /* ── Smooth scroll anchors ────────────────────────────── */
+      document.querySelectorAll('a[href^="#"]').forEach((a) => {
+        a.addEventListener("click", function (e) {
+          const t = document.querySelector(this.getAttribute("href"));
+          if (t) {
+            e.preventDefault();
+            t.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CareerGPS – Opportunities</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --orange: #E8651A;
+      --orange-light: #F47C35;
+      --orange-pale: #FFF3EC;
+      --sidebar-bg: #1A1A2E;
+      --sidebar-hover: #2A2A3E;
+      --text-dark: #1C1C1C;
+      --text-mid: #555;
+      --text-light: #888;
+      --border: #E5E5E5;
+      --card-bg: #FFFFFF;
+      --page-bg: #F7F7F7;
+      --green: #27AE60;
+      --green-bg: #EAFAF1;
+      --tag-intern: #FFF3EC;
+      --tag-intern-c: #E8651A;
+      --tag-learnership: #E8F5E9;
+      --tag-learnership-c: #2E7D32;
+      --tag-graduate: #E3F2FD;
+      --tag-graduate-c: #1565C0;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Open Sans', sans-serif;
+      background: var(--page-bg);
+      color: var(--text-dark);
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 260px;
+      min-height: 100vh;
+      background: var(--sidebar-bg);
+      display: flex;
+      flex-direction: column;
+      padding: 28px 0 24px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      z-index: 100;
+    }
+
+    .sidebar-logo {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 1.35rem;
+      color: var(--orange);
+      padding: 0 24px 32px;
+      letter-spacing: -0.3px;
+    }
+
+    .sidebar-logo span {
+      color: #fff;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 13px 24px;
+      color: #B0B0C8;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+      font-size: 0.9rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.18s, color 0.18s;
+      border-radius: 0;
+    }
+
+    .nav-item:hover {
+      background: var(--sidebar-hover);
+      color: #fff;
+    }
+
+    .nav-item.active {
+      background: var(--orange);
+      color: #fff;
+      border-radius: 0 8px 8px 0;
+      margin-right: 16px;
+    }
+
+    .nav-icon {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      opacity: 0.9;
+    }
+
+    /* Main Content */
+    .main {
+      margin-left: 260px;
+      flex: 1;
+      padding: 32px 48px 60px;
+      max-width: calc(100vw - 260px);
+    }
+
+    /* Header */
+    .page-header {
+      margin-bottom: 32px;
+    }
+
+    .page-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 6px;
+    }
+
+    .page-subtitle {
+      font-size: 0.95rem;
+      color: var(--text-mid);
+    }
+
+    /* Search Box */
+    .search-box {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+      transition: all 0.2s;
+    }
+
+    .search-box:focus-within {
+      border-color: var(--orange);
+      box-shadow: 0 0 0 3px rgba(232, 101, 26, 0.1);
+    }
+
+    .search-icon {
+      width: 20px;
+      height: 20px;
+      color: var(--text-light);
+    }
+
+    .search-box input {
+      flex: 1;
+      border: none;
+      outline: none;
+      font-family: 'Open Sans', sans-serif;
+      font-size: 14px;
+      background: transparent;
+    }
+
+    .search-box input::placeholder {
+      color: var(--text-light);
+    }
+
+    /* Filters */
+    .filters {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      padding: 10px 24px;
+      border-radius: 999px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: 1px solid var(--border);
+      background: var(--card-bg);
+      color: var(--text-mid);
+    }
+
+    .filter-btn:hover {
+      border-color: var(--orange);
+      color: var(--orange);
+    }
+
+    .filter-btn.active-btn {
+      background: var(--orange);
+      border-color: var(--orange);
+      color: white;
+    }
+
+    /* Jobs Grid */
+    .jobs-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    /* Card */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      transition: all 0.2s;
+    }
+
+    .card:hover {
+      box-shadow: 0 4px 18px rgba(232, 101, 26, 0.10);
+      border-color: var(--orange-light);
+      transform: translateY(-2px);
+    }
+
+    .card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .tag {
+      font-size: 0.7rem;
+      font-weight: 600;
+      font-family: 'Montserrat', sans-serif;
+      padding: 4px 12px;
+      border-radius: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    .tag-internship {
+      background: var(--tag-intern);
+      color: var(--tag-intern-c);
+    }
+
+    .tag-learnership {
+      background: var(--tag-learnership);
+      color: var(--tag-learnership-c);
+    }
+
+    .tag-graduate {
+      background: var(--tag-graduate);
+      color: var(--tag-graduate-c);
+    }
+
+    .save-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text-light);
+      padding: 4px;
+      transition: color 0.18s;
+      font-size: 1.2rem;
+    }
+
+    .save-btn:hover {
+      color: var(--orange);
+    }
+
+    .save-btn.saved {
+      color: var(--orange);
+    }
+
+    .card-title {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--text-dark);
+      margin-bottom: 8px;
+    }
+
+    .meta {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      font-size: 0.8rem;
+      color: var(--text-mid);
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+    .meta span {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .meta svg {
+      width: 14px;
+      height: 14px;
+      color: var(--text-light);
+    }
+
+    .description {
+      font-size: 0.85rem;
+      color: var(--text-mid);
+      line-height: 1.5;
+      margin-bottom: 12px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .apply-btn {
+      background: var(--orange);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 20px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: background 0.18s;
+      flex: 1;
+    }
+
+    .apply-btn:hover {
+      background: var(--orange-light);
+    }
+
+    .details-btn {
+      background: var(--sidebar-bg);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 20px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: background 0.18s;
+      flex: 1;
+    }
+
+    .details-btn:hover {
+      background: var(--sidebar-hover);
+    }
+
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      background: var(--card-bg);
+      border-radius: 16px;
+      border: 1px solid var(--border);
+    }
+
+    .empty-state svg {
+      width: 80px;
+      height: 80px;
+      color: var(--text-light);
+      margin-bottom: 20px;
+    }
+
+    .empty-state h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.2rem;
+      margin-bottom: 8px;
+    }
+
+    .empty-state p {
+      color: var(--text-mid);
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal.show {
+      display: flex;
+    }
+
+    .modal-content {
+      background: var(--card-bg);
+      padding: 32px;
+      border-radius: 20px;
+      width: 90%;
+      max-width: 500px;
+      text-align: center;
+      animation: fadeUp 0.3s ease;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .modal-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+    }
+
+    .modal-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.4rem;
+      margin-bottom: 16px;
+      color: var(--text-dark);
+    }
+
+    .modal-message {
+      color: var(--text-mid);
+      margin-bottom: 24px;
+    }
+
+    .modal-buttons {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+    }
+
+    .modal-cancel {
+      background: var(--sidebar-bg);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.18s;
+    }
+
+    .modal-cancel:hover {
+      background: var(--sidebar-hover);
+    }
+
+    .modal-confirm {
+      background: var(--orange);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.18s;
+    }
+
+    .modal-confirm:hover {
+      background: var(--orange-light);
+    }
+
+    /* Details Modal */
+    .details-modal-content {
+      background: var(--card-bg);
+      padding: 32px;
+      border-radius: 20px;
+      width: 90%;
+      max-width: 550px;
+      text-align: left;
+      animation: fadeUp 0.3s ease;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+
+    .details-modal-section {
+      margin-bottom: 16px;
+    }
+
+    .details-modal-section-label {
+      font-weight: 700;
+      color: var(--orange);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .details-modal-section-value {
+      color: var(--text-mid);
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .details-modal-section-value a {
+      color: var(--orange);
+      text-decoration: none;
+    }
+
+    .details-modal-section-value a:hover {
+      text-decoration: underline;
+    }
+
+    .details-modal-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 16px 0;
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      padding: 12px 20px;
+      transform: translateX(400px);
+      transition: transform 0.3s ease;
+      z-index: 1000;
+    }
+
+    .toast.show {
+      transform: translateX(0);
+    }
+
+    .toast-content {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .toast-icon {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    /* SVG Icons */
+    svg {
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .jobs-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 80px;
+      }
+      
+      .sidebar-logo {
+        padding: 0 16px 32px;
+        font-size: 1rem;
+      }
+      
+      .sidebar-logo span {
+        display: none;
+      }
+      
+      .nav-item span {
+        display: none;
+      }
+      
+      .main {
+        margin-left: 80px;
+        padding: 20px;
+        max-width: calc(100vw - 80px);
+      }
+      
+      .filters {
+        gap: 8px;
+      }
+      
+      .filter-btn {
+        padding: 8px 16px;
+        font-size: 0.75rem;
+      }
+      
+      .meta {
+        gap: 12px;
+      }
+      
+      .actions {
+        flex-direction: column;
+      }
+      
+      .modal-buttons {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">Career<span>GPS</span></div>
+    
+    <a class="nav-item" href="{% url 'welcome' %}">
+      <svg class="nav-icon" viewBox="0 0 24 24">
+        <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z" />
+        <polyline points="9 21 9 12 15 12 15 21" />
+      </svg>
+      <span>Home</span>
+    </a>
+    
+    <a class="nav-item active" href="{% url 'opportunities' %}">
+      <svg class="nav-icon" viewBox="0 0 24 24">
+        <rect x="2" y="7" width="20" height="14" rx="2" />
+        <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" />
+      </svg>
+      <span>Opportunities</span>
+    </a>
+    
+    <a class="nav-item" href="{% url 'saved' %}">
+      <svg class="nav-icon" viewBox="0 0 24 24">
+        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
+      </svg>
+      <span>Saved</span>
+    </a>
+    
+    <a class="nav-item" href="{% url 'resources' %}">
+      <svg class="nav-icon" viewBox="0 0 24 24">
+        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+      </svg>
+      <span>Resources</span>
+    </a>
+    
+    <a class="nav-item" href="{% url 'profile' %}">
+      <svg class="nav-icon" viewBox="0 0 24 24">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+        <circle cx="12" cy="7" r="4" />
+      </svg>
+      <span>Profile</span>
+    </a>
+    
+    <a class="nav-item" href="{% url 'stories' %}">
+      <svg class="nav-icon" viewBox="0 0 24 24">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+      </svg>
+      <span>Stories</span>
+    </a>
+    
+    <a class="nav-item" href="{% url 'signin' %}" style="margin-top: auto;">
+      <svg class="nav-icon" viewBox="0 0 24 24">
+        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+        <polyline points="16 17 21 12 16 7" />
+        <line x1="21" y1="12" x2="9" y2="12" />
+      </svg>
+      <span>Logout</span>
+    </a>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main">
+    <div class="page-header">
+      <h1 class="page-title">Opportunities</h1>
+      <p class="page-subtitle">Find roles matched to your skills and interests</p>
+    </div>
+
+    <!-- Search Box -->
+    <div class="search-box">
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8" />
+        <path d="m21 21-4.35-4.35" />
+      </svg>
+      <input type="text" id="searchInput" placeholder="Search opportunities by title, company, or location..." />
+    </div>
+
+    <!-- Filters -->
+    <div class="filters">
+      <button class="filter-btn active-btn" data-type="all">All</button>
+      <button class="filter-btn" data-type="internship">Internships</button>
+      <button class="filter-btn" data-type="learnership">Learnerships</button>
+      <button class="filter-btn" data-type="graduate">Graduate Programmes</button>
+    </div>
+
+    <!-- Jobs Grid -->
+    <div class="jobs-grid" id="jobsGrid">
+      {% for opp in opportunities %}
+      <div class="card" data-category="{{ opp.opportunity_type }}" data-id="{{ opp.id }}">
+        <div class="card-top">
+          <span class="tag 
+            {% if opp.opportunity_type == 'internship' %}tag-internship
+            {% elif opp.opportunity_type == 'learnership' %}tag-learnership
+            {% else %}tag-graduate{% endif %}">
+            {{ opp.opportunity_type|upper }}
+          </span>
+          <button class="save-btn" data-id="{{ opp.id }}" onclick="toggleSave(this, {{ opp.id }})">☆</button>
+        </div>
+        <h2 class="card-title">{{ opp.title }}</h2>
+        <div class="meta">
+          <span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <rect x="2" y="7" width="20" height="14" rx="2" />
+              <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" />
+            </svg>
+            {{ opp.company }}
+          </span>
+          <span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+              <circle cx="12" cy="10" r="3"/>
+            </svg>
+            {{ opp.location }}
+          </span>
+          {% if opp.duration %}
+          <span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+            {{ opp.duration }}
+          </span>
+          {% endif %}
+        </div>
+        <div class="description">
+          {{ opp.description|truncatewords:30 }}
+        </div>
+        <div class="actions">
+          <button class="apply-btn" onclick="openApplyModal('{{ opp.redirect_url|default:'#' }}', '{{ opp.title|escapejs }}')">Apply Now</button>
+          <button class="details-btn" onclick="openDetailsModal({{ opp.id }})">Details</button>
+        </div>
+      </div>
+      {% empty %}
+      <div class="empty-state">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="11" cy="11" r="8" />
+          <path d="m21 21-4.35-4.35" />
+        </svg>
+        <h3>No opportunities found</h3>
+        <p>Check back later for new opportunities!</p>
+      </div>
+      {% endfor %}
+    </div>
+  </main>
+
+  <!-- Apply Modal -->
+  <div class="modal" id="applyModal">
+    <div class="modal-content">
+      <div class="modal-icon">🔗</div>
+      <h2 class="modal-title">External Application</h2>
+      <p class="modal-message" id="applyModalMessage">You will be redirected to the company's application page.</p>
+      <div class="modal-buttons">
+        <button class="modal-cancel" onclick="closeApplyModal()">Cancel</button>
+        <button class="modal-confirm" id="confirmApplyBtn">Continue to Apply</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Details Modal -->
+  <div class="modal" id="detailsModal">
+    <div class="details-modal-content">
+      <div class="modal-icon">📋</div>
+      <h2 class="modal-title" id="detailsModalTitle"></h2>
+      <div id="detailsModalContent"></div>
+      <button class="modal-confirm" style="width: 100%; margin-top: 16px;" onclick="closeDetailsModal()">Close</button>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast">
+    <div class="toast-content">
+      <span class="toast-icon">✓</span>
+      <span class="toast-message"></span>
+    </div>
+  </div>
+
+  <script>
+    // CSRF Token
+    function getCookie(name) {
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+          const cookie = cookies[i].trim();
+          if (cookie.substring(0, name.length + 1) === (name + '=')) {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+          }
+        }
+      }
+      return cookieValue;
+    }
+
+    const csrftoken = getCookie('csrftoken');
+
+    // Store opportunities data
+    const opportunitiesData = {
+      {% for opp in opportunities %}
+      {{ opp.id }}: {
+        id: {{ opp.id }},
+        title: "{{ opp.title|escapejs }}",
+        company: "{{ opp.company|escapejs }}",
+        type: "{{ opp.opportunity_type }}",
+        sector: "{{ opp.sector|escapejs }}",
+        location: "{{ opp.location|escapejs }}",
+        duration: "{{ opp.duration|default:'Not specified' }}",
+        stipend: "{{ opp.stipend|default:'Market related' }}",
+        required_degree: "{{ opp.required_degree|default:'Not specified' }}",
+        minimum_nqf: "{{ opp.minimum_nqf|default:'Not specified' }}",
+        description: "{{ opp.description|escapejs }}",
+        duties: "{{ opp.duties|escapejs|default:'Training and workplace exposure.' }}",
+        eligibility: "{{ opp.eligibility|escapejs|default:'South African citizens' }}",
+        deadline: "{{ opp.application_deadline|date:'d M Y'|default:'Not specified' }}",
+        redirect_url: "{{ opp.redirect_url|default:'#' }}"
+      },
+      {% endfor %}
+    };
+
+    let pendingApplyUrl = '';
+    let pendingApplyTitle = '';
+
+    // Show Toast
+    function showToast(message, type) {
+      const toast = document.getElementById('toast');
+      const toastMessage = toast.querySelector('.toast-message');
+      const toastIcon = toast.querySelector('.toast-icon');
+      
+      toastMessage.textContent = message;
+      
+      if (type === 'success') {
+        toastIcon.textContent = '✓';
+        toastIcon.style.color = '#27AE60';
+      } else if (type === 'error') {
+        toastIcon.textContent = '✗';
+        toastIcon.style.color = '#dc2626';
+      } else {
+        toastIcon.textContent = 'ℹ';
+        toastIcon.style.color = '#E8651A';
+      }
+      
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+
+    // Toggle Save - Saves to database and localStorage
+    async function toggleSave(btn, oppId) {
+      const isSaved = btn.classList.contains('saved');
+      
+      try {
+        const response = await fetch('/api/save-opportunity/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrftoken
+          },
+          body: JSON.stringify({ 
+            opportunity_id: oppId, 
+            action: isSaved ? 'unsave' : 'save' 
+          })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+          if (isSaved) {
+            btn.classList.remove('saved');
+            btn.textContent = '☆';
+            showToast('Removed from saved', 'info');
+          } else {
+            btn.classList.add('saved');
+            btn.textContent = '★';
+            showToast('Opportunity saved!', 'success');
+          }
+          // Update localStorage for consistency
+          let savedIds = JSON.parse(localStorage.getItem('savedOpportunities') || '[]');
+          if (isSaved) {
+            savedIds = savedIds.filter(id => id !== oppId);
+          } else {
+            savedIds.push(oppId);
+          }
+          localStorage.setItem('savedOpportunities', JSON.stringify(savedIds));
+        } else {
+          showToast(data.error || 'Error saving opportunity', 'error');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        showToast('Network error. Please try again.', 'error');
+      }
+    }
+
+    // Apply Modal
+    function openApplyModal(url, title) {
+      pendingApplyUrl = url;
+      pendingApplyTitle = title;
+      const modal = document.getElementById('applyModal');
+      const message = document.getElementById('applyModalMessage');
+      
+      if (url === '#' || !url) {
+        message.textContent = 'No external application link available for this opportunity. Please check the details page.';
+        document.getElementById('confirmApplyBtn').disabled = true;
+        document.getElementById('confirmApplyBtn').style.opacity = '0.5';
+      } else {
+        message.textContent = `You are about to leave CareerGPS and visit ${title} application page.`;
+        document.getElementById('confirmApplyBtn').disabled = false;
+        document.getElementById('confirmApplyBtn').style.opacity = '1';
+      }
+      
+      modal.classList.add('show');
+    }
+
+    function closeApplyModal() {
+      document.getElementById('applyModal').classList.remove('show');
+      pendingApplyUrl = '';
+      pendingApplyTitle = '';
+    }
+
+    // Confirm Apply - Redirect to exact company website
+    document.getElementById('confirmApplyBtn').addEventListener('click', function() {
+      if (pendingApplyUrl && pendingApplyUrl !== '#') {
+        window.open(pendingApplyUrl, '_blank');
+        showToast(`Redirecting to ${pendingApplyTitle} application page`, 'success');
+        closeApplyModal();
+      } else {
+        showToast('No external application link available', 'error');
+      }
+    });
+
+    // Filter and Search
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const cards = document.querySelectorAll('.card');
+    const searchInput = document.getElementById('searchInput');
+    const jobsGrid = document.getElementById('jobsGrid');
+
+    function filterAndSearch() {
+      const activeFilter = document.querySelector('.filter-btn.active-btn')?.dataset.type || 'all';
+      const searchTerm = searchInput.value.toLowerCase();
+      
+      let visibleCount = 0;
+      
+      cards.forEach(card => {
+        const category = card.dataset.category;
+        const title = card.querySelector('.card-title').innerText.toLowerCase();
+        const company = card.querySelector('.meta span:first-child').innerText.toLowerCase();
+        const description = card.querySelector('.description').innerText.toLowerCase();
+        
+        const matchesFilter = activeFilter === 'all' || category === activeFilter;
+        const matchesSearch = title.includes(searchTerm) || company.includes(searchTerm) || description.includes(searchTerm);
+        
+        if (matchesFilter && matchesSearch) {
+          card.style.display = 'block';
+          visibleCount++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+      
+      // Show/hide empty state
+      let emptyState = document.querySelector('.empty-state:not(.no-opportunities)');
+      if (visibleCount === 0 && cards.length > 0) {
+        if (!emptyState) {
+          const emptyDiv = document.createElement('div');
+          emptyDiv.className = 'empty-state';
+          emptyDiv.innerHTML = `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="11" cy="11" r="8" />
+              <path d="m21 21-4.35-4.35" />
+            </svg>
+            <h3>No opportunities found</h3>
+            <p>Try adjusting your search or filter criteria</p>
+          `;
+          jobsGrid.parentNode.insertBefore(emptyDiv, jobsGrid.nextSibling);
+          jobsGrid.style.display = 'none';
+        }
+      } else if (visibleCount > 0) {
+        if (emptyState) emptyState.remove();
+        jobsGrid.style.display = 'grid';
+      }
+    }
+
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterButtons.forEach(b => b.classList.remove('active-btn'));
+        btn.classList.add('active-btn');
+        filterAndSearch();
+      });
+    });
+
+    if (searchInput) {
+      searchInput.addEventListener('input', filterAndSearch);
+    }
+
+    // Open Details Modal
+    function openDetailsModal(oppId) {
+      const opp = opportunitiesData[oppId];
+      if (!opp) return;
+      
+      const modal = document.getElementById('detailsModal');
+      const modalTitle = document.getElementById('detailsModalTitle');
+      const modalContent = document.getElementById('detailsModalContent');
+      
+      modalTitle.textContent = opp.title;
+      
+      modalContent.innerHTML = `
+        <div class="details-modal-section">
+          <div class="details-modal-section-label">Company</div>
+          <div class="details-modal-section-value">${opp.company}</div>
+        </div>
+        <div class="details-modal-section">
+          <div class="details-modal-section-label">Type</div>
+          <div class="details-modal-section-value">${opp.type.toUpperCase()}</div>
+        </div>
+        <div class="details-modal-section">
+          <div class="details-modal-section-label">Location</div>
+          <div class="details-modal-section-value">${opp.location}</div>
+        </div>
+        <div class="details-modal-section">
+          <div class="details-modal-section-label">Duration</div>
+          <div class="details-modal-section-value">${opp.duration}</div>
+        </div>
+        <div class="details-modal-section">
+          <div class="details-modal-section-label">Stipend / Salary</div>
+          <div class="details-modal-section-value">${opp.stipend}</div>
+        </div>
+        <div class="details-modal-divider"></div>
+        <div class="details-modal-section">
+          <div class="details-modal-section-label">Required Degree</div>
+          <div class="details-modal-section-value">${opp.required_degree}</div>
+        </div>
+        <div class="details-modal-section">
+          <div class="details-modal-section-label">Minimum NQF Level</div>
+          <div class="details-modal-section-value">${opp.minimum_nqf}</div>
+        </div>
+        <div class="details-modal-divider"></div>
+        <div class="details-modal-section">
+          <div class="details-modal-section-label">Description</div>
+          <div class="details-modal-section-value">${opp.description}</div>
+        </div>
+        <div class="details-modal-section">
+          <div class="details-modal-section-label">Key Duties</div>
+          <div class="details-modal-section-value">${opp.duties}</div>
+        </div>
+        <div class="details-modal-section">
+          <div class="details-modal-section-label">Eligibility</div>
+          <div class="details-modal-section-value">${opp.eligibility}</div>
+        </div>
+        <div class="details-modal-divider"></div>
+        <div class="details-modal-section">
+          <div class="details-modal-section-label">Application Deadline</div>
+          <div class="details-modal-section-value">${opp.deadline}</div>
+        </div>
+        ${opp.redirect_url !== '#' ? `
+          <div class="details-modal-section">
+            <div class="details-modal-section-label">External Apply Link</div>
+            <div class="details-modal-section-value"><a href="${opp.redirect_url}" target="_blank" style="color: var(--orange);">Click here to apply on company website →</a></div>
+          </div>
+        ` : ''}
+      `;
+      
+      modal.classList.add('show');
+    }
+
+    function closeDetailsModal() {
+      document.getElementById('detailsModal').classList.remove('show');
+    }
+
+    // Close modals when clicking outside
+    window.onclick = function(event) {
+      const applyModal = document.getElementById('applyModal');
+      const detailsModal = document.getElementById('detailsModal');
+      if (event.target === applyModal) {
+        applyModal.classList.remove('show');
+      }
+      if (event.target === detailsModal) {
+        detailsModal.classList.remove('show');
+      }
+    }
+
+    // Initialize saved states on page load from database
+    async function loadSavedStatus() {
+      try {
+        const response = await fetch('/api/get-saved-opportunities/');
+        const data = await response.json();
+        if (data.success) {
+          const savedIds = data.saved_ids;
+          localStorage.setItem('savedOpportunities', JSON.stringify(savedIds));
+          document.querySelectorAll('.save-btn').forEach(btn => {
+            const id = parseInt(btn.dataset.id);
+            if (savedIds.includes(id)) {
+              btn.classList.add('saved');
+              btn.textContent = '★';
+            }
+          });
+        }
+      } catch (error) {
+        // Fallback to localStorage
+        const savedIds = JSON.parse(localStorage.getItem('savedOpportunities') || '[]');
+        document.querySelectorAll('.save-btn').forEach(btn => {
+          const id = parseInt(btn.dataset.id);
+          if (savedIds.includes(id)) {
+            btn.classList.add('saved');
+            btn.textContent = '★';
+          }
+        });
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      loadSavedStatus();
+    });
+  </script>
+</body>
+</html>

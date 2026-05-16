@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CareerGPS – Sign In</title>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'core/css/login.css' %}" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <meta name="google-signin-client_id" content="YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com">
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+
+  <!-- ── NAV ── -->
+  <nav class="nav">
+    <a href="{% url 'home' %}" class="nav__logo">
+      <span class="nav__logo-icon">C</span>
+      <span class="nav__logo-text">CareerGPS</span>
+    </a>
+    <a href="{% url 'register' %}" class="nav__register-btn">Register</a>
+  </nav>
+
+  <!-- ── MAIN ── -->
+  <main class="main">
+    <!-- Left panel -->
+    <div class="panel panel--left">
+      <div class="panel__tagline">
+        <h1>Your personal<br><em>career navigator.</em></h1>
+        <p>Internships, learnerships &amp; graduate programmes, curated for you.</p>
+      </div>
+      <div class="panel__dots" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+
+    <!-- Right panel / card -->
+    <div class="panel panel--right">
+      <div class="card">
+        <div class="card__header">
+          <h2 class="card__title">Sign in</h2>
+          <p class="card__subtitle">Welcome back! Let's pick up where you left off.</p>
+        </div>
+
+        <!-- Google sign-in button -->
+        <button class="btn btn--social" type="button" id="googleBtn">
+          <svg class="btn__icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
+            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+          </svg>
+          Continue with Google
+        </button>
+
+        <div class="divider">
+          <span class="divider__line"></span>
+          <span class="divider__label">or sign in with email</span>
+          <span class="divider__line"></span>
+        </div>
+
+        <!-- Email / password form -->
+        <form class="form" id="loginForm" novalidate>
+          <div class="form__group">
+            <label class="form__label" for="email">Email address</label>
+            <input
+              class="form__input"
+              type="email"
+              id="email"
+              name="email"
+              placeholder="you@example.com"
+              autocomplete="email"
+              required
+            />
+            <span class="form__error" id="emailError"></span>
+          </div>
+
+          <div class="form__group">
+            <div class="form__label-row">
+              <label class="form__label" for="password">Password</label>
+              <a class="form__forgot" href="{% url 'forgot-password' %}">Forgot password?</a>
+            </div>
+            <div class="form__input-wrap">
+              <input
+                class="form__input"
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Enter your password"
+                autocomplete="current-password"
+                required
+              />
+              <button class="form__eye" type="button" aria-label="Toggle password visibility" id="togglePwd">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+              </button>
+            </div>
+            <span class="form__error" id="pwdError"></span>
+          </div>
+
+          <div id="generalError" class="form__error" style="text-align: center; margin-bottom: 10px;"></div>
+          
+          <button class="btn btn--primary" type="submit" id="signinBtn">
+            <span id="btnText">Sign In</span>
+            <span id="btnSpinner" class="spinner" style="display: none;"></span>
+          </button>
+        </form>
+
+        <p class="card__register">
+          Don't have an account?&nbsp;
+          <a href="{% url 'register' %}" class="card__register-link">Create one</a>
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="spinner"></div>
+  </div>
+
+  <style>
+    /* Additional styles for loading spinner */
+    .loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.6);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    .loading-overlay--active {
+      display: flex;
+    }
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 4px solid rgba(255,255,255,0.3);
+      border-top: 4px solid var(--brand, #C0410A);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .btn--primary:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+  </style>
+
+  <script>
+    // CSRF Token
+    function getCookie(name) {
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+          const cookie = cookies[i].trim();
+          if (cookie.substring(0, name.length + 1) === (name + '=')) {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+          }
+        }
+      }
+      return cookieValue;
+    }
+
+    const csrftoken = getCookie('csrftoken');
+    console.log('CSRF Token:', csrftoken ? 'Found' : 'Not found');
+
+    // DOM Elements
+    const emailInput = document.getElementById('email');
+    const emailErr = document.getElementById('emailError');
+    const pwdInput = document.getElementById('password');
+    const pwdErr = document.getElementById('pwdError');
+    const generalErr = document.getElementById('generalError');
+    const loginForm = document.getElementById('loginForm');
+    const signinBtn = document.getElementById('signinBtn');
+    const btnText = document.getElementById('btnText');
+    const btnSpinner = document.getElementById('btnSpinner');
+    const loadingOverlay = document.getElementById('loadingOverlay');
+
+    let emailTouched = false;
+    const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    // Show/Hide Loading
+    function showLoading() {
+      if (loadingOverlay) loadingOverlay.classList.add('loading-overlay--active');
+      if (signinBtn) signinBtn.disabled = true;
+      if (btnText) btnText.textContent = 'Signing in...';
+      if (btnSpinner) btnSpinner.style.display = 'inline-block';
+    }
+
+    function hideLoading() {
+      if (loadingOverlay) loadingOverlay.classList.remove('loading-overlay--active');
+      if (signinBtn) signinBtn.disabled = false;
+      if (btnText) btnText.textContent = 'Sign In';
+      if (btnSpinner) btnSpinner.style.display = 'none';
+    }
+
+    function showError(element, message) {
+      if (element) {
+        element.textContent = message;
+        setTimeout(() => {
+          if (element.textContent === message) element.textContent = '';
+        }, 5000);
+      }
+    }
+
+    // Validate email
+    function validateEmail(value) {
+      if (!value) return 'Email address is required.';
+      if (!value.includes('@')) return 'Missing "@" — a valid email must contain an @ symbol.';
+      const parts = value.split('@');
+      if (parts[0].length === 0) return 'Please enter something before the "@" symbol.';
+      if (!parts[1] || !parts[1].includes('.')) return 'Please enter a valid domain after "@" (e.g. gmail.com).';
+      if (!EMAIL_RE.test(value)) return 'That doesn\'t look like a valid email address.';
+      return '';
+    }
+
+    function showEmailFeedback() {
+      const msg = validateEmail(emailInput.value);
+      emailErr.textContent = msg;
+      emailInput.classList.toggle('form__input--error', !!msg);
+      emailInput.classList.toggle('form__input--valid', !msg && emailInput.value.length > 0);
+    }
+
+    emailInput.addEventListener('blur', () => {
+      emailTouched = true;
+      showEmailFeedback();
+    });
+
+    emailInput.addEventListener('input', () => {
+      if (emailTouched) showEmailFeedback();
+    });
+
+    // Password visibility toggle
+    document.getElementById('togglePwd').addEventListener('click', function() {
+      const isText = pwdInput.type === 'text';
+      pwdInput.type = isText ? 'password' : 'text';
+      this.classList.toggle('is-visible', !isText);
+    });
+
+    // Google Sign-In
+    function handleGoogleSignIn(response) {
+      console.log('Google JWT credential:', response.credential);
+      alert('Google sign-in successful!\n\n(Send response.credential to your backend to verify the JWT.)');
+    }
+
+    window.addEventListener('load', function() {
+      const googleBtn = document.getElementById('googleBtn');
+      if (googleBtn) {
+        googleBtn.addEventListener('click', function() {
+          if (window.google && window.google.accounts) {
+            google.accounts.id.initialize({
+              client_id: 'YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com',
+              callback: handleGoogleSignIn
+            });
+            google.accounts.id.prompt();
+          } else {
+            alert('Google Sign-In could not load.');
+          }
+        });
+      }
+    });
+
+    // Sign In Form Submission
+    loginForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      // Clear previous errors
+      generalErr.textContent = '';
+      
+      // Validate email
+      emailTouched = true;
+      showEmailFeedback();
+      const emailValid = !validateEmail(emailInput.value);
+      
+      // Validate password
+      let pwdValid = true;
+      if (!pwdInput.value) {
+        showError(pwdErr, 'Password is required');
+        pwdValid = false;
+      } else if (pwdInput.value.length < 6) {
+        showError(pwdErr, 'Password must be at least 6 characters');
+        pwdValid = false;
+      } else {
+        pwdErr.textContent = '';
+      }
+      
+      if (!emailValid || !pwdValid) {
+        return;
+      }
+      
+      showLoading();
+      
+      try {
+        const response = await fetch('/api/signin/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrftoken
+          },
+          body: JSON.stringify({
+            email: emailInput.value.trim().toLowerCase(),
+            password: pwdInput.value
+          })
+        });
+        
+        const data = await response.json();
+        console.log('Sign in response:', data);
+        
+        if (response.ok && data.success) {
+          // Redirect to welcome page
+          window.location.href = data.redirect_url || '/welcome/';
+        } else {
+          showError(generalErr, data.error || 'Invalid email or password');
+        }
+      } catch (error) {
+        console.error('Sign in error:', error);
+        showError(generalErr, 'Network error. Please try again.');
+      } finally {
+        hideLoading();
+      }
+    });
+  </script>
+</body>
+</html>

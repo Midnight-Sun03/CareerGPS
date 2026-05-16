@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CareerGPS – Sign Up</title>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'core/css/register.css' %}" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <nav class="nav" id="mainNav">
+    <a href="{% url 'home' %}" class="nav__logo">
+      <span class="nav__logo-icon">C</span>
+      <span class="nav__logo-text">CareerGPS</span>
+    </a>
+    <div class="nav__actions">
+      <a href="{% url 'signin' %}" class="nav__signin">Sign In</a>
+      <a href="{% url 'register' %}" class="nav__register">Register</a>
+    </div>
+    <button class="nav__burger" id="burger" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- Mobile menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="{% url 'signin' %}" class="mobile-menu__link">Sign In</a>
+    <a href="{% url 'register' %}" class="mobile-menu__link mobile-menu__link--primary">Register</a>
+  </div>
+
+  <!-- REGISTRATION CARD -->
+  <main class="register-main">
+    <div class="register-container">
+      <!-- Step Indicator -->
+      <div class="step-indicator">
+        <div class="step step--active" data-step="1">
+          <div class="step__number">1</div>
+          <div class="step__label">Account</div>
+        </div>
+        <div class="step__line"></div>
+        <div class="step" data-step="2">
+          <div class="step__number">2</div>
+          <div class="step__label">Verify</div>
+        </div>
+        <div class="step__line"></div>
+        <div class="step" data-step="3">
+          <div class="step__number">3</div>
+          <div class="step__label">Profile</div>
+        </div>
+      </div>
+
+      <!-- STEP 1: Account Creation -->
+      <div class="register-step" id="step1">
+        <div class="register-header">
+          <h1 class="register-title">Create your account</h1>
+          <p class="register-sub">Join thousands of students finding their perfect opportunity</p>
+        </div>
+
+        <form id="registerForm" class="register-form">
+          <div class="form-group">
+            <label class="form-label" for="firstName">First Name</label>
+            <input type="text" id="firstName" class="form-input" />
+            <span class="form-error" id="firstNameError"></span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="lastName">Last Name</label>
+            <input type="text" id="lastName" class="form-input" />
+            <span class="form-error" id="lastNameError"></span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="email">Email Address</label>
+            <input type="email" id="email" class="form-input" />
+            <span class="form-error" id="emailError"></span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="password">Password</label>
+            <input type="password" id="password" class="form-input" />
+            <div id="passwordStrength" class="password-strength"></div>
+            <span class="form-error" id="passwordError"></span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="confirmPassword">Confirm Password</label>
+            <input type="password" id="confirmPassword" class="form-input" />
+            <span class="form-error" id="confirmError"></span>
+          </div>
+
+          <button type="submit" class="btn btn--primary btn--full">Create Account</button>
+        </form>
+
+        <p class="register-footer">
+          Already have an account? <a href="{% url 'signin' %}">Sign in</a>
+        </p>
+      </div>
+
+      <!-- STEP 2: Email Verification -->
+      <div class="register-step" id="step2" style="display: none;">
+        <div class="register-header">
+          <h1 class="register-title">Verify your email</h1>
+          <p class="register-sub">We've sent a verification code to <strong id="userEmail"></strong></p>
+        </div>
+
+        <form id="verifyForm" class="register-form">
+          <div class="form-group">
+            <label class="form-label" for="verificationCode">Verification Code</label>
+            <input type="text" id="verificationCode" class="form-input" placeholder="Enter 6-digit code" maxlength="6" />
+            <span class="form-error" id="codeError"></span>
+          </div>
+
+          <button type="submit" class="btn btn--primary btn--full">Verify Email</button>
+        </form>
+
+        <div class="resend-container">
+          <button type="button" id="resendBtn" class="link-btn">Resend Code</button>
+          <span id="countdown" class="countdown"></span>
+        </div>
+      </div>
+
+      <!-- STEP 3: Profile Completion -->
+      <div class="register-step" id="step3" style="display: none;">
+        <div class="register-header">
+          <h1 class="register-title">Complete your profile</h1>
+          <p class="register-sub">Help us match you with the best opportunities</p>
+        </div>
+
+        <form id="profileForm" class="register-form">
+          <div class="form-group">
+            <label class="form-label" for="degree">Qualification / Degree</label>
+            <select id="degree" class="form-select">
+              <option value="">Select your qualification...</option>
+              <option value="BCom in Logistics">BCom in Logistics</option>
+              <option value="BSc Computer Science">BSc Computer Science</option>
+              <option value="BA Communications">BA Communications</option>
+              <option value="BEng Electrical Engineering">BEng Electrical Engineering</option>
+              <option value="BCom Accounting">BCom Accounting</option>
+              <option value="Diploma in IT">Diploma in Information Technology</option>
+              <option value="BSc Data Science">BSc Data Science</option>
+              <option value="other">Other (specify)</option>
+            </select>
+            <input type="text" id="customDegree" class="form-input custom-hidden" placeholder="Enter your qualification" />
+            <span class="form-error" id="degreeError"></span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="institution">Institution</label>
+            <select id="institution" class="form-select">
+              <option value="">Select your institution...</option>
+              <option value="University of Johannesburg">University of Johannesburg</option>
+              <option value="University of Pretoria">University of Pretoria</option>
+              <option value="Wits University">Wits University</option>
+              <option value="UNISA">UNISA</option>
+              <option value="University of Cape Town">University of Cape Town</option>
+              <option value="Stellenbosch University">Stellenbosch University</option>
+              <option value="other">Other (specify)</option>
+            </select>
+            <input type="text" id="customInstitution" class="form-input custom-hidden" placeholder="Enter your institution" />
+            <span class="form-error" id="institutionError"></span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="location">Location</label>
+            <select id="location" class="form-select">
+              <option value="">Select your location...</option>
+              <option value="Johannesburg">Johannesburg</option>
+              <option value="Cape Town">Cape Town</option>
+              <option value="Durban">Durban</option>
+              <option value="Pretoria">Pretoria</option>
+              <option value="Port Elizabeth">Port Elizabeth</option>
+              <option value="other">Other (specify)</option>
+            </select>
+            <input type="text" id="customLocation" class="form-input custom-hidden" placeholder="Enter your location" />
+            <span class="form-error" id="locationError"></span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Skills (Hold Ctrl/Cmd to select multiple)</label>
+            <select id="skills" class="form-select" multiple size="4">
+              <option value="Python programming">Python programming</option>
+              <option value="JavaScript">JavaScript</option>
+              <option value="Data analysis">Data analysis</option>
+              <option value="Project management">Project management</option>
+              <option value="Financial modelling">Financial modelling</option>
+              <option value="SQL & databases">SQL & databases</option>
+              <option value="Machine learning">Machine learning</option>
+              <option value="Communication">Communication</option>
+            </select>
+            <div class="custom-input-group">
+              <input type="text" id="customSkill" class="form-input" placeholder="Add custom skill" />
+              <button type="button" class="btn--small" id="addSkillBtn">+ Add</button>
+            </div>
+            <div id="customSkillsList" class="custom-tags"></div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Interests (Hold Ctrl/Cmd to select multiple)</label>
+            <select id="interests" class="form-select" multiple size="4">
+              <option value="Data Science">Data Science</option>
+              <option value="Artificial Intelligence">Artificial Intelligence</option>
+              <option value="Finance & Banking">Finance & Banking</option>
+              <option value="Marketing & Brand">Marketing & Brand</option>
+              <option value="Entrepreneurship">Entrepreneurship</option>
+              <option value="Software Engineering">Software Engineering</option>
+              <option value="Healthcare">Healthcare</option>
+              <option value="Cybersecurity">Cybersecurity</option>
+            </select>
+            <div class="custom-input-group">
+              <input type="text" id="customInterest" class="form-input" placeholder="Add custom interest" />
+              <button type="button" class="btn--small" id="addInterestBtn">+ Add</button>
+            </div>
+            <div id="customInterestsList" class="custom-tags"></div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="otherSkills">Other Skills (optional)</label>
+            <textarea id="otherSkills" class="form-textarea" rows="3" placeholder="List any other skills not mentioned above..."></textarea>
+          </div>
+
+          <button type="submit" class="btn btn--primary btn--full">Complete Registration</button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <!-- Success Popup -->
+  <div class="success-popup" id="successPopup">
+    <div class="popup-card">
+      <div class="popup-card__icon">🎉</div>
+      <h2 class="popup-card__title">Registration Complete!</h2>
+      <p class="popup-card__message">Welcome to CareerGPS! Your profile has been created successfully.</p>
+      <button class="btn btn--primary" id="goToDashboard">Go to Dashboard</button>
+    </div>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- CSRF Token -->
+  {% csrf_token %}
+
+  <!-- Test alert to verify page loads -->
+
+  <script src="{% static 'core/js/register.js' %}"></script>
+</body>
+</html>

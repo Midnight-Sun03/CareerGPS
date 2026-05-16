@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CareerGPS – Resources & Guidance</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --orange: #E8651A;
+      --orange-light: #F47C35;
+      --orange-pale: #FFF3EC;
+      --sidebar-bg: #1A1A2E;
+      --sidebar-hover: #2A2A3E;
+      --text-dark: #1C1C1C;
+      --text-mid: #555;
+      --text-light: #888;
+      --border: #E5E5E5;
+      --card-bg: #FFFFFF;
+      --page-bg: #F7F7F7;
+      --green: #27AE60;
+      --green-bg: #EAFAF1;
+      --tag-bg: #FFF3EC;
+      --tag-text: #E8651A;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Open Sans', sans-serif;
+      background: var(--page-bg);
+      color: var(--text-dark);
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 260px;
+      min-height: 100vh;
+      background: var(--sidebar-bg);
+      display: flex;
+      flex-direction: column;
+      padding: 28px 0 24px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      z-index: 100;
+    }
+
+    .sidebar-logo {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 1.35rem;
+      color: var(--orange);
+      padding: 0 24px 32px;
+      letter-spacing: -0.3px;
+    }
+
+    .sidebar-logo span {
+      color: #fff;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 13px 24px;
+      color: #B0B0C8;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+      font-size: 0.9rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.18s, color 0.18s;
+      border-radius: 0;
+    }
+
+    .nav-item:hover {
+      background: var(--sidebar-hover);
+      color: #fff;
+    }
+
+    .nav-item.active {
+      background: var(--orange);
+      color: #fff;
+      border-radius: 0 8px 8px 0;
+      margin-right: 16px;
+    }
+
+    .nav-icon {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      opacity: 0.9;
+    }
+
+    /* Main Content */
+    .main {
+      margin-left: 260px;
+      flex: 1;
+      padding: 32px 48px 60px;
+      max-width: calc(100vw - 260px);
+    }
+
+    /* Header */
+    .page-header {
+      margin-bottom: 32px;
+    }
+
+    .page-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 6px;
+    }
+
+    .page-subtitle {
+      font-size: 0.95rem;
+      color: var(--text-mid);
+    }
+
+    /* Search Box */
+    .search-box {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+      max-width: 480px;
+      transition: all 0.2s;
+    }
+
+    .search-box:focus-within {
+      border-color: var(--orange);
+      box-shadow: 0 0 0 3px rgba(232, 101, 26, 0.1);
+    }
+
+    .search-icon {
+      width: 20px;
+      height: 20px;
+      color: var(--text-light);
+    }
+
+    .search-box input {
+      flex: 1;
+      border: none;
+      outline: none;
+      font-family: 'Open Sans', sans-serif;
+      font-size: 14px;
+      background: transparent;
+    }
+
+    .search-box input::placeholder {
+      color: var(--text-light);
+    }
+
+    /* Filters */
+    .filters {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      padding: 8px 20px;
+      border-radius: 999px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: 1px solid var(--border);
+      background: var(--card-bg);
+      color: var(--text-mid);
+    }
+
+    .filter-btn:hover {
+      border-color: var(--orange);
+      color: var(--orange);
+    }
+
+    .filter-btn.active-btn {
+      background: var(--orange);
+      border-color: var(--orange);
+      color: white;
+    }
+
+    /* Resource Cards */
+    .resource-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 30px;
+      margin-bottom: 24px;
+      transition: all 0.2s;
+    }
+
+    .resource-card:hover {
+      box-shadow: 0 4px 18px rgba(232, 101, 26, 0.10);
+      border-color: var(--orange-light);
+      transform: translateY(-2px);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .card-tag {
+      font-size: 0.7rem;
+      font-weight: 700;
+      font-family: 'Montserrat', sans-serif;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: var(--tag-text);
+      background: var(--tag-bg);
+      border: 1px solid #F5C4A8;
+      border-radius: 6px;
+      padding: 4px 12px;
+    }
+
+    .resource-card h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 8px;
+    }
+
+    .card-desc {
+      color: var(--text-mid);
+      font-size: 0.85rem;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+
+    .resource-card h4 {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .resource-card ol, .resource-card ul {
+      padding-left: 20px;
+      margin-bottom: 16px;
+    }
+
+    .resource-card li {
+      margin-bottom: 8px;
+      color: var(--text-mid);
+      font-size: 0.85rem;
+      line-height: 1.5;
+    }
+
+    .resource-card li strong {
+      color: var(--text-dark);
+    }
+
+    /* Highlight Box */
+    .highlight-box {
+      background: var(--orange-pale);
+      border-left: 3px solid var(--orange);
+      border-radius: 0 8px 8px 0;
+      padding: 14px 16px;
+      margin: 16px 0;
+    }
+
+    .highlight-box .label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      font-family: 'Montserrat', sans-serif;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 5px;
+    }
+
+    .highlight-box p {
+      font-size: 0.85rem;
+      color: var(--text-mid);
+      line-height: 1.5;
+    }
+
+    /* Card Actions */
+    .card-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 20px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .see-more {
+      font-size: 0.85rem;
+      font-weight: 600;
+      font-family: 'Montserrat', sans-serif;
+      color: var(--orange);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: gap 0.18s;
+    }
+
+    .see-more:hover {
+      gap: 9px;
+    }
+
+    .upload-btn {
+      background: var(--orange);
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      font-family: 'Montserrat', sans-serif;
+      transition: background 0.18s;
+      border: none;
+    }
+
+    .upload-btn:hover {
+      background: var(--orange-light);
+    }
+
+    .interview-btn {
+      background: var(--orange);
+      color: #fff;
+      border: none;
+      padding: 10px 22px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+      font-family: 'Montserrat', sans-serif;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: background 0.18s;
+    }
+
+    .interview-btn:hover {
+      background: var(--orange-light);
+    }
+
+    .file-name {
+      margin-top: 8px;
+      color: var(--text-mid);
+      font-size: 0.75rem;
+    }
+
+    .card-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 18px 0;
+    }
+
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      background: var(--card-bg);
+      border-radius: 16px;
+      border: 1px solid var(--border);
+    }
+
+    .empty-state svg {
+      width: 80px;
+      height: 80px;
+      color: var(--text-light);
+      margin-bottom: 20px;
+    }
+
+    .empty-state h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.2rem;
+      margin-bottom: 8px;
+    }
+
+    .empty-state p {
+      color: var(--text-mid);
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      padding: 12px 20px;
+      transform: translateX(400px);
+      transition: transform 0.3s ease;
+      z-index: 1000;
+    }
+
+    .toast.show {
+      transform: translateX(0);
+    }
+
+    .toast-content {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .toast-icon {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    /* SVG Icons */
+    svg {
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 80px;
+      }
+      
+      .sidebar-logo {
+        padding: 0 16px 32px;
+        font-size: 1rem;
+      }
+      
+      .sidebar-logo span {
+        display: none;
+      }
+      
+      .nav-item span {
+        display: none;
+      }
+      
+      .main {
+        margin-left: 80px;
+        padding: 20px;
+        max-width: calc(100vw - 80px);
+      }
+      
+      .filters {
+        gap: 8px;
+      }
+      
+      .filter-btn {
+        padding: 6px 14px;
+        font-size: 0.75rem;
+      }
+      
+      .card-actions {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">Career<span>GPS</span></div>
+    
+    <a class="nav-item" href="{% url 'welcome' %}">
+      <svg class="nav-icon" viewBox="0 0 24 24">
+        <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z" />
+        <polyline points="9 21 9 12 15 12 15 21" />
+      </svg>
+      <span>Home</span>
+    </a>
+    
+    <a class="nav-item" href="{% url 'opportunities' %}">
+      <svg class="nav-icon" viewBox="0 0 24 24">
+        <rect x="2" y="7" width="20" height="14" rx="2" />
+        <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" />
+      </svg>
+      <span>Opportunities</span>
+    </a>
+    
+    <a class="nav-item" href="{% url 'saved' %}">
+      <svg class="nav-icon" viewBox="0 0 24 24">
+        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
+      </svg>
+      <span>Saved</span>
+    </a>
+    
+    <a class="nav-item active" href="{% url 'resources' %}">
+      <svg class="nav-icon" viewBox="0 0 24 24">
+        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+      </svg>
+      <span>Resources</span>
+    </a>
+    
+    <a class="nav-item" href="{% url 'profile' %}">
+      <svg class="nav-icon" viewBox="0 0 24 24">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+        <circle cx="12" cy="7" r="4" />
+      </svg>
+      <span>Profile</span>
+    </a>
+    
+    <a class="nav-item" href="{% url 'stories' %}">
+      <svg class="nav-icon" viewBox="0 0 24 24">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+      </svg>
+      <span>Stories</span>
+    </a>
+    
+    <a class="nav-item" href="{% url 'signin' %}" style="margin-top: auto;">
+      <svg class="nav-icon" viewBox="0 0 24 24">
+        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+        <polyline points="16 17 21 12 16 7" />
+        <line x1="21" y1="12" x2="9" y2="12" />
+      </svg>
+      <span>Logout</span>
+    </a>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main">
+    <div class="page-header">
+      <h1 class="page-title">Resources &amp; Guidance</h1>
+      <p class="page-subtitle">Build your career toolkit with expert tips and templates</p>
+    </div>
+
+    <!-- Search Box -->
+    <div class="search-box">
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8" />
+        <path d="m21 21-4.35-4.35" />
+      </svg>
+      <input type="text" id="searchInput" placeholder="Search resources by title or content..." />
+    </div>
+
+    <!-- Filters -->
+    <div class="filters">
+      <button class="filter-btn active-btn" data-type="all">All</button>
+      <button class="filter-btn" data-type="cv">CV Writing</button>
+      <button class="filter-btn" data-type="cover">Cover Letters</button>
+      <button class="filter-btn" data-type="interview">Interview Tips</button>
+    </div>
+
+    <!-- Resources Container -->
+    <div id="resourcesContainer">
+      <!-- CV Card -->
+      <div class="resource-card" data-category="cv" data-title="Build a Standout CV">
+        <div class="card-header">
+          <span class="card-tag">CV Writing</span>
+        </div>
+        <h3>Build a Standout CV</h3>
+        <p class="card-desc">
+          Learn the key sections every South African graduate CV needs to land interviews.
+        </p>
+
+        <h4>Step-by-step CV structure</h4>
+        <ol>
+          <li><strong>Personal Details:</strong> Full name, phone, email, city.</li>
+          <li><strong>Career Objective:</strong> 2–3 lines tailored to the role.</li>
+          <li><strong>Education:</strong> Degree, institution, graduation year.</li>
+          <li><strong>Work Experience:</strong> Use action verbs.</li>
+          <li><strong>Skills:</strong> Communication, Excel, coding, etc.</li>
+          <li><strong>Achievements:</strong> Awards and leadership roles.</li>
+        </ol>
+
+        <div class="highlight-box">
+          <div class="label">Pro Tip</div>
+          <p>Tailor your career objective to each role. Generic objectives are the #1 reason CVs get rejected by recruiters.</p>
+        </div>
+
+        <hr class="card-divider" />
+        <div class="card-actions">
+          <a href="#" class="see-more">See full guide →</a>
+          <div>
+            <label for="cvUpload" class="upload-btn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" y1="15" x2="12" y2="3" />
+              </svg>
+              Upload CV
+            </label>
+            <input type="file" id="cvUpload" accept=".pdf,.docx" hidden />
+            <p class="file-name" id="cvFileName"></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cover Letter Card -->
+      <div class="resource-card" data-category="cover" data-title="Write a Cover Letter That Gets Noticed">
+        <div class="card-header">
+          <span class="card-tag">Cover Letters</span>
+        </div>
+        <h3>Write a Cover Letter That Gets Noticed</h3>
+        <p class="card-desc">
+          Learn how to write professional cover letters that stand out from hundreds of applicants.
+        </p>
+
+        <ul>
+          <li>Keep it to one page — concise and targeted.</li>
+          <li>Address the recruiter or hiring manager by name.</li>
+          <li>Open with a hook that shows why you want <em>this</em> role.</li>
+          <li>Mirror keywords from the job description.</li>
+        </ul>
+
+        <div class="highlight-box">
+          <div class="label">Pro Tip</div>
+          <p>Don't just repeat your CV. Use the cover letter to tell the story behind your experience and show genuine interest in the company.</p>
+        </div>
+
+        <hr class="card-divider" />
+        <div class="card-actions">
+          <a href="#" class="see-more">See full guide →</a>
+          <div>
+            <label for="coverUpload" class="upload-btn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" y1="15" x2="12" y2="3" />
+              </svg>
+              Upload Cover Letter
+            </label>
+            <input type="file" id="coverUpload" accept=".pdf,.docx" hidden />
+            <p class="file-name" id="coverFileName"></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interview Card -->
+      <div class="resource-card" data-category="interview" data-title="Ace Your Next Interview">
+        <div class="card-header">
+          <span class="card-tag">Interview Tips</span>
+        </div>
+        <h3>Ace Your Next Interview</h3>
+        <p class="card-desc">
+          Practice confidence, communication and the STAR technique to answer any question with clarity.
+        </p>
+
+        <ul>
+          <li><strong>STAR Method:</strong> Situation, Task, Action, Result — structure every answer.</li>
+          <li><strong>Research the company</strong> before you walk in.</li>
+          <li><strong>Prepare 3–5 questions</strong> to ask the interviewer.</li>
+          <li><strong>Body language:</strong> Eye contact, firm handshake, upright posture.</li>
+        </ul>
+
+        <div class="highlight-box">
+          <div class="label">Pro Tip</div>
+          <p>Practice out loud, not just in your head. Record yourself answering common questions and review your delivery and pacing.</p>
+        </div>
+
+        <hr class="card-divider" />
+        <div class="card-actions">
+          <a href="#" class="see-more">See full guide →</a>
+          <button class="interview-btn" onclick="startInterviewPractice()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="5 3 19 12 5 21 5 3" />
+            </svg>
+            Start Interview Practice
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty State (hidden by default) -->
+    <div id="emptyState" class="empty-state" style="display: none;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="11" cy="11" r="8" />
+        <path d="m21 21-4.35-4.35" />
+      </svg>
+      <h3>No resources found</h3>
+      <p>Try adjusting your search or filter criteria</p>
+    </div>
+  </main>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast">
+    <div class="toast-content">
+      <span class="toast-icon">✓</span>
+      <span class="toast-message"></span>
+    </div>
+  </div>
+
+  <script>
+    // Show Toast
+    function showToast(message, type) {
+      const toast = document.getElementById('toast');
+      const toastMessage = toast.querySelector('.toast-message');
+      const toastIcon = toast.querySelector('.toast-icon');
+      
+      toastMessage.textContent = message;
+      
+      if (type === 'success') {
+        toastIcon.textContent = '✓';
+        toastIcon.style.color = '#27AE60';
+      } else if (type === 'error') {
+        toastIcon.textContent = '✗';
+        toastIcon.style.color = '#dc2626';
+      } else {
+        toastIcon.textContent = 'ℹ';
+        toastIcon.style.color = '#E8651A';
+      }
+      
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+
+    // Filter Functionality
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const cards = document.querySelectorAll('.resource-card');
+    const searchInput = document.getElementById('searchInput');
+    const resourcesContainer = document.getElementById('resourcesContainer');
+    const emptyState = document.getElementById('emptyState');
+
+    function filterAndSearch() {
+      const activeFilter = document.querySelector('.filter-btn.active-btn').dataset.type;
+      const searchTerm = searchInput.value.toLowerCase();
+      
+      let visibleCount = 0;
+      
+      cards.forEach(card => {
+        const category = card.dataset.category;
+        const title = card.dataset.title.toLowerCase();
+        const content = card.innerText.toLowerCase();
+        
+        const matchesFilter = activeFilter === 'all' || category === activeFilter;
+        const matchesSearch = title.includes(searchTerm) || content.includes(searchTerm);
+        
+        if (matchesFilter && matchesSearch) {
+          card.style.display = 'block';
+          visibleCount++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+      
+      // Show empty state if no results
+      if (visibleCount === 0) {
+        emptyState.style.display = 'block';
+        resourcesContainer.style.display = 'none';
+      } else {
+        emptyState.style.display = 'none';
+        resourcesContainer.style.display = 'block';
+      }
+    }
+
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterButtons.forEach(b => b.classList.remove('active-btn'));
+        btn.classList.add('active-btn');
+        filterAndSearch();
+      });
+    });
+
+    searchInput.addEventListener('input', filterAndSearch);
+
+    // CV Upload
+    document.getElementById('cvUpload').addEventListener('change', function(e) {
+      if (this.files[0]) {
+        document.getElementById('cvFileName').textContent = '📄 ' + this.files[0].name;
+        showToast('CV uploaded successfully!', 'success');
+      }
+    });
+
+    // Cover Letter Upload
+    document.getElementById('coverUpload').addEventListener('change', function(e) {
+      if (this.files[0]) {
+        document.getElementById('coverFileName').textContent = '📄 ' + this.files[0].name;
+        showToast('Cover letter uploaded successfully!', 'success');
+      }
+    });
+
+    // Interview Practice
+    function startInterviewPractice() {
+      showToast('Starting interview practice session! 🚀', 'success');
+      setTimeout(() => {
+        alert('🎯 Interview Practice Session\n\nGet ready to practice common interview questions!\n\nTip: Use the STAR method (Situation, Task, Action, Result) to structure your answers.');
+      }, 500);
+    }
+
+    // See More Links
+    document.querySelectorAll('.see-more').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const card = link.closest('.resource-card');
+        const title = card.querySelector('h3').innerText;
+        showToast(`Opening full guide for "${title}"`, 'info');
+      });
+    });
+
+    // Initialize
+    filterAndSearch();
+  </script>
+</body>
+</html>
