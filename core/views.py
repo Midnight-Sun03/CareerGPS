@@ -742,3 +742,15 @@ def api_reset_password(request):
 @csrf_exempt
 def api_test(request):
     return JsonResponse({'success': True, 'message': 'API is working!'})
+
+def api_occupations(request):
+    """Return list of SA occupations for the homepage search"""
+    occupations = [
+        "Software Engineer", "Data Scientist", "Accountant", "Financial Analyst",
+        "Marketing Manager", "Human Resources Manager", "Project Manager", 
+        "Civil Engineer", "Mechanical Engineer", "Electrical Engineer", 
+        "Nurse", "Doctor", "Teacher", "Lawyer", "Architect", "Business Analyst",
+        "Product Manager", "UX Designer", "Graphic Designer", "Sales Representative",
+        "IT Support Specialist", "Network Engineer", "Cybersecurity Analyst",
+    ]
+    return JsonResponse({'occupations': occupations})

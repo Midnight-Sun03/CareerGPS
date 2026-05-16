@@ -168,7 +168,73 @@
 </div>
 
 <script>
-  const CSRF = '{{ csrf_token }}';
+ // Make sure this is NOT inside another function
+window.startInterview = async function() {
+    console.log('Function called!');
+    const occupation = document.getElementById('occupation').value.trim();
+    const experienceLevel = document.getElementById('experienceLevel').value;
+    const popia = document.getElementById('popiaConsent').checked;
+    const cvText = document.getElementById('cvText').value;
+
+    if (!occupation) return showError('Please enter your job title.');
+    if (!popia) return showError('Please give your POPIA consent.');
+
+    const btn = document.getElementById('startBtn');
+    const originalText = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = 'Creating interview...';
+
+    try {
+        const res = await fetch('/interview/api/create/', {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json', 
+                'X-CSRFToken': CSRF 
+            },
+            body: JSON.stringify({ 
+                occupation, 
+                experienceLevel: experienceLevel, 
+                questionCount: selectedCount, 
+                cvText, 
+                popiaConsent: true 
+            })
+        });
+        
+        if (!res.ok) {
+            throw new Error(`Server error: ${res.status}`);
+        }
+        
+        const data = await res.json();
+        if (!data.id) throw new Error('No interview ID returned');
+
+        const interviewId = data.id;
+        btn.innerHTML = 'Generating questions...';
+
+        const qRes = await fetch(`/interview/api/${interviewId}/generate-questions/`, {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json', 
+                'X-CSRFToken': CSRF 
+            }
+        });
+        
+        if (!qRes.ok) {
+            throw new Error('Failed to generate questions');
+        }
+        
+        const qData = await qRes.json();
+        if (!qData.success) throw new Error(qData.error || 'Failed to generate questions');
+
+        window.location.href = `/interview/${interviewId}/live/`;
+    } catch (err) {
+        console.error('Error:', err);
+        showError(err.message);
+        btn.disabled = false;
+        btn.innerHTML = originalText;
+    }
+};
+ 
+const CSRF = '{{ csrf_token }}';
   let selectedCount = 5;
 
   // Pills
@@ -222,54 +288,75 @@
     el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
 
-  async function startInterview() {
+ async function startInterview() {
     const occupation = document.getElementById('occupation').value.trim();
     const experienceLevel = document.getElementById('experienceLevel').value;
     const popia = document.getElementById('popiaConsent').checked;
-    const cvText = document.getElementById('cvText').value.trim();
+    const cvText = document.getElementById('cvText').value;
 
-    document.getElementById('errorMsg').style.display = 'none';
-
-    if (!occupation) return showError('Please enter your job title or occupation.');
-    if (!experienceLevel) return showError('Please select your experience level.');
-    if (!popia) return showError('Please give your POPIA consent to continue.');
+    if (!occupation) return showError('Please enter your job title.');
+    if (!popia) return showError('Please give your POPIA consent.');
 
     const btn = document.getElementById('startBtn');
-    const btnText = document.getElementById('btnText');
-    const spinner = document.getElementById('spinner');
+    const originalText = btn.innerHTML;
     btn.disabled = true;
-    btnText.textContent = 'Creating interview…';
-    spinner.style.display = 'block';
+    btn.innerHTML = 'Creating interview...';
 
     try {
-      // Step 1: create interview
-      const res = await fetch('/api/interview/create/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF },
-        body: JSON.stringify({ occupation, experienceLevel: experienceLevel, questionCount: selectedCount, cvText, popiaConsent: true }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Failed to create interview');
+        // Step 1: create interview - FIXED URL
+        const res = await fetch('/interview/api/create/', {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json', 
+                'X-CSRFToken': CSRF 
+            },
+            body: JSON.stringify({ 
+                occupation, 
+                experienceLevel: experienceLevel, 
+                questionCount: selectedCount, 
+                cvText, 
+                popiaConsent: true 
+            })
+        });
+        
+        if (!res.ok) {
+            const text = await res.text();
+            console.error('Error response:', text);
+            throw new Error(`Server error: ${res.status}`);
+        }
+        
+        const data = await res.json();
+        if (!data.id) throw new Error('No interview ID returned');
 
-      const interviewId = data.id;
-      btnText.textContent = 'Generating questions with AI…';
+        const interviewId = data.id;
+        btn.innerHTML = 'Generating questions...';
 
-      // Step 2: generate questions
-      const qRes = await fetch(`/api/interview/${interviewId}/generate-questions/`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF },
-      });
-      const qData = await qRes.json();
-      if (!qRes.ok) throw new Error(qData.error || 'Failed to generate questions');
+        // Step 2: generate questions - FIXED URL
+        const qRes = await fetch(`/interview/api/${interviewId}/generate-questions/`, {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json', 
+                'X-CSRFToken': CSRF 
+            }
+        });
+        
+        if (!qRes.ok) {
+            const text = await qRes.text();
+            console.error('Error response:', text);
+            throw new Error('Failed to generate questions');
+        }
+        
+        const qData = await qRes.json();
+        if (!qData.success) throw new Error(qData.error || 'Failed to generate questions');
 
-      // Step 3: redirect to live interview
-      window.location.href = `/interview/${interviewId}/live/`;
+        // Step 3: redirect to live interview
+        window.location.href = `/interview/${interviewId}/live/`;
     } catch (err) {
-      showError(err.message);
-      btn.disabled = false;
-      btnText.textContent = '🎙️ Start Interview with Marcus Reid';
-      spinner.style.display = 'none';
+        console.error('Error:', err);
+        showError(err.message);
+        btn.disabled = false;
+        btn.innerHTML = originalText;
     }
-  }
+ }
 </script>
 {% endblock %}

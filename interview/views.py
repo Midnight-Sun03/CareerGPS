@@ -360,3 +360,4 @@ def api_get_interview(request, interview_id):
 @login_required
 def api_occupations(request):
     return JsonResponse({'occupations': SA_OCCUPATIONS})
+

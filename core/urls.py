@@ -46,6 +46,9 @@ urlpatterns = [
     path('api/post-story/', views.api_post_story, name='api_post_story'),
     path('api/edit-story/', views.api_edit_story, name='api_edit_story'),
     path('api/delete-story/', views.api_delete_story, name='api_delete_story'),
+    
+    # API endpoints
+    path('api/occupations/', views.api_occupations, name='api_occupations'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

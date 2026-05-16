@@ -47,11 +47,6 @@
 
   .card-actions{display:flex;align-items:center;gap:.6rem;margin-top:1rem;padding-top:1rem;border-top:1px solid var(--card-border);flex-wrap:wrap;}
 
-  /* Video replay */
-  .replay-section{padding:1rem 1.25rem;background:rgba(240,242,247,0.9);border-top:1px solid var(--card-border);display:none;}
-  .replay-section.open{display:block;}
-  .replay-label{font-size:.72rem;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.6rem;}
-
   /* Empty state */
   .empty-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:1.25rem;padding:4rem 2rem;text-align:center;}
   .empty-icon{width:64px;height:64px;border-radius:50%;background:rgba(232,97,42,.08);display:flex;align-items:center;justify-content:center;margin:0 auto 1.25rem;font-size:1.75rem;}
@@ -65,6 +60,23 @@
   .modal h3{font-size:1.1rem;font-weight:800;margin-bottom:.6rem;}
   .modal p{color:var(--text-muted);font-size:.9rem;line-height:1.6;margin-bottom:1.5rem;}
   .modal-actions{display:flex;gap:.75rem;justify-content:flex-end;}
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    padding: 12px 20px;
+    transform: translateX(400px);
+    transition: transform 0.3s ease;
+    z-index: 1000;
+  }
+  .toast.show { transform: translateX(0); }
+  .toast-content { display: flex; align-items: center; gap: 10px; }
+  .toast-icon { font-size: 18px; font-weight: bold; }
 </style>
 
 <div class="saved-wrap">
@@ -178,8 +190,16 @@
     <p>This will permanently delete the session, all recordings, transcripts, and feedback. This cannot be undone.</p>
     <div class="modal-actions">
       <button class="btn-outline" onclick="closeModal()">Cancel</button>
-      <button class="btn-danger" id="confirmDeleteBtn" onclick="doDelete()">🗑 Delete Interview</button>
+      <button class="btn-danger" id="confirmDeleteBtn">🗑 Delete Interview</button>
     </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">
+  <div class="toast-content">
+    <span class="toast-icon">✓</span>
+    <span class="toast-message"></span>
   </div>
 </div>
 
@@ -187,34 +207,93 @@
   const CSRF = '{{ csrf_token }}';
   let pendingDeleteId = null;
 
+  function showToast(message, type) {
+    const toast = document.getElementById('toast');
+    const toastMessage = toast.querySelector('.toast-message');
+    const toastIcon = toast.querySelector('.toast-icon');
+    
+    toastMessage.textContent = message;
+    
+    if (type === 'success') {
+      toastIcon.textContent = '✓';
+      toastIcon.style.color = '#27AE60';
+    } else if (type === 'error') {
+      toastIcon.textContent = '✗';
+      toastIcon.style.color = '#dc2626';
+    } else {
+      toastIcon.textContent = 'ℹ';
+      toastIcon.style.color = '#E8651A';
+    }
+    
+    toast.classList.add('show');
+    setTimeout(() => {
+      toast.classList.remove('show');
+    }, 3000);
+  }
+
   function confirmDelete(id) {
     pendingDeleteId = id;
     document.getElementById('deleteModal').classList.add('open');
   }
+  
   function closeModal() {
     document.getElementById('deleteModal').classList.remove('open');
     pendingDeleteId = null;
   }
+  
   async function doDelete() {
     if (!pendingDeleteId) return;
+    
     const btn = document.getElementById('confirmDeleteBtn');
-    btn.textContent = 'Deleting…'; btn.disabled = true;
+    const originalText = btn.textContent;
+    btn.textContent = 'Deleting…';
+    btn.disabled = true;
+    
     try {
-      const res = await fetch(`/api/interview/${pendingDeleteId}/delete/`, {
-        method: 'DELETE', headers: { 'X-CSRFToken': CSRF },
+      // FIXED URL - Added '/interview/' prefix
+      const res = await fetch(`/interview/api/${pendingDeleteId}/delete/`, {
+        method: 'DELETE',
+        headers: { 
+          'X-CSRFToken': CSRF,
+          'Content-Type': 'application/json'
+        },
       });
-      if (!res.ok) throw new Error('Failed');
-      document.getElementById(`card-${pendingDeleteId}`)?.remove();
+      
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || 'Failed to delete');
+      }
+      
+      // Remove the card from DOM
+      const card = document.getElementById(`card-${pendingDeleteId}`);
+      if (card) {
+        card.remove();
+      }
+      
+      showToast('Interview deleted successfully!', 'success');
       closeModal();
-      location.reload();
+      
+      // Reload page after short delay to update counts
+      setTimeout(() => {
+        location.reload();
+      }, 1000);
+      
     } catch (err) {
-      alert('Failed to delete. Please try again.');
-      btn.textContent = '🗑 Delete Interview'; btn.disabled = false;
+      console.error('Delete error:', err);
+      showToast(err.message || 'Failed to delete. Please try again.', 'error');
+      btn.textContent = originalText;
+      btn.disabled = false;
     }
   }
 
-  // Fix SVG ring offsets on load
+  // Attach event listener to delete button
   document.addEventListener('DOMContentLoaded', () => {
+    const confirmBtn = document.getElementById('confirmDeleteBtn');
+    if (confirmBtn) {
+      confirmBtn.addEventListener('click', doDelete);
+    }
+    
+    // Fix SVG ring offsets on load
     document.querySelectorAll('.interview-card').forEach(card => {
       const circle = card.querySelector('circle:last-child');
       if (circle) {
