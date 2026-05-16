@@ -13,6 +13,7 @@ import random
 import string
 from datetime import datetime, timedelta
 from .models import Profile, Skill, Interest, Opportunity, SavedOpportunity, Story
+from django.db.models import Q
 
 # Store verification codes temporarily
 verification_codes = {}
@@ -39,6 +40,35 @@ def opportunities(request):
     """Display all opportunities from database - NO HARDCODING"""
     opportunities_list = Opportunity.objects.filter(is_active=True).order_by('-date_listed')
     return render(request, 'core/opportunities.html', {'opportunities': opportunities_list})
+
+def api_search_opportunities(request):
+    """Search opportunities from database"""
+    query = request.GET.get('q', '').strip()
+    
+    if not query:
+        return JsonResponse({'success': True, 'opportunities': []})
+    
+    opportunities = Opportunity.objects.filter(
+        Q(is_active=True) &
+        (Q(title__icontains=query) |
+         Q(company__icontains=query) |
+         Q(location__icontains=query) |
+         Q(sector__icontains=query) |
+         Q(description__icontains=query))
+    )[:20]  # Limit to 20 results
+    
+    opp_list = []
+    for opp in opportunities:
+        opp_list.append({
+            'id': opp.id,
+            'title': opp.title,
+            'company': opp.company,
+            'location': opp.location,
+            'type': opp.opportunity_type,
+            'description': opp.description[:150] if opp.description else '',
+        })
+    
+    return JsonResponse({'success': True, 'opportunities': opp_list})
 
 @login_required
 def welcome(request):

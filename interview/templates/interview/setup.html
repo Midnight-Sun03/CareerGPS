@@ -1,0 +1,275 @@
+{% extends 'base.html' %}
+{% block title %}Setup Interview | CareerGPS{% endblock %}
+
+{% block content %}
+<style>
+  :root {
+    --orange: #E8612A; --orange-light: #ff8c5a; --green: #4caf82;
+    --red-warm: #d95f3b; --light-bg: #f5f6fa; --card-bg: #ffffff;
+    --card-border: rgba(0,0,0,0.09); --text-muted: #6b7c93;
+  }
+  body { background: var(--light-bg); color: #1a2535; font-family: 'Inter', sans-serif; }
+
+  .setup-wrap { max-width: 680px; margin: 0 auto; padding: 3rem 1.5rem 5rem; }
+  .back-link { color: #444e5c; text-decoration: none; font-size: .85rem; display: inline-flex; align-items: center; gap: .4rem; margin-bottom: 2rem; transition: color .2s; }
+  .back-link:hover { color: #1a2535; }
+  .page-label { font-size: .7rem; font-weight: 700; letter-spacing: .2em; color: var(--orange); text-transform: uppercase; margin-bottom: .6rem; }
+  .page-title { font-size: 2rem; font-weight: 800; font-family: Georgia, serif; margin-bottom: .5rem; }
+  .page-sub { color: #444e5c; font-size: .95rem; margin-bottom: 2.5rem; }
+
+  .card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 1.25rem; padding: 2rem; margin-bottom: 1.5rem; }
+  .card-title { font-size: 1rem; font-weight: 700; margin-bottom: 1.25rem; display: flex; align-items: center; gap: .6rem; }
+
+  label { display: block; font-size: .8rem; font-weight: 600; color: #444e5c; text-transform: uppercase; letter-spacing: .08em; margin-bottom: .5rem; }
+  input[type=text], select, textarea {
+    width: 100%; background: rgba(0,0,0,.03); border: 1px solid var(--card-border);
+    border-radius: .6rem; padding: .75rem 1rem; color: #1a2535; font-size: .95rem;
+    outline: none; transition: border-color .2s; box-sizing: border-box;
+  }
+  input[type=text]:focus, select:focus, textarea:focus { border-color: var(--orange); }
+  select option { background: #ffffff; }
+  textarea { resize: vertical; min-height: 100px; }
+
+  .field { margin-bottom: 1.25rem; }
+  .field:last-child { margin-bottom: 0; }
+
+  /* Question count pills */
+  .count-pills { display: flex; gap: .6rem; flex-wrap: wrap; }
+  .pill {
+    padding: .5rem 1.1rem; border-radius: 999px; border: 1px solid var(--card-border);
+    background: transparent; color: #444e5c; font-size: .875rem; cursor: pointer;
+    transition: all .2s; font-weight: 600;
+  }
+  .pill:hover { border-color: var(--orange); color: var(--orange); }
+  .pill.active { background: var(--orange); border-color: var(--orange); color: #ffffff; }
+
+  /* CV upload */
+  .upload-zone {
+    border: 2px dashed var(--card-border); border-radius: .75rem; padding: 1.5rem;
+    text-align: center; cursor: pointer; transition: border-color .2s;
+    background: rgba(0,0,0,.02);
+  }
+  .upload-zone:hover, .upload-zone.dragover { border-color: var(--orange); }
+  .upload-zone p { color: #444e5c; font-size: .875rem; margin: .5rem 0 0; }
+  .upload-zone .icon { font-size: 1.75rem; }
+  #cvFileName { color: var(--green); font-size: .85rem; margin-top: .5rem; display: none; }
+
+  /* POPIA */
+  .popia-box { display: flex; gap: .75rem; align-items: flex-start; }
+  .popia-box input[type=checkbox] { margin-top: .2rem; width: 18px; height: 18px; accent-color: var(--orange); flex-shrink: 0; cursor: pointer; }
+  .popia-box p { font-size: .85rem; color: #444e5c; line-height: 1.6; }
+  .popia-box strong { color: #1a2535; }
+
+  /* Progress bar */
+  .progress-bar { height: 3px; background: rgba(0,0,0,.06); border-radius: 999px; margin-bottom: 2rem; }
+  .progress-fill { height: 100%; background: var(--orange); border-radius: 999px; transition: width .4s; width: 20%; }
+
+  /* Submit */
+  .btn-gold {
+    background: var(--orange); color: #ffffff; font-weight: 800; padding: 1rem 2.5rem;
+    border-radius: 999px; border: none; cursor: pointer; font-size: 1rem;
+    width: 100%; transition: background .2s; display: flex; align-items: center;
+    justify-content: center; gap: .5rem;
+  }
+  .btn-gold:hover:not(:disabled) { background: var(--orange-light); }
+  .btn-gold:disabled { opacity: .5; cursor: not-allowed; }
+
+  .error-msg { background: rgba(217,95,59,.1); border: 1px solid rgba(217,95,59,.3); border-radius: .6rem; padding: .75rem 1rem; color: #e07a5f; font-size: .875rem; margin-bottom: 1.25rem; display: none; }
+  .spinner { display: none; width: 20px; height: 20px; border: 2px solid rgba(255,255,255,.4); border-top-color: #ffffff; border-radius: 50%; animation: spin .7s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Datalist styling hint */
+  .hint { font-size: .78rem; color: #444e5c; margin-top: .4rem; }
+</style>
+
+<div class="setup-wrap">
+  <a href="{% url 'interview_home' %}" class="back-link">← Back to Interview Coach</a>
+
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+
+  <div class="page-label">Step 1 of 1</div>
+  <h1 class="page-title">Set up your interview</h1>
+  <p class="page-sub">Tell Marcus Reid about the role you're applying for so he can ask the right questions.</p>
+
+  <div id="errorMsg" class="error-msg"></div>
+
+  <!-- Occupation -->
+  <div class="card">
+    <div class="card-title">💼 Role details</div>
+
+    <div class="field">
+      <label for="occupation">Job title / Occupation *</label>
+      <input type="text" id="occupation" list="occupationList" placeholder="e.g. Software Engineer, Accountant, Nurse…" autocomplete="off" />
+      <datalist id="occupationList">
+        {% for occ in occupations %}
+        <option value="{{ occ }}">
+        {% endfor %}
+      </datalist>
+      <p class="hint">Start typing or choose from the list — or enter your own.</p>
+    </div>
+
+    <div class="field">
+      <label for="experienceLevel">Experience level *</label>
+      <select id="experienceLevel">
+        <option value="">— Select level —</option>
+        <option value="entry">Entry level (0–2 years)</option>
+        <option value="mid">Mid level (3–6 years)</option>
+        <option value="senior">Senior level (7–12 years)</option>
+        <option value="executive">Executive (12+ years)</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Question count -->
+  <div class="card">
+    <div class="card-title">❓ Number of questions</div>
+    <div class="count-pills">
+      <button type="button" class="pill" data-count="3">3 questions</button>
+      <button type="button" class="pill active" data-count="5">5 questions</button>
+      <button type="button" class="pill" data-count="7">7 questions</button>
+      <button type="button" class="pill" data-count="10">10 questions</button>
+    </div>
+  </div>
+
+  <!-- CV upload -->
+  <div class="card">
+    <div class="card-title">📄 CV / Résumé <span style="color:var(--text-muted);font-weight:400;font-size:.85rem;">(Optional)</span></div>
+    <div class="upload-zone" id="uploadZone">
+      <div class="icon">☁️</div>
+      <strong>Click to upload your CV</strong>
+      <p>PDF, DOC, DOCX or TXT · Max 5MB</p>
+      <input type="file" id="cvFile" accept=".pdf,.doc,.docx,.txt" style="display:none" />
+    </div>
+    <div id="cvFileName"></div>
+    <div class="field" style="margin-top:1rem;">
+      <label for="cvText">Or paste your CV text</label>
+      <textarea id="cvText" placeholder="Paste your CV / résumé text here…"></textarea>
+    </div>
+  </div>
+
+  <!-- POPIA -->
+  <div class="card">
+    <div class="card-title">🔒 POPIA Consent</div>
+    <div class="popia-box">
+      <input type="checkbox" id="popiaConsent" />
+      <p>
+        <strong>I consent to the processing of my personal information</strong> including my voice recordings, 
+        video footage, CV content, and interview responses, for the purpose of generating AI-powered 
+        interview feedback. This data is processed in accordance with the 
+        <strong>Protection of Personal Information Act (POPIA)</strong> and will not be shared with third parties.
+      </p>
+    </div>
+  </div>
+
+  <button class="btn-gold" id="startBtn" onclick="startInterview()">
+    <span id="btnText">🎙️ Start Interview with Marcus Reid</span>
+    <div class="spinner" id="spinner"></div>
+  </button>
+</div>
+
+<script>
+  const CSRF = '{{ csrf_token }}';
+  let selectedCount = 5;
+
+  // Pills
+  document.querySelectorAll('.pill').forEach(pill => {
+    pill.addEventListener('click', () => {
+      document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      selectedCount = parseInt(pill.dataset.count);
+    });
+  });
+
+  // Progress based on form fill
+  const progressFill = document.getElementById('progressFill');
+  function updateProgress() {
+    const occ = document.getElementById('occupation').value.trim();
+    const exp = document.getElementById('experienceLevel').value;
+    const popia = document.getElementById('popiaConsent').checked;
+    const filled = [occ, exp, popia].filter(Boolean).length;
+    progressFill.style.width = `${20 + (filled / 3) * 80}%`;
+  }
+  document.getElementById('occupation').addEventListener('input', updateProgress);
+  document.getElementById('experienceLevel').addEventListener('change', updateProgress);
+  document.getElementById('popiaConsent').addEventListener('change', updateProgress);
+
+  // CV upload
+  const uploadZone = document.getElementById('uploadZone');
+  const cvFile = document.getElementById('cvFile');
+  const cvFileName = document.getElementById('cvFileName');
+
+  uploadZone.addEventListener('click', () => cvFile.click());
+  uploadZone.addEventListener('dragover', e => { e.preventDefault(); uploadZone.classList.add('dragover'); });
+  uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('dragover'));
+  uploadZone.addEventListener('drop', e => {
+    e.preventDefault(); uploadZone.classList.remove('dragover');
+    const file = e.dataTransfer.files[0];
+    if (file) handleFile(file);
+  });
+  cvFile.addEventListener('change', () => { if (cvFile.files[0]) handleFile(cvFile.files[0]); });
+
+  function handleFile(file) {
+    cvFileName.style.display = 'block';
+    cvFileName.textContent = `✅ ${file.name}`;
+    const reader = new FileReader();
+    reader.onload = e => { document.getElementById('cvText').value = e.target.result; };
+    reader.readAsText(file);
+  }
+
+  function showError(msg) {
+    const el = document.getElementById('errorMsg');
+    el.textContent = msg; el.style.display = 'block';
+    el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  async function startInterview() {
+    const occupation = document.getElementById('occupation').value.trim();
+    const experienceLevel = document.getElementById('experienceLevel').value;
+    const popia = document.getElementById('popiaConsent').checked;
+    const cvText = document.getElementById('cvText').value.trim();
+
+    document.getElementById('errorMsg').style.display = 'none';
+
+    if (!occupation) return showError('Please enter your job title or occupation.');
+    if (!experienceLevel) return showError('Please select your experience level.');
+    if (!popia) return showError('Please give your POPIA consent to continue.');
+
+    const btn = document.getElementById('startBtn');
+    const btnText = document.getElementById('btnText');
+    const spinner = document.getElementById('spinner');
+    btn.disabled = true;
+    btnText.textContent = 'Creating interview…';
+    spinner.style.display = 'block';
+
+    try {
+      // Step 1: create interview
+      const res = await fetch('/api/interview/create/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF },
+        body: JSON.stringify({ occupation, experienceLevel: experienceLevel, questionCount: selectedCount, cvText, popiaConsent: true }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Failed to create interview');
+
+      const interviewId = data.id;
+      btnText.textContent = 'Generating questions with AI…';
+
+      // Step 2: generate questions
+      const qRes = await fetch(`/api/interview/${interviewId}/generate-questions/`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF },
+      });
+      const qData = await qRes.json();
+      if (!qRes.ok) throw new Error(qData.error || 'Failed to generate questions');
+
+      // Step 3: redirect to live interview
+      window.location.href = `/interview/${interviewId}/live/`;
+    } catch (err) {
+      showError(err.message);
+      btn.disabled = false;
+      btnText.textContent = '🎙️ Start Interview with Marcus Reid';
+      spinner.style.display = 'none';
+    }
+  }
+</script>
+{% endblock %}

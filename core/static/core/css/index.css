@@ -622,3 +622,56 @@ body {
   .cta-section { padding: 64px 20px; }
   .footer { padding: 28px 20px; }
 }
+
+
+
+.results-panel {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin-top: 16px;
+  max-height: 400px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  position: relative;
+  z-index: 100;
+}
+
+/* Make sure the hero section contains the results properly */
+.hero {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 72px 40px 88px;
+  position: relative;
+  z-index: 10;
+}
+
+.hero__content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: relative;
+}
+
+/* Ensure results don't overflow the container */
+.results-list {
+  overflow-y: auto;
+  max-height: 350px;
+}
+
+/* Fix for result cards */
+.result-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  padding: 16px;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.2s;
+  background: var(--card-bg);
+}
+
+.result-card:hover {
+  background: var(--orange-pale);
+}
+

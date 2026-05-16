@@ -650,40 +650,31 @@
         </div>
       </div>
 
-      <!-- Interview Card -->
-      <div class="resource-card" data-category="interview" data-title="Ace Your Next Interview">
-        <div class="card-header">
-          <span class="card-tag">Interview Tips</span>
-        </div>
-        <h3>Ace Your Next Interview</h3>
-        <p class="card-desc">
-          Practice confidence, communication and the STAR technique to answer any question with clarity.
-        </p>
-
-        <ul>
-          <li><strong>STAR Method:</strong> Situation, Task, Action, Result — structure every answer.</li>
-          <li><strong>Research the company</strong> before you walk in.</li>
-          <li><strong>Prepare 3–5 questions</strong> to ask the interviewer.</li>
-          <li><strong>Body language:</strong> Eye contact, firm handshake, upright posture.</li>
-        </ul>
-
-        <div class="highlight-box">
-          <div class="label">Pro Tip</div>
-          <p>Practice out loud, not just in your head. Record yourself answering common questions and review your delivery and pacing.</p>
-        </div>
-
-        <hr class="card-divider" />
-        <div class="card-actions">
-          <a href="#" class="see-more">See full guide →</a>
-          <button class="interview-btn" onclick="startInterviewPractice()">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <polygon points="5 3 19 12 5 21 5 3" />
-            </svg>
-            Start Interview Practice
-          </button>
-        </div>
-      </div>
-    </div>
+<!-- Interview Coach Card -->
+<div class="resource-card" data-category="interview" data-title="AI Interview Coach">
+  <div class="card-header">
+    <span class="card-tag">Interview Prep</span>
+  </div>
+  <h3>AI Interview Coach</h3>
+  <p class="card-desc">
+    Practice interviews with Marcus Reid, our AI hiring manager. Get real-time feedback on your answers, 
+    body language, and communication style — tailored specifically for the South African job market.
+  </p>
+  <ul>
+    <li><strong>SA-Specific Questions</strong> - Tailored to local market context</li>
+    <li><strong>Body Language Analysis</strong> - Real-time eye contact and posture scoring</li>
+    <li><strong>Voice Recording & Transcript</strong> - Your answers are transcribed for feedback</li>
+    <li><strong>Detailed Score Report</strong> - Communication, confidence, STAR method scoring</li>
+  </ul>
+  <div class="highlight-box">
+    <div class="label">Pro Tip</div>
+    <p>Upload your CV and Marcus Reid will ask questions tailored to your actual experience!</p>
+  </div>
+  <div class="card-actions">
+    <a href="{% url 'interview_home' %}" class="see-more">Start Interview Practice →</a>
+  </div>
+</div>
+</div>
 
     <!-- Empty State (hidden by default) -->
     <div id="emptyState" class="empty-state" style="display: none;">
@@ -706,115 +697,106 @@
 
   <script>
     // Show Toast
-    function showToast(message, type) {
-      const toast = document.getElementById('toast');
-      const toastMessage = toast.querySelector('.toast-message');
-      const toastIcon = toast.querySelector('.toast-icon');
-      
-      toastMessage.textContent = message;
-      
-      if (type === 'success') {
-        toastIcon.textContent = '✓';
-        toastIcon.style.color = '#27AE60';
-      } else if (type === 'error') {
-        toastIcon.textContent = '✗';
-        toastIcon.style.color = '#dc2626';
-      } else {
-        toastIcon.textContent = 'ℹ';
-        toastIcon.style.color = '#E8651A';
-      }
-      
-      toast.classList.add('show');
-      setTimeout(() => {
-        toast.classList.remove('show');
-      }, 3000);
+function showToast(message, type) {
+  const toast = document.getElementById('toast');
+  const toastMessage = toast.querySelector('.toast-message');
+  const toastIcon = toast.querySelector('.toast-icon');
+  
+  toastMessage.textContent = message;
+  
+  if (type === 'success') {
+    toastIcon.textContent = '✓';
+    toastIcon.style.color = '#27AE60';
+  } else if (type === 'error') {
+    toastIcon.textContent = '✗';
+    toastIcon.style.color = '#dc2626';
+  } else {
+    toastIcon.textContent = 'ℹ';
+    toastIcon.style.color = '#E8651A';
+  }
+  
+  toast.classList.add('show');
+  setTimeout(() => {
+    toast.classList.remove('show');
+  }, 3000);
+}
+
+// Filter Functionality
+const filterButtons = document.querySelectorAll('.filter-btn');
+const cards = document.querySelectorAll('.resource-card');
+const searchInput = document.getElementById('searchInput');
+const resourcesContainer = document.getElementById('resourcesContainer');
+const emptyState = document.getElementById('emptyState');
+
+function filterAndSearch() {
+  const activeFilter = document.querySelector('.filter-btn.active-btn').dataset.type;
+  const searchTerm = searchInput.value.toLowerCase();
+  
+  let visibleCount = 0;
+  
+  cards.forEach(card => {
+    const category = card.dataset.category;
+    const title = card.dataset.title.toLowerCase();
+    const content = card.innerText.toLowerCase();
+    
+    const matchesFilter = activeFilter === 'all' || category === activeFilter;
+    const matchesSearch = title.includes(searchTerm) || content.includes(searchTerm);
+    
+    if (matchesFilter && matchesSearch) {
+      card.style.display = 'block';
+      visibleCount++;
+    } else {
+      card.style.display = 'none';
     }
+  });
+  
+  if (visibleCount === 0) {
+    emptyState.style.display = 'block';
+    resourcesContainer.style.display = 'none';
+  } else {
+    emptyState.style.display = 'none';
+    resourcesContainer.style.display = 'block';
+  }
+}
 
-    // Filter Functionality
-    const filterButtons = document.querySelectorAll('.filter-btn');
-    const cards = document.querySelectorAll('.resource-card');
-    const searchInput = document.getElementById('searchInput');
-    const resourcesContainer = document.getElementById('resourcesContainer');
-    const emptyState = document.getElementById('emptyState');
-
-    function filterAndSearch() {
-      const activeFilter = document.querySelector('.filter-btn.active-btn').dataset.type;
-      const searchTerm = searchInput.value.toLowerCase();
-      
-      let visibleCount = 0;
-      
-      cards.forEach(card => {
-        const category = card.dataset.category;
-        const title = card.dataset.title.toLowerCase();
-        const content = card.innerText.toLowerCase();
-        
-        const matchesFilter = activeFilter === 'all' || category === activeFilter;
-        const matchesSearch = title.includes(searchTerm) || content.includes(searchTerm);
-        
-        if (matchesFilter && matchesSearch) {
-          card.style.display = 'block';
-          visibleCount++;
-        } else {
-          card.style.display = 'none';
-        }
-      });
-      
-      // Show empty state if no results
-      if (visibleCount === 0) {
-        emptyState.style.display = 'block';
-        resourcesContainer.style.display = 'none';
-      } else {
-        emptyState.style.display = 'none';
-        resourcesContainer.style.display = 'block';
-      }
-    }
-
-    filterButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        filterButtons.forEach(b => b.classList.remove('active-btn'));
-        btn.classList.add('active-btn');
-        filterAndSearch();
-      });
-    });
-
-    searchInput.addEventListener('input', filterAndSearch);
-
-    // CV Upload
-    document.getElementById('cvUpload').addEventListener('change', function(e) {
-      if (this.files[0]) {
-        document.getElementById('cvFileName').textContent = '📄 ' + this.files[0].name;
-        showToast('CV uploaded successfully!', 'success');
-      }
-    });
-
-    // Cover Letter Upload
-    document.getElementById('coverUpload').addEventListener('change', function(e) {
-      if (this.files[0]) {
-        document.getElementById('coverFileName').textContent = '📄 ' + this.files[0].name;
-        showToast('Cover letter uploaded successfully!', 'success');
-      }
-    });
-
-    // Interview Practice
-    function startInterviewPractice() {
-      showToast('Starting interview practice session! 🚀', 'success');
-      setTimeout(() => {
-        alert('🎯 Interview Practice Session\n\nGet ready to practice common interview questions!\n\nTip: Use the STAR method (Situation, Task, Action, Result) to structure your answers.');
-      }, 500);
-    }
-
-    // See More Links
-    document.querySelectorAll('.see-more').forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const card = link.closest('.resource-card');
-        const title = card.querySelector('h3').innerText;
-        showToast(`Opening full guide for "${title}"`, 'info');
-      });
-    });
-
-    // Initialize
+filterButtons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    filterButtons.forEach(b => b.classList.remove('active-btn'));
+    btn.classList.add('active-btn');
     filterAndSearch();
+  });
+});
+
+searchInput.addEventListener('input', filterAndSearch);
+
+// CV Upload
+document.getElementById('cvUpload').addEventListener('change', function(e) {
+  if (this.files[0]) {
+    document.getElementById('cvFileName').textContent = '📄 ' + this.files[0].name;
+    showToast('CV uploaded successfully!', 'success');
+  }
+});
+
+// Cover Letter Upload
+document.getElementById('coverUpload').addEventListener('change', function(e) {
+  if (this.files[0]) {
+    document.getElementById('coverFileName').textContent = '📄 ' + this.files[0].name;
+    showToast('Cover letter uploaded successfully!', 'success');
+  }
+});
+
+// See More Links - ONLY for CV and Cover Letter cards (NOT for interview coach)
+document.querySelectorAll('.resource-card:not([data-category="interview"]) .see-more').forEach(link => {
+  link.addEventListener('click', (e) => {
+    e.preventDefault();
+    const card = link.closest('.resource-card');
+    const title = card.querySelector('h3').innerText;
+    showToast(`Opening full guide for "${title}"`, 'info');
+  });
+});
+
+// Initialize filter
+filterAndSearch();
   </script>
 </body>
 </html>

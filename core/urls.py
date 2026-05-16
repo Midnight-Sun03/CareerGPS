@@ -27,6 +27,7 @@ urlpatterns = [
     path('api/signout/', views.api_signout, name='api_signout'),
     path('api/test/', views.api_test, name='api_test'),
     
+    
     # Forgot Password APIs
     path('api/forgot-password/', views.api_forgot_password, name='api_forgot_password'),
     path('api/resend-reset-code/', views.api_resend_reset_code, name='api_resend_reset_code'),
@@ -39,6 +40,7 @@ urlpatterns = [
     path('api/get-saved-opportunities-details/', views.api_get_saved_opportunities_details, name='api_get_saved_opportunities_details'),
     path('api/personalized-opportunities/', views.api_personalized_opportunities, name='api_personalized_opportunities'),
     path('api/all-opportunities/', views.api_all_opportunities, name='api_all_opportunities'),
+    path('api/search-opportunities/', views.api_search_opportunities, name='api_search_opportunities'),
     
     # Stories APIs
     path('api/post-story/', views.api_post_story, name='api_post_story'),
