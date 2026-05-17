@@ -18,6 +18,12 @@
       --border: #E5E5E5;
       --card-bg: #FFFFFF;
       --page-bg: #F7F7F7;
+      --green: #27AE60;
+      --green-bg: #EAFAF1;
+      --yellow: #F39C12;
+      --yellow-bg: #FEF9E7;
+      --red: #E74C3C;
+      --red-bg: #FDEDEC;
     }
 
     *, *::before, *::after {
@@ -113,12 +119,122 @@
     .info-label { width: 120px; font-weight: 600; color: var(--text-mid); font-size: 0.85rem; }
     .info-value { flex: 1; color: var(--text-dark); font-size: 0.9rem; }
 
-    .progress-section { margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--border); }
+    /* Checklist Section - Moved to top */
+    .checklist-section {
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+    }
+    .checklist-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      padding: 8px 0;
+      transition: all 0.2s;
+    }
+    .checklist-header:hover { color: var(--orange); }
+    .checklist-title {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      font-size: 1rem;
+      color: var(--text-dark);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .checklist-toggle {
+      font-size: 1.2rem;
+      transition: transform 0.3s;
+      color: var(--text-light);
+    }
+    .checklist-toggle.open {
+      transform: rotate(180deg);
+    }
+    .checklist-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out;
+    }
+    .checklist-content.open {
+      max-height: 2000px;
+      transition: max-height 0.5s ease-in;
+    }
+    .checklist-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 0;
+      font-size: 0.85rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .checklist-item:last-child { border-bottom: none; }
+    .checklist-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+    }
+    .checklist-text.completed { text-decoration: line-through; }
+    .checklist-text.pending { color: var(--text-mid); }
+
+    /* Progress Section */
+    .progress-section { margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border); }
     .progress-header { display: flex; justify-content: space-between; margin-bottom: 8px; }
     .progress-label { font-weight: 600; color: var(--text-mid); font-size: 0.85rem; }
-    .progress-percent { font-weight: 700; color: var(--orange); font-size: 0.85rem; }
+    .progress-percent { font-weight: 700; font-size: 0.85rem; }
     .progress-bar { width: 100%; height: 8px; background: var(--border); border-radius: 10px; overflow: hidden; }
-    .progress-fill { height: 100%; background: var(--orange); border-radius: 10px; transition: width 0.4s ease; }
+    .progress-fill { height: 100%; border-radius: 10px; transition: width 0.4s ease; }
+    .progress-tip {
+      font-size: 0.75rem;
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .progress-tip.complete {
+      background: var(--green-bg);
+      color: var(--green);
+      border-left: 3px solid var(--green);
+    }
+    .progress-tip.good {
+      background: var(--yellow-bg);
+      color: var(--yellow);
+      border-left: 3px solid var(--yellow);
+    }
+    .progress-tip.low {
+      background: var(--red-bg);
+      color: var(--red);
+      border-left: 3px solid var(--red);
+    }
+
+    /* Professional Statement */
+    .statement-section {
+      margin-top: 24px;
+      padding: 20px;
+      background: var(--orange-pale);
+      border-radius: 12px;
+      border-left: 4px solid var(--orange);
+    }
+    .statement-section h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--orange);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .statement-section p {
+      color: var(--text-mid);
+      line-height: 1.6;
+      font-size: 0.9rem;
+    }
 
     .buttons { display: flex; gap: 12px; margin-top: 24px; }
     .btn {
@@ -135,16 +251,6 @@
     .btn-primary:hover { background: var(--orange-light); transform: translateY(-2px); }
     .btn-secondary { background: var(--sidebar-bg); color: white; }
     .btn-secondary:hover { background: var(--sidebar-hover); transform: translateY(-2px); }
-
-    .statement-section {
-      margin-top: 24px;
-      padding: 20px;
-      background: var(--orange-pale);
-      border-radius: 12px;
-      border-left: 4px solid var(--orange);
-    }
-    .statement-section h3 { font-family: 'Montserrat', sans-serif; font-size: 1rem; margin-bottom: 8px; }
-    .statement-section p { color: var(--text-mid); line-height: 1.6; font-size: 0.9rem; }
 
     .edit-form { margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border); }
     .form-group { margin-bottom: 20px; }
@@ -169,6 +275,87 @@
       color: #2E7D32;
       border-left: 4px solid #2E7D32;
     }
+
+    /* CV Upload Section */
+    .cv-section {
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+    }
+    .cv-title {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      font-size: 1rem;
+      margin-bottom: 16px;
+      color: var(--text-dark);
+    }
+    .cv-upload-area {
+      border: 2px dashed var(--orange);
+      border-radius: 12px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      background: var(--orange-pale);
+      transition: all 0.18s;
+    }
+    .cv-upload-area:hover {
+      background: #FFE8D6;
+      border-color: var(--orange-light);
+    }
+    .cv-upload-label {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--orange);
+    }
+    .cv-choose {
+      font-size: 0.75rem;
+      color: var(--text-light);
+    }
+    .cv-status {
+      margin-top: 12px;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      display: none;
+      align-items: center;
+      gap: 8px;
+    }
+    .cv-status.show { display: flex; }
+    .cv-status.success { background: var(--green-bg); color: var(--green); }
+    .cv-status.error { background: #FEF2F0; color: #dc2626; }
+    .cv-status.info { background: #E3F2FD; color: #1565C0; }
+    .current-cv {
+      margin-top: 12px;
+      padding: 12px;
+      background: #f5f5f5;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .current-cv-info {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      color: #555;
+    }
+    .remove-cv-btn {
+      background: none;
+      border: none;
+      color: #dc2626;
+      cursor: pointer;
+      font-size: 0.75rem;
+      padding: 4px 12px;
+      border-radius: 6px;
+    }
+    .remove-cv-btn:hover { background: rgba(220, 38, 38, 0.1); }
 
     svg { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
@@ -226,19 +413,118 @@
           </div>
         </div>
 
+        <!-- CV Upload Section -->
+        <div class="cv-section">
+          <div class="cv-title">📄 Upload Your CV</div>
+          <div class="cv-upload-area" onclick="document.getElementById('cvUpload').click()">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            <span class="cv-upload-label" id="cvUploadLabel">Click to upload your CV</span>
+            <span class="cv-choose">PDF or DOCX (max 5MB)</span>
+          </div>
+          <input type="file" id="cvUpload" accept=".pdf,.docx" style="display: none;" onchange="uploadCV(this)">
+          <div id="cvStatus"></div>
+          
+          {% if profile.cv %}
+          <div class="current-cv" id="currentCvInfo">
+            <div class="current-cv-info">
+              <span>📎</span>
+              <span>Current CV: {{ profile.cv.name|slice:"14:" }}</span>
+            </div>
+            <button class="remove-cv-btn" onclick="removeCV()">Remove</button>
+          </div>
+          {% endif %}
+        </div>
+
+        <!-- Profile Checklist - MOVED TO TOP (Above Progress) -->
+        <div class="checklist-section">
+          <div class="checklist-header" onclick="toggleChecklist()">
+            <div class="checklist-title">
+              ✅ Profile Checklist ({{ profile_completion }}% complete)
+            </div>
+            <div class="checklist-toggle" id="checklistToggle">▼</div>
+          </div>
+          <div class="checklist-content" id="checklistContent">
+            <div class="checklist-item">
+              <div class="checklist-icon" id="checklistIcon-degree" style="{% if profile.degree %}background: var(--green-bg); color: var(--green);{% else %}background: var(--red-bg); color: var(--red);{% endif %}">
+                {% if profile.degree %}✓{% else %}○{% endif %}
+              </div>
+              <div class="checklist-text {% if profile.degree %}completed{% else %}pending{% endif %}" style="{% if profile.degree %}color: var(--green);{% endif %}">
+                Qualification / Degree
+              </div>
+            </div>
+            <div class="checklist-item">
+              <div class="checklist-icon" id="checklistIcon-institution" style="{% if profile.institution %}background: var(--green-bg); color: var(--green);{% else %}background: var(--red-bg); color: var(--red);{% endif %}">
+                {% if profile.institution %}✓{% else %}○{% endif %}
+              </div>
+              <div class="checklist-text {% if profile.institution %}completed{% else %}pending{% endif %}" style="{% if profile.institution %}color: var(--green);{% endif %}">
+                Institution
+              </div>
+            </div>
+            <div class="checklist-item">
+              <div class="checklist-icon" id="checklistIcon-location" style="{% if profile.location %}background: var(--green-bg); color: var(--green);{% else %}background: var(--red-bg); color: var(--red);{% endif %}">
+                {% if profile.location %}✓{% else %}○{% endif %}
+              </div>
+              <div class="checklist-text {% if profile.location %}completed{% else %}pending{% endif %}" style="{% if profile.location %}color: var(--green);{% endif %}">
+                Location
+              </div>
+            </div>
+            <div class="checklist-item">
+              <div class="checklist-icon" id="checklistIcon-skills" style="{% if skills_list %}background: var(--green-bg); color: var(--green);{% else %}background: var(--red-bg); color: var(--red);{% endif %}">
+                {% if skills_list %}✓{% else %}○{% endif %}
+              </div>
+              <div class="checklist-text {% if skills_list %}completed{% else %}pending{% endif %}" style="{% if skills_list %}color: var(--green);{% endif %}">
+                Skills
+              </div>
+            </div>
+            <div class="checklist-item">
+              <div class="checklist-icon" id="checklistIcon-interests" style="{% if interests_list %}background: var(--green-bg); color: var(--green);{% else %}background: var(--red-bg); color: var(--red);{% endif %}">
+                {% if interests_list %}✓{% else %}○{% endif %}
+              </div>
+              <div class="checklist-text {% if interests_list %}completed{% else %}pending{% endif %}" style="{% if interests_list %}color: var(--green);{% endif %}">
+                Interests
+              </div>
+            </div>
+            <div class="checklist-item">
+              <div class="checklist-icon" id="checklistIcon-cv" style="{% if profile.cv %}background: var(--green-bg); color: var(--green);{% else %}background: var(--red-bg); color: var(--red);{% endif %}">
+                {% if profile.cv %}✓{% else %}○{% endif %}
+              </div>
+              <div class="checklist-text {% if profile.cv %}completed{% else %}pending{% endif %}" style="{% if profile.cv %}color: var(--green);{% endif %}">
+                CV / Resume Uploaded
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Profile Completion with Colored Bar -->
         <div class="progress-section">
-          <div class="progress-header"><span class="progress-label">Profile Completion</span><span class="progress-percent">{{ profile_completion }}%</span></div>
-          <div class="progress-bar"><div class="progress-fill" style="width: {{ profile_completion }}%;"></div></div>
+          <div class="progress-header">
+            <span class="progress-label">Profile Completion</span>
+            <span class="progress-percent" id="completionPercent" style="color: {% if profile_completion >= 70 %}#27AE60{% elif profile_completion >= 40 %}#F39C12{% else %}#E74C3C{% endif %};">
+              {{ profile_completion }}%
+            </span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" id="progressFill" style="width: {{ profile_completion }}%; background: {% if profile_completion >= 70 %}#27AE60{% elif profile_completion >= 40 %}#F39C12{% else %}#E74C3C{% endif %};"></div>
+          </div>
+          <div class="progress-tip" id="progressTip">
+            <!-- Dynamic content will be set by JavaScript -->
+          </div>
         </div>
 
-        <div class="buttons">
-          <button class="btn btn-primary" id="editBtn">Edit Profile</button>
-          <button class="btn btn-secondary" id="logoutBtn">Sign Out</button>
-        </div>
-
+        <!-- Professional Statement -->
         <div class="statement-section">
-          <h3>Professional Statement</h3>
-          <p>{{ profile.custom_skills|default:"Motivated professional passionate about technology and data analytics." }}</p>
+          <h3>📝 Professional Statement</h3>
+          <p>{{ profile.custom_skills|default:"Motivated professional passionate about technology and data analytics. Committed to continuous learning and career growth in the South African job market." }}</p>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="buttons">
+          <button class="btn btn-primary" id="editBtn">✏️ Edit Profile</button>
+          <button class="btn btn-secondary" id="logoutBtn">🚪 Sign Out</button>
         </div>
       </div>
 
@@ -281,7 +567,177 @@
     </div>
   </main>
 
+  <div class="toast" id="toast" style="position: fixed; bottom: 30px; right: 30px; background: white; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); padding: 12px 20px; transform: translateX(400px); transition: transform 0.3s ease; z-index: 1000;"><div class="toast-content"><span class="toast-icon">✓</span><span class="toast-message"></span></div></div>
+
   <script>
+    // Toggle only the checklist section
+    function toggleChecklist() {
+      const content = document.getElementById('checklistContent');
+      const toggle = document.getElementById('checklistToggle');
+      
+      if (content.classList.contains('open')) {
+        content.classList.remove('open');
+        toggle.classList.remove('open');
+      } else {
+        content.classList.add('open');
+        toggle.classList.add('open');
+      }
+    }
+
+    function getCookie(name) {
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+          const cookie = cookies[i].trim();
+          if (cookie.substring(0, name.length + 1) === (name + '=')) {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+          }
+        }
+      }
+      return cookieValue;
+    }
+    const csrftoken = getCookie('csrftoken');
+
+    function showToast(message, type) {
+      const toast = document.getElementById('toast');
+      const toastMessage = toast.querySelector('.toast-message');
+      const toastIcon = toast.querySelector('.toast-icon');
+      toastMessage.textContent = message;
+      if (type === 'success') { toastIcon.textContent = '✓'; toastIcon.style.color = '#27AE60'; }
+      else if (type === 'error') { toastIcon.textContent = '✗'; toastIcon.style.color = '#dc2626'; }
+      else { toastIcon.textContent = 'ℹ'; toastIcon.style.color = '#E8651A'; }
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    function updateChecklistColors(completion) {
+      // Update all checklist icons based on completion status
+      const checklistIcons = document.querySelectorAll('.checklist-icon');
+      const checklistTexts = document.querySelectorAll('.checklist-text');
+      
+      // For each item, check if it's completed and apply appropriate color
+      // The colors are already set in the Django template based on actual data
+      // This function ensures the colors match the theme
+    }
+
+    function updateProgressUI(completion) {
+      const percentElement = document.getElementById('completionPercent');
+      const progressFill = document.getElementById('progressFill');
+      const tipElement = document.getElementById('progressTip');
+      
+      let color, bgColor, icon, message;
+      
+      if (completion >= 100) {
+        color = '#27AE60';
+        bgColor = '#EAFAF1';
+        icon = '🎉';
+        message = 'Profile Complete! 🎉 Your profile is 100% complete. You\'re getting the best matches possible!';
+      } else if (completion >= 70) {
+        color = '#27AE60';
+        bgColor = '#EAFAF1';
+        icon = '🌟';
+        message = 'Great progress! Your profile is ' + completion + '% complete. Keep going to reach 100%!';
+      } else if (completion >= 40) {
+        color = '#F39C12';
+        bgColor = '#FEF9E7';
+        icon = '👍';
+        message = 'Good progress! Your profile is ' + completion + '% complete. Add more details to get better matches.';
+      } else if (completion > 0) {
+        color = '#E74C3C';
+        bgColor = '#FDEDEC';
+        icon = '⚠️';
+        message = 'Your profile is only ' + completion + '% complete. Fill in the missing fields to improve your job matches!';
+      } else {
+        color = '#E74C3C';
+        bgColor = '#FDEDEC';
+        icon = '📝';
+        message = 'Start building your profile! Add your qualification, skills, and interests to get personalized job recommendations.';
+      }
+      
+      if (percentElement) percentElement.style.color = color;
+      if (progressFill) {
+        progressFill.style.width = completion + '%';
+        progressFill.style.background = color;
+      }
+      
+      if (tipElement) {
+        tipElement.className = 'progress-tip';
+        if (completion >= 70) tipElement.classList.add('complete');
+        else if (completion >= 40) tipElement.classList.add('good');
+        else tipElement.classList.add('low');
+        
+        tipElement.innerHTML = `<span style="font-size: 1.1rem;">${icon}</span><span>${message}</span>`;
+      }
+    }
+
+    async function uploadCV(input) {
+      const file = input.files[0];
+      if (!file) return;
+      
+      const validTypes = ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+      if (!validTypes.includes(file.type)) {
+        showToast('Please upload PDF or DOCX file', 'error');
+        return;
+      }
+      
+      if (file.size > 5 * 1024 * 1024) {
+        showToast('File size must be less than 5MB', 'error');
+        return;
+      }
+      
+      const formData = new FormData();
+      formData.append('cv', file);
+      const statusDiv = document.getElementById('cvStatus');
+      statusDiv.innerHTML = '<div class="cv-status info show"><span>📤 Uploading your CV...</span></div>';
+      
+      try {
+        const response = await fetch('/api/upload-cv/', { 
+          method: 'POST', 
+          headers: { 'X-CSRFToken': csrftoken }, 
+          body: formData 
+        });
+        const data = await response.json();
+        
+        if (response.ok && data.success) { 
+          statusDiv.innerHTML = '<div class="cv-status success show">✅ CV uploaded successfully! Your matches will improve.</div>';
+          showToast('CV uploaded successfully!', 'success');
+          setTimeout(() => { location.reload(); }, 2000);
+        } else { 
+          statusDiv.innerHTML = '<div class="cv-status error show">❌ Error uploading CV. Please try again.</div>';
+          showToast(data.error || 'Error uploading CV', 'error');
+        }
+      } catch (error) { 
+        statusDiv.innerHTML = '<div class="cv-status error show">❌ Network error. Please try again.</div>';
+        showToast('Network error', 'error');
+      }
+    }
+
+    async function removeCV() {
+      if (!confirm('Are you sure you want to remove your CV? This action cannot be undone.')) return;
+      
+      showToast('Removing CV...', 'info');
+      
+      try {
+        const response = await fetch('/api/remove-cv/', { 
+          method: 'POST', 
+          headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrftoken }
+        });
+        const data = await response.json();
+        
+        if (response.ok && data.success) {
+          showToast('CV removed successfully', 'success');
+          setTimeout(() => { location.reload(); }, 1000);
+        } else {
+          showToast(data.error || 'Error removing CV', 'error');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        showToast('Network error. Please try again.', 'error');
+      }
+    }
+
     document.getElementById('editBtn')?.addEventListener('click', () => {
       document.getElementById('displayMode').style.display = 'none';
       document.getElementById('editMode').style.display = 'block';
@@ -304,6 +760,9 @@
         setTimeout(() => alert.remove(), 500);
       }
     }, 3000);
+    
+    updateProgressUI({{ profile_completion }});
+    updateChecklistColors({{ profile_completion }});
   </script>
 </body>
 </html>

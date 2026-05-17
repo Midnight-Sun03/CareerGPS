@@ -123,19 +123,31 @@ class MotivationalNudge(models.Model):
     def __str__(self):
         return f"{self.title} ({self.trigger})"
     
+# Add to your models.py - Story model
 class Story(models.Model):
     STATUS_CHOICES = [
         ('pending', 'Pending'),
         ('approved', 'Approved'),
         ('rejected', 'Rejected'),
     ]
+    PROFESSION_CHOICES = [
+        ('software', 'Software Developer'),
+        ('data', 'Data Analyst'),
+        ('hr', 'HR'),
+        ('accounting', 'Accounting'),
+        ('teaching', 'Teaching'),
+        ('retail', 'Retail'),
+        ('other', 'Other'),
+    ]
+    
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     display_name = models.CharField(max_length=200)
+    profession = models.CharField(max_length=20, choices=PROFESSION_CHOICES, default='other')
     degree = models.CharField(max_length=200, blank=True)
     institution = models.CharField(max_length=200, blank=True)
     title = models.CharField(max_length=200)
     content = models.TextField()
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='approved')
     submitted_at = models.DateTimeField(auto_now_add=True)
     approved_at = models.DateTimeField(null=True, blank=True)
     

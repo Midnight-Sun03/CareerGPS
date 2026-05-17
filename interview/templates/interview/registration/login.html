@@ -4,26 +4,25 @@
 {% block content %}
 <style>
   .login-wrap {
-    min-height: 100vh;
+    min-height: 80vh;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 2rem 1rem;
-    background: var(--light-bg);
   }
   .login-card {
-    background: #fff;
-    border: 1px solid var(--card-border);
+    background: var(--card-bg);
+    border: 1px solid var(--border);
     border-radius: 1.25rem;
     padding: 2.5rem 2rem;
     width: 100%;
     max-width: 420px;
-    box-shadow: 0 4px 32px rgba(0,0,0,.06);
+    box-shadow: 0 4px 32px rgba(0,0,0,0.06);
   }
   .login-brand {
-    font-size: .7rem;
-    font-weight: 800;
-    letter-spacing: .2em;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
     color: var(--orange);
     text-transform: uppercase;
     margin-bottom: 1.5rem;
@@ -32,64 +31,88 @@
   .login-title {
     font-size: 1.75rem;
     font-weight: 800;
-    font-family: Georgia, serif;
-    margin-bottom: .4rem;
+    font-family: 'Playfair Display', Georgia, serif;
+    margin-bottom: 0.4rem;
   }
   .login-sub {
-    font-size: .9rem;
-    color: var(--text-muted);
+    font-size: 0.9rem;
+    color: var(--text-mid);
     margin-bottom: 2rem;
   }
-  .field { margin-bottom: 1.25rem; }
+  .field {
+    margin-bottom: 1.25rem;
+  }
   .field label {
     display: block;
-    font-size: .75rem;
+    font-size: 0.75rem;
     font-weight: 700;
-    color: var(--text-muted);
+    color: var(--text-mid);
     text-transform: uppercase;
-    letter-spacing: .08em;
-    margin-bottom: .5rem;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.5rem;
   }
   .field input {
     width: 100%;
-    background: rgba(0,0,0,.03);
-    border: 1px solid var(--card-border);
-    border-radius: .6rem;
-    padding: .75rem 1rem;
-    color: #1a2535;
-    font-size: .95rem;
+    background: rgba(0,0,0,0.03);
+    border: 1px solid var(--border);
+    border-radius: 0.6rem;
+    padding: 0.75rem 1rem;
+    color: var(--text-dark);
+    font-size: 0.95rem;
     outline: none;
-    transition: border-color .2s;
-    font-family: 'Inter', sans-serif;
+    transition: border-color 0.2s;
+    font-family: 'Open Sans', sans-serif;
   }
-  .field input:focus { border-color: var(--orange); }
+  .field input:focus {
+    border-color: var(--orange);
+  }
   .btn-login {
     width: 100%;
     background: var(--orange);
     color: #fff;
     font-weight: 800;
-    padding: .9rem;
+    padding: 0.9rem;
     border-radius: 999px;
     border: none;
     cursor: pointer;
     font-size: 1rem;
-    font-family: 'Inter', sans-serif;
-    transition: background .2s;
-    margin-top: .5rem;
+    font-family: 'Montserrat', sans-serif;
+    transition: background 0.2s;
+    margin-top: 0.5rem;
   }
-  .btn-login:hover { background: var(--orange-light); }
+  .btn-login:hover {
+    background: var(--orange-light);
+  }
   .error-list {
-    background: rgba(217,95,59,.08);
-    border: 1px solid rgba(217,95,59,.3);
-    border-radius: .6rem;
-    padding: .75rem 1rem;
+    background: rgba(217,95,59,0.08);
+    border: 1px solid rgba(217,95,59,0.3);
+    border-radius: 0.6rem;
+    padding: 0.75rem 1rem;
     color: #c0392b;
-    font-size: .875rem;
+    font-size: 0.875rem;
     margin-bottom: 1.25rem;
     list-style: none;
   }
-  .error-list li { margin-bottom: .25rem; }
-  .error-list li:last-child { margin-bottom: 0; }
+  .error-list li {
+    margin-bottom: 0.25rem;
+  }
+  .error-list li:last-child {
+    margin-bottom: 0;
+  }
+  .register-link {
+    text-align: center;
+    margin-top: 1.5rem;
+    font-size: 0.85rem;
+    color: var(--text-mid);
+  }
+  .register-link a {
+    color: var(--orange);
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .register-link a:hover {
+    text-decoration: underline;
+  }
 </style>
 
 <div class="login-wrap">
@@ -104,7 +127,7 @@
     </ul>
     {% endif %}
 
-    <form method="post">
+    <form method="post" action="{% url 'signin' %}">
       {% csrf_token %}
       <div class="field">
         <label for="id_username">Username</label>
@@ -117,6 +140,10 @@
       <input type="hidden" name="next" value="{{ next }}" />
       <button type="submit" class="btn-login">Sign In</button>
     </form>
+
+    <div class="register-link">
+      Don't have an account? <a href="{% url 'register' %}">Sign up</a>
+    </div>
   </div>
 </div>
 {% endblock %}

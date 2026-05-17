@@ -1,276 +1,709 @@
 {% extends 'base.html' %}
-{% block title %}AI Interview Coach | CareerGPS{% endblock %}
+{% block title %}My Profile | CareerGPS{% endblock %}
 
 {% block content %}
 <style>
-  :root {
-    --orange: #E8612A;
-    --orange-light: #ff8c5a;
-    --green: #4caf82;
-    --red-warm: #d95f3b;
-    --light-bg: #f5f6fa;
-    --card-bg: #ffffff;
-    --card-border: rgba(0,0,0,0.09);
-    --text-muted: #6b7c93;
+  .profile-container {
+    max-width: 1000px;
+    margin: 0 auto;
   }
 
-  .interview-hero {
-    min-height: 92vh;
-    background: var(--light-bg);
-    color: #1a2535;
-    font-family: 'Inter', sans-serif;
+  /* Back button styles */
+  .back-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--orange);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.85rem;
+    padding: 6px 12px;
+    border-radius: 8px;
+    transition: all 0.2s;
+    background: rgba(232,101,26,0.08);
+    margin-bottom: 1rem;
+  }
+  .back-button:hover {
+    gap: 10px;
+    background: rgba(232,101,26,0.15);
   }
 
-  /* ── Nav ── */
-  .coach-nav {
+  .profile-header {
+    margin-bottom: 2rem;
+  }
+  .profile-header h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    font-family: 'Playfair Display', Georgia, serif;
+    margin-bottom: 0.5rem;
+  }
+  .profile-header h1 span { color: var(--orange); }
+  .profile-header p { color: #666; font-size: 0.9rem; }
+
+  /* Profile Card */
+  .profile-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    overflow: hidden;
+  }
+
+  /* Profile Info Section */
+  .profile-info-section {
+    padding: 2rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .profile-header-info {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .avatar {
+    width: 100px;
+    height: 100px;
+    background: linear-gradient(135deg, var(--orange) 0%, var(--orange-light) 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: white;
+    font-family: 'Montserrat', sans-serif;
+  }
+  .profile-details {
+    flex: 1;
+  }
+  .profile-details h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+  .profile-details .email {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+  }
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  .info-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.5rem 0;
+  }
+  .info-icon {
+    font-size: 1.25rem;
+    min-width: 28px;
+  }
+  .info-label {
+    font-weight: 600;
+    font-size: 0.75rem;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .info-value {
+    font-size: 0.9rem;
+    color: #333;
+    margin-top: 2px;
+  }
+  .info-content {
+    flex: 1;
+  }
+
+  /* Progress Section */
+  .progress-section {
+    padding: 1.5rem 2rem;
+    background: #f8f9fa;
+    border-bottom: 1px solid var(--border);
+  }
+  .progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 0.75rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .progress-title {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #333;
+  }
+  .progress-percent {
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--orange);
+  }
+  .progress-bar-container {
+    width: 100%;
+    height: 8px;
+    background: #e5e5e5;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--orange);
+    border-radius: 10px;
+    transition: width 0.4s ease;
+  }
+  .progress-tip {
+    font-size: 0.7rem;
+    color: #888;
+    margin-top: 0.5rem;
+  }
+
+  /* CV Upload Section */
+  .cv-section {
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-title {
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .cv-upload-area {
+    border: 2px dashed var(--orange);
+    border-radius: 1rem;
+    padding: 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: rgba(232,101,26,0.03);
+  }
+  .cv-upload-area:hover {
+    background: rgba(232,101,26,0.08);
+    border-color: var(--orange-light);
+  }
+  .cv-upload-icon {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+  }
+  .cv-upload-label {
+    font-weight: 600;
+    color: var(--orange);
+    margin-bottom: 0.25rem;
+  }
+  .cv-upload-hint {
+    font-size: 0.7rem;
+    color: #888;
+  }
+  .cv-status {
+    margin-top: 1rem;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    font-size: 0.85rem;
+    display: none;
+  }
+  .cv-status.success {
+    display: block;
+    background: #e8f5e9;
+    color: #2e7d32;
+    border-left: 3px solid #4caf50;
+  }
+  .cv-status.error {
+    display: block;
+    background: #ffebee;
+    color: #c62828;
+    border-left: 3px solid #f44336;
+  }
+  .cv-status.info {
+    display: block;
+    background: #e3f2fd;
+    color: #1565c0;
+    border-left: 3px solid #2196f3;
+  }
+  .current-cv {
+    margin-top: 1rem;
+    padding: 0.75rem;
+    background: #f5f5f5;
+    border-radius: 0.5rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1.25rem 2rem;
-    border-bottom: 1px solid var(--card-border);
-    background: rgba(255,255,255,0.97);
-    position: sticky;
-    top: 0;
-    z-index: 50;
-    backdrop-filter: blur(8px); border-bottom: 1px solid rgba(0,0,0,0.08);
+    flex-wrap: wrap;
+    gap: 0.5rem;
   }
-  .coach-nav .brand { font-size: .75rem; font-weight: 700; letter-spacing: .15em; color: var(--orange); text-transform: uppercase; }
-  .coach-nav .nav-links { display: flex; gap: 1.5rem; align-items: center; }
-  .coach-nav .nav-links a { color: #444e5c; text-decoration: none; font-size: .875rem; transition: color .2s; }
-  .coach-nav .nav-links a:hover { color: #1a2535; }
-  .btn-gold { background: var(--orange); color: #ffffff; font-weight: 700; padding: .6rem 1.5rem; border-radius: 999px; border: none; cursor: pointer; font-size: .875rem; text-decoration: none; transition: background .2s; display: inline-flex; align-items: center; gap: .5rem; }
-  .btn-gold:hover { background: var(--orange-light); color: #ffffff; text-decoration: none; }
-  .btn-outline { background: transparent; color: #1a2535; border: 1px solid var(--card-border); padding: .6rem 1.5rem; border-radius: 999px; cursor: pointer; font-size: .875rem; text-decoration: none; transition: all .2s; display: inline-flex; align-items: center; gap: .5rem; }
-  .btn-outline:hover { border-color: var(--orange); color: var(--orange); text-decoration: none; }
-
-  /* ── Hero ── */
-  .hero-section {
+  .current-cv-info {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    text-align: center;
-    padding: 6rem 1.5rem 4rem;
-    max-width: 800px;
-    margin: 0 auto;
+    gap: 0.5rem;
+    font-size: 0.85rem;
   }
-  .badge-label {
-    font-size: .7rem; font-weight: 700; letter-spacing: .2em; color: var(--orange);
-    text-transform: uppercase; margin-bottom: 1.5rem;
-    padding: .35rem .85rem; border: 1px solid rgba(232,97,42,.3);
-    border-radius: 999px; background: rgba(232,97,42,.08);
+  .remove-cv-btn {
+    background: none;
+    border: none;
+    color: #dc2626;
+    cursor: pointer;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    transition: background 0.2s;
   }
-  .hero-title {
-    font-size: clamp(2.5rem, 6vw, 4rem);
-    font-weight: 800;
-    line-height: 1.1;
-    margin-bottom: 1.25rem;
-    font-family: Georgia, serif;
+  .remove-cv-btn:hover {
+    background: rgba(220,38,38,0.1);
   }
-  .hero-title span { color: var(--orange); }
-  .hero-sub {
-    font-size: 1.1rem; color: #444e5c; line-height: 1.7;
-    max-width: 580px; margin-bottom: 2.5rem;
-  }
-  .hero-cta { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
 
-  /* ── Marcus card ── */
-  .marcus-card {
-    background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    border-radius: 1.25rem;
-    padding: 2rem;
-    max-width: 700px;
-    margin: 3rem auto;
+  /* Professional Statement */
+  .statement-section {
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .statement-content {
+    background: var(--orange-pale);
+    padding: 1rem;
+    border-radius: 0.75rem;
+    border-left: 3px solid var(--orange);
+  }
+  .statement-content p {
+    font-size: 0.9rem;
+    color: #555;
+    line-height: 1.6;
+  }
+
+  /* Action Buttons */
+  .action-buttons {
+    padding: 1.5rem 2rem;
     display: flex;
-    gap: 1.5rem;
-    align-items: flex-start;
-    text-align: left;
+    gap: 1rem;
+    flex-wrap: wrap;
   }
-  .marcus-avatar {
-    width: 64px; height: 64px; border-radius: 50%;
-    background: var(--orange); color: #ffffff;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.1rem; font-weight: 800; flex-shrink: 0;
-    font-family: Georgia, serif;
+  .btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
   }
-  .marcus-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: .25rem; }
-  .marcus-card .role { font-size: .8rem; color: var(--orange); margin-bottom: .75rem; }
-  .marcus-card p { font-size: .9rem; color: #444e5c; line-height: 1.6; }
-
-  /* ── Features ── */
-  .features-section { padding: 4rem 1.5rem; max-width: 1100px; margin: 0 auto; }
-  .section-label { font-size: .7rem; font-weight: 700; letter-spacing: .2em; color: var(--orange); text-transform: uppercase; margin-bottom: .75rem; }
-  .section-title { font-size: 1.8rem; font-weight: 800; margin-bottom: 2.5rem; font-family: Georgia, serif; }
-  .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem; }
-  .feature-card {
-    background: var(--card-bg); border: 1px solid var(--card-border);
-    border-radius: 1rem; padding: 1.75rem;
-    transition: border-color .2s;
+  .btn-primary {
+    background: var(--orange);
+    color: white;
   }
-  .feature-card:hover { border-color: rgba(232,97,42,.3); }
-  .feature-icon { font-size: 1.75rem; margin-bottom: 1rem; }
-  .feature-card h4 { font-size: 1rem; font-weight: 700; margin-bottom: .5rem; }
-  .feature-card p { font-size: .875rem; color: #444e5c; line-height: 1.6; }
-
-  /* ── How it works ── */
-  .how-section { padding: 4rem 1.5rem; max-width: 800px; margin: 0 auto; text-align: center; }
-  .steps { display: flex; flex-direction: column; gap: 1rem; margin-top: 2rem; text-align: left; }
-  .step {
-    display: flex; gap: 1.25rem; align-items: flex-start;
-    background: var(--card-bg); border: 1px solid var(--card-border);
-    border-radius: 1rem; padding: 1.25rem 1.5rem;
+  .btn-primary:hover {
+    background: var(--orange-light);
+    transform: translateY(-2px);
   }
-  .step-num {
-    width: 36px; height: 36px; border-radius: 50%; background: rgba(232,97,42,.12);
-    color: var(--orange); font-weight: 800; font-size: .875rem;
-    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  .btn-secondary {
+    background: #1a1a2e;
+    color: white;
   }
-  .step h4 { font-size: .95rem; font-weight: 700; margin-bottom: .25rem; }
-  .step p { font-size: .85rem; color: #444e5c; }
-
-  /* ── Limit banner ── */
-  .limit-banner {
-    max-width: 700px; margin: 2rem auto;
-    background: rgba(217,95,59,.08);
-    border: 1px solid rgba(217,95,59,.3);
-    border-radius: 1rem; padding: 1.25rem 1.5rem;
-    display: flex; align-items: center; gap: 1rem; color: #e07a5f;
-    font-size: .9rem;
+  .btn-secondary:hover {
+    background: #2a2a3e;
+    transform: translateY(-2px);
+  }
+  .btn-outline {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: #333;
+  }
+  .btn-outline:hover {
+    border-color: var(--orange);
+    color: var(--orange);
   }
 
-  /* ── CTA bottom ── */
-  .cta-section { text-align: center; padding: 5rem 1.5rem; background: linear-gradient(to bottom, #f5f6fa, #eef0f5); }
-  .cta-section h2 { font-size: 2rem; font-weight: 800; font-family: Georgia, serif; margin-bottom: 1rem; }
-  .cta-section p { color: #444e5c; margin-bottom: 2rem; }
+  /* Edit Form */
+  .edit-form-section {
+    padding: 2rem;
+    border-top: 1px solid var(--border);
+    background: #fafafa;
+  }
+  .form-group {
+    margin-bottom: 1.25rem;
+  }
+  .form-group label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.8rem;
+    color: #555;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .form-control {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+  }
+  .form-control:focus {
+    outline: none;
+    border-color: var(--orange);
+    box-shadow: 0 0 0 3px rgba(232,101,26,0.1);
+  }
+  textarea.form-control {
+    resize: vertical;
+    min-height: 100px;
+  }
+  .form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+  .form-hint {
+    font-size: 0.7rem;
+    color: #888;
+    margin-top: 0.25rem;
+  }
+
+  /* Alert Messages */
+  .alert {
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+    background: #e8f5e9;
+    color: #2e7d32;
+    border-left: 3px solid #4caf50;
+  }
+
+  @media (max-width: 768px) {
+    .profile-header-info {
+      flex-direction: column;
+      text-align: center;
+    }
+    .info-item {
+      flex-direction: column;
+      text-align: center;
+      align-items: center;
+    }
+    .action-buttons {
+      flex-direction: column;
+    }
+    .btn {
+      justify-content: center;
+    }
+  }
 </style>
 
-<div class="interview-hero">
+<div class="profile-container">
+  <!-- Back Button -->
+  <a href="javascript:history.back()" class="back-button">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M19 12H5M12 19l-7-7 7-7"/>
+    </svg>
+    Go Back
+  </a>
 
-  <!-- Nav -->
-  <nav class="coach-nav">
-    <span class="brand">🇿🇦 CareerGPS</span>
-    <div class="nav-links">
-      <a href="{% url 'interview_saved' %}">My Interviews</a>
-      <a href="{% url 'interview_setup' %}" class="btn-gold">Start Interview</a>
-    </div>
-  </nav>
-
-  <!-- Hero -->
-  <div class="hero-section">
-    <div class="badge-label">🇿🇦 Built for South Africa</div>
-    <h1 class="hero-title">Practice Interviews with<br><span>AI Interview Coach</span></h1>
-    <p class="hero-sub">
-      Get real-time feedback on your answers, body language, and communication style — 
-      tailored specifically for the South African job market.
-    </p>
-
-    {% if at_limit %}
-    <div class="limit-banner">
-      ⚠️ You've reached the maximum of {{ max_interviews }} saved interviews. 
-      Delete one to start a new session.
-      <a href="{% url 'interview_saved' %}" class="btn-outline" style="margin-left:auto; white-space:nowrap;">Manage Interviews</a>
-    </div>
-    {% else %}
-    <div class="hero-cta">
-      <a href="{% url 'interview_setup' %}" class="btn-gold">🎙️ Start Interview</a>
-      <a href="{% url 'interview_saved' %}" class="btn-outline">📋 My Interviews ({{ count }}/{{ max_interviews }})</a>
-    </div>
-    {% endif %}
+  <div class="profile-header">
+    <h1>My <span>Profile</span></h1>
+    <p>Manage your career identity and skills to get better job matches</p>
   </div>
 
-  <!-- Marcus Card -->
-  <div class="marcus-card">
-    <div class="marcus-avatar">MR</div>
-    <div>
-      <h3>Marcus Reid</h3>
-      <div class="role">Senior Hiring Manager · AI Interview Coach</div>
-      <p>
-        With 20 years of experience across South Africa's top firms, Marcus Reid will ask you 
-        targeted questions based on your occupation, experience level, and CV — then give you 
-        detailed, honest feedback to help you land the job.
-      </p>
-    </div>
-  </div>
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
 
-  <!-- Features -->
-  <div class="features-section">
-    <div class="section-label">What you get</div>
-    <div class="section-title">Everything you need to ace your interview</div>
-    <div class="features-grid">
-      <div class="feature-card">
-        <div class="feature-icon">🎯</div>
-        <h4>SA-Specific Questions</h4>
-        <p>Questions tailored to the South African market — including B-BBEE, NQF levels, and local industry context.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">👁️</div>
-        <h4>Body Language Analysis</h4>
-        <p>Real-time eye contact, posture, and gesture scoring using your camera — just like a real interview panel.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🎙️</div>
-        <h4>Voice Recording & Transcript</h4>
-        <p>Your answers are recorded and transcribed so the AI can give precise, personalised feedback.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">📊</div>
-        <h4>Detailed Score Report</h4>
-        <p>Communication, confidence, structure (STAR method), and SA market relevance — all scored out of 100.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">📄</div>
-        <h4>CV-Tailored Questions</h4>
-        <p>Upload your CV and Marcus will ask questions specific to your actual experience and background.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">💾</div>
-        <h4>Save & Replay Sessions</h4>
-        <p>Store up to 5 interview sessions. Review your answers, recordings, and feedback anytime.</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- How it works -->
-  <div class="how-section">
-    <div class="section-label">How it works</div>
-    <div class="section-title">Three steps to interview confidence</div>
-    <div class="steps">
-      <div class="step">
-        <div class="step-num">1</div>
-        <div>
-          <h4>Set up your interview</h4>
-          <p>Choose your occupation, experience level, number of questions, and optionally upload your CV.</p>
+  <div class="profile-card">
+    <!-- Display Mode -->
+    <div id="displayMode">
+      <!-- Profile Info -->
+      <div class="profile-info-section">
+        <div class="profile-header-info">
+          <div class="avatar">
+            {{ user.first_name|slice:":1" }}{{ user.last_name|slice:":1"|default:user.username|slice:":1" }}
+          </div>
+          <div class="profile-details">
+            <h2>{{ user.get_full_name|default:user.username }}</h2>
+            <div class="email">{{ user.email }}</div>
+            <div class="info-grid">
+              <div class="info-item">
+                <div class="info-icon">🎓</div>
+                <div class="info-content">
+                  <div class="info-label">Qualification</div>
+                  <div class="info-value">{{ profile.degree|default:"Not provided" }}</div>
+                </div>
+              </div>
+              <div class="info-item">
+                <div class="info-icon">🏛️</div>
+                <div class="info-content">
+                  <div class="info-label">Institution</div>
+                  <div class="info-value">{{ profile.institution|default:"Not provided" }}</div>
+                </div>
+              </div>
+              <div class="info-item">
+                <div class="info-icon">📍</div>
+                <div class="info-content">
+                  <div class="info-label">Location</div>
+                  <div class="info-value">{{ profile.location|default:"Not provided" }}</div>
+                </div>
+              </div>
+              <div class="info-item">
+                <div class="info-icon">💪</div>
+                <div class="info-content">
+                  <div class="info-label">Skills</div>
+                  <div class="info-value">{% if skills_list %}{{ skills_list|join:", " }}{% else %}Not provided{% endif %}</div>
+                </div>
+              </div>
+              <div class="info-item">
+                <div class="info-icon">❤️</div>
+                <div class="info-content">
+                  <div class="info-label">Interests</div>
+                  <div class="info-value">{% if interests_list %}{{ interests_list|join:", " }}{% else %}Not provided{% endif %}</div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="step">
-        <div class="step-num">2</div>
-        <div>
-          <h4>Answer with Marcus Reid</h4>
-          <p>Camera on, mic ready — answer each question while your body language is analysed in real time.</p>
+
+      <!-- Profile Completion -->
+      <div class="progress-section">
+        <div class="progress-header">
+          <span class="progress-title">Profile Completion</span>
+          <span class="progress-percent">{{ profile_completion }}%</span>
+        </div>
+        <div class="progress-bar-container">
+          <div class="progress-fill" style="width: {{ profile_completion }}%;"></div>
+        </div>
+        <div class="progress-tip">
+          💡 Tip: Complete your profile to get better job matches and personalized recommendations.
         </div>
       </div>
-      <div class="step">
-        <div class="step-num">3</div>
-        <div>
-          <h4>Get your full report</h4>
-          <p>Receive a detailed breakdown of scores, strengths, improvements, and per-question AI feedback.</p>
+
+      <!-- CV Upload Section -->
+      <div class="cv-section">
+        <div class="section-title">
+          📄 Upload Your CV / Resume
         </div>
+        <div class="cv-upload-area" onclick="document.getElementById('cvUpload').click()">
+          <div class="cv-upload-icon">☁️</div>
+          <div class="cv-upload-label">Click to upload your CV</div>
+          <div class="cv-upload-hint">PDF or DOCX (Max 5MB)</div>
+        </div>
+        <input type="file" id="cvUpload" accept=".pdf,.docx" style="display: none;" onchange="uploadCV(this)">
+        <div id="cvStatus"></div>
+        {% if profile.cv %}
+        <div class="current-cv" id="currentCvInfo">
+          <div class="current-cv-info">
+            <span>📎</span>
+            <span>Current CV: {{ profile.cv.name|slice:"14:" }}</span>
+          </div>
+          <button class="remove-cv-btn" onclick="removeCV()">Remove</button>
+        </div>
+        {% endif %}
+      </div>
+
+      <!-- Professional Statement -->
+      <div class="statement-section">
+        <div class="section-title">
+          📝 Professional Statement
+        </div>
+        <div class="statement-content">
+          <p>{{ profile.custom_skills|default:"Motivated professional passionate about technology and data analytics. Committed to continuous learning and career growth in the South African job market." }}</p>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="action-buttons">
+        <button class="btn btn-primary" id="editBtn">
+          ✏️ Edit Profile
+        </button>
+        <a href="{% url 'welcome' %}" class="btn btn-outline">
+          🏠 Back to Dashboard
+        </a>
+        <button class="btn btn-secondary" id="logoutBtn">
+          🚪 Sign Out
+        </button>
+      </div>
+    </div>
+
+    <!-- Edit Mode -->
+    <div id="editMode" style="display: none;">
+      <div class="edit-form-section">
+        <div class="section-title" style="margin-bottom: 1.5rem;">
+          ✏️ Edit Your Profile
+        </div>
+        <form method="POST" action="{% url 'profile' %}">
+          {% csrf_token %}
+          <div class="form-group">
+            <label>Qualification / Degree</label>
+            <input type="text" class="form-control" name="degree" value="{{ profile.degree|default:'' }}" placeholder="e.g., BSc Computer Science, BCom Accounting">
+          </div>
+          <div class="form-group">
+            <label>Institution</label>
+            <input type="text" class="form-control" name="institution" value="{{ profile.institution|default:'' }}" placeholder="e.g., University of Johannesburg">
+          </div>
+          <div class="form-group">
+            <label>Skills (comma separated)</label>
+            <input type="text" class="form-control" name="skills" value="{% if skills_list %}{{ skills_list|join:', ' }}{% endif %}" placeholder="Python, SQL, Communication, Leadership">
+            <div class="form-hint">Example: Python, SQL, Communication, Project Management</div>
+          </div>
+          <div class="form-group">
+            <label>Interests (comma separated)</label>
+            <input type="text" class="form-control" name="interests" value="{% if interests_list %}{{ interests_list|join:', ' }}{% endif %}" placeholder="Data Science, Finance, AI">
+            <div class="form-hint">Example: Data Science, Finance, Artificial Intelligence, Marketing</div>
+          </div>
+          <div class="form-group">
+            <label>Location</label>
+            <input type="text" class="form-control" name="location" value="{{ profile.location|default:'' }}" placeholder="e.g., Johannesburg, Cape Town, Durban">
+          </div>
+          <div class="form-group">
+            <label>Professional Statement</label>
+            <textarea class="form-control" name="custom_skills" rows="4" placeholder="Tell employers about yourself, your career goals, and what makes you unique...">{{ profile.custom_skills|default:'' }}</textarea>
+            <div class="form-hint">Share your career aspirations, key achievements, and what you're looking for in your next role.</div>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">💾 Save Changes</button>
+            <button type="button" class="btn btn-outline" id="cancelBtn">❌ Cancel</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
-
-  <!-- CTA -->
-  <div class="cta-section">
-    <h2>Ready to practise?</h2>
-    <p>Your next interview could be the one that changes everything.</p>
-    {% if not at_limit %}
-    <a href="{% url 'interview_setup' %}" class="btn-gold" style="font-size:1rem; padding:.85rem 2.5rem;">
-      🎙️ Start Your Interview Now
-    </a>
-    {% else %}
-    <a href="{% url 'interview_saved' %}" class="btn-outline">Manage My Interviews</a>
-    {% endif %}
-  </div>
-
 </div>
+
+<script>
+  function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+      const cookies = document.cookie.split(';');
+      for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
+  const csrftoken = getCookie('csrftoken');
+
+  function showToast(message, type) {
+    // Create toast element if it doesn't exist
+    let toast = document.getElementById('toast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'toast';
+      toast.style.cssText = 'position: fixed; bottom: 30px; right: 30px; background: white; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); padding: 12px 20px; transform: translateX(400px); transition: transform 0.3s ease; z-index: 1000;';
+      toast.innerHTML = '<div class="toast-content" style="display: flex; align-items: center; gap: 10px;"><span class="toast-icon">✓</span><span class="toast-message"></span></div>';
+      document.body.appendChild(toast);
+    }
+    
+    const toastMessage = toast.querySelector('.toast-message');
+    const toastIcon = toast.querySelector('.toast-icon');
+    toastMessage.textContent = message;
+    if (type === 'success') { toastIcon.textContent = '✓'; toastIcon.style.color = '#27AE60'; }
+    else if (type === 'error') { toastIcon.textContent = '✗'; toastIcon.style.color = '#dc2626'; }
+    else { toastIcon.textContent = 'ℹ'; toastIcon.style.color = '#E8651A'; }
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3000);
+  }
+
+  async function uploadCV(input) {
+    const file = input.files[0];
+    if (!file) return;
+    
+    const validTypes = ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+    if (!validTypes.includes(file.type)) {
+      showToast('Please upload PDF or DOCX file', 'error');
+      return;
+    }
+    
+    if (file.size > 5 * 1024 * 1024) {
+      showToast('File size must be less than 5MB', 'error');
+      return;
+    }
+    
+    const formData = new FormData();
+    formData.append('cv', file);
+    const statusDiv = document.getElementById('cvStatus');
+    statusDiv.innerHTML = '<div class="cv-status info">📤 Uploading your CV...</div>';
+    statusDiv.style.display = 'block';
+    
+    try {
+      const response = await fetch('/api/upload-cv/', { 
+        method: 'POST', 
+        headers: { 'X-CSRFToken': csrftoken }, 
+        body: formData 
+      });
+      const data = await response.json();
+      
+      if (response.ok && data.success) { 
+        statusDiv.innerHTML = '<div class="cv-status success">✅ CV uploaded successfully! Your job matches will improve.</div>';
+        showToast('CV uploaded successfully!', 'success');
+        
+        // Update the UI to show uploaded CV
+        setTimeout(() => {
+          statusDiv.innerHTML = '';
+          location.reload(); // Reload to show the uploaded CV
+        }, 2000);
+      } else { 
+        statusDiv.innerHTML = '<div class="cv-status error">❌ Error uploading CV. Please try again.</div>';
+        showToast('Error uploading CV', 'error');
+      }
+    } catch (error) { 
+      statusDiv.innerHTML = '<div class="cv-status error">❌ Network error. Please try again.</div>';
+      showToast('Network error', 'error');
+    }
+  }
+
+  async function removeCV() {
+    if (!confirm('Are you sure you want to remove your CV?')) return;
+    
+    try {
+      const response = await fetch('/api/remove-cv/', { 
+        method: 'POST', 
+        headers: { 
+          'Content-Type': 'application/json',
+          'X-CSRFToken': csrftoken 
+        }
+      });
+      const data = await response.json();
+      
+      if (response.ok && data.success) {
+        showToast('CV removed successfully', 'success');
+        const cvInfo = document.getElementById('currentCvInfo');
+        if (cvInfo) cvInfo.remove();
+      } else {
+        showToast('Error removing CV', 'error');
+      }
+    } catch (error) {
+      showToast('Network error', 'error');
+    }
+  }
+
+  document.getElementById('editBtn')?.addEventListener('click', () => {
+    document.getElementById('displayMode').style.display = 'none';
+    document.getElementById('editMode').style.display = 'block';
+  });
+
+  document.getElementById('cancelBtn')?.addEventListener('click', () => {
+    document.getElementById('displayMode').style.display = 'block';
+    document.getElementById('editMode').style.display = 'none';
+  });
+
+  document.getElementById('logoutBtn')?.addEventListener('click', () => {
+    window.location.href = "{% url 'signin' %}";
+  });
+
+  setTimeout(() => {
+    const alert = document.querySelector('.alert');
+    if (alert) {
+      alert.style.transition = 'opacity 0.5s';
+      alert.style.opacity = '0';
+      setTimeout(() => alert.remove(), 500);
+    }
+  }, 3000);
+</script>
 {% endblock %}

@@ -43,9 +43,15 @@ urlpatterns = [
     path('api/search-opportunities/', views.api_search_opportunities, name='api_search_opportunities'),
     
     # Stories APIs
-    path('api/post-story/', views.api_post_story, name='api_post_story'),
+    path('api/get-stories/', views.api_get_stories, name='api_get_stories'),
+    path('api/post-story/', views.api_post_story_with_profession, name='api_post_story'),
     path('api/edit-story/', views.api_edit_story, name='api_edit_story'),
     path('api/delete-story/', views.api_delete_story, name='api_delete_story'),
+    path('api/toggle-like/', views.api_toggle_story_like, name='api_toggle_like'),
+
+    # CV Upload APIs
+    path('api/upload-cv/', views.api_upload_cv, name='api_upload_cv'),
+    path('api/remove-cv/', views.api_remove_cv, name='api_remove_cv'),
     
     # API endpoints
     path('api/occupations/', views.api_occupations, name='api_occupations'),

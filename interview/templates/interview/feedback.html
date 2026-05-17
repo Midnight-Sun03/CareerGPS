@@ -3,116 +3,137 @@
 
 {% block content %}
 <style>
-  :root{--orange:#E8612A;--orange-light:#ff8c5a;--green:#4caf82;--red:#d95f3b;--light-bg:#f5f6fa;--card-bg:#ffffff;--card-border:rgba(0,0,0,.09);--text-muted:#6b7c93;}
-  body{background:var(--light-bg);color:#1a2535;font-family:'Inter',sans-serif;}
-  .fb-wrap{max-width:900px;margin:0 auto;padding:3rem 1.5rem 5rem;}
-  .back-link{color:var(--text-muted);text-decoration:none;font-size:.85rem;display:inline-flex;align-items:center;gap:.4rem;margin-bottom:2rem;transition:color .2s;}
-  .back-link:hover{color:#1a2535;}
-  .page-label{font-size:.7rem;font-weight:700;letter-spacing:.2em;color:var(--orange);text-transform:uppercase;margin-bottom:.5rem;}
-  .page-title{font-size:2rem;font-weight:800;font-family:Georgia,serif;margin-bottom:.25rem;}
-  .page-sub{color:var(--text-muted);font-size:.9rem;margin-bottom:2.5rem;}
+  .fb-wrap { max-width: 900px; margin: 0 auto; }
+  
+  /* Back button styles - matching Live Interview page exactly */
+  .back-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--orange);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.85rem;
+    padding: 6px 12px;
+    border-radius: 8px;
+    transition: all 0.2s;
+    background: rgba(232,101,26,0.08);
+    margin-bottom: 1rem;
+  }
+  .back-button:hover {
+    gap: 10px;
+    background: rgba(232,101,26,0.15);
+  }
+  
+  .page-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.2em; color: var(--orange); text-transform: uppercase; margin-bottom: 0.5rem; }
+  .page-title { font-size: 1.75rem; font-weight: 700; font-family: 'Playfair Display', Georgia, serif; margin-bottom: 0.25rem; }
+  .page-sub { color: #888; font-size: 0.9rem; margin-bottom: 2rem; }
 
-  /* Overall card */
-  .overall-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:1.25rem;padding:2rem;display:flex;flex-direction:column;gap:1.5rem;align-items:center;text-align:center;margin-bottom:2rem;}
-  @media(min-width:640px){.overall-card{flex-direction:row;text-align:left;}}
-  .ring-wrap{flex-shrink:0;}
-  .marcus-summary h2{font-size:1.1rem;font-weight:800;font-family:Georgia,serif;margin-bottom:.5rem;}
-  .marcus-summary p{font-size:.9rem;color:var(--text-muted);line-height:1.65;}
+  .overall-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 1rem; padding: 1.5rem; display: flex; gap: 1.5rem; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; }
+  @media (max-width: 640px) { .overall-card { flex-direction: column; text-align: center; } }
+  .ring-wrap { flex-shrink: 0; text-align: center; }
+  .marcus-summary h2 { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; }
+  .marcus-summary p { font-size: 0.85rem; color: #666; line-height: 1.6; }
 
-  /* Score cards */
-  .score-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-bottom:2rem;}
-  @media(min-width:640px){.score-grid{grid-template-columns:repeat(4,1fr);}}
-  .score-card{background:var(--card-bg);border-radius:1rem;padding:1.25rem;}
-  .score-card .label{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text-muted);margin-bottom:.5rem;}
-  .score-card .val{font-size:1.75rem;font-weight:800;font-family:Georgia,serif;margin-bottom:.4rem;}
-  .score-card .bar{height:4px;border-radius:999px;background:rgba(0,0,0,.06);}
-  .score-card .bar-fill{height:100%;border-radius:999px;}
-  .score-card .desc{font-size:.75rem;color:var(--text-muted);margin-top:.4rem;}
+  .score-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 2rem; }
+  @media (max-width: 640px) { .score-grid { grid-template-columns: repeat(2, 1fr); } }
+  .score-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 0.75rem; padding: 1rem; text-align: center; }
+  .score-card .label { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; color: #888; margin-bottom: 0.5rem; }
+  .score-card .val { font-size: 1.5rem; font-weight: 700; font-family: 'Playfair Display', Georgia, serif; }
+  .score-card .bar { height: 4px; background: #e5e5e5; border-radius: 2px; margin: 0.5rem 0; overflow: hidden; }
+  .score-card .bar-fill { height: 100%; border-radius: 2px; }
+  .score-card .desc { font-size: 0.7rem; color: #888; }
 
-  /* Body scores */
-  .body-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:1.25rem;padding:1.5rem;margin-bottom:2rem;}
-  .section-title{font-size:1.1rem;font-weight:800;font-family:Georgia,serif;margin-bottom:1.25rem;}
-  .body-row{display:flex;align-items:center;gap:.75rem;margin-bottom:.8rem;}
-  .body-row:last-child{margin-bottom:0;}
-  .body-label{font-size:.85rem;color:var(--text-muted);width:110px;flex-shrink:0;}
-  .body-bar-wrap{flex:1;height:8px;background:rgba(0,0,0,.06);border-radius:999px;overflow:hidden;}
-  .body-bar-fill{height:100%;border-radius:999px;}
-  .body-val{font-size:.875rem;font-weight:700;width:40px;text-align:right;}
+  .body-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 1rem; padding: 1.25rem; margin-bottom: 2rem; }
+  .section-title { font-size: 1rem; font-weight: 700; margin-bottom: 1rem; }
+  .body-row { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; }
+  .body-label { width: 100px; font-size: 0.85rem; color: #666; }
+  .body-bar-wrap { flex: 1; height: 6px; background: #e5e5e5; border-radius: 3px; overflow: hidden; }
+  .body-bar-fill { height: 100%; border-radius: 3px; }
+  .body-val { width: 40px; font-size: 0.85rem; font-weight: 600; text-align: right; }
 
-  /* Strengths / Improvements */
-  .si-grid{display:grid;grid-template-columns:1fr;gap:1rem;margin-bottom:2rem;}
-  @media(min-width:640px){.si-grid{grid-template-columns:1fr 1fr;}}
-  .si-card{background:var(--card-bg);border-radius:1.25rem;padding:1.5rem;}
-  .si-card.green{border:1px solid rgba(76,175,130,.2);}
-  .si-card.amber{border:1px solid rgba(201,168,76,.2);}
-  .si-head{display:flex;align-items:center;gap:.5rem;margin-bottom:1rem;font-weight:700;font-size:.95rem;}
-  .si-head.green{color:var(--green);}
-  .si-head.amber{color:var(--orange);}
-  .si-card ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:.6rem;}
-  .si-card li{font-size:.875rem;color:#c2d0de;line-height:1.5;display:flex;gap:.5rem;align-items:flex-start;}
+  .si-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2rem; }
+  @media (max-width: 640px) { .si-grid { grid-template-columns: 1fr; } }
+  .si-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 1rem; padding: 1.25rem; }
+  .si-head { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; font-weight: 600; }
+  .si-head.green { color: var(--green); }
+  .si-head.amber { color: var(--orange); }
+  .si-card ul { list-style: none; padding: 0; }
+  .si-card li { font-size: 0.85rem; color: #666; margin-bottom: 0.5rem; display: flex; gap: 0.5rem; }
 
-  /* Q breakdown */
-  .q-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:1rem;overflow:hidden;margin-bottom:.75rem;}
-  .q-header{display:flex;align-items:center;gap:1rem;padding:1.1rem 1.25rem;cursor:pointer;transition:background .15s;}
-  .q-header:hover{background:rgba(255,255,255,.03);}
-  .q-num{width:28px;height:28px;border-radius:50%;background:rgba(201,168,76,.12);color:var(--orange);font-weight:800;font-size:.8rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-  .q-text{flex:1;font-size:.9rem;color:#dce6ef;}
-  .q-meta{display:flex;gap:.75rem;align-items:center;font-size:.75rem;color:var(--text-muted);}
-  .q-body{padding:1.25rem;border-top:1px solid var(--card-border);display:none;}
-  .q-body.open{display:block;}
-  .q-sub-label{font-size:.72rem;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.4rem;}
-  .q-answer{font-size:.875rem;color:var(--text-muted);line-height:1.6;background:rgba(15,25,35,.6);padding:.75rem 1rem;border-radius:.6rem;margin-bottom:1rem;}
-  .q-feedback{font-size:.875rem;color:var(--text-muted);line-height:1.6;margin-bottom:1rem;}
-  .q-si-row{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;}
-  .q-si-box{background:rgba(255,255,255,.03);border-radius:.6rem;padding:.75rem;}
-  .q-si-box ul{list-style:none;padding:0;margin:.4rem 0 0;display:flex;flex-direction:column;gap:.35rem;}
-  .q-si-box li{font-size:.78rem;color:#99aec2;}
+  .q-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 0.75rem; margin-bottom: 0.75rem; overflow: hidden; }
+  .q-header { display: flex; align-items: center; gap: 1rem; padding: 1rem; cursor: pointer; transition: background 0.2s; }
+  .q-header:hover { background: var(--orange-pale); }
+  .q-num { width: 28px; height: 28px; border-radius: 50%; background: rgba(232,97,42,0.1); color: var(--orange); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.8rem; }
+  .q-text { flex: 1; font-size: 0.85rem; }
+  .q-meta { display: flex; gap: 0.75rem; font-size: 0.7rem; color: #888; }
+  .q-body { padding: 1rem; border-top: 1px solid var(--border); display: none; }
+  .q-body.open { display: block; }
+  .q-sub-label { font-size: 0.7rem; font-weight: 700; color: var(--orange); text-transform: uppercase; margin-bottom: 0.25rem; }
+  .q-answer { font-size: 0.85rem; color: #666; background: #f5f5f5; padding: 0.75rem; border-radius: 0.5rem; margin-bottom: 1rem; }
+  .q-feedback { font-size: 0.85rem; color: #666; margin-bottom: 1rem; }
+  .q-si-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+  .q-si-box { background: #f9f9f9; border-radius: 0.5rem; padding: 0.75rem; }
+  .q-si-box ul { list-style: none; padding: 0; margin-top: 0.5rem; }
+  .q-si-box li { font-size: 0.75rem; color: #666; margin-bottom: 0.25rem; }
 
-  /* Audio */
-  audio{width:100%;height:36px;margin-top:.5rem;color-scheme:dark;}
-
-  /* CTA */
-  .cta-row{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap;margin-top:2.5rem;}
-  .btn-gold{background:var(--orange);color:#ffffff;font-weight:700;padding:.75rem 1.75rem;border-radius:999px;border:none;cursor:pointer;font-size:.95rem;text-decoration:none;display:inline-flex;align-items:center;gap:.5rem;transition:background .2s;}
-  .btn-gold:hover{background:var(--orange-light);color:#ffffff;text-decoration:none;}
-  .btn-outline{background:transparent;color:#1a2535;border:1px solid var(--card-border);padding:.75rem 1.75rem;border-radius:999px;font-size:.95rem;text-decoration:none;display:inline-flex;align-items:center;gap:.5rem;transition:all .2s;}
-  .btn-outline:hover{border-color:var(--orange);color:var(--orange);text-decoration:none;}
+  .cta-row { display: flex; gap: 1rem; justify-content: center; margin-top: 2rem; flex-wrap: wrap; }
+  .btn-gold { background: var(--orange); color: white; font-weight: 600; padding: 0.75rem 1.5rem; border-radius: 999px; text-decoration: none; display: inline-block; transition: background 0.2s; border: none; cursor: pointer; }
+  .btn-gold:hover { background: var(--orange-light); }
+  .btn-outline { background: transparent; color: #1a2535; border: 1px solid var(--border); padding: 0.75rem 1.5rem; border-radius: 999px; text-decoration: none; display: inline-block; transition: all 0.2s; cursor: pointer; }
+  .btn-outline:hover { border-color: var(--orange); color: var(--orange); }
+  
+  /* Navigation buttons container */
+  .nav-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
 </style>
 
 <div class="fb-wrap">
-  <a href="{% url 'interview_saved' %}" class="back-link">← Back to My Interviews</a>
+  <!-- Navigation buttons with same style as Live Interview -->
+  <div class="nav-buttons">
+    <a href="javascript:history.back()" class="back-button">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M19 12H5M12 19l-7-7 7-7"/>
+      </svg>
+      Go Back
+    </a>
+    <a href="{% url 'interview_home' %}" class="back-button">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z"/>
+      </svg>
+      Interview Coach Home
+    </a>
+  </div>
 
   <div class="page-label">Post-Interview Report</div>
   <h1 class="page-title">{{ interview.occupation }}</h1>
-  <p class="page-sub">
-    {{ interview.get_experience_level_display }} · {{ questions|length }} questions ·
-    {{ interview.created_at|date:"j F Y" }}
-  </p>
+  <p class="page-sub">{{ interview.get_experience_level_display }} · {{ questions|length }} questions · {{ interview.created_at|date:"j F Y" }}</p>
 
   <!-- Overall card -->
-  {% with overall=interview.overall_presence_score|default:0 %}
   <div class="overall-card">
     <div class="ring-wrap">
-      <svg width="120" height="120">
-        <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="8"/>
-        <circle cx="60" cy="60" r="50" fill="none"
-          stroke="{% if overall >= 75 %}var(--green){% elif overall >= 50 %}var(--orange){% else %}var(--red){% endif %}"
+      <svg width="100" height="100">
+        <circle cx="50" cy="50" r="42" fill="none" stroke="#e5e5e5" stroke-width="8"/>
+        <circle cx="50" cy="50" r="42" fill="none"
+          stroke="{% if interview.overall_presence_score >= 75 %}var(--green){% elif interview.overall_presence_score >= 50 %}var(--orange){% else %}var(--red){% endif %}"
           stroke-width="8" stroke-linecap="round"
-          stroke-dasharray="314"
-          stroke-dashoffset="{{ 314|add:"-"|add:overall|floatformat:0 }}"
-          style="stroke-dashoffset:{{ 314|add:0|floatformat:0 }};transform:rotate(-90deg);transform-origin:60px 60px;transition:stroke-dashoffset 1s ease;"
+          stroke-dasharray="264"
+          stroke-dashoffset="264"
           id="ringCircle"
         />
-        <text x="50%" y="46%" dominant-baseline="middle" text-anchor="middle" font-size="24" font-weight="700"
-          fill="{% if overall >= 75 %}var(--green){% elif overall >= 50 %}var(--orange){% else %}var(--red){% endif %}">
-          {{ overall|floatformat:0 }}
+        <text x="50%" y="48%" dominant-baseline="middle" text-anchor="middle" font-size="20" font-weight="700"
+          fill="{% if interview.overall_presence_score >= 75 %}var(--green){% elif interview.overall_presence_score >= 50 %}var(--orange){% else %}var(--red){% endif %}">
+          {{ interview.overall_presence_score|floatformat:0|default:"0" }}
         </text>
-        <text x="50%" y="64%" dominant-baseline="middle" text-anchor="middle" font-size="10" fill="var(--text-muted)">/ 100</text>
+        <text x="50%" y="62%" dominant-baseline="middle" text-anchor="middle" font-size="9" fill="#888">/ 100</text>
       </svg>
-      <p style="font-size:.8rem;font-weight:700;text-align:center;margin-top:.25rem;color:{% if overall >= 80 %}var(--green){% elif overall >= 65 %}var(--orange){% else %}var(--red){% endif %}">
-        {% if overall >= 80 %}Outstanding{% elif overall >= 65 %}Strong{% elif overall >= 50 %}Developing{% else %}Needs Work{% endif %}
-      </p>
-      <p style="font-size:.72rem;color:var(--text-muted);text-align:center;">Overall Presence</p>
+      <p style="font-size: 0.75rem; font-weight: 600; margin-top: 0.25rem;">Overall Presence</p>
     </div>
     <div class="marcus-summary">
       <h2>Marcus Reid's Assessment</h2>
@@ -120,63 +141,80 @@
     </div>
   </div>
 
-  <!-- Animate ring on load -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const circle = document.getElementById('ringCircle');
-      const overall = {{ overall|floatformat:0 }};
-      const offset = 314 - (overall / 100) * 314;
+      const score = {{ interview.overall_presence_score|default:0 }};
+      const offset = 264 - (score / 100) * 264;
       setTimeout(() => { circle.style.strokeDashoffset = offset; }, 100);
     });
   </script>
-  {% endwith %}
 
   <!-- Score cards -->
   <div class="score-grid">
-    {% for label, score, desc in score_cards %}
-    {% with colour=score|floatformat:0 %}
-    <div class="score-card" style="border:1px solid {% if score >= 75 %}rgba(76,175,130,.2){% elif score >= 50 %}rgba(201,168,76,.2){% else %}rgba(217,95,59,.2){% endif %}">
-      <div class="label">{{ label }}</div>
-      <div class="val" style="color:{% if score >= 75 %}var(--green){% elif score >= 50 %}var(--orange){% else %}var(--red){% endif %}">{{ score|floatformat:0 }}</div>
-      <div class="bar"><div class="bar-fill" style="width:{{ score|floatformat:0 }}%;background:{% if score >= 75 %}var(--green){% elif score >= 50 %}var(--orange){% else %}var(--red){% endif %}"></div></div>
-      <div class="desc">{{ desc }}</div>
+    <div class="score-card">
+      <div class="label">Communication</div>
+      <div class="val" style="color:{% if interview.communication_score >= 75 %}var(--green){% elif interview.communication_score >= 50 %}var(--orange){% else %}var(--red){% endif %}">
+        {{ interview.communication_score|floatformat:0|default:"0" }}
+      </div>
+      <div class="bar"><div class="bar-fill" style="width:{{ interview.communication_score|default:0 }}%;background:{% if interview.communication_score >= 75 %}var(--green){% elif interview.communication_score >= 50 %}var(--orange){% else %}var(--red){% endif %}"></div></div>
+      <div class="desc">Clarity and articulation</div>
     </div>
-    {% endwith %}
-    {% empty %}
-    {% for label, score, desc in default_scores %}
-    <div class="score-card" style="border:1px solid var(--card-border)">
-      <div class="label">{{ label }}</div>
-      <div class="val" style="color:var(--orange)">{{ score|floatformat:0 }}</div>
-      <div class="bar"><div class="bar-fill" style="width:{{ score|floatformat:0 }}%;background:var(--orange)"></div></div>
-      <div class="desc">{{ desc }}</div>
+    <div class="score-card">
+      <div class="label">Confidence</div>
+      <div class="val" style="color:{% if interview.confidence_score >= 75 %}var(--green){% elif interview.confidence_score >= 50 %}var(--orange){% else %}var(--red){% endif %}">
+        {{ interview.confidence_score|floatformat:0|default:"0" }}
+      </div>
+      <div class="bar"><div class="bar-fill" style="width:{{ interview.confidence_score|default:0 }}%;background:{% if interview.confidence_score >= 75 %}var(--green){% elif interview.confidence_score >= 50 %}var(--orange){% else %}var(--red){% endif %}"></div></div>
+      <div class="desc">Presence and self-assurance</div>
     </div>
-    {% endfor %}
-    {% endfor %}
+    <div class="score-card">
+      <div class="label">Structure</div>
+      <div class="val" style="color:{% if interview.structure_score >= 75 %}var(--green){% elif interview.structure_score >= 50 %}var(--orange){% else %}var(--red){% endif %}">
+        {{ interview.structure_score|floatformat:0|default:"0" }}
+      </div>
+      <div class="bar"><div class="bar-fill" style="width:{{ interview.structure_score|default:0 }}%;background:{% if interview.structure_score >= 75 %}var(--green){% elif interview.structure_score >= 50 %}var(--orange){% else %}var(--red){% endif %}"></div></div>
+      <div class="desc">STAR method and flow</div>
+    </div>
+    <div class="score-card">
+      <div class="label">SA Relevance</div>
+      <div class="val" style="color:{% if interview.relevance_score >= 75 %}var(--green){% elif interview.relevance_score >= 50 %}var(--orange){% else %}var(--red){% endif %}">
+        {{ interview.relevance_score|floatformat:0|default:"0" }}
+      </div>
+      <div class="bar"><div class="bar-fill" style="width:{{ interview.relevance_score|default:0 }}%;background:{% if interview.relevance_score >= 75 %}var(--green){% elif interview.relevance_score >= 50 %}var(--orange){% else %}var(--red){% endif %}"></div></div>
+      <div class="desc">SA market alignment</div>
+    </div>
   </div>
 
   <!-- Body language -->
   <div class="body-card">
     <div class="section-title">👁️ Body Language Dashboard</div>
-    {% for label, score in body_scores %}
     <div class="body-row">
-      <span class="body-label">{{ label }}</span>
-      <div class="body-bar-wrap">
-        <div class="body-bar-fill" style="width:{{ score|floatformat:0 }}%;background:{% if score >= 75 %}var(--green){% elif score >= 50 %}var(--orange){% else %}var(--red){% endif %}"></div>
-      </div>
-      <span class="body-val" style="color:{% if score >= 75 %}var(--green){% elif score >= 50 %}var(--orange){% else %}var(--red){% endif %}">{{ score|floatformat:0 }}%</span>
+      <span class="body-label">Eye Contact</span>
+      <div class="body-bar-wrap"><div class="body-bar-fill" style="width:{{ interview.eye_contact_score|default:0 }}%;background:{% if interview.eye_contact_score >= 75 %}var(--green){% elif interview.eye_contact_score >= 50 %}var(--orange){% else %}var(--red){% endif %}"></div></div>
+      <span class="body-val" style="color:{% if interview.eye_contact_score >= 75 %}var(--green){% elif interview.eye_contact_score >= 50 %}var(--orange){% else %}var(--red){% endif %}">{{ interview.eye_contact_score|floatformat:0|default:"0" }}%</span>
     </div>
-    {% endfor %}
+    <div class="body-row">
+      <span class="body-label">Posture</span>
+      <div class="body-bar-wrap"><div class="body-bar-fill" style="width:{{ interview.posture_score|default:0 }}%;background:{% if interview.posture_score >= 75 %}var(--green){% elif interview.posture_score >= 50 %}var(--orange){% else %}var(--red){% endif %}"></div></div>
+      <span class="body-val" style="color:{% if interview.posture_score >= 75 %}var(--green){% elif interview.posture_score >= 50 %}var(--orange){% else %}var(--red){% endif %}">{{ interview.posture_score|floatformat:0|default:"0" }}%</span>
+    </div>
+    <div class="body-row">
+      <span class="body-label">Gesture</span>
+      <div class="body-bar-wrap"><div class="body-bar-fill" style="width:{{ interview.gesture_score|default:0 }}%;background:{% if interview.gesture_score >= 75 %}var(--green){% elif interview.gesture_score >= 50 %}var(--orange){% else %}var(--red){% endif %}"></div></div>
+      <span class="body-val" style="color:{% if interview.gesture_score >= 75 %}var(--green){% elif interview.gesture_score >= 50 %}var(--orange){% else %}var(--red){% endif %}">{{ interview.gesture_score|floatformat:0|default:"0" }}%</span>
+    </div>
   </div>
 
   <!-- Strengths & Improvements -->
   <div class="si-grid">
-    <div class="si-card green">
+    <div class="si-card">
       <div class="si-head green">✅ Strengths</div>
       <ul>
         {% for s in interview.strengths %}<li>⭐ {{ s }}</li>{% empty %}<li>No strengths recorded yet.</li>{% endfor %}
       </ul>
     </div>
-    <div class="si-card amber">
+    <div class="si-card">
       <div class="si-head amber">📈 Areas to Improve</div>
       <ul>
         {% for s in interview.improvements %}<li>→ {{ s }}</li>{% empty %}<li>No improvements recorded yet.</li>{% endfor %}
@@ -192,7 +230,7 @@
       <div class="q-num">{{ forloop.counter }}</div>
       <div class="q-text">{{ q.question_text }}</div>
       <div class="q-meta">
-        <span style="text-transform:capitalize">{{ q.question_type }}</span>
+        <span>{{ q.question_type|title }}</span>
         {% if q.presence_score %}<span style="color:{% if q.presence_score >= 75 %}var(--green){% elif q.presence_score >= 50 %}var(--orange){% else %}var(--red){% endif %}">{{ q.presence_score|floatformat:0 }}%</span>{% endif %}
         <span id="chevron-{{ forloop.counter0 }}">▼</span>
       </div>
@@ -202,12 +240,10 @@
       <div class="q-sub-label">Your answer (transcribed)</div>
       <div class="q-answer">{{ q.answer_text }}</div>
       {% endif %}
-
       {% if q.answer_feedback %}
       <div class="q-sub-label">Marcus Reid's Feedback</div>
       <div class="q-feedback">{{ q.answer_feedback }}</div>
       {% endif %}
-
       {% if q.answer_strengths or q.answer_improvements %}
       <div class="q-si-row">
         <div class="q-si-box">
@@ -220,16 +256,14 @@
         </div>
       </div>
       {% endif %}
-
       {% if q.audio_file %}
-      <div class="q-sub-label" style="margin-top:1rem">🎙️ Audio Recording</div>
-      <audio controls src="{{ q.audio_file.url }}"></audio>
+      <div class="q-sub-label" style="margin-top:0.75rem">🎙️ Audio Recording</div>
+      <audio controls src="{{ q.audio_file.url }}" style="width:100%; margin-top:0.5rem;"></audio>
       {% endif %}
     </div>
   </div>
   {% endfor %}
 
-  <!-- CTA -->
   <div class="cta-row">
     <a href="{% url 'interview_setup' %}" class="btn-gold">🎙️ Practice Again</a>
     <a href="{% url 'interview_saved' %}" class="btn-outline">📋 All My Interviews</a>
@@ -243,7 +277,6 @@
     const open = body.classList.toggle('open');
     chevron.textContent = open ? '▲' : '▼';
   }
-  // Open first question by default
   document.addEventListener('DOMContentLoaded', () => toggleQ(0));
 </script>
 {% endblock %}

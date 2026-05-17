@@ -14,6 +14,8 @@ import string
 from datetime import datetime, timedelta
 from .models import Profile, Skill, Interest, Opportunity, SavedOpportunity, Story
 from django.db.models import Q
+from django.utils import timezone
+from django.contrib.auth.hashers import make_password, check_password
 
 # Store verification codes temporarily
 verification_codes = {}
@@ -143,12 +145,16 @@ def profile_view(request):
 
 def calculate_profile_completion(profile):
     total = 0
-    if profile.degree: total += 20
-    if profile.institution: total += 20
-    if profile.location: total += 20
-    if profile.skills.exists(): total += 20
-    if profile.interests.exists(): total += 20
-    return total
+    max_points = 6  # 6 items: degree, institution, location, skills, interests, CV
+    
+    if profile.degree: total += 1
+    if profile.institution: total += 1
+    if profile.location: total += 1
+    if profile.skills.exists(): total += 1
+    if profile.interests.exists(): total += 1
+    if profile.cv: total += 1  # ← ADD THIS LINE for CV
+    
+    return int((total / max_points) * 100)
 
 # ============================================================
 # API ENDPOINTS
@@ -385,37 +391,105 @@ def generate_match_reason(user, opportunity):
         return "Based on your profile preferences"
 
 # ============================================================
-# STORIES API
+# STORIES API 
 # ============================================================
+
+@login_required
+def api_get_stories(request):
+    """Get all approved stories with profession data"""
+    try:
+        stories = Story.objects.filter(status='approved').order_by('-submitted_at')
+        story_list = []
+        now = timezone.now()  # Use timezone-aware current time
+        
+        for story in stories:
+            # Calculate time ago using timezone-aware datetime
+            time_diff = now - story.submitted_at
+            
+            if time_diff.days > 7:
+                time_ago = f"{time_diff.days // 7}w ago"
+            elif time_diff.days > 0:
+                time_ago = f"{time_diff.days}d ago"
+            elif time_diff.seconds > 3600:
+                time_ago = f"{time_diff.seconds // 3600}h ago"
+            elif time_diff.seconds > 60:
+                time_ago = f"{time_diff.seconds // 60}m ago"
+            else:
+                time_ago = "Just now"
+            
+            # Get profession (if not set, default to 'other')
+            profession = getattr(story, 'profession', 'other')
+            
+            story_list.append({
+                'id': story.id,
+                'name': story.display_name,
+                'profession': profession,
+                'date': story.submitted_at.strftime('%d %b %Y'),
+                'time': story.submitted_at.strftime('%H:%M'),
+                'time_ago': time_ago,
+                'content': story.content,
+                'likes': 0,
+                'liked': False,
+                'user_id': story.user.id if story.user else None,
+            })
+        return JsonResponse({'success': True, 'stories': story_list})
+    except Exception as e:
+        print(f"Error: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return JsonResponse({'error': str(e)}, status=500)
+
 
 @login_required
 @csrf_exempt
 @require_http_methods(["POST"])
-def api_post_story(request):
+def api_post_story_with_profession(request):
+    """Post a story with profession information"""
     try:
         data = json.loads(request.body)
+        name = data.get('name', '').strip()
+        profession = data.get('profession', 'other').strip()
         content = data.get('content', '').strip()
-        display_name = data.get('display_name', request.user.get_full_name() or request.user.username)
         
-        if not content:
-            return JsonResponse({'error': 'Story content is required'}, status=400)
+        print(f"Received story - Name: {name}, Profession: {profession}, Content length: {len(content)}")
         
+        if not name or not content:
+            return JsonResponse({'error': 'Name and story content are required'}, status=400)
+        
+        # Create the story
         story = Story.objects.create(
             user=request.user,
-            display_name=display_name,
-            title="Community Story",
+            display_name=name,
+            title=f"Career Story - {profession}",
             content=content,
             status='approved'
         )
         
-        return JsonResponse({'success': True, 'message': 'Story posted successfully', 'story_id': story.id})
+        # Store profession - use the field if it exists, otherwise use a different approach
+        # Check if profession field exists in the model
+        if hasattr(story, 'profession'):
+            story.profession = profession
+            story.save()
+        else:
+            # If profession field doesn't exist, we'll need to add it
+            print("Warning: 'profession' field not found in Story model")
+        
+        return JsonResponse({
+            'success': True, 
+            'message': 'Story posted successfully', 
+            'story_id': story.id
+        })
     except Exception as e:
+        print(f"Error posting story: {str(e)}")
+        import traceback
+        traceback.print_exc()
         return JsonResponse({'error': str(e)}, status=500)
 
 @login_required
 @csrf_exempt
 @require_http_methods(["POST"])
 def api_edit_story(request):
+    """Edit an existing story"""
     try:
         data = json.loads(request.body)
         story_id = data.get('story_id')
@@ -438,10 +512,12 @@ def api_edit_story(request):
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
 
+
 @login_required
 @csrf_exempt
 @require_http_methods(["POST"])
 def api_delete_story(request):
+    """Delete a story"""
     try:
         data = json.loads(request.body)
         story_id = data.get('story_id')
@@ -456,6 +532,26 @@ def api_delete_story(request):
         return JsonResponse({'success': True, 'message': 'Story deleted successfully'})
     except Story.DoesNotExist:
         return JsonResponse({'error': 'Story not found'}, status=404)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+
+
+@login_required
+@csrf_exempt
+@require_http_methods(["POST"])
+def api_toggle_story_like(request):
+    """Toggle like on a story"""
+    try:
+        data = json.loads(request.body)
+        story_id = data.get('story_id')
+        
+        # For now, return success with placeholder
+        # You can implement a Like model later
+        return JsonResponse({
+            'success': True, 
+            'liked': True, 
+            'likes': 1
+        })
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
 
@@ -522,6 +618,7 @@ def api_resend_verification(request):
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
 
+
 @csrf_exempt
 @require_http_methods(["POST"])
 def api_verify_email(request):
@@ -539,8 +636,11 @@ def api_verify_email(request):
             return JsonResponse({'error': 'Invalid verification code'}, status=400)
         
         user = User.objects.create_user(
-            username=email, email=email, password=stored['password'],
-            first_name=stored['first_name'], last_name=stored['last_name']
+            username=email, 
+            email=email, 
+            password=stored['password'],
+            first_name=stored['first_name'], 
+            last_name=stored['last_name']
         )
         Profile.objects.create(user=user)
         login(request, user)
@@ -549,7 +649,8 @@ def api_verify_email(request):
         return JsonResponse({'success': True})
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
-
+    
+    
 @csrf_exempt
 @require_http_methods(["POST"])
 def api_complete_profile(request):
@@ -754,3 +855,70 @@ def api_occupations(request):
         "IT Support Specialist", "Network Engineer", "Cybersecurity Analyst",
     ]
     return JsonResponse({'occupations': occupations})
+
+# ============================================================
+# CV UPLOAD API
+# ============================================================
+
+@login_required
+@csrf_exempt
+@require_http_methods(["POST"])
+def api_upload_cv(request):
+    """Upload CV for the logged-in user"""
+    try:
+        profile = Profile.objects.get(user=request.user)
+        
+        if 'cv' not in request.FILES:
+            return JsonResponse({'error': 'No file provided'}, status=400)
+        
+        cv_file = request.FILES['cv']
+        
+        # Validate file type
+        allowed_types = ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document']
+        if cv_file.content_type not in allowed_types:
+            return JsonResponse({'error': 'Only PDF and DOCX files are allowed'}, status=400)
+        
+        # Validate file size (max 5MB)
+        if cv_file.size > 5 * 1024 * 1024:
+            return JsonResponse({'error': 'File size must be less than 5MB'}, status=400)
+        
+        # Delete old CV if exists
+        if profile.cv:
+            profile.cv.delete()
+        
+        # Save new CV
+        profile.cv = cv_file
+        profile.save()
+        
+        return JsonResponse({
+            'success': True, 
+            'message': 'CV uploaded successfully',
+            'cv_url': profile.cv.url if profile.cv else None
+        })
+    except Profile.DoesNotExist:
+        return JsonResponse({'error': 'Profile not found'}, status=404)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+
+
+@login_required
+@csrf_exempt
+@require_http_methods(["POST"])
+def api_remove_cv(request):
+    """Remove CV for the logged-in user"""
+    try:
+        profile = Profile.objects.get(user=request.user)
+        
+        if profile.cv:
+            # Delete the file from storage
+            profile.cv.delete()
+            # Remove the reference from database
+            profile.cv = None
+            profile.save()
+            return JsonResponse({'success': True, 'message': 'CV removed successfully'})
+        else:
+            return JsonResponse({'error': 'No CV found'}, status=404)
+    except Profile.DoesNotExist:
+        return JsonResponse({'error': 'Profile not found'}, status=404)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)

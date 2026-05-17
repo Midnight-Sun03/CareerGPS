@@ -6,27 +6,23 @@
   <title>CareerGPS – Stories</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
   <style>
-    :root {
-      --orange: #E8651A;
-      --orange-light: #F47C35;
-      --orange-pale: #FFF3EC;
-      --sidebar-bg: #1A1A2E;
-      --sidebar-hover: #2A2A3E;
-      --text-dark: #1C1C1C;
-      --text-mid: #555;
-      --text-light: #888;
-      --border: #E5E5E5;
-      --card-bg: #FFFFFF;
-      --page-bg: #F7F7F7;
-      --green: #27AE60;
-      --green-bg: #EAFAF1;
-      --delete-red: #dc2626;
-    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+    :root {
+      --orange:        #E8651A;
+      --orange-light:  #F47C35;
+      --orange-pale:   #FFF3EC;
+      --sidebar-bg:    #1A1A2E;
+      --sidebar-hover: #2A2A3E;
+      --text-dark:     #1C1C1C;
+      --text-mid:      #555;
+      --text-light:    #888;
+      --border:        #E5E5E5;
+      --card-bg:       #FFFFFF;
+      --page-bg:       #F7F7F7;
+      --green:         #27AE60;
+      --green-bg:      #EAFAF1;
+      --delete-red:    #dc2626;
     }
 
     body {
@@ -46,9 +42,7 @@
       flex-direction: column;
       padding: 28px 0 24px;
       position: fixed;
-      top: 0;
-      left: 0;
-      bottom: 0;
+      top: 0; left: 0; bottom: 0;
       z-index: 100;
     }
 
@@ -61,9 +55,7 @@
       letter-spacing: -0.3px;
     }
 
-    .sidebar-logo span {
-      color: #fff;
-    }
+    .sidebar-logo span { color: #fff; }
 
     .nav-item {
       display: flex;
@@ -84,10 +76,7 @@
       text-align: left;
     }
 
-    .nav-item:hover {
-      background: var(--sidebar-hover);
-      color: #fff;
-    }
+    .nav-item:hover { background: var(--sidebar-hover); color: #fff; }
 
     .nav-item.active {
       background: var(--orange);
@@ -97,86 +86,222 @@
       width: calc(100% - 16px);
     }
 
-    .nav-icon {
-      width: 18px;
-      height: 18px;
-      flex-shrink: 0;
-      opacity: 0.9;
-    }
+    .nav-icon { width: 18px; height: 18px; flex-shrink: 0; opacity: 0.9; }
+    svg { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
-    /* Main Content */
+    /* Main Layout */
     .main {
       margin-left: 260px;
       flex: 1;
-      padding: 32px 48px 60px;
+      padding: 40px 48px 60px;
       max-width: calc(100vw - 260px);
     }
 
-    /* Header */
-    .page-header {
-      margin-bottom: 28px;
-    }
+    .page-header { margin-bottom: 28px; }
 
-    .page-title {
+    .page-header h1 {
       font-family: 'Montserrat', sans-serif;
       font-size: 1.75rem;
       font-weight: 700;
       color: var(--text-dark);
-      margin-bottom: 6px;
+      margin-bottom: 5px;
     }
 
-    .page-subtitle {
-      font-size: 0.95rem;
+    .page-header h1 span { color: var(--orange); }
+
+    .page-header p { font-size: 0.9rem; color: var(--text-mid); }
+
+    /* Stats Bar */
+    .stats-bar {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .stat-pill {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 20px;
+    }
+
+    .stat-pill-label {
+      font-size: 0.7rem;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      color: var(--text-light);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .stat-pill-value {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 1.6rem;
+      color: var(--orange);
+      line-height: 1.2;
+      margin: 6px 0 2px;
+    }
+
+    .stat-pill-sub {
+      font-size: 0.7rem;
       color: var(--text-mid);
     }
 
-    /* Compose Box */
-    .story-compose {
+    /* Filter Tabs */
+    .filter-section { margin-bottom: 28px; }
+
+    .filter-label {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      font-size: 0.75rem;
+      color: var(--text-light);
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      margin-bottom: 10px;
+    }
+
+    .filter-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .filter-tab {
+      padding: 8px 18px;
+      border-radius: 30px;
+      border: 1.5px solid var(--border);
+      background: var(--card-bg);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      font-size: 0.8rem;
+      cursor: pointer;
+      color: var(--text-mid);
+      transition: all 0.18s;
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 8px;
+    }
+
+    .filter-tab:hover {
+      border-color: var(--orange);
+      color: var(--orange);
+      background: var(--orange-pale);
+    }
+
+    .filter-tab.active {
+      background: var(--orange);
+      color: #fff;
+      border-color: var(--orange);
+    }
+
+    .tab-count {
+      background: rgba(0,0,0,0.08);
+      border-radius: 20px;
+      padding: 2px 8px;
+      font-size: 0.7rem;
+      font-weight: 700;
+    }
+
+    .filter-tab.active .tab-count {
+      background: rgba(255,255,255,0.25);
+    }
+
+    /* Compose Card */
+    .compose-card {
       background: var(--card-bg);
       border: 1px solid var(--border);
       border-radius: 16px;
-      padding: 16px 20px;
+      padding: 24px;
       margin-bottom: 20px;
-      transition: all 0.2s;
     }
 
-    .story-compose:focus-within {
+    .compose-title {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--text-dark);
+      margin-bottom: 18px;
+    }
+
+    .compose-fields {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .field-label {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      font-size: 0.75rem;
+      color: var(--text-mid);
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    .field-input,
+    .field-select {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-family: 'Open Sans', sans-serif;
+      font-size: 0.85rem;
+      color: var(--text-dark);
+      outline: none;
+      background: var(--page-bg);
+      transition: all 0.18s;
+    }
+
+    .field-input:focus,
+    .field-select:focus {
       border-color: var(--orange);
-      box-shadow: 0 0 0 3px rgba(232, 101, 26, 0.1);
+      background: var(--card-bg);
+      box-shadow: 0 0 0 3px rgba(232,101,26,0.1);
     }
 
-    .avatar {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--orange) 0%, var(--orange-light) 100%);
-      flex-shrink: 0;
+    .field-select {
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 36px;
+    }
+
+    .story-textarea {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 14px;
+      font-family: 'Open Sans', sans-serif;
+      font-size: 0.85rem;
+      color: var(--text-dark);
+      outline: none;
+      background: var(--page-bg);
+      resize: vertical;
+      min-height: 100px;
+      transition: all 0.18s;
+      margin-bottom: 16px;
+    }
+
+    .story-textarea:focus {
+      border-color: var(--orange);
+      background: var(--card-bg);
+      box-shadow: 0 0 0 3px rgba(232,101,26,0.1);
+    }
+
+    .compose-footer {
       display: flex;
       align-items: center;
-      justify-content: center;
-      color: white;
-      font-weight: 600;
-      font-size: 1.1rem;
-      font-family: 'Montserrat', sans-serif;
-    }
-
-    .story-input {
-      flex: 1;
-      border: none;
-      outline: none;
-      font-family: 'Open Sans', sans-serif;
-      font-size: 0.95rem;
-      color: var(--text-dark);
-      background: transparent;
-      resize: none;
-      padding: 8px 0;
-    }
-
-    .story-input::placeholder {
-      color: var(--text-light);
+      justify-content: flex-end;
     }
 
     .post-btn {
@@ -184,43 +309,63 @@
       color: #fff;
       border: none;
       border-radius: 8px;
-      padding: 10px 24px;
+      padding: 10px 28px;
       font-family: 'Montserrat', sans-serif;
       font-weight: 600;
       font-size: 0.85rem;
       cursor: pointer;
-      transition: background 0.18s;
-      flex-shrink: 0;
+      transition: all 0.18s;
     }
 
-    .post-btn:hover {
-      background: var(--orange-light);
-      transform: translateY(-1px);
-    }
-
-    .post-btn:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
+    .post-btn:hover { background: var(--orange-light); transform: translateY(-1px); }
+    .post-btn:disabled { opacity: 0.6; cursor: not-allowed; }
 
     /* See Stories Link */
-    .see-stories-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
+    .see-link {
+      display: inline-block;
       color: var(--orange);
       font-family: 'Montserrat', sans-serif;
       font-weight: 600;
       font-size: 0.85rem;
       margin-bottom: 24px;
       cursor: pointer;
-      text-decoration: none;
-      transition: gap 0.18s;
+      transition: opacity 0.18s;
+    }
+    .see-link:hover { opacity: 0.7; text-decoration: underline; }
+
+    /* No Results */
+    .no-results {
+      text-align: center;
+      padding: 60px 20px;
+      background: var(--card-bg);
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      display: none;
     }
 
-    .see-stories-link:hover {
-      gap: 10px;
+    .no-results-icon {
+      width: 70px;
+      height: 70px;
+      background: var(--orange-pale);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--orange);
+      margin: 0 auto 16px;
     }
+
+    .no-results-icon svg { width: 32px; height: 32px; }
+
+    .no-results h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--text-dark);
+      margin-bottom: 6px;
+    }
+
+    .no-results p { font-size: 0.85rem; color: var(--text-mid); }
 
     /* Story Card */
     .story-card {
@@ -230,47 +375,44 @@
       padding: 24px;
       margin-bottom: 20px;
       transition: all 0.2s;
-      position: relative;
     }
 
     .story-card:hover {
-      box-shadow: 0 4px 18px rgba(232, 101, 26, 0.10);
+      box-shadow: 0 4px 18px rgba(232,101,26,0.08);
       border-color: var(--orange-light);
     }
 
-    .story-header {
+    .story-card-header {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: space-between;
       margin-bottom: 16px;
+      flex-wrap: wrap;
+      gap: 12px;
     }
 
-    .story-header-left {
+    .story-author-info {
       display: flex;
       align-items: center;
       gap: 14px;
     }
 
     .story-avatar {
-      width: 48px;
-      height: 48px;
+      width: 50px;
+      height: 50px;
       border-radius: 50%;
       background: linear-gradient(135deg, var(--orange) 0%, var(--orange-light) 100%);
       flex-shrink: 0;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: white;
-      font-weight: 600;
-      font-size: 1rem;
       font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: white;
     }
 
-    .story-meta {
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-    }
+    .story-meta { display: flex; flex-direction: column; gap: 4px; }
 
     .story-author {
       font-family: 'Montserrat', sans-serif;
@@ -279,39 +421,56 @@
       color: var(--text-dark);
     }
 
+    .story-sub-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
     .story-time {
       font-size: 0.7rem;
       color: var(--text-light);
     }
 
-    .story-actions-menu {
-      display: flex;
-      gap: 8px;
+    .profession-badge {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      padding: 3px 10px;
+      border-radius: 4px;
     }
 
-    .story-action-icon {
-      background: none;
-      border: none;
-      cursor: pointer;
+    .badge-software   { background: #EEF2FF; color: #4F46E5; }
+    .badge-data       { background: #ECFDF5; color: #059669; }
+    .badge-hr         { background: #FFF7ED; color: #EA580C; }
+    .badge-accounting { background: #F0FDF4; color: #16A34A; }
+    .badge-teaching   { background: #FEF3C7; color: #D97706; }
+    .badge-retail     { background: #FDF2F8; color: #9333EA; }
+    .badge-other      { background: #F3F4F6; color: #6B7280; }
+
+    .story-date-badge {
+      font-size: 0.7rem;
       color: var(--text-light);
-      padding: 6px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+      background: var(--page-bg);
+      border: 1px solid var(--border);
       border-radius: 6px;
-      transition: all 0.18s;
+      padding: 4px 10px;
+      white-space: nowrap;
+    }
+
+    .story-card-actions {
       display: flex;
+      gap: 12px;
       align-items: center;
     }
 
-    .story-action-icon:hover {
-      background: var(--orange-pale);
-      color: var(--orange);
-    }
-
-    .story-action-icon.delete:hover {
-      color: var(--delete-red);
-    }
-
     .story-body {
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       color: var(--text-mid);
       line-height: 1.7;
       margin-bottom: 18px;
@@ -319,68 +478,12 @@
       word-wrap: break-word;
     }
 
-    .edit-textarea {
-      width: 100%;
-      padding: 12px;
-      border: 1.5px solid var(--border);
-      border-radius: 8px;
-      font-family: 'Open Sans', sans-serif;
-      font-size: 0.9rem;
-      resize: vertical;
-      margin-bottom: 10px;
-    }
-
-    .edit-textarea:focus {
-      outline: none;
-      border-color: var(--orange);
-    }
-
-    .edit-buttons {
-      display: flex;
-      gap: 10px;
-      justify-content: flex-end;
-    }
-
-    .edit-save-btn {
-      background: var(--orange);
-      color: white;
-      border: none;
-      padding: 6px 16px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 0.75rem;
-      font-weight: 600;
-    }
-
-    .edit-cancel-btn {
-      background: var(--sidebar-bg);
-      color: white;
-      border: none;
-      padding: 6px 16px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 0.75rem;
-      font-weight: 600;
-    }
-
     .story-footer {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: flex-end;
       padding-top: 14px;
       border-top: 1px solid var(--border);
-    }
-
-    .story-date {
-      font-size: 0.7rem;
-      color: var(--text-light);
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 500;
-    }
-
-    .story-actions {
-      display: flex;
-      align-items: center;
       gap: 20px;
     }
 
@@ -399,30 +502,18 @@
       transition: color 0.18s;
     }
 
-    .action-btn:hover {
-      color: var(--orange);
-    }
-
-    .action-btn svg {
-      width: 16px;
-      height: 16px;
-    }
-
-    .action-btn.liked {
-      color: var(--orange);
-    }
-
-    .action-btn.liked svg {
-      fill: var(--orange);
-    }
+    .action-btn:hover { color: var(--orange); }
+    .action-btn svg { width: 16px; height: 16px; }
+    .action-btn.liked { color: var(--orange); }
+    .action-btn.liked svg { fill: var(--orange); }
 
     /* Comment Box */
     .comment-box {
       display: flex;
       gap: 12px;
       align-items: center;
-      margin-top: 16px;
-      padding-top: 14px;
+      margin-top: 14px;
+      padding-top: 12px;
       border-top: 1px solid var(--border);
     }
 
@@ -432,15 +523,14 @@
       border-radius: 8px;
       padding: 10px 14px;
       font-family: 'Open Sans', sans-serif;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       outline: none;
-      color: var(--text-dark);
-      transition: all 0.2s;
+      transition: all 0.18s;
     }
 
     .comment-box input:focus {
       border-color: var(--orange);
-      box-shadow: 0 0 0 3px rgba(232, 101, 26, 0.1);
+      box-shadow: 0 0 0 3px rgba(232,101,26,0.1);
     }
 
     .comment-send-btn {
@@ -448,7 +538,7 @@
       color: #fff;
       border: none;
       border-radius: 8px;
-      padding: 10px 18px;
+      padding: 10px 20px;
       font-family: 'Montserrat', sans-serif;
       font-weight: 600;
       font-size: 0.75rem;
@@ -456,35 +546,31 @@
       transition: background 0.18s;
     }
 
-    .comment-send-btn:hover {
-      background: var(--orange-light);
-    }
+    .comment-send-btn:hover { background: var(--orange-light); }
 
-    /* Empty State */
-    .empty-state {
-      text-align: center;
-      padding: 60px 20px;
-      background: var(--card-bg);
-      border-radius: 16px;
-      border: 1px solid var(--border);
+    /* Edit Story */
+    .edit-textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-family: 'Open Sans', sans-serif;
+      font-size: 0.88rem;
+      resize: vertical;
+      margin-bottom: 10px;
     }
-
-    .empty-state svg {
-      width: 80px;
-      height: 80px;
-      color: var(--text-light);
-      margin-bottom: 20px;
+    .edit-textarea:focus { outline: none; border-color: var(--orange); }
+    .edit-buttons { display: flex; gap: 10px; justify-content: flex-end; }
+    .edit-save-btn, .edit-cancel-btn {
+      padding: 6px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.75rem;
+      font-weight: 600;
+      border: none;
     }
-
-    .empty-state h3 {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 1.2rem;
-      margin-bottom: 8px;
-    }
-
-    .empty-state p {
-      color: var(--text-mid);
-    }
+    .edit-save-btn { background: var(--orange); color: white; }
+    .edit-cancel-btn { background: var(--sidebar-bg); color: white; }
 
     /* Confirm Modal */
     .confirm-modal {
@@ -500,21 +586,20 @@
       z-index: 1100;
     }
 
-    .confirm-modal.active {
-      display: flex;
-    }
+    .confirm-modal.active { display: flex; }
 
     .confirm-modal-content {
       background: white;
-      padding: 24px;
-      border-radius: 16px;
-      width: 320px;
+      padding: 28px;
+      border-radius: 20px;
+      width: 340px;
       text-align: center;
     }
 
     .confirm-modal-content h3 {
-      margin-bottom: 16px;
       font-family: 'Montserrat', sans-serif;
+      font-size: 1.2rem;
+      margin-bottom: 12px;
     }
 
     .confirm-modal-content p {
@@ -532,7 +617,7 @@
       background: var(--border);
       color: var(--text-dark);
       border: none;
-      padding: 8px 20px;
+      padding: 10px 24px;
       border-radius: 8px;
       cursor: pointer;
       font-weight: 600;
@@ -542,7 +627,7 @@
       background: var(--delete-red);
       color: white;
       border: none;
-      padding: 8px 20px;
+      padding: 10px 24px;
       border-radius: 8px;
       cursor: pointer;
       font-weight: 600;
@@ -562,20 +647,9 @@
       z-index: 1000;
     }
 
-    .toast.show {
-      transform: translateX(0);
-    }
-
-    .toast-content {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .toast-icon {
-      font-size: 18px;
-      font-weight: bold;
-    }
+    .toast.show { transform: translateX(0); }
+    .toast-content { display: flex; align-items: center; gap: 10px; }
+    .toast-icon { font-size: 18px; font-weight: bold; }
 
     /* Loading Overlay */
     .loading-overlay {
@@ -590,11 +664,7 @@
       justify-content: center;
       z-index: 1000;
     }
-
-    .loading-overlay.active {
-      display: flex;
-    }
-
+    .loading-overlay.active { display: flex; }
     .spinner {
       width: 50px;
       height: 50px;
@@ -603,196 +673,175 @@
       border-radius: 50%;
       animation: spin 1s linear infinite;
     }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
-    /* SVG Icons */
-    svg {
-      fill: none;
-      stroke: currentColor;
-      stroke-width: 2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
     /* Responsive */
+    @media (max-width: 1024px) {
+      .stats-bar { grid-template-columns: repeat(2, 1fr); }
+      .compose-fields { grid-template-columns: 1fr; }
+    }
+
     @media (max-width: 768px) {
-      .sidebar {
-        width: 80px;
-      }
-      
-      .sidebar-logo {
-        padding: 0 16px 32px;
-        font-size: 1rem;
-      }
-      
-      .sidebar-logo span {
-        display: none;
-      }
-      
-      .nav-item span {
-        display: none;
-      }
-      
-      .main {
-        margin-left: 80px;
-        padding: 20px;
-        max-width: calc(100vw - 80px);
-      }
-      
-      .story-compose {
-        flex-direction: column;
-      }
-      
-      .story-footer {
-        flex-direction: column;
-        gap: 12px;
-        align-items: flex-start;
-      }
+      .sidebar { width: 80px; }
+      .sidebar-logo { padding: 0 16px 32px; font-size: 1rem; }
+      .sidebar-logo span { display: none; }
+      .nav-item span { display: none; }
+      .main { margin-left: 80px; padding: 20px; max-width: calc(100vw - 80px); }
+      .stats-bar { grid-template-columns: 1fr; }
+      .filter-tabs { flex-direction: column; }
+      .filter-tab { justify-content: center; }
+      .story-card-header { flex-direction: column; }
     }
   </style>
 </head>
 <body>
+
   <!-- Sidebar -->
   <aside class="sidebar">
     <div class="sidebar-logo">Career<span>GPS</span></div>
     
     <a class="nav-item" href="{% url 'welcome' %}">
-      <svg class="nav-icon" viewBox="0 0 24 24">
-        <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z" />
-        <polyline points="9 21 9 12 15 12 15 21" />
-      </svg>
+      <svg class="nav-icon" viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z"/><polyline points="9 21 9 12 15 12 15 21"/></svg>
       <span>Home</span>
     </a>
     
     <a class="nav-item" href="{% url 'opportunities' %}">
-      <svg class="nav-icon" viewBox="0 0 24 24">
-        <rect x="2" y="7" width="20" height="14" rx="2" />
-        <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" />
-      </svg>
+      <svg class="nav-icon" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
       <span>Opportunities</span>
     </a>
     
     <a class="nav-item" href="{% url 'saved' %}">
-      <svg class="nav-icon" viewBox="0 0 24 24">
-        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
-      </svg>
+      <svg class="nav-icon" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
       <span>Saved</span>
     </a>
     
     <a class="nav-item" href="{% url 'resources' %}">
-      <svg class="nav-icon" viewBox="0 0 24 24">
-        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
-        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
-      </svg>
+      <svg class="nav-icon" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
       <span>Resources</span>
     </a>
     
     <a class="nav-item" href="{% url 'profile' %}">
-      <svg class="nav-icon" viewBox="0 0 24 24">
-        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-        <circle cx="12" cy="7" r="4" />
-      </svg>
+      <svg class="nav-icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
       <span>Profile</span>
     </a>
     
     <a class="nav-item active" href="{% url 'stories' %}">
-      <svg class="nav-icon" viewBox="0 0 24 24">
-        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-      </svg>
+      <svg class="nav-icon" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
       <span>Stories</span>
     </a>
     
     <a class="nav-item" href="{% url 'signin' %}" style="margin-top: auto;">
-      <svg class="nav-icon" viewBox="0 0 24 24">
-        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-        <polyline points="16 17 21 12 16 7" />
-        <line x1="21" y1="12" x2="9" y2="12" />
-      </svg>
+      <svg class="nav-icon" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
       <span>Logout</span>
     </a>
   </aside>
 
   <!-- Main Content -->
   <main class="main">
+
+    <!-- Page Header -->
     <div class="page-header">
-      <h1 class="page-title">Community Stories</h1>
-      <p class="page-subtitle">Share your journey and learn from others</p>
+      <h1>Career <span>Stories</span></h1>
+      <p>Real experiences from real job seekers — filtered by profession to show CareerGPS impact.</p>
     </div>
 
-    <!-- Compose Box -->
-    <div class="story-compose">
-      <div class="avatar" id="userAvatar">{{ user.first_name|slice:":1" }}{{ user.last_name|slice:":1"|default:user.username|slice:":1" }}</div>
-      <textarea class="story-input" id="storyInput" placeholder="Share your story, experience, or achievement..." rows="2"></textarea>
-      <button class="post-btn" id="postBtn" onclick="postStory()">Post</button>
+    <!-- Stats Bar -->
+    <div class="stats-bar">
+      <div class="stat-pill">
+        <div class="stat-pill-label">Total Stories</div>
+        <div class="stat-pill-value" id="totalCount">0</div>
+        <div class="stat-pill-sub">Across all professions</div>
+      </div>
+      <div class="stat-pill">
+        <div class="stat-pill-label">Professions</div>
+        <div class="stat-pill-value" id="professionsCount">0</div>
+        <div class="stat-pill-sub">Categories covered</div>
+      </div>
+      <div class="stat-pill">
+        <div class="stat-pill-label">Active Filter</div>
+        <div class="stat-pill-value" style="font-size:1rem;" id="activeFilterLabel">All</div>
+        <div class="stat-pill-sub" id="filteredCount">Showing all stories</div>
+      </div>
+      <div class="stat-pill">
+        <div class="stat-pill-label">Your Stories</div>
+        <div class="stat-pill-value" id="yourStoriesCount">0</div>
+        <div class="stat-pill-sub">You've shared</div>
+      </div>
     </div>
 
-    <div class="see-stories-link" onclick="scrollToStories()">
-      See your stories ↓
+    <!-- Profession Filter Tabs -->
+    <div class="filter-section">
+      <div class="filter-label">Filter by Profession</div>
+      <div class="filter-tabs" id="filterTabs">
+        <button class="filter-tab active" data-filter="all" onclick="filterStories('all', this)">
+          All <span class="tab-count" id="count-all">0</span>
+        </button>
+        <button class="filter-tab" data-filter="software" onclick="filterStories('software', this)">
+          Software Developer <span class="tab-count" id="count-software">0</span>
+        </button>
+        <button class="filter-tab" data-filter="data" onclick="filterStories('data', this)">
+          Data Analyst <span class="tab-count" id="count-data">0</span>
+        </button>
+        <button class="filter-tab" data-filter="hr" onclick="filterStories('hr', this)">
+          HR <span class="tab-count" id="count-hr">0</span>
+        </button>
+        <button class="filter-tab" data-filter="accounting" onclick="filterStories('accounting', this)">
+          Accounting <span class="tab-count" id="count-accounting">0</span>
+        </button>
+        <button class="filter-tab" data-filter="teaching" onclick="filterStories('teaching', this)">
+          Teaching <span class="tab-count" id="count-teaching">0</span>
+        </button>
+        <button class="filter-tab" data-filter="retail" onclick="filterStories('retail', this)">
+          Retail <span class="tab-count" id="count-retail">0</span>
+        </button>
+        <button class="filter-tab" data-filter="other" onclick="filterStories('other', this)">
+          Other <span class="tab-count" id="count-other">0</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Compose Card -->
+    <div class="compose-card">
+      <div class="compose-title">Share Your Story</div>
+      <div class="compose-fields">
+        <div class="field-group">
+          <label class="field-label">Full Name</label>
+          <input class="field-input" type="text" id="inputName" placeholder="e.g. Thabo Mokoena" value="{{ user.get_full_name|default:user.username }}" />
+        </div>
+        <div class="field-group">
+          <label class="field-label">Profession / Field</label>
+          <select class="field-select" id="inputProfession">
+            <option value="" disabled selected>Select your profession</option>
+            <option value="software">Software Developer</option>
+            <option value="data">Data Analyst</option>
+            <option value="hr">HR</option>
+            <option value="accounting">Accounting</option>
+            <option value="teaching">Teaching</option>
+            <option value="retail">Retail</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+      </div>
+      <textarea class="story-textarea" id="inputStory" placeholder="How has CareerGPS helped your job search? Share your experience..."></textarea>
+      <div class="compose-footer">
+        <button class="post-btn" onclick="postStory()">Post Story</button>
+      </div>
+    </div>
+
+    <a class="see-link" onclick="document.getElementById('stories-list').scrollIntoView({behavior:'smooth'})">See all stories ↓</a>
+
+    <!-- No Results -->
+    <div class="no-results" id="noResults">
+      <div class="no-results-icon">
+        <svg width="32" height="32" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      </div>
+      <h3>No stories yet for this profession</h3>
+      <p>Be the first to share your experience in this field!</p>
     </div>
 
     <!-- Stories List -->
-    <div id="storiesList">
-      {% if stories %}
-        {% for story in stories %}
-        <div class="story-card" data-story-id="{{ story.id }}">
-          <div class="story-header">
-            <div class="story-header-left">
-              <div class="story-avatar">{{ story.display_name|slice:":2"|upper }}</div>
-              <div class="story-meta">
-                <span class="story-author">{{ story.display_name }}</span>
-                <span class="story-time">{{ story.submitted_at|timesince }} ago</span>
-              </div>
-            </div>
-            {% if story.user_id == user.id or user.is_superuser %}
-            <div class="story-actions-menu">
-              <button class="story-action-icon" onclick="editStory({{ story.id }})" title="Edit">
-                <svg width="16" height="16" viewBox="0 0 24 24">
-                  <path d="M17 3l4 4L7 21H3v-4L17 3z" />
-                  <path d="M15 5l4 4" />
-                </svg>
-              </button>
-              <button class="story-action-icon delete" onclick="confirmDeleteStory({{ story.id }})" title="Delete">
-                <svg width="16" height="16" viewBox="0 0 24 24">
-                  <path d="M4 7h16M10 11v6M14 11v6M5 7l1 14a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l1-14" />
-                  <path d="M9 7V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3" />
-                </svg>
-              </button>
-            </div>
-            {% endif %}
-          </div>
-          <div class="story-body" id="story-body-{{ story.id }}">{{ story.content }}</div>
-          <div class="story-footer">
-            <span class="story-date">{{ story.submitted_at|date:"d M Y | H:i" }}</span>
-            <div class="story-actions">
-              <button class="action-btn" onclick="toggleLike(this)">
-                <svg viewBox="0 0 24 24">
-                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-                </svg>
-                Like
-              </button>
-              <button class="action-btn" onclick="toggleComment(this)">
-                <svg viewBox="0 0 24 24">
-                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-                </svg>
-                Comment
-              </button>
-            </div>
-          </div>
-        </div>
-        {% endfor %}
-      {% else %}
-        <div class="empty-state" id="emptyState">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-          </svg>
-          <h3>No stories yet</h3>
-          <p>Be the first to share your experience with the community!</p>
-        </div>
-      {% endif %}
-    </div>
+    <div id="stories-list"></div>
+
   </main>
 
   <!-- Confirm Delete Modal -->
@@ -821,8 +870,11 @@
   </div>
 
   <script>
+    let currentFilter = 'all';
+    let stories = [];
     let storyToDelete = null;
     let editingStoryId = null;
+    let currentUserId = {{ user.id }};
 
     // CSRF Token
     function getCookie(name) {
@@ -839,8 +891,18 @@
       }
       return cookieValue;
     }
-
     const csrftoken = getCookie('csrftoken');
+
+    // Profession Config
+    const profConfig = {
+      software:   { label: 'Software Developer', badgeClass: 'badge-software'   },
+      data:       { label: 'Data Analyst',        badgeClass: 'badge-data'       },
+      hr:         { label: 'HR',                  badgeClass: 'badge-hr'         },
+      accounting: { label: 'Accounting',          badgeClass: 'badge-accounting' },
+      teaching:   { label: 'Teaching',            badgeClass: 'badge-teaching'   },
+      retail:     { label: 'Retail',              badgeClass: 'badge-retail'     },
+      other:      { label: 'Other',               badgeClass: 'badge-other'      }
+    };
 
     // Show Toast
     function showToast(message, type) {
@@ -862,251 +924,187 @@
       }
       
       toast.classList.add('show');
-      setTimeout(() => {
-        toast.classList.remove('show');
-      }, 3000);
+      setTimeout(() => toast.classList.remove('show'), 3000);
     }
 
-    // Show/Hide Loading
-    function showLoading() {
-      document.getElementById('loadingOverlay').classList.add('active');
+    function showLoading() { document.getElementById('loadingOverlay').classList.add('active'); }
+    function hideLoading() { document.getElementById('loadingOverlay').classList.remove('active'); }
+
+    // Load Stories from Server
+    async function loadStories() {
+      showLoading();
+      try {
+        const response = await fetch('/api/get-stories/');
+        const data = await response.json();
+        if (data.success) {
+          stories = data.stories;
+          renderStories();
+          updateStats();
+        } else {
+          console.error('Failed to load stories:', data.error);
+          showToast('Error loading stories', 'error');
+        }
+      } catch (error) {
+        console.error('Error loading stories:', error);
+        showToast('Error loading stories', 'error');
+      } finally {
+        hideLoading();
+      }
     }
 
-    function hideLoading() {
-      document.getElementById('loadingOverlay').classList.remove('active');
+    // Update Stats
+    function updateStats() {
+      const total = stories.length;
+      const uniqueProfessions = new Set(stories.map(s => s.profession)).size;
+      const userStories = stories.filter(s => s.user_id === currentUserId).length;
+      
+      document.getElementById('totalCount').textContent = total;
+      document.getElementById('professionsCount').textContent = uniqueProfessions;
+      document.getElementById('yourStoriesCount').textContent = userStories;
+      
+      // Update filter counts
+      const counts = { all: total, software: 0, data: 0, hr: 0, accounting: 0, teaching: 0, retail: 0, other: 0 };
+      stories.forEach(s => {
+        if (counts[s.profession] !== undefined) counts[s.profession]++;
+      });
+      
+      for (let key in counts) {
+        const el = document.getElementById(`count-${key}`);
+        if (el) el.textContent = counts[key];
+      }
     }
 
-    // Escape HTML
+    // Render Stories
+    function renderStories() {
+      const list = document.getElementById('stories-list');
+      const noResults = document.getElementById('noResults');
+      const filtered = currentFilter === 'all' 
+        ? stories 
+        : stories.filter(s => s.profession === currentFilter);
+
+      const label = currentFilter === 'all' ? 'All' : (profConfig[currentFilter]?.label || 'All');
+      document.getElementById('activeFilterLabel').textContent = label;
+      document.getElementById('filteredCount').textContent = 
+        filtered.length === 1 ? '1 story shown' : filtered.length + ' stories shown';
+
+      list.innerHTML = '';
+
+      if (filtered.length === 0) {
+        noResults.style.display = 'block';
+        return;
+      }
+
+      noResults.style.display = 'none';
+
+      filtered.forEach(story => {
+        const prof = profConfig[story.profession] || profConfig.other;
+        const initials = story.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+        const isOwner = story.user_id === currentUserId;
+        
+        const card = document.createElement('div');
+        card.className = 'story-card';
+        card.dataset.id = story.id;
+        card.innerHTML = `
+          <div class="story-card-header">
+            <div class="story-author-info">
+              <div class="story-avatar">${escapeHtml(initials)}</div>
+              <div class="story-meta">
+                <span class="story-author">${escapeHtml(story.name)}</span>
+                <div class="story-sub-meta">
+                  <span class="story-time">${escapeHtml(story.time_ago)}</span>
+                  <span class="profession-badge ${prof.badgeClass}">${prof.label}</span>
+                </div>
+              </div>
+            </div>
+            <div class="story-card-actions">
+              ${isOwner ? `
+                <button class="action-btn" onclick="editStory(${story.id})" style="color:var(--orange);">
+                  <svg width="14" height="14" viewBox="0 0 24 24"><path d="M17 3l4 4L7 21H3v-4L17 3z"/><path d="M15 5l4 4"/></svg>
+                  Edit
+                </button>
+                <button class="action-btn" onclick="confirmDeleteStory(${story.id})" style="color:var(--delete-red);">
+                  <svg width="14" height="14" viewBox="0 0 24 24"><path d="M4 7h16M10 11v6M14 11v6M5 7l1 14a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l1-14"/><path d="M9 7V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3"/></svg>
+                  Delete
+                </button>
+              ` : ''}
+              <span class="story-date-badge">${escapeHtml(story.date)} | ${escapeHtml(story.time)}</span>
+            </div>
+          </div>
+          <div class="story-body" id="story-body-${story.id}">${escapeHtml(story.content)}</div>
+          <div class="story-footer">
+            <button class="action-btn ${story.liked ? 'liked' : ''}" onclick="toggleLike(${story.id}, this)">
+              <svg viewBox="0 0 24 24">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+              </svg>
+              ${story.likes > 0 ? story.likes + ' ' : ''}Like${story.likes !== 1 ? 's' : ''}
+            </button>
+            <button class="action-btn" onclick="toggleComment(this)">
+              <svg viewBox="0 0 24 24">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+              </svg>
+              Comment
+            </button>
+          </div>
+        `;
+        list.appendChild(card);
+      });
+    }
+
     function escapeHtml(text) {
+      if (!text) return '';
       const div = document.createElement('div');
       div.textContent = text;
       return div.innerHTML;
     }
 
-    // Edit Story
-    function editStory(storyId) {
-      // Close any open edit
-      if (editingStoryId) {
-        cancelEdit();
-      }
-      
-      editingStoryId = storyId;
-      const storyBody = document.getElementById(`story-body-${storyId}`);
-      const currentText = storyBody.innerText;
-      
-      storyBody.innerHTML = `
-        <textarea class="edit-textarea" id="edit-textarea-${storyId}">${escapeHtml(currentText)}</textarea>
-        <div class="edit-buttons">
-          <button class="edit-cancel-btn" onclick="cancelEdit()">Cancel</button>
-          <button class="edit-save-btn" onclick="saveEdit(${storyId})">Save</button>
-        </div>
-      `;
-    }
-
-    function cancelEdit() {
-      if (editingStoryId) {
-        const storyBody = document.getElementById(`story-body-${editingStoryId}`);
-        // We need to restore from the server or from stored value
-        // For now, we'll reload the page to reset
-        location.reload();
-      }
-      editingStoryId = null;
-    }
-
-    async function saveEdit(storyId) {
-      const textarea = document.getElementById(`edit-textarea-${storyId}`);
-      const newContent = textarea.value.trim();
-      
-      if (!newContent) {
-        showToast('Story content cannot be empty', 'error');
-        return;
-      }
-      
-      showLoading();
-      
-      try {
-        const response = await fetch('/api/edit-story/', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': csrftoken
-          },
-          body: JSON.stringify({
-            story_id: storyId,
-            content: newContent
-          })
-        });
-        
-        const data = await response.json();
-        
-        if (response.ok) {
-          const storyBody = document.getElementById(`story-body-${storyId}`);
-          storyBody.innerHTML = escapeHtml(newContent);
-          showToast('Story updated successfully!', 'success');
-        } else {
-          showToast(data.error || 'Failed to update story', 'error');
-        }
-      } catch (error) {
-        console.error('Error:', error);
-        showToast('Network error. Please try again.', 'error');
-      } finally {
-        hideLoading();
-        editingStoryId = null;
-      }
-    }
-
-    // Confirm Delete Story
-    function confirmDeleteStory(storyId) {
-      storyToDelete = storyId;
-      const modal = document.getElementById('confirmModal');
-      modal.classList.add('active');
-    }
-
-    function closeConfirmModal() {
-      document.getElementById('confirmModal').classList.remove('active');
-      storyToDelete = null;
-    }
-
-    // Delete Story - using event listener on button
-    document.getElementById('confirmDeleteBtn').addEventListener('click', async function() {
-      if (!storyToDelete) return;
-      
-      showLoading();
-      
-      try {
-        const response = await fetch('/api/delete-story/', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': csrftoken
-          },
-          body: JSON.stringify({
-            story_id: storyToDelete
-          })
-        });
-        
-        const data = await response.json();
-        
-        if (response.ok) {
-          // Remove the story card from DOM
-          const storyCard = document.querySelector(`.story-card[data-story-id="${storyToDelete}"]`);
-          if (storyCard) {
-            storyCard.remove();
-          }
-          showToast('Story deleted successfully!', 'success');
-          
-          // Check if there are any stories left
-          const remainingStories = document.querySelectorAll('.story-card').length;
-          if (remainingStories === 0) {
-            const storiesList = document.getElementById('storiesList');
-            storiesList.innerHTML = `
-              <div class="empty-state">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-                </svg>
-                <h3>No stories yet</h3>
-                <p>Be the first to share your experience with the community!</p>
-              </div>
-            `;
-          }
-        } else {
-          showToast(data.error || 'Failed to delete story', 'error');
-        }
-      } catch (error) {
-        console.error('Error:', error);
-        showToast('Network error. Please try again.', 'error');
-      } finally {
-        hideLoading();
-        closeConfirmModal();
-      }
-    });
-
-    // Toggle Like
-    function toggleLike(btn) {
-      btn.classList.toggle('liked');
-      const svg = btn.querySelector('svg');
-      if (btn.classList.contains('liked')) {
-        svg.style.fill = 'var(--orange)';
-        showToast('You liked this story!', 'success');
-      } else {
-        svg.style.fill = 'none';
-        showToast('You removed your like', 'info');
-      }
-    }
-
-    // Toggle Comment Box
-    function toggleComment(btn) {
-      const card = btn.closest('.story-card');
-      let box = card.querySelector('.comment-box');
-      
-      if (box) {
-        box.remove();
-        return;
-      }
-      
-      box = document.createElement('div');
-      box.className = 'comment-box';
-      box.innerHTML = `
-        <input type="text" placeholder="Write a comment..." />
-        <button class="comment-send-btn" onclick="sendComment(this)">Send</button>
-      `;
-      card.appendChild(box);
-    }
-
-    // Send Comment
-    function sendComment(btn) {
-      const box = btn.closest('.comment-box');
-      const input = box.querySelector('input');
-      const comment = input.value.trim();
-      
-      if (!comment) {
-        showToast('Please enter a comment', 'error');
-        return;
-      }
-      
-      showToast('Comment sent!', 'success');
-      box.remove();
-    }
-
-    // Scroll to Stories
-    function scrollToStories() {
-      document.getElementById('storiesList').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // Filter Stories
+    function filterStories(filter, btn) {
+      currentFilter = filter;
+      document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+      renderStories();
     }
 
     // Post Story
     async function postStory() {
-      const input = document.getElementById('storyInput');
-      const content = input.value.trim();
-      const postBtn = document.getElementById('postBtn');
-      
-      if (!content) {
-        showToast('Please enter a story', 'error');
+      const name = document.getElementById('inputName').value.trim();
+      const profession = document.getElementById('inputProfession').value;
+      const content = document.getElementById('inputStory').value.trim();
+
+      if (!name) {
+        showToast('Please enter your name', 'error');
+        document.getElementById('inputName').style.borderColor = 'var(--orange)';
         return;
       }
-      
-      const originalText = postBtn.textContent;
-      postBtn.textContent = 'Posting...';
-      postBtn.disabled = true;
-      
+      if (!profession) {
+        showToast('Please select your profession', 'error');
+        document.getElementById('inputProfession').style.borderColor = 'var(--orange)';
+        return;
+      }
+      if (!content) {
+        showToast('Please enter your story', 'error');
+        document.getElementById('inputStory').style.borderColor = 'var(--orange)';
+        return;
+      }
+
+      document.getElementById('inputName').style.borderColor = '';
+      document.getElementById('inputProfession').style.borderColor = '';
+      document.getElementById('inputStory').style.borderColor = '';
+
+      showLoading();
+
       try {
         const response = await fetch('/api/post-story/', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': csrftoken
-          },
-          body: JSON.stringify({
-            content: content,
-            display_name: "{{ user.get_full_name|default:user.username }}"
-          })
+          headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrftoken },
+          body: JSON.stringify({ name: name, profession: profession, content: content })
         });
-        
         const data = await response.json();
-        
-        if (response.ok) {
-          addStoryToTop(content, data.story_id);
-          input.value = '';
+
+        if (response.ok && data.success) {
           showToast('Story posted successfully!', 'success');
+          document.getElementById('inputStory').value = '';
+          await loadStories();
         } else {
           showToast(data.error || 'Failed to post story', 'error');
         }
@@ -1114,95 +1112,163 @@
         console.error('Error:', error);
         showToast('Network error. Please try again.', 'error');
       } finally {
-        postBtn.textContent = originalText;
-        postBtn.disabled = false;
+        hideLoading();
       }
     }
 
-    // Add Story to Top
-    function addStoryToTop(content, storyId) {
-      const storiesList = document.getElementById('storiesList');
-      const emptyState = document.getElementById('emptyState');
-      
-      if (emptyState) {
-        emptyState.remove();
+    // Toggle Like
+    async function toggleLike(id, btn) {
+      const story = stories.find(s => s.id === id);
+      if (!story) return;
+
+      try {
+        const response = await fetch('/api/toggle-like/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrftoken },
+          body: JSON.stringify({ story_id: id })
+        });
+        const data = await response.json();
+
+        if (data.success) {
+          story.liked = data.liked;
+          story.likes = data.likes;
+          btn.classList.toggle('liked', story.liked);
+          const likeCount = story.likes > 0 ? story.likes + ' ' : '';
+          btn.childNodes[btn.childNodes.length - 1].textContent = 
+            ` ${likeCount}Like${story.likes !== 1 ? 's' : ''}`;
+          if (story.liked) {
+            showToast('You liked this story!', 'success');
+          }
+        }
+      } catch (error) {
+        console.error('Error:', error);
       }
+    }
+
+    // Toggle Comment
+    function toggleComment(btn) {
+      const card = btn.closest('.story-card');
+      let existing = card.querySelector('.comment-box');
+      if (existing) { existing.remove(); return; }
       
-      const now = new Date();
-      const dateStr = now.toLocaleDateString('en-ZA', { day: '2-digit', month: 'short', year: 'numeric' }) + 
-                      ' | ' + 
-                      now.toLocaleTimeString('en-ZA', { hour: '2-digit', minute: '2-digit' });
-      
-      const userName = "{{ user.get_full_name|default:user.username }}";
-      const userInitials = "{{ user.first_name|slice:':1' }}{{ user.last_name|slice:':1'|default:user.username|slice:':1' }}";
-      const newStoryId = storyId || Date.now();
-      
-      const storyCard = document.createElement('div');
-      storyCard.className = 'story-card';
-      storyCard.setAttribute('data-story-id', newStoryId);
-      storyCard.innerHTML = `
-        <div class="story-header">
-          <div class="story-header-left">
-            <div class="story-avatar">${userInitials}</div>
-            <div class="story-meta">
-              <span class="story-author">${escapeHtml(userName)}</span>
-              <span class="story-time">Just now</span>
-            </div>
-          </div>
-          <div class="story-actions-menu">
-            <button class="story-action-icon" onclick="editStory(${newStoryId})" title="Edit">
-              <svg width="16" height="16" viewBox="0 0 24 24">
-                <path d="M17 3l4 4L7 21H3v-4L17 3z" />
-                <path d="M15 5l4 4" />
-              </svg>
-            </button>
-            <button class="story-action-icon delete" onclick="confirmDeleteStory(${newStoryId})" title="Delete">
-              <svg width="16" height="16" viewBox="0 0 24 24">
-                <path d="M4 7h16M10 11v6M14 11v6M5 7l1 14a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l1-14" />
-                <path d="M9 7V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3" />
-              </svg>
-            </button>
-          </div>
-        </div>
-        <div class="story-body" id="story-body-${newStoryId}">${escapeHtml(content)}</div>
-        <div class="story-footer">
-          <span class="story-date">${dateStr}</span>
-          <div class="story-actions">
-            <button class="action-btn" onclick="toggleLike(this)">
-              <svg viewBox="0 0 24 24">
-                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-              </svg>
-              Like
-            </button>
-            <button class="action-btn" onclick="toggleComment(this)">
-              <svg viewBox="0 0 24 24">
-                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-              </svg>
-              Comment
-            </button>
-          </div>
+      const box = document.createElement('div');
+      box.className = 'comment-box';
+      box.innerHTML = `
+        <input type="text" placeholder="Write a comment..." />
+        <button class="comment-send-btn" onclick="sendComment(this)">Send</button>
+      `;
+      card.appendChild(box);
+      box.querySelector('input').focus();
+    }
+
+    function sendComment(btn) {
+      const box = btn.closest('.comment-box');
+      const input = box.querySelector('input');
+      const comment = input.value.trim();
+      if (!comment) {
+        showToast('Please enter a comment', 'error');
+        return;
+      }
+      showToast('Comment sent!', 'success');
+      box.remove();
+    }
+
+    // Edit Story
+    function editStory(id) {
+      if (editingStoryId) cancelEdit();
+      editingStoryId = id;
+      const storyBody = document.getElementById(`story-body-${id}`);
+      const currentText = storyBody.innerText;
+      storyBody.innerHTML = `
+        <textarea class="edit-textarea" id="edit-textarea-${id}">${escapeHtml(currentText)}</textarea>
+        <div class="edit-buttons">
+          <button class="edit-cancel-btn" onclick="cancelEdit()">Cancel</button>
+          <button class="edit-save-btn" onclick="saveEdit(${id})">Save</button>
         </div>
       `;
-      
-      storiesList.insertBefore(storyCard, storiesList.firstChild);
     }
 
-    // Auto-resize textarea
-    const storyInput = document.getElementById('storyInput');
-    if (storyInput) {
-      storyInput.addEventListener('input', function() {
-        this.style.height = 'auto';
-        this.style.height = Math.min(this.scrollHeight, 150) + 'px';
-      });
+    function cancelEdit() {
+      if (editingStoryId) {
+        location.reload();
+      }
+      editingStoryId = null;
     }
 
-    // Close modal when clicking outside
-    window.onclick = function(event) {
-      const modal = document.getElementById('confirmModal');
-      if (event.target === modal) {
-        closeConfirmModal();
+    async function saveEdit(id) {
+      const textarea = document.getElementById(`edit-textarea-${id}`);
+      const newContent = textarea.value.trim();
+      if (!newContent) {
+        showToast('Story content cannot be empty', 'error');
+        return;
+      }
+      showLoading();
+      try {
+        const response = await fetch('/api/edit-story/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrftoken },
+          body: JSON.stringify({ story_id: id, content: newContent })
+        });
+        const data = await response.json();
+        if (response.ok) {
+          await loadStories();
+          showToast('Story updated!', 'success');
+        } else {
+          showToast(data.error || 'Failed to update', 'error');
+        }
+      } catch (error) {
+        showToast('Network error', 'error');
+      } finally {
+        hideLoading();
+        editingStoryId = null;
       }
     }
+
+    // Confirm Delete
+    function confirmDeleteStory(id) {
+      storyToDelete = id;
+      document.getElementById('confirmModal').classList.add('active');
+    }
+
+    function closeConfirmModal() {
+      document.getElementById('confirmModal').classList.remove('active');
+      storyToDelete = null;
+    }
+
+    document.getElementById('confirmDeleteBtn').addEventListener('click', async function() {
+      if (!storyToDelete) return;
+      showLoading();
+      try {
+        const response = await fetch('/api/delete-story/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrftoken },
+          body: JSON.stringify({ story_id: storyToDelete })
+        });
+        const data = await response.json();
+        if (response.ok) {
+          await loadStories();
+          showToast('Story deleted!', 'success');
+        } else {
+          showToast(data.error || 'Failed to delete', 'error');
+        }
+      } catch (error) {
+        showToast('Network error', 'error');
+      } finally {
+        hideLoading();
+        closeConfirmModal();
+      }
+    });
+
+    // Close modal on outside click
+    window.onclick = function(event) {
+      const modal = document.getElementById('confirmModal');
+      if (event.target === modal) closeConfirmModal();
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', function() {
+      loadStories();
+    });
   </script>
 </body>
 </html>

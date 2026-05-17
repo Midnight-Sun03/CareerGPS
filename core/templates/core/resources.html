@@ -562,7 +562,7 @@
       <button class="filter-btn active-btn" data-type="all">All</button>
       <button class="filter-btn" data-type="cv">CV Writing</button>
       <button class="filter-btn" data-type="cover">Cover Letters</button>
-      <button class="filter-btn" data-type="interview">Interview Tips</button>
+      <button class="filter-btn" data-type="interview">Interview Prep</button>
     </div>
 
     <!-- Resources Container -->
@@ -650,31 +650,31 @@
         </div>
       </div>
 
-<!-- Interview Coach Card -->
-<div class="resource-card" data-category="interview" data-title="AI Interview Coach">
-  <div class="card-header">
-    <span class="card-tag">Interview Prep</span>
-  </div>
-  <h3>AI Interview Coach</h3>
-  <p class="card-desc">
-    Practice interviews with Marcus Reid, our AI hiring manager. Get real-time feedback on your answers, 
-    body language, and communication style — tailored specifically for the South African job market.
-  </p>
-  <ul>
-    <li><strong>SA-Specific Questions</strong> - Tailored to local market context</li>
-    <li><strong>Body Language Analysis</strong> - Real-time eye contact and posture scoring</li>
-    <li><strong>Voice Recording & Transcript</strong> - Your answers are transcribed for feedback</li>
-    <li><strong>Detailed Score Report</strong> - Communication, confidence, STAR method scoring</li>
-  </ul>
-  <div class="highlight-box">
-    <div class="label">Pro Tip</div>
-    <p>Upload your CV and Marcus Reid will ask questions tailored to your actual experience!</p>
-  </div>
-  <div class="card-actions">
-    <a href="{% url 'interview_home' %}" class="see-more">Start Interview Practice →</a>
-  </div>
-</div>
-</div>
+      <!-- AI Interview Coach Card -->
+      <div class="resource-card" data-category="interview" data-title="AI Interview Coach">
+        <div class="card-header">
+          <span class="card-tag">Interview Prep</span>
+        </div>
+        <h3>AI Interview Coach</h3>
+        <p class="card-desc">
+          Practice interviews with Marcus Reid, our AI hiring manager. Get real-time feedback on your answers, 
+          body language, and communication style — tailored specifically for the South African job market.
+        </p>
+        <ul>
+          <li><strong>SA-Specific Questions</strong> - Tailored to local market context</li>
+          <li><strong>Body Language Analysis</strong> - Real-time eye contact and posture scoring</li>
+          <li><strong>Voice Recording & Transcript</strong> - Your answers are transcribed for feedback</li>
+          <li><strong>Detailed Score Report</strong> - Communication, confidence, STAR method scoring</li>
+        </ul>
+        <div class="highlight-box">
+          <div class="label">Pro Tip</div>
+          <p>Upload your CV and Marcus Reid will ask questions tailored to your actual experience!</p>
+        </div>
+        <div class="card-actions">
+          <a href="{% url 'interview_home' %}" class="see-more">Start Interview Practice →</a>
+        </div>
+      </div>
+    </div>
 
     <!-- Empty State (hidden by default) -->
     <div id="emptyState" class="empty-state" style="display: none;">
@@ -697,106 +697,106 @@
 
   <script>
     // Show Toast
-function showToast(message, type) {
-  const toast = document.getElementById('toast');
-  const toastMessage = toast.querySelector('.toast-message');
-  const toastIcon = toast.querySelector('.toast-icon');
-  
-  toastMessage.textContent = message;
-  
-  if (type === 'success') {
-    toastIcon.textContent = '✓';
-    toastIcon.style.color = '#27AE60';
-  } else if (type === 'error') {
-    toastIcon.textContent = '✗';
-    toastIcon.style.color = '#dc2626';
-  } else {
-    toastIcon.textContent = 'ℹ';
-    toastIcon.style.color = '#E8651A';
-  }
-  
-  toast.classList.add('show');
-  setTimeout(() => {
-    toast.classList.remove('show');
-  }, 3000);
-}
-
-// Filter Functionality
-const filterButtons = document.querySelectorAll('.filter-btn');
-const cards = document.querySelectorAll('.resource-card');
-const searchInput = document.getElementById('searchInput');
-const resourcesContainer = document.getElementById('resourcesContainer');
-const emptyState = document.getElementById('emptyState');
-
-function filterAndSearch() {
-  const activeFilter = document.querySelector('.filter-btn.active-btn').dataset.type;
-  const searchTerm = searchInput.value.toLowerCase();
-  
-  let visibleCount = 0;
-  
-  cards.forEach(card => {
-    const category = card.dataset.category;
-    const title = card.dataset.title.toLowerCase();
-    const content = card.innerText.toLowerCase();
-    
-    const matchesFilter = activeFilter === 'all' || category === activeFilter;
-    const matchesSearch = title.includes(searchTerm) || content.includes(searchTerm);
-    
-    if (matchesFilter && matchesSearch) {
-      card.style.display = 'block';
-      visibleCount++;
-    } else {
-      card.style.display = 'none';
+    function showToast(message, type) {
+      const toast = document.getElementById('toast');
+      const toastMessage = toast.querySelector('.toast-message');
+      const toastIcon = toast.querySelector('.toast-icon');
+      
+      toastMessage.textContent = message;
+      
+      if (type === 'success') {
+        toastIcon.textContent = '✓';
+        toastIcon.style.color = '#27AE60';
+      } else if (type === 'error') {
+        toastIcon.textContent = '✗';
+        toastIcon.style.color = '#dc2626';
+      } else {
+        toastIcon.textContent = 'ℹ';
+        toastIcon.style.color = '#E8651A';
+      }
+      
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
     }
-  });
-  
-  if (visibleCount === 0) {
-    emptyState.style.display = 'block';
-    resourcesContainer.style.display = 'none';
-  } else {
-    emptyState.style.display = 'none';
-    resourcesContainer.style.display = 'block';
-  }
-}
 
-filterButtons.forEach(btn => {
-  btn.addEventListener('click', () => {
-    filterButtons.forEach(b => b.classList.remove('active-btn'));
-    btn.classList.add('active-btn');
+    // Filter Functionality
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const cards = document.querySelectorAll('.resource-card');
+    const searchInput = document.getElementById('searchInput');
+    const resourcesContainer = document.getElementById('resourcesContainer');
+    const emptyState = document.getElementById('emptyState');
+
+    function filterAndSearch() {
+      const activeFilter = document.querySelector('.filter-btn.active-btn').dataset.type;
+      const searchTerm = searchInput.value.toLowerCase();
+      
+      let visibleCount = 0;
+      
+      cards.forEach(card => {
+        const category = card.dataset.category;
+        const title = card.dataset.title.toLowerCase();
+        const content = card.innerText.toLowerCase();
+        
+        const matchesFilter = activeFilter === 'all' || category === activeFilter;
+        const matchesSearch = title.includes(searchTerm) || content.includes(searchTerm);
+        
+        if (matchesFilter && matchesSearch) {
+          card.style.display = 'block';
+          visibleCount++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+      
+      if (visibleCount === 0) {
+        emptyState.style.display = 'block';
+        resourcesContainer.style.display = 'none';
+      } else {
+        emptyState.style.display = 'none';
+        resourcesContainer.style.display = 'block';
+      }
+    }
+
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterButtons.forEach(b => b.classList.remove('active-btn'));
+        btn.classList.add('active-btn');
+        filterAndSearch();
+      });
+    });
+
+    searchInput.addEventListener('input', filterAndSearch);
+
+    // CV Upload
+    document.getElementById('cvUpload').addEventListener('change', function(e) {
+      if (this.files[0]) {
+        document.getElementById('cvFileName').textContent = '📄 ' + this.files[0].name;
+        showToast('CV uploaded successfully!', 'success');
+      }
+    });
+
+    // Cover Letter Upload
+    document.getElementById('coverUpload').addEventListener('change', function(e) {
+      if (this.files[0]) {
+        document.getElementById('coverFileName').textContent = '📄 ' + this.files[0].name;
+        showToast('Cover letter uploaded successfully!', 'success');
+      }
+    });
+
+    // See More Links - ONLY for CV and Cover Letter cards (NOT for interview coach)
+    document.querySelectorAll('.resource-card:not([data-category="interview"]) .see-more').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const card = link.closest('.resource-card');
+        const title = card.querySelector('h3').innerText;
+        showToast(`Opening full guide for "${title}"`, 'info');
+      });
+    });
+
+    // Initialize filter
     filterAndSearch();
-  });
-});
-
-searchInput.addEventListener('input', filterAndSearch);
-
-// CV Upload
-document.getElementById('cvUpload').addEventListener('change', function(e) {
-  if (this.files[0]) {
-    document.getElementById('cvFileName').textContent = '📄 ' + this.files[0].name;
-    showToast('CV uploaded successfully!', 'success');
-  }
-});
-
-// Cover Letter Upload
-document.getElementById('coverUpload').addEventListener('change', function(e) {
-  if (this.files[0]) {
-    document.getElementById('coverFileName').textContent = '📄 ' + this.files[0].name;
-    showToast('Cover letter uploaded successfully!', 'success');
-  }
-});
-
-// See More Links - ONLY for CV and Cover Letter cards (NOT for interview coach)
-document.querySelectorAll('.resource-card:not([data-category="interview"]) .see-more').forEach(link => {
-  link.addEventListener('click', (e) => {
-    e.preventDefault();
-    const card = link.closest('.resource-card');
-    const title = card.querySelector('h3').innerText;
-    showToast(`Opening full guide for "${title}"`, 'info');
-  });
-});
-
-// Initialize filter
-filterAndSearch();
   </script>
 </body>
 </html>
