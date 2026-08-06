@@ -8,6 +8,427 @@
   <link rel="stylesheet" href="{% static 'core/css/register.css' %}" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* Choice Popup Styles */
+    .choice-popup {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      animation: fadeIn 0.3s ease;
+    }
+    .choice-popup.show {
+      display: flex;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .choice-card {
+      background: white;
+      border-radius: 20px;
+      padding: 40px 48px;
+      max-width: 480px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+
+    .choice-card__icon {
+      font-size: 3.5rem;
+      margin-bottom: 16px;
+    }
+
+    .choice-card__title {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: #1C1C1C;
+      margin-bottom: 8px;
+    }
+
+    .choice-card__message {
+      font-size: 0.95rem;
+      color: #555;
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+
+    .choice-card__buttons {
+      display: flex;
+      gap: 12px;
+    }
+
+    .choice-card__buttons .btn {
+      flex: 1;
+      padding: 14px 24px;
+      border: none;
+      border-radius: 8px;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      text-align: center;
+    }
+
+    .btn--primary {
+      background: #E8651A;
+      color: white;
+    }
+    .btn--primary:hover {
+      background: #F47C35;
+      transform: translateY(-2px);
+    }
+
+    .btn--outline-primary {
+      background: transparent;
+      color: #E8651A;
+      border: 1px solid #E8651A;
+    }
+    .btn--outline-primary:hover {
+      background: #FFF3EC;
+    }
+
+    /* Success Popup */
+    .success-popup {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      animation: fadeIn 0.3s ease;
+    }
+    .success-popup.show {
+      display: flex;
+    }
+
+    .popup-card {
+      background: white;
+      border-radius: 20px;
+      padding: 40px 48px;
+      max-width: 440px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+
+    .popup-card__icon {
+      font-size: 3.5rem;
+      margin-bottom: 16px;
+    }
+    .popup-card__title {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: #1C1C1C;
+      margin-bottom: 8px;
+    }
+    .popup-card__message {
+      font-size: 0.95rem;
+      color: #555;
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+    .popup-card .btn {
+      padding: 14px 32px;
+      border: none;
+      border-radius: 8px;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    /* ============================================
+       SKILLS & INTERESTS - LINKEDIN STYLE
+       ============================================ */
+    .skill-section {
+      margin-bottom: 20px;
+    }
+
+    .skill-section__label {
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: #1C1C1C;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .skill-section__sub {
+      font-size: 0.75rem;
+      color: #888;
+      margin-bottom: 10px;
+    }
+
+    /* Input wrapper with suggestions */
+    .skill-input-wrapper {
+      position: relative;
+    }
+
+    .skill-input-wrapper .form-input {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid #E5E5E5;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      transition: border-color 0.2s;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .skill-input-wrapper .form-input:focus {
+      outline: none;
+      border-color: #E8651A;
+      box-shadow: 0 0 0 3px rgba(232, 101, 26, 0.1);
+    }
+
+    /* Suggestions dropdown */
+    .suggestions-dropdown {
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0;
+      right: 0;
+      background: white;
+      border: 1px solid #E5E5E5;
+      border-radius: 8px;
+      max-height: 200px;
+      overflow-y: auto;
+      display: none;
+      z-index: 100;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .suggestions-dropdown.show {
+      display: block;
+    }
+
+    .suggestion-item {
+      padding: 10px 14px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      color: #333;
+      transition: background 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .suggestion-item:hover {
+      background: #FFF3EC;
+    }
+
+    .suggestion-item .suggestion-add {
+      color: #E8651A;
+      font-weight: 600;
+      font-size: 0.75rem;
+    }
+
+    .suggestion-item--no-results {
+      color: #888;
+      padding: 12px 14px;
+      font-size: 0.85rem;
+      text-align: center;
+    }
+
+    /* Tags container */
+    .tags-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+      min-height: 36px;
+      padding: 4px 2px;
+    }
+
+    .tag {
+      background: #FFF3EC;
+      color: #E8651A;
+      padding: 6px 12px 6px 14px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid rgba(232, 101, 26, 0.2);
+      animation: tagPop 0.2s ease;
+      cursor: default;
+    }
+
+    .tag--skill {
+      background: #E8F5E9;
+      color: #2E7D32;
+      border-color: rgba(46, 125, 50, 0.2);
+    }
+
+    .tag--interest {
+      background: #E3F2FD;
+      color: #1565C0;
+      border-color: rgba(21, 101, 192, 0.2);
+    }
+
+    @keyframes tagPop {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .tag__remove {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+      line-height: 1;
+      padding: 0 2px;
+      opacity: 0.5;
+      transition: opacity 0.2s;
+      color: inherit;
+    }
+
+    .tag__remove:hover {
+      opacity: 1;
+    }
+
+    /* Loading Overlay */
+    .loading-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255,255,255,0.85);
+      justify-content: center;
+      align-items: center;
+      z-index: 3000;
+    }
+    .loading-overlay.show {
+      display: flex;
+    }
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 4px solid #E5E5E5;
+      border-top-color: #E8651A;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Toast */
+    #toast {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      padding: 12px 20px;
+      transform: translateX(400px);
+      transition: transform 0.3s ease;
+      z-index: 4000;
+      font-family: 'DM Sans', sans-serif;
+      max-width: 350px;
+    }
+    #toast.show {
+      transform: translateX(0);
+    }
+
+    .custom-hidden {
+      display: none;
+      margin-top: 6px;
+    }
+
+    /* Password input with eye toggle - like login page */
+    .form__input-wrap {
+      position: relative;
+    }
+
+    .form__input-wrap .form-input {
+      width: 100%;
+      padding-right: 42px;
+    }
+
+    .form__eye {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #888;
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.2s;
+    }
+
+    .form__eye:hover {
+      color: #E8651A;
+    }
+
+    .form__eye svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .form__eye.is-visible {
+      color: #E8651A;
+    }
+
+    /* Password strength indicator */
+    .password-strength {
+      margin-top: 6px;
+      height: 4px;
+      border-radius: 4px;
+      background: #e5e5e5;
+      overflow: hidden;
+      transition: all 0.3s;
+    }
+
+    .password-strength .strength-bar {
+      height: 100%;
+      width: 0%;
+      border-radius: 4px;
+      transition: width 0.3s ease;
+    }
+
+    .password-strength-text {
+      font-size: 0.7rem;
+      margin-top: 4px;
+      color: #888;
+    }
+
+    @media (max-width: 480px) {
+      .choice-card, .popup-card {
+        padding: 30px 24px;
+      }
+      .choice-card__buttons {
+        flex-direction: column;
+      }
+      .choice-card__buttons .btn {
+        width: 100%;
+      }
+    }
+  </style>
 </head>
 <body>
 
@@ -81,14 +502,33 @@
 
           <div class="form-group">
             <label class="form-label" for="password">Password</label>
-            <input type="password" id="password" class="form-input" />
-            <div id="passwordStrength" class="password-strength"></div>
+            <div class="form__input-wrap">
+              <input type="password" id="password" class="form-input" placeholder="Create a password" />
+              <button class="form__eye" type="button" aria-label="Toggle password visibility" id="togglePwd">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+              </button>
+            </div>
+            <div id="passwordStrength" class="password-strength">
+              <div class="strength-bar" id="strengthBar"></div>
+            </div>
+            <div class="password-strength-text" id="strengthText"></div>
             <span class="form-error" id="passwordError"></span>
           </div>
 
           <div class="form-group">
             <label class="form-label" for="confirmPassword">Confirm Password</label>
-            <input type="password" id="confirmPassword" class="form-input" />
+            <div class="form__input-wrap">
+              <input type="password" id="confirmPassword" class="form-input" placeholder="Confirm your password" />
+              <button class="form__eye" type="button" aria-label="Toggle password visibility" id="toggleConfirmPwd">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+              </button>
+            </div>
             <span class="form-error" id="confirmError"></span>
           </div>
 
@@ -179,42 +619,36 @@
             <span class="form-error" id="locationError"></span>
           </div>
 
-          <div class="form-group">
-            <label class="form-label">Skills (Hold Ctrl/Cmd to select multiple)</label>
-            <select id="skills" class="form-select" multiple size="4">
-              <option value="Python programming">Python programming</option>
-              <option value="JavaScript">JavaScript</option>
-              <option value="Data analysis">Data analysis</option>
-              <option value="Project management">Project management</option>
-              <option value="Financial modelling">Financial modelling</option>
-              <option value="SQL & databases">SQL & databases</option>
-              <option value="Machine learning">Machine learning</option>
-              <option value="Communication">Communication</option>
-            </select>
-            <div class="custom-input-group">
-              <input type="text" id="customSkill" class="form-input" placeholder="Add custom skill" />
-              <button type="button" class="btn--small" id="addSkillBtn">+ Add</button>
+          <!-- SKILLS - LinkedIn Style -->
+          <div class="form-group skill-section">
+            <label class="skill-section__label">Skills</label>
+            <p class="skill-section__sub">Add your skills — type to search or click suggested skills below</p>
+            
+            <div class="skill-input-wrapper">
+              <input type="text" id="skillInput" class="form-input" placeholder="Type a skill (e.g., Python, Project Management)" autocomplete="off" />
+              <div class="suggestions-dropdown" id="skillSuggestions"></div>
             </div>
-            <div id="customSkillsList" class="custom-tags"></div>
+            
+            <div class="tags-container" id="skillsContainer"></div>
+            
+            <!-- Hidden field to store selected skills -->
+            <input type="hidden" id="skillsHidden" name="skills" value="" />
           </div>
 
-          <div class="form-group">
-            <label class="form-label">Interests (Hold Ctrl/Cmd to select multiple)</label>
-            <select id="interests" class="form-select" multiple size="4">
-              <option value="Data Science">Data Science</option>
-              <option value="Artificial Intelligence">Artificial Intelligence</option>
-              <option value="Finance & Banking">Finance & Banking</option>
-              <option value="Marketing & Brand">Marketing & Brand</option>
-              <option value="Entrepreneurship">Entrepreneurship</option>
-              <option value="Software Engineering">Software Engineering</option>
-              <option value="Healthcare">Healthcare</option>
-              <option value="Cybersecurity">Cybersecurity</option>
-            </select>
-            <div class="custom-input-group">
-              <input type="text" id="customInterest" class="form-input" placeholder="Add custom interest" />
-              <button type="button" class="btn--small" id="addInterestBtn">+ Add</button>
+          <!-- INTERESTS - LinkedIn Style -->
+          <div class="form-group skill-section">
+            <label class="skill-section__label">Interests</label>
+            <p class="skill-section__sub">Add your interests — type to search or click suggested interests below</p>
+            
+            <div class="skill-input-wrapper">
+              <input type="text" id="interestInput" class="form-input" placeholder="Type an interest (e.g., Data Science, Finance)" autocomplete="off" />
+              <div class="suggestions-dropdown" id="interestSuggestions"></div>
             </div>
-            <div id="customInterestsList" class="custom-tags"></div>
+            
+            <div class="tags-container" id="interestsContainer"></div>
+            
+            <!-- Hidden field to store selected interests -->
+            <input type="hidden" id="interestsHidden" name="interests" value="" />
           </div>
 
           <div class="form-group">
@@ -228,12 +662,27 @@
     </div>
   </main>
 
+  <!-- CHOICE POPUP: Complete Profile Now or Later -->
+  <div class="choice-popup" id="choicePopup">
+    <div class="choice-card">
+      <div class="choice-card__icon">🎯</div>
+      <h2 class="choice-card__title">Almost there!</h2>
+      <p class="choice-card__message">
+        You've successfully verified your email. Would you like to complete your profile now to get personalized job recommendations, or skip and do it later?
+      </p>
+      <div class="choice-card__buttons">
+        <button class="btn btn--outline-primary" id="completeProfileNow">Complete Profile Now</button>
+        <button class="btn btn--primary" id="skipToDashboard">Skip & Go to Dashboard</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Success Popup -->
   <div class="success-popup" id="successPopup">
     <div class="popup-card">
       <div class="popup-card__icon">🎉</div>
       <h2 class="popup-card__title">Registration Complete!</h2>
-      <p class="popup-card__message">Welcome to CareerGPS! Your profile has been created successfully.</p>
+      <p class="popup-card__message" id="successMessage">Welcome to CareerGPS! Your profile has been created successfully.</p>
       <button class="btn btn--primary" id="goToDashboard">Go to Dashboard</button>
     </div>
   </div>
@@ -243,11 +692,729 @@
     <div class="spinner"></div>
   </div>
 
+  <!-- Toast -->
+  <div id="toast">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <span id="toastIcon" style="font-size: 18px; font-weight: bold;">✓</span>
+      <span id="toastMessage"></span>
+    </div>
+  </div>
+
   <!-- CSRF Token -->
   {% csrf_token %}
 
-  <!-- Test alert to verify page loads -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // ============================================================
+      // PASSWORD VISIBILITY TOGGLE - Like login page
+      // ============================================================
+      const passwordInput = document.getElementById('password');
+      const confirmInput = document.getElementById('confirmPassword');
+      const togglePwd = document.getElementById('togglePwd');
+      const toggleConfirm = document.getElementById('toggleConfirmPwd');
 
-  <script src="{% static 'core/js/register.js' %}"></script>
+      function togglePasswordVisibility(input, button) {
+        const isText = input.type === 'text';
+        input.type = isText ? 'password' : 'text';
+        button.classList.toggle('is-visible', !isText);
+      }
+
+      if (togglePwd) {
+        togglePwd.addEventListener('click', function() {
+          togglePasswordVisibility(passwordInput, this);
+        });
+      }
+
+      if (toggleConfirm) {
+        toggleConfirm.addEventListener('click', function() {
+          togglePasswordVisibility(confirmInput, this);
+        });
+      }
+
+      // ============================================================
+      // PASSWORD STRENGTH INDICATOR
+      // ============================================================
+      const strengthBar = document.getElementById('strengthBar');
+      const strengthText = document.getElementById('strengthText');
+
+      if (passwordInput) {
+        passwordInput.addEventListener('input', function() {
+          const val = this.value;
+          let strength = 0;
+          
+          if (val.length >= 8) strength++;
+          if (val.match(/[a-z]/)) strength++;
+          if (val.match(/[A-Z]/)) strength++;
+          if (val.match(/[0-9]/)) strength++;
+          if (val.match(/[^a-zA-Z0-9]/)) strength++;
+          
+          const percent = Math.min((strength / 5) * 100, 100);
+          strengthBar.style.width = percent + '%';
+          
+          let color, text;
+          if (percent === 0) {
+            color = '#e5e5e5';
+            text = '';
+          } else if (percent <= 20) {
+            color = '#E74C3C';
+            text = 'Weak';
+          } else if (percent <= 40) {
+            color = '#E74C3C';
+            text = 'Weak';
+          } else if (percent <= 60) {
+            color = '#F39C12';
+            text = 'Fair';
+          } else if (percent <= 80) {
+            color = '#2ECC71';
+            text = 'Good';
+          } else {
+            color = '#27AE60';
+            text = 'Strong';
+          }
+          
+          strengthBar.style.background = color;
+          strengthText.textContent = text;
+          strengthText.style.color = color;
+        });
+      }
+
+      // ============================================================
+      // SKILLS & INTERESTS - LINKEDIN STYLE
+      // ============================================================
+
+      // Predefined suggestions
+      const SKILL_SUGGESTIONS = [
+        'Python programming', 'JavaScript', 'Data analysis', 'Project management',
+        'Financial modelling', 'SQL & databases', 'Machine learning', 'Communication',
+        'Leadership', 'Team collaboration', 'Problem solving', 'Critical thinking',
+        'Time management', 'Adaptability', 'Creativity', 'Emotional intelligence',
+        'Conflict resolution', 'Decision making', 'Strategic planning', 'Risk management',
+        'Budgeting', 'Forecasting', 'Market research', 'Digital marketing',
+        'Content creation', 'Graphic design', 'UX/UI design', 'Web development',
+        'Mobile development', 'Cloud computing', 'DevOps', 'Agile methodology',
+        'Scrum', 'Kanban', 'Quality assurance', 'Testing', 'Technical writing',
+        'Public speaking', 'Negotiation', 'Sales', 'Customer service',
+        'Data visualization', 'Statistics', 'Research', 'Writing',
+        'Editing', 'Translation', 'Teaching', 'Coaching', 'Mentoring'
+      ];
+
+      const INTEREST_SUGGESTIONS = [
+        'Data Science', 'Artificial Intelligence', 'Finance & Banking', 'Marketing & Brand',
+        'Entrepreneurship', 'Software Engineering', 'Healthcare', 'Cybersecurity',
+        'Renewable Energy', 'Sustainable Development', 'Education', 'E-commerce',
+        'Digital Transformation', 'Innovation', 'Product Management', 'User Experience',
+        'Business Strategy', 'Consulting', 'Human Resources', 'Talent Acquisition',
+        'Public Policy', 'International Relations', 'Journalism', 'Media & Entertainment',
+        'Sports Management', 'Event Planning', 'Hospitality', 'Tourism',
+        'Real Estate', 'Investment Banking', 'Private Equity', 'Venture Capital',
+        'Blockchain', 'Internet of Things', 'Robotics', 'Biotechnology',
+        'Environmental Science', 'Marine Biology', 'Astronomy', 'Physics',
+        'Mathematics', 'Chemistry', 'Psychology', 'Sociology', 'Anthropology'
+      ];
+
+      // ============================================================
+      // SKILLS
+      // ============================================================
+      const skillInput = document.getElementById('skillInput');
+      const skillSuggestions = document.getElementById('skillSuggestions');
+      const skillsContainer = document.getElementById('skillsContainer');
+      const skillsHidden = document.getElementById('skillsHidden');
+      let selectedSkills = [];
+
+      function renderSkillSuggestions(query) {
+        const filtered = SKILL_SUGGESTIONS.filter(s => 
+          s.toLowerCase().includes(query.toLowerCase()) && 
+          !selectedSkills.includes(s)
+        );
+
+        if (filtered.length === 0 && query.length > 0) {
+          skillSuggestions.innerHTML = `
+            <div class="suggestion-item--no-results">
+              No matching skills found. Press Enter to add "${query}"
+            </div>
+          `;
+          skillSuggestions.classList.add('show');
+          return;
+        }
+
+        if (filtered.length === 0) {
+          skillSuggestions.classList.remove('show');
+          return;
+        }
+
+        skillSuggestions.innerHTML = filtered.map(s => `
+          <div class="suggestion-item" data-value="${s}">
+            <span>${s}</span>
+            <span class="suggestion-add">+ Add</span>
+          </div>
+        `).join('');
+
+        skillSuggestions.querySelectorAll('.suggestion-item').forEach(item => {
+          item.addEventListener('click', function() {
+            addSkill(this.dataset.value);
+          });
+        });
+
+        skillSuggestions.classList.add('show');
+      }
+
+      function addSkill(value) {
+        if (!value || value.trim() === '') return;
+        const trimmed = value.trim();
+        if (selectedSkills.includes(trimmed)) return;
+
+        selectedSkills.push(trimmed);
+        updateSkillsUI();
+        skillInput.value = '';
+        skillSuggestions.classList.remove('show');
+        skillInput.focus();
+        updateHiddenFields();
+      }
+
+      function removeSkill(value) {
+        selectedSkills = selectedSkills.filter(s => s !== value);
+        updateSkillsUI();
+        updateHiddenFields();
+      }
+
+      function updateSkillsUI() {
+        skillsContainer.innerHTML = selectedSkills.map(s => `
+          <span class="tag tag--skill">
+            ${s}
+            <button type="button" class="tag__remove" onclick="removeSkill('${s}')">×</button>
+          </span>
+        `).join('');
+        updateHiddenFields();
+      }
+
+      function updateHiddenFields() {
+        skillsHidden.value = selectedSkills.join(',');
+        interestsHidden.value = selectedInterests.join(',');
+      }
+
+      window.removeSkill = removeSkill;
+
+      skillInput.addEventListener('input', function() {
+        const query = this.value.trim();
+        if (query.length > 0) {
+          renderSkillSuggestions(query);
+        } else {
+          skillSuggestions.classList.remove('show');
+        }
+      });
+
+      skillInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          const query = this.value.trim();
+          if (query.length > 0 && !selectedSkills.includes(query)) {
+            addSkill(query);
+          }
+        }
+        if (e.key === 'Escape') {
+          skillSuggestions.classList.remove('show');
+        }
+      });
+
+      skillInput.addEventListener('blur', function() {
+        setTimeout(() => {
+          skillSuggestions.classList.remove('show');
+        }, 200);
+      });
+
+      document.addEventListener('click', function(e) {
+        if (!e.target.closest('.skill-input-wrapper')) {
+          skillSuggestions.classList.remove('show');
+        }
+      });
+
+      // ============================================================
+      // INTERESTS
+      // ============================================================
+      const interestInput = document.getElementById('interestInput');
+      const interestSuggestions = document.getElementById('interestSuggestions');
+      const interestsContainer = document.getElementById('interestsContainer');
+      const interestsHidden = document.getElementById('interestsHidden');
+      let selectedInterests = [];
+
+      function renderInterestSuggestions(query) {
+        const filtered = INTEREST_SUGGESTIONS.filter(s => 
+          s.toLowerCase().includes(query.toLowerCase()) && 
+          !selectedInterests.includes(s)
+        );
+
+        if (filtered.length === 0 && query.length > 0) {
+          interestSuggestions.innerHTML = `
+            <div class="suggestion-item--no-results">
+              No matching interests found. Press Enter to add "${query}"
+            </div>
+          `;
+          interestSuggestions.classList.add('show');
+          return;
+        }
+
+        if (filtered.length === 0) {
+          interestSuggestions.classList.remove('show');
+          return;
+        }
+
+        interestSuggestions.innerHTML = filtered.map(s => `
+          <div class="suggestion-item" data-value="${s}">
+            <span>${s}</span>
+            <span class="suggestion-add">+ Add</span>
+          </div>
+        `).join('');
+
+        interestSuggestions.querySelectorAll('.suggestion-item').forEach(item => {
+          item.addEventListener('click', function() {
+            addInterest(this.dataset.value);
+          });
+        });
+
+        interestSuggestions.classList.add('show');
+      }
+
+      function addInterest(value) {
+        if (!value || value.trim() === '') return;
+        const trimmed = value.trim();
+        if (selectedInterests.includes(trimmed)) return;
+
+        selectedInterests.push(trimmed);
+        updateInterestsUI();
+        interestInput.value = '';
+        interestSuggestions.classList.remove('show');
+        interestInput.focus();
+        updateHiddenFields();
+      }
+
+      function removeInterest(value) {
+        selectedInterests = selectedInterests.filter(s => s !== value);
+        updateInterestsUI();
+        updateHiddenFields();
+      }
+
+      function updateInterestsUI() {
+        interestsContainer.innerHTML = selectedInterests.map(s => `
+          <span class="tag tag--interest">
+            ${s}
+            <button type="button" class="tag__remove" onclick="removeInterest('${s}')">×</button>
+          </span>
+        `).join('');
+        updateHiddenFields();
+      }
+
+      window.removeInterest = removeInterest;
+
+      interestInput.addEventListener('input', function() {
+        const query = this.value.trim();
+        if (query.length > 0) {
+          renderInterestSuggestions(query);
+        } else {
+          interestSuggestions.classList.remove('show');
+        }
+      });
+
+      interestInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          const query = this.value.trim();
+          if (query.length > 0 && !selectedInterests.includes(query)) {
+            addInterest(query);
+          }
+        }
+        if (e.key === 'Escape') {
+          interestSuggestions.classList.remove('show');
+        }
+      });
+
+      interestInput.addEventListener('blur', function() {
+        setTimeout(() => {
+          interestSuggestions.classList.remove('show');
+        }, 200);
+      });
+
+      document.addEventListener('click', function(e) {
+        if (!e.target.closest('.skill-input-wrapper')) {
+          interestSuggestions.classList.remove('show');
+        }
+      });
+
+      // ============================================================
+      // REGISTRATION FLOW
+      // ============================================================
+
+      const choicePopup = document.getElementById('choicePopup');
+      const successPopup = document.getElementById('successPopup');
+      const loadingOverlay = document.getElementById('loadingOverlay');
+      const successMessage = document.getElementById('successMessage');
+      const goToDashboard = document.getElementById('goToDashboard');
+      const completeProfileNow = document.getElementById('completeProfileNow');
+      const skipToDashboard = document.getElementById('skipToDashboard');
+
+      let userEmail = '';
+      let userData = {};
+
+      function getCsrfToken() {
+        const token = document.querySelector('[name=csrfmiddlewaretoken]');
+        if (token) return token.value;
+        const cookie = document.cookie.match(/csrftoken=([^;]+)/);
+        return cookie ? cookie[1] : '';
+      }
+
+      function goToStep(step) {
+        document.querySelectorAll('.register-step').forEach(s => s.style.display = 'none');
+        document.getElementById(`step${step}`).style.display = 'block';
+        document.querySelectorAll('.step').forEach(s => s.classList.remove('step--active'));
+        document.querySelector(`.step[data-step="${step}"]`).classList.add('step--active');
+      }
+
+      function showLoading() {
+        loadingOverlay.classList.add('show');
+      }
+
+      function hideLoading() {
+        loadingOverlay.classList.remove('show');
+      }
+
+      function showToast(message, type) {
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toastMessage');
+        const toastIcon = document.getElementById('toastIcon');
+        
+        toastMessage.textContent = message;
+        if (type === 'success') {
+          toastIcon.textContent = '✓';
+          toastIcon.style.color = '#27AE60';
+        } else {
+          toastIcon.textContent = '✗';
+          toastIcon.style.color = '#dc2626';
+        }
+        
+        toast.classList.add('show');
+        setTimeout(() => {
+          toast.classList.remove('show');
+        }, 3000);
+      }
+
+      // ============================================================
+      // STEP 1: REGISTER
+      // ============================================================
+      document.getElementById('registerForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const firstName = document.getElementById('firstName').value.trim();
+        const lastName = document.getElementById('lastName').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        
+        let valid = true;
+        
+        if (!firstName) {
+          document.getElementById('firstNameError').textContent = 'First name is required';
+          valid = false;
+        } else {
+          document.getElementById('firstNameError').textContent = '';
+        }
+        
+        if (!lastName) {
+          document.getElementById('lastNameError').textContent = 'Last name is required';
+          valid = false;
+        } else {
+          document.getElementById('lastNameError').textContent = '';
+        }
+        
+        if (!email || !email.includes('@')) {
+          document.getElementById('emailError').textContent = 'Valid email is required';
+          valid = false;
+        } else {
+          document.getElementById('emailError').textContent = '';
+        }
+        
+        if (password.length < 8) {
+          document.getElementById('passwordError').textContent = 'Password must be at least 8 characters';
+          valid = false;
+        } else {
+          document.getElementById('passwordError').textContent = '';
+        }
+        
+        if (password !== confirmPassword) {
+          document.getElementById('confirmError').textContent = 'Passwords do not match';
+          valid = false;
+        } else {
+          document.getElementById('confirmError').textContent = '';
+        }
+        
+        if (!valid) return;
+        
+        showLoading();
+        
+        try {
+          const response = await fetch('/api/register/', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRFToken': getCsrfToken()
+            },
+            body: JSON.stringify({
+              first_name: firstName,
+              last_name: lastName,
+              email: email,
+              password: password
+            })
+          });
+          
+          const data = await response.json();
+          
+          if (data.success) {
+            userEmail = email;
+            userData = data.user || {};
+            document.getElementById('userEmail').textContent = email;
+            goToStep(2);
+          } else {
+            let errorMsg = 'Registration failed. Please try again.';
+            if (data.error) {
+              errorMsg = data.error;
+            } else if (data.errors) {
+              errorMsg = Object.values(data.errors).flat().join(', ');
+            }
+            document.getElementById('emailError').textContent = errorMsg;
+          }
+        } catch (error) {
+          console.error('Registration error:', error);
+          document.getElementById('emailError').textContent = 'Network error. Please try again.';
+        } finally {
+          hideLoading();
+        }
+      });
+
+      // ============================================================
+      // STEP 2: VERIFY
+      // ============================================================
+      document.getElementById('verifyForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const code = document.getElementById('verificationCode').value.trim();
+        
+        if (!code || code.length !== 6) {
+          document.getElementById('codeError').textContent = 'Please enter a valid 6-digit code';
+          return;
+        }
+        
+        showLoading();
+        
+        try {
+          const response = await fetch('/api/verify-email/', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRFToken': getCsrfToken()
+            },
+            body: JSON.stringify({
+              email: userEmail,
+              code: code
+            })
+          });
+          
+          const data = await response.json();
+          
+          if (data.success) {
+            userData = data.user || {};
+            document.getElementById('step2').style.display = 'none';
+            choicePopup.classList.add('show');
+          } else {
+            document.getElementById('codeError').textContent = data.error || 'Invalid verification code';
+          }
+        } catch (error) {
+          console.error('Verification error:', error);
+          document.getElementById('codeError').textContent = 'Network error. Please try again.';
+        } finally {
+          hideLoading();
+        }
+      });
+
+      // Resend code
+      document.getElementById('resendBtn').addEventListener('click', async function() {
+        showLoading();
+        try {
+          const response = await fetch('/api/resend-verification/', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRFToken': getCsrfToken()
+            },
+            body: JSON.stringify({ email: userEmail })
+          });
+          const data = await response.json();
+          if (data.success) {
+            showToast('New verification code sent to your email', 'success');
+          }
+        } catch (error) {
+          console.error('Resend error:', error);
+        } finally {
+          hideLoading();
+        }
+      });
+
+      // ============================================================
+      // CHOICE POPUP HANDLERS
+      // ============================================================
+      completeProfileNow.addEventListener('click', function() {
+        choicePopup.classList.remove('show');
+        goToStep(3);
+      });
+
+      skipToDashboard.addEventListener('click', function() {
+        choicePopup.classList.remove('show');
+        loginUser();
+      });
+
+      // ============================================================
+      // STEP 3: PROFILE COMPLETION
+      // ============================================================
+      document.getElementById('profileForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const degree = document.getElementById('degree').value;
+        const customDegree = document.getElementById('customDegree').value;
+        const institution = document.getElementById('institution').value;
+        const customInstitution = document.getElementById('customInstitution').value;
+        const location = document.getElementById('location').value;
+        const customLocation = document.getElementById('customLocation').value;
+        const otherSkills = document.getElementById('otherSkills').value;
+        
+        const skills = skillsHidden.value.split(',').filter(s => s.trim() !== '');
+        const interests = interestsHidden.value.split(',').filter(s => s.trim() !== '');
+        
+        showLoading();
+        
+        try {
+          const response = await fetch('/api/complete-profile/', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRFToken': getCsrfToken()
+            },
+            body: JSON.stringify({
+              email: userEmail,
+              degree: customDegree || degree,
+              institution: customInstitution || institution,
+              location: customLocation || location,
+              skills: skills,
+              interests: interests,
+              other_skills: otherSkills
+            })
+          });
+          
+          const data = await response.json();
+          
+          if (data.success) {
+            await loginUser();
+          } else {
+            const errorMsg = data.error || 'Profile update failed. Please try again.';
+            showToast(errorMsg, 'error');
+          }
+        } catch (error) {
+          console.error('Profile error:', error);
+          showToast('Network error. Please try again.', 'error');
+        } finally {
+          hideLoading();
+        }
+      });
+
+      // ============================================================
+      // LOGIN USER FUNCTION
+      // ============================================================
+      async function loginUser() {
+        showLoading();
+        
+        try {
+          const password = document.getElementById('password').value;
+          
+          const response = await fetch('/api/signin/', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRFToken': getCsrfToken()
+            },
+            body: JSON.stringify({
+              email: userEmail,
+              password: password
+            })
+          });
+          
+          const data = await response.json();
+          
+          if (data.success) {
+            successMessage.textContent = 'Welcome to CareerGPS! Your account has been created successfully.';
+            successPopup.classList.add('show');
+          } else {
+            successMessage.textContent = 'Welcome to CareerGPS! Please sign in to continue.';
+            successPopup.classList.add('show');
+          }
+        } catch (error) {
+          console.error('Login error:', error);
+          successMessage.textContent = 'Welcome to CareerGPS! Please sign in to continue.';
+          successPopup.classList.add('show');
+        } finally {
+          hideLoading();
+        }
+      }
+
+      // ============================================================
+      // GO TO DASHBOARD
+      // ============================================================
+      goToDashboard.addEventListener('click', function() {
+        window.location.href = "{% url 'welcome' %}";
+      });
+
+      // ============================================================
+      // CLOSE POPUPS ON OUTSIDE CLICK
+      // ============================================================
+      document.addEventListener('click', function(event) {
+        if (event.target === choicePopup) {
+          choicePopup.classList.remove('show');
+        }
+        if (event.target === successPopup) {
+          successPopup.classList.remove('show');
+        }
+      });
+
+      // ============================================================
+      // CUSTOM DEGREE, INSTITUTION, LOCATION TOGGLES
+      // ============================================================
+      document.getElementById('degree').addEventListener('change', function() {
+        const customInput = document.getElementById('customDegree');
+        if (this.value === 'other') {
+          customInput.style.display = 'block';
+        } else {
+          customInput.style.display = 'none';
+          customInput.value = '';
+        }
+      });
+
+      document.getElementById('institution').addEventListener('change', function() {
+        const customInput = document.getElementById('customInstitution');
+        if (this.value === 'other') {
+          customInput.style.display = 'block';
+        } else {
+          customInput.style.display = 'none';
+          customInput.value = '';
+        }
+      });
+
+      document.getElementById('location').addEventListener('change', function() {
+        const customInput = document.getElementById('customLocation');
+        if (this.value === 'other') {
+          customInput.style.display = 'block';
+        } else {
+          customInput.style.display = 'none';
+          customInput.value = '';
+        }
+      });
+
+      console.log('Registration page loaded with password toggle and LinkedIn-style skills & interests');
+    });
+  </script>
 </body>
 </html>

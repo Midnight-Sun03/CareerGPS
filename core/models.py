@@ -34,6 +34,15 @@ class Interest(models.Model):
 
 class Opportunity(models.Model):
     
+    class Meta:
+        indexes = [
+            models.Index(fields=['is_active'], name='idx_is_active'),
+            models.Index(fields=['opportunity_type'], name='idx_opportunity_type'),
+            models.Index(fields=['-date_listed'], name='idx_date_listed'),
+            models.Index(fields=['is_active', 'opportunity_type'], name='idx_active_type'),
+            models.Index(fields=['is_active', '-date_listed'], name='idx_active_date'),
+        ]
+    
     TYPE_CHOICES = [
         ('internship', 'Internship'),
         ('learnership', 'Learnership'),
@@ -58,6 +67,10 @@ class Opportunity(models.Model):
     application_deadline = models.DateField(null=True, blank=True)
     date_listed = models.DateTimeField(auto_now_add=True)
     is_active = models.BooleanField(default=True)
+    # ... other fields ...
+    redirect_url = models.URLField(blank=True, max_length=500)  # ← This should exist
+    click_count = models.IntegerField(default=0)  # ← Add this if you want to track clicks
+    last_clicked = models.DateTimeField(null=True, blank=True)  # ← Optional
 
     def __str__(self):
         return f"{self.title} - {self.company}"
@@ -157,7 +170,33 @@ class Story(models.Model):
     def __str__(self):
         return f"{self.display_name} - {self.title}"
     
+# Add these models to your models.py
 
+class Comment(models.Model):
+    story = models.ForeignKey('Story', on_delete=models.CASCADE, related_name='comments')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='replies')
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    is_edited = models.BooleanField(default=False)
+    
+    class Meta:
+        ordering = ['created_at']
+    
+    def __str__(self):
+        return f"Comment by {self.user.username} on {self.story.title[:20]}"
+    
+class StoryLike(models.Model):
+    story = models.ForeignKey(Story, on_delete=models.CASCADE, related_name='likes')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        unique_together = ['story', 'user']
+    
+    def __str__(self):
+        return f"{self.user.username} liked {self.story.title[:20]}"
 
 
     

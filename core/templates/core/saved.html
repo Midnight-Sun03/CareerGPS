@@ -20,6 +20,10 @@
       --page-bg: #F7F7F7;
       --green: #27AE60;
       --green-bg: #EAFAF1;
+      --yellow: #F39C12;
+      --yellow-bg: #FEF9E7;
+      --red: #E74C3C;
+      --red-bg: #FDEDEC;
       --tag-intern: #FFF3EC;
       --tag-intern-c: #E8651A;
       --tag-learnership: #E8F5E9;
@@ -48,7 +52,6 @@
       min-height: 100vh;
     }
 
-    /* Sidebar */
     .sidebar {
       width: 260px;
       min-height: 100vh;
@@ -72,9 +75,7 @@
       letter-spacing: -0.3px;
     }
 
-    .sidebar-logo span {
-      color: #fff;
-    }
+    .sidebar-logo span { color: #fff; }
 
     .nav-item {
       display: flex;
@@ -91,26 +92,10 @@
       border-radius: 0;
     }
 
-    .nav-item:hover {
-      background: var(--sidebar-hover);
-      color: #fff;
-    }
+    .nav-item:hover { background: var(--sidebar-hover); color: #fff; }
+    .nav-item.active { background: var(--orange); color: #fff; border-radius: 0 8px 8px 0; margin-right: 16px; }
+    .nav-icon { width: 18px; height: 18px; flex-shrink: 0; opacity: 0.9; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
-    .nav-item.active {
-      background: var(--orange);
-      color: #fff;
-      border-radius: 0 8px 8px 0;
-      margin-right: 16px;
-    }
-
-    .nav-icon {
-      width: 18px;
-      height: 18px;
-      flex-shrink: 0;
-      opacity: 0.9;
-    }
-
-    /* Main Content */
     .main {
       margin-left: 260px;
       flex: 1;
@@ -118,29 +103,11 @@
       max-width: calc(100vw - 260px);
     }
 
-    /* Header */
-    .page-header {
-      margin-bottom: 32px;
-    }
+    .page-header { margin-bottom: 32px; }
+    .page-title { font-family: 'Montserrat', sans-serif; font-size: 1.75rem; font-weight: 700; color: var(--text-dark); margin-bottom: 6px; }
+    .page-title span { color: var(--orange); }
+    .page-subtitle { font-size: 0.95rem; color: var(--text-mid); }
 
-    .page-title {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 1.75rem;
-      font-weight: 700;
-      color: var(--text-dark);
-      margin-bottom: 6px;
-    }
-
-    .page-title span {
-      color: var(--orange);
-    }
-
-    .page-subtitle {
-      font-size: 0.95rem;
-      color: var(--text-mid);
-    }
-
-    /* Stats Row */
     .stats-row {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -156,9 +123,7 @@
       transition: all 0.2s;
     }
 
-    .stat-card:hover {
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    }
+    .stat-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
 
     .stat-label {
       font-size: 0.75rem;
@@ -178,12 +143,8 @@
       margin: 8px 0 4px;
     }
 
-    .stat-sub {
-      font-size: 0.75rem;
-      color: var(--text-mid);
-    }
+    .stat-sub { font-size: 0.75rem; color: var(--text-mid); }
 
-    /* Filters Row */
     .filters-row {
       display: flex;
       align-items: center;
@@ -205,18 +166,9 @@
       color: var(--text-mid);
     }
 
-    .filter-btn:hover {
-      border-color: var(--orange);
-      color: var(--orange);
-    }
+    .filter-btn:hover { border-color: var(--orange); color: var(--orange); }
+    .filter-btn.active { background: var(--orange); border-color: var(--orange); color: white; }
 
-    .filter-btn.active {
-      background: var(--orange);
-      border-color: var(--orange);
-      color: white;
-    }
-
-    /* Job Card */
     .job-card {
       background: var(--card-bg);
       border: 1px solid var(--border);
@@ -239,12 +191,7 @@
       margin-bottom: 12px;
     }
 
-    .tags {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
+    .tags { display: flex; gap: 8px; flex-wrap: wrap; }
     .tag {
       font-size: 0.7rem;
       font-weight: 600;
@@ -255,47 +202,25 @@
       letter-spacing: 0.4px;
     }
 
-    .tag-internship {
-      background: var(--tag-intern);
-      color: var(--tag-intern-c);
-    }
-
-    .tag-graduate {
-      background: var(--tag-graduate);
-      color: var(--tag-graduate-c);
-    }
-
-    .tag-learnership {
-      background: var(--tag-learnership);
-      color: var(--tag-learnership-c);
-    }
-
-    .tag-closed {
-      background: var(--badge-gray-bg);
-      color: var(--badge-gray-text);
-    }
-
-    .tag-closing-soon {
-      background: var(--badge-red-bg);
-      color: var(--badge-red-text);
-      border: 1px solid #FECACA;
-    }
-
-    .tag-open {
-      background: var(--badge-green-bg);
-      color: var(--badge-green-text);
-      border: 1px solid #A7F3D0;
-    }
+    .tag-internship { background: var(--tag-intern); color: var(--tag-intern-c); }
+    .tag-graduate { background: var(--tag-graduate); color: var(--tag-graduate-c); }
+    .tag-learnership { background: var(--tag-learnership); color: var(--tag-learnership-c); }
+    .tag-closed { background: var(--badge-gray-bg); color: var(--badge-gray-text); }
+    .tag-closing-soon { background: var(--badge-red-bg); color: var(--badge-red-text); border: 1px solid #FECACA; }
+    .tag-open { background: var(--badge-green-bg); color: var(--badge-green-text); border: 1px solid #A7F3D0; }
 
     .match-badge {
       font-size: 0.7rem;
       font-weight: 700;
-      padding: 4px 10px;
+      font-family: 'Montserrat', sans-serif;
+      padding: 4px 12px;
       border-radius: 6px;
-      background: var(--green-bg);
-      color: var(--green);
     }
+    .match-badge.high { background: var(--green-bg); color: var(--green); }
+    .match-badge.medium { background: var(--yellow-bg); color: var(--yellow); }
+    .match-badge.low { background: var(--red-bg); color: var(--red); }
 
+    /* FIXED: Bookmark button - always orange when saved */
     .bookmark-btn {
       background: none;
       border: none;
@@ -303,18 +228,22 @@
       color: var(--orange);
       padding: 4px;
       border-radius: 6px;
-      transition: background 0.18s;
+      transition: background 0.18s, transform 0.2s;
       display: flex;
       align-items: center;
     }
 
     .bookmark-btn:hover {
       background: var(--orange-pale);
+      transform: scale(1.1);
     }
 
     .bookmark-btn svg {
-      width: 20px;
-      height: 20px;
+      width: 22px;
+      height: 22px;
+      fill: var(--orange);
+      stroke: var(--orange);
+      stroke-width: 1.5;
     }
 
     .job-title {
@@ -334,34 +263,13 @@
       margin-bottom: 14px;
     }
 
-    .job-meta span {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
+    .job-meta span { display: flex; align-items: center; gap: 5px; }
+    .job-meta svg { width: 14px; height: 14px; color: var(--text-light); }
 
-    .job-meta svg {
-      width: 14px;
-      height: 14px;
-      color: var(--text-light);
-    }
-
-    .closing-label {
-      font-size: 0.75rem;
-      font-weight: 600;
-    }
-
-    .closing-label.closed {
-      color: var(--badge-gray-text);
-    }
-
-    .closing-label.urgent {
-      color: var(--badge-red-text);
-    }
-
-    .closing-label.open {
-      color: var(--badge-green-text);
-    }
+    .closing-label { font-size: 0.75rem; font-weight: 600; }
+    .closing-label.closed { color: var(--badge-gray-text); }
+    .closing-label.urgent { color: var(--badge-red-text); }
+    .closing-label.open { color: var(--badge-green-text); }
 
     .why-box {
       background: var(--orange-pale);
@@ -381,11 +289,7 @@
       margin-bottom: 5px;
     }
 
-    .why-box p {
-      font-size: 0.85rem;
-      color: var(--text-mid);
-      line-height: 1.5;
-    }
+    .why-box p { font-size: 0.85rem; color: var(--text-mid); line-height: 1.5; }
 
     .card-actions {
       display: flex;
@@ -404,11 +308,12 @@
       gap: 5px;
       transition: gap 0.18s;
       cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
     }
 
-    .view-link:hover {
-      gap: 9px;
-    }
+    .view-link:hover { gap: 9px; }
 
     .apply-btn {
       background: var(--orange);
@@ -423,11 +328,7 @@
       transition: background 0.18s;
     }
 
-    .apply-btn:hover {
-      background: var(--orange-light);
-      transform: translateY(-1px);
-    }
-
+    .apply-btn:hover { background: var(--orange-light); transform: translateY(-1px); }
     .apply-btn:disabled {
       background: var(--badge-gray-bg);
       color: var(--badge-gray-text);
@@ -435,7 +336,79 @@
       transform: none;
     }
 
-    /* Empty State */
+    /* Apply Modal */
+    .apply-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.6);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .apply-modal.active { display: flex; }
+    .apply-modal-content {
+      background: white;
+      padding: 32px 40px;
+      border-radius: 20px;
+      max-width: 480px;
+      width: 90%;
+      text-align: center;
+      animation: fadeUp 0.3s ease;
+    }
+    .apply-modal-icon { font-size: 48px; margin-bottom: 16px; }
+    .apply-modal h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.2rem;
+      color: var(--text-dark);
+      margin-bottom: 12px;
+    }
+    .apply-modal .apply-company {
+      font-size: 0.9rem;
+      color: var(--text-mid);
+      margin-bottom: 16px;
+    }
+    .apply-modal .apply-message {
+      color: var(--text-mid);
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+    }
+    .apply-modal .apply-note {
+      font-size: 0.85rem;
+      color: var(--text-light);
+      margin-bottom: 24px;
+    }
+    .apply-modal-buttons {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+    }
+    .apply-modal-buttons .btn-cancel {
+      background: #e5e5e5;
+      color: #333;
+      border: none;
+      padding: 12px 28px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.18s;
+    }
+    .apply-modal-buttons .btn-cancel:hover { background: #d5d5d5; }
+    .apply-modal-buttons .btn-confirm {
+      background: var(--orange);
+      color: white;
+      border: none;
+      padding: 12px 28px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.18s;
+    }
+    .apply-modal-buttons .btn-confirm:hover { background: var(--orange-light); }
+
     .empty-state {
       text-align: center;
       padding: 60px 20px;
@@ -457,10 +430,7 @@
       margin-bottom: 8px;
     }
 
-    .empty-state p {
-      color: var(--text-mid);
-    }
-
+    .empty-state p { color: var(--text-mid); }
     .empty-state .browse-link {
       display: inline-block;
       margin-top: 20px;
@@ -472,7 +442,6 @@
       font-weight: 600;
     }
 
-    /* Large Details Modal (same as Welcome page) */
     .large-modal {
       display: none;
       position: fixed;
@@ -486,10 +455,7 @@
       z-index: 1000;
     }
 
-    .large-modal.show {
-      display: flex;
-    }
-
+    .large-modal.show { display: flex; }
     .large-modal-dialog {
       width: 90%;
       max-width: 800px;
@@ -533,9 +499,7 @@
       line-height: 1;
     }
 
-    .large-modal-close-btn:hover {
-      color: var(--orange);
-    }
+    .large-modal-close-btn:hover { color: var(--orange); }
 
     .large-modal-body {
       padding: 24px 32px;
@@ -551,10 +515,7 @@
       justify-content: flex-end;
     }
 
-    .modal-section {
-      margin-bottom: 20px;
-    }
-
+    .modal-section { margin-bottom: 20px; }
     .modal-section-label {
       font-weight: 700;
       color: var(--orange);
@@ -562,29 +523,19 @@
       text-transform: uppercase;
       margin-bottom: 6px;
     }
-
     .modal-section-value {
       color: var(--text-mid);
       font-size: 0.95rem;
       line-height: 1.6;
     }
-
-    .modal-section-value a {
-      color: var(--orange);
-      text-decoration: none;
-    }
-
-    .modal-section-value a:hover {
-      text-decoration: underline;
-    }
-
+    .modal-section-value a { color: var(--orange); text-decoration: none; }
+    .modal-section-value a:hover { text-decoration: underline; }
     .modal-divider {
       height: 1px;
       background: var(--border);
       margin: 20px 0;
     }
 
-    /* Toast Notification */
     .toast {
       position: fixed;
       bottom: 30px;
@@ -598,27 +549,11 @@
       z-index: 1000;
     }
 
-    .toast.show {
-      transform: translateX(0);
-    }
+    .toast.show { transform: translateX(0); }
+    .toast-content { display: flex; align-items: center; gap: 10px; }
+    .toast-icon { font-size: 18px; font-weight: bold; }
 
-    .toast-content {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .toast-icon {
-      font-size: 18px;
-      font-weight: bold;
-    }
-
-    /* Loading Spinner */
-    .loading-spinner {
-      text-align: center;
-      padding: 60px;
-    }
-
+    .loading-spinner { text-align: center; padding: 60px; }
     .spinner {
       width: 50px;
       height: 50px;
@@ -630,77 +565,30 @@
     }
 
     @keyframes fadeUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* SVG Icons */
-    svg {
-      fill: none;
-      stroke: currentColor;
-      stroke-width: 2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
+    svg { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
-    /* Responsive */
     @media (max-width: 1024px) {
-      .stats-row {
-        grid-template-columns: 1fr;
-      }
+      .stats-row { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 768px) {
-      .sidebar {
-        width: 80px;
-      }
-      
-      .sidebar-logo {
-        padding: 0 16px 32px;
-        font-size: 1rem;
-      }
-      
-      .sidebar-logo span {
-        display: none;
-      }
-      
-      .nav-item span {
-        display: none;
-      }
-      
-      .main {
-        margin-left: 80px;
-        padding: 20px;
-        max-width: calc(100vw - 80px);
-      }
-      
-      .filters-row {
-        flex-direction: column;
-        align-items: stretch;
-      }
-      
-      .job-meta {
-        gap: 12px;
-      }
-      
-      .card-actions {
-        flex-direction: column;
-        gap: 12px;
-      }
-      
-      .large-modal-header, .large-modal-body, .large-modal-footer {
-        padding: 20px;
-      }
+      .sidebar { width: 80px; }
+      .sidebar-logo { padding: 0 16px 32px; font-size: 1rem; }
+      .sidebar-logo span { display: none; }
+      .nav-item span { display: none; }
+      .main { margin-left: 80px; padding: 20px; max-width: calc(100vw - 80px); }
+      .filters-row { flex-direction: column; align-items: stretch; }
+      .job-meta { gap: 12px; }
+      .card-actions { flex-direction: column; gap: 12px; }
+      .large-modal-header, .large-modal-body, .large-modal-footer { padding: 20px; }
+      .apply-modal-content { padding: 24px 20px; }
+      .apply-modal-buttons { flex-direction: column; }
     }
   </style>
 </head>
@@ -710,57 +598,37 @@
     <div class="sidebar-logo">Career<span>GPS</span></div>
     
     <a class="nav-item" href="{% url 'welcome' %}">
-      <svg class="nav-icon" viewBox="0 0 24 24">
-        <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z" />
-        <polyline points="9 21 9 12 15 12 15 21" />
-      </svg>
+      <svg class="nav-icon" viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z" /><polyline points="9 21 9 12 15 12 15 21" /></svg>
       <span>Home</span>
     </a>
     
     <a class="nav-item" href="{% url 'opportunities' %}">
-      <svg class="nav-icon" viewBox="0 0 24 24">
-        <rect x="2" y="7" width="20" height="14" rx="2" />
-        <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" />
-      </svg>
+      <svg class="nav-icon" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2" /><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" /></svg>
       <span>Opportunities</span>
     </a>
     
     <a class="nav-item active" href="{% url 'saved' %}">
-      <svg class="nav-icon" viewBox="0 0 24 24">
-        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
-      </svg>
+      <svg class="nav-icon" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" /></svg>
       <span>Saved</span>
     </a>
     
     <a class="nav-item" href="{% url 'resources' %}">
-      <svg class="nav-icon" viewBox="0 0 24 24">
-        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
-        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
-      </svg>
+      <svg class="nav-icon" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" /><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" /></svg>
       <span>Resources</span>
     </a>
     
     <a class="nav-item" href="{% url 'profile' %}">
-      <svg class="nav-icon" viewBox="0 0 24 24">
-        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-        <circle cx="12" cy="7" r="4" />
-      </svg>
+      <svg class="nav-icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></svg>
       <span>Profile</span>
     </a>
     
     <a class="nav-item" href="{% url 'stories' %}">
-      <svg class="nav-icon" viewBox="0 0 24 24">
-        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-      </svg>
+      <svg class="nav-icon" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg>
       <span>Stories</span>
     </a>
     
     <a class="nav-item" href="{% url 'signin' %}" style="margin-top: auto;">
-      <svg class="nav-icon" viewBox="0 0 24 24">
-        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-        <polyline points="16 17 21 12 16 7" />
-        <line x1="21" y1="12" x2="9" y2="12" />
-      </svg>
+      <svg class="nav-icon" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /><polyline points="16 17 21 12 16 7" /><line x1="21" y1="12" x2="9" y2="12" /></svg>
       <span>Logout</span>
     </a>
   </aside>
@@ -787,7 +655,7 @@
       <div class="stat-card">
         <div class="stat-label">Strong Matches</div>
         <div class="stat-value" id="strongMatches">0</div>
-        <div class="stat-sub">Based on your profile</div>
+        <div class="stat-sub">70%+ match score</div>
       </div>
     </div>
 
@@ -818,7 +686,22 @@
     </div>
   </main>
 
-  <!-- Large Details Modal (same as Welcome page) -->
+  <!-- Apply Modal -->
+  <div class="apply-modal" id="applyModal">
+    <div class="apply-modal-content">
+      <div class="apply-modal-icon">📌</div>
+      <h3 id="applyTitle">Apply for this opportunity</h3>
+      <p class="apply-company" id="applyCompany"></p>
+      <p class="apply-message">You are about to leave CareerGPS and visit the company's application page.</p>
+      <p class="apply-note">🔗 This will open in a new tab. You can always come back here.</p>
+      <div class="apply-modal-buttons">
+        <button class="btn-cancel" onclick="closeApplyModal()">Cancel</button>
+        <button class="btn-confirm" id="confirmApplyBtn" onclick="confirmApply()">Continue to Apply →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Large Details Modal -->
   <div class="large-modal" id="detailsModal">
     <div class="large-modal-dialog">
       <div class="large-modal-content">
@@ -846,6 +729,9 @@
   <script>
     let currentModalOpp = null;
     let savedOpportunitiesData = [];
+    let pendingApplyUrl = '';
+    let pendingApplyTitle = '';
+    let pendingApplyId = null;
 
     // CSRF Token
     function getCookie(name) {
@@ -865,7 +751,67 @@
 
     const csrftoken = getCookie('csrftoken');
 
-    // Show Toast
+    // ============================================================
+    // APPLY MODAL FUNCTIONS
+    // ============================================================
+    function openApplyModal(url, title, company, id) {
+      if (!url || url === '#') {
+        showToast('No application link available for this opportunity', 'error');
+        return;
+      }
+      
+      pendingApplyUrl = url;
+      pendingApplyTitle = title;
+      pendingApplyId = id;
+      
+      document.getElementById('applyTitle').textContent = title;
+      document.getElementById('applyCompany').textContent = `🏢 ${company}`;
+      document.getElementById('applyModal').classList.add('active');
+    }
+
+    function closeApplyModal() {
+      document.getElementById('applyModal').classList.remove('active');
+      pendingApplyUrl = '';
+      pendingApplyTitle = '';
+      pendingApplyId = null;
+    }
+
+    function confirmApply() {
+      if (pendingApplyUrl && pendingApplyUrl !== '#') {
+        if (pendingApplyId) {
+          trackClick(pendingApplyId);
+        }
+        window.open(pendingApplyUrl, '_blank');
+        showToast(`Opening ${pendingApplyTitle} application page...`, 'success');
+        closeApplyModal();
+      } else {
+        showToast('No application link available', 'error');
+      }
+    }
+
+    function trackClick(opportunityId) {
+      fetch('/api/track-apply-click/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': csrftoken
+        },
+        body: JSON.stringify({ opportunity_id: opportunityId })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          console.log('✅ Click tracked for opportunity:', opportunityId);
+        }
+      })
+      .catch(error => {
+        console.error('Error tracking click:', error);
+      });
+    }
+
+    // ============================================================
+    // TOAST NOTIFICATIONS
+    // ============================================================
     function showToast(message, type) {
       const toast = document.getElementById('toast');
       const toastMessage = toast.querySelector('.toast-message');
@@ -890,7 +836,9 @@
       }, 3000);
     }
 
-    // Get opportunity status based on deadline
+    // ============================================================
+    // HELPER FUNCTIONS
+    // ============================================================
     function getOpportunityStatus(deadlineDate) {
       if (!deadlineDate) return { status: 'open', text: 'Open', class: 'tag-open', labelClass: 'open', isClosed: false };
       
@@ -911,7 +859,15 @@
       }
     }
 
-    // Load saved opportunities from database
+    function getMatchBadgeClass(score) {
+      if (score >= 70) return 'high';
+      if (score >= 40) return 'medium';
+      return 'low';
+    }
+
+    // ============================================================
+    // LOAD SAVED OPPORTUNITIES
+    // ============================================================
     async function loadSavedOpportunities() {
       const loadingSpinner = document.getElementById('loadingSpinner');
       const jobsContainer = document.getElementById('jobsContainer');
@@ -927,6 +883,14 @@
         
         if (data.success) {
           savedOpportunitiesData = data.opportunities || [];
+          
+          // Ensure match_score is preserved
+          savedOpportunitiesData = savedOpportunitiesData.map(opp => ({
+            ...opp,
+            match_score: opp.match_score !== undefined && opp.match_score !== null ? opp.match_score : 0,
+            match_reason: opp.match_reason || 'Based on your profile preferences and skills.'
+          }));
+          
           renderOpportunities(savedOpportunitiesData);
           
           if (savedOpportunitiesData.length === 0) {
@@ -947,17 +911,9 @@
       }
     }
 
-    // Apply to opportunity - redirect to company website
-    function applyToOpportunity(redirectUrl, title) {
-      if (redirectUrl && redirectUrl !== '#') {
-        window.open(redirectUrl, '_blank');
-        showToast(`Redirecting to ${title} application page`, 'success');
-      } else {
-        showToast('External application link not available', 'error');
-      }
-    }
-
-    // Remove from saved
+    // ============================================================
+    // REMOVE FROM SAVED
+    // ============================================================
     async function removeFromSaved(btn, oppId) {
       const card = btn.closest('.job-card');
       
@@ -977,17 +933,16 @@
         const data = await response.json();
         
         if (data.success) {
-          let savedIds = JSON.parse(localStorage.getItem('savedOpportunities') || '[]');
-          savedIds = savedIds.filter(id => id !== oppId);
-          localStorage.setItem('savedOpportunities', JSON.stringify(savedIds));
+          // Update local data
+          savedOpportunitiesData = savedOpportunitiesData.filter(opp => opp.id !== oppId);
           
+          // Animate removal
           card.style.transition = 'opacity 0.3s, transform 0.3s';
           card.style.opacity = '0';
           card.style.transform = 'translateX(20px)';
           
           setTimeout(() => {
             card.remove();
-            savedOpportunitiesData = savedOpportunitiesData.filter(opp => opp.id !== oppId);
             updateStatsAndFilters();
             showToast('Removed from saved opportunities', 'info');
             
@@ -1005,7 +960,9 @@
       }
     }
 
-    // Open Details Modal
+    // ============================================================
+    // DETAILS MODAL
+    // ============================================================
     function openDetailsModal(opp) {
       currentModalOpp = opp;
       const modal = document.getElementById('detailsModal');
@@ -1014,6 +971,11 @@
       const modalApplyBtn = document.getElementById('modalApplyBtn');
       
       const status = getOpportunityStatus(opp.deadline);
+      const matchScore = opp.match_score !== undefined && opp.match_score !== null ? opp.match_score : 0;
+      let scoreColor = '#E74C3C';
+      if (matchScore >= 70) scoreColor = '#27AE60';
+      else if (matchScore >= 40) scoreColor = '#F39C12';
+      else scoreColor = '#E74C3C';
       
       modalTitle.textContent = opp.title;
       
@@ -1041,6 +1003,15 @@
         <div class="modal-section">
           <div class="modal-section-label">Sector</div>
           <div class="modal-section-value">${opp.sector || 'Not specified'}</div>
+        </div>
+        <div class="modal-divider"></div>
+        <div class="modal-section">
+          <div class="modal-section-label">Match Score</div>
+          <div class="modal-section-value"><strong style="color: ${scoreColor};">${matchScore}%</strong> match with your profile</div>
+        </div>
+        <div class="modal-section">
+          <div class="modal-section-label">Why This Matches You</div>
+          <div class="modal-section-value">${opp.match_reason || 'Based on your profile preferences.'}</div>
         </div>
         <div class="modal-divider"></div>
         <div class="modal-section">
@@ -1086,77 +1057,16 @@
 
     function applyFromModal() {
       if (currentModalOpp && currentModalOpp.redirect_url && currentModalOpp.redirect_url !== '#') {
-        window.open(currentModalOpp.redirect_url, '_blank');
-        showToast(`Redirecting to ${currentModalOpp.title} application page`, 'success');
+        openApplyModal(currentModalOpp.redirect_url, currentModalOpp.title, currentModalOpp.company, currentModalOpp.id);
         closeDetailsModal();
       } else {
         showToast('External application link not available', 'error');
       }
     }
 
-    // Update stats and filter counts
-    function updateStatsAndFilters() {
-      const allCards = document.querySelectorAll('.job-card');
-      const allCardsArray = Array.from(allCards);
-      
-      document.getElementById('savedCount').textContent = allCardsArray.length;
-      
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      const closingThisWeek = allCardsArray.filter(card => {
-        const deadline = new Date(card.dataset.closing);
-        deadline.setHours(0, 0, 0, 0);
-        const diffTime = deadline - today;
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-        return diffDays <= 7 && diffDays > 0;
-      }).length;
-      document.getElementById('closingThisWeek').textContent = closingThisWeek;
-      
-      const strongMatches = allCardsArray.filter(card => parseInt(card.dataset.match) >= 80).length;
-      document.getElementById('strongMatches').textContent = strongMatches;
-      
-      const internshipCount = allCardsArray.filter(card => card.dataset.type === 'internship').length;
-      const graduateCount = allCardsArray.filter(card => card.dataset.type === 'graduate').length;
-      const learnershipCount = allCardsArray.filter(card => card.dataset.type === 'learnership').length;
-      
-      document.getElementById('allCount').textContent = allCardsArray.length;
-      document.getElementById('internshipCount').textContent = internshipCount;
-      document.getElementById('graduateCount').textContent = graduateCount;
-      document.getElementById('learnershipCount').textContent = learnershipCount;
-      
-      document.querySelectorAll('.filter-btn').forEach(btn => {
-        const type = btn.dataset.type;
-        if (type === 'all') btn.querySelector('span').textContent = allCardsArray.length;
-        if (type === 'internship') btn.querySelector('span').textContent = internshipCount;
-        if (type === 'graduate') btn.querySelector('span').textContent = graduateCount;
-        if (type === 'learnership') btn.querySelector('span').textContent = learnershipCount;
-      });
-      
-      const jobsContainer = document.getElementById('jobsContainer');
-      const emptyState = document.getElementById('emptyState');
-      
-      if (allCardsArray.length === 0) {
-        jobsContainer.style.display = 'none';
-        emptyState.style.display = 'block';
-      } else {
-        jobsContainer.style.display = 'block';
-        emptyState.style.display = 'none';
-      }
-    }
-
-    // Filter cards
-    function filterCards() {
-      const activeFilter = document.querySelector('.filter-btn.active').dataset.type;
-      const cards = document.querySelectorAll('.job-card');
-      
-      cards.forEach(card => {
-        const category = card.dataset.type;
-        const matchesFilter = activeFilter === 'all' || category === activeFilter;
-        card.style.display = matchesFilter ? 'block' : 'none';
-      });
-    }
-
-    // Render opportunities
+    // ============================================================
+    // RENDER OPPORTUNITIES
+    // ============================================================
     function renderOpportunities(opportunities) {
       const container = document.getElementById('jobsContainer');
       
@@ -1214,7 +1124,13 @@
       const tagName = opp.type ? opp.type.charAt(0).toUpperCase() + opp.type.slice(1) : 'Opportunity';
       const status = getOpportunityStatus(opp.deadline);
       const isClosed = status.status === 'closed';
-      const matchScore = opp.match_score || 75;
+      const matchScore = opp.match_score !== undefined && opp.match_score !== null ? opp.match_score : 0;
+      const matchClass = getMatchBadgeClass(matchScore);
+      
+      // Escape special characters for safe HTML
+      const safeTitle = opp.title.replace(/"/g, '&quot;').replace(/'/g, "\\'");
+      const safeCompany = opp.company.replace(/"/g, '&quot;').replace(/'/g, "\\'");
+      const safeRedirectUrl = opp.redirect_url || '#';
       
       return `
         <div class="job-card" data-type="${opp.type || 'internship'}" data-closing="${opp.deadline || ''}" data-match="${matchScore}">
@@ -1222,11 +1138,11 @@
             <div class="tags">
               <span class="tag ${tagClass}">${tagName}</span>
               <span class="tag ${status.class}">${status.text}</span>
-              <span class="match-badge">${matchScore >= 80 ? 'STRONG MATCH' : 'GOOD MATCH'}</span>
+              <span class="match-badge ${matchClass}">${matchScore}% Match</span>
             </div>
-            <button class="bookmark-btn" onclick="removeFromSaved(this, ${opp.id})">
-              <svg fill="currentColor" viewBox="0 0 24 24">
-                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
+            <button class="bookmark-btn" onclick="removeFromSaved(this, ${opp.id})" title="Remove from saved">
+              <svg viewBox="0 0 24 24">
+                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" fill="var(--orange)" stroke="var(--orange)" stroke-width="1.5"/>
               </svg>
             </button>
           </div>
@@ -1261,14 +1177,82 @@
             <p>${opp.match_reason || 'Based on your profile preferences and skills.'}</p>
           </div>
           <div class="card-actions">
-            <a class="view-link" onclick='openDetailsModal(${JSON.stringify(opp).replace(/"/g, '&quot;')})'>View Details →</a>
-            <button class="apply-btn" onclick="applyToOpportunity('${opp.redirect_url || '#'}', '${opp.title.replace(/'/g, "\\'")}')" ${isClosed ? 'disabled' : ''}>${isClosed ? 'Closed' : 'Apply Now'}</button>
+            <button class="view-link" onclick='openDetailsModal(${JSON.stringify(opp).replace(/"/g, '&quot;')})'>View Details →</button>
+            <button class="apply-btn" onclick="openApplyModal('${safeRedirectUrl}', '${safeTitle}', '${safeCompany}', ${opp.id})" ${isClosed ? 'disabled' : ''}>${isClosed ? 'Closed' : 'Apply Now'}</button>
           </div>
         </div>
       `;
     }
 
-    // Filter button event listeners
+    // ============================================================
+    // UPDATE STATS AND FILTERS
+    // ============================================================
+    function updateStatsAndFilters() {
+      const allCards = document.querySelectorAll('.job-card');
+      const allCardsArray = Array.from(allCards);
+      
+      document.getElementById('savedCount').textContent = allCardsArray.length;
+      
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const closingThisWeek = allCardsArray.filter(card => {
+        const deadline = new Date(card.dataset.closing);
+        deadline.setHours(0, 0, 0, 0);
+        const diffTime = deadline - today;
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        return diffDays <= 7 && diffDays > 0;
+      }).length;
+      document.getElementById('closingThisWeek').textContent = closingThisWeek;
+      
+      const strongMatches = allCardsArray.filter(card => parseInt(card.dataset.match) >= 70).length;
+      document.getElementById('strongMatches').textContent = strongMatches;
+      
+      const internshipCount = allCardsArray.filter(card => card.dataset.type === 'internship').length;
+      const graduateCount = allCardsArray.filter(card => card.dataset.type === 'graduate').length;
+      const learnershipCount = allCardsArray.filter(card => card.dataset.type === 'learnership').length;
+      
+      document.getElementById('allCount').textContent = allCardsArray.length;
+      document.getElementById('internshipCount').textContent = internshipCount;
+      document.getElementById('graduateCount').textContent = graduateCount;
+      document.getElementById('learnershipCount').textContent = learnershipCount;
+      
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        const type = btn.dataset.type;
+        if (type === 'all') btn.querySelector('span').textContent = allCardsArray.length;
+        if (type === 'internship') btn.querySelector('span').textContent = internshipCount;
+        if (type === 'graduate') btn.querySelector('span').textContent = graduateCount;
+        if (type === 'learnership') btn.querySelector('span').textContent = learnershipCount;
+      });
+      
+      const jobsContainer = document.getElementById('jobsContainer');
+      const emptyState = document.getElementById('emptyState');
+      
+      if (allCardsArray.length === 0) {
+        jobsContainer.style.display = 'none';
+        emptyState.style.display = 'block';
+      } else {
+        jobsContainer.style.display = 'block';
+        emptyState.style.display = 'none';
+      }
+    }
+
+    // ============================================================
+    // FILTER CARDS
+    // ============================================================
+    function filterCards() {
+      const activeFilter = document.querySelector('.filter-btn.active').dataset.type;
+      const cards = document.querySelectorAll('.job-card');
+      
+      cards.forEach(card => {
+        const category = card.dataset.type;
+        const matchesFilter = activeFilter === 'all' || category === activeFilter;
+        card.style.display = matchesFilter ? 'block' : 'none';
+      });
+    }
+
+    // ============================================================
+    // EVENT LISTENERS
+    // ============================================================
     const filterButtons = document.querySelectorAll('.filter-btn');
     filterButtons.forEach(btn => {
       btn.addEventListener('click', () => {
@@ -1281,13 +1265,44 @@
     // Close modal when clicking outside
     window.onclick = function(event) {
       const modal = document.getElementById('detailsModal');
+      const applyModal = document.getElementById('applyModal');
       if (event.target === modal) {
         modal.classList.remove('show');
       }
+      if (event.target === applyModal) {
+        applyModal.classList.remove('active');
+      }
     }
 
-    // Initialize
+    // Close apply modal with ESC key
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        const applyModal = document.getElementById('applyModal');
+        if (applyModal.classList.contains('active')) {
+          closeApplyModal();
+        }
+      }
+    });
+
+    // ============================================================
+    // CHECK FOR REFRESH FROM OTHER PAGES
+    // ============================================================
+    function checkForRefresh() {
+      // Check if we should refresh (from profile update or after saving)
+      const shouldRefresh = sessionStorage.getItem('refreshSaved') === 'true';
+      if (shouldRefresh) {
+        sessionStorage.removeItem('refreshSaved');
+        // Reload the page to refresh data
+        location.reload();
+      }
+    }
+
+    // ============================================================
+    // INITIALIZE
+    // ============================================================
     document.addEventListener('DOMContentLoaded', function() {
+      console.log('Saved page loaded');
+      checkForRefresh();
       loadSavedOpportunities();
     });
   </script>

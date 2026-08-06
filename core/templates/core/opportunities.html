@@ -20,6 +20,10 @@
       --page-bg: #F7F7F7;
       --green: #27AE60;
       --green-bg: #EAFAF1;
+      --yellow: #F39C12;
+      --yellow-bg: #FEF9E7;
+      --red: #E74C3C;
+      --red-bg: #FDEDEC;
       --tag-intern: #FFF3EC;
       --tag-intern-c: #E8651A;
       --tag-learnership: #E8F5E9;
@@ -42,7 +46,6 @@
       min-height: 100vh;
     }
 
-    /* Sidebar */
     .sidebar {
       width: 260px;
       min-height: 100vh;
@@ -65,10 +68,7 @@
       padding: 0 24px 32px;
       letter-spacing: -0.3px;
     }
-
-    .sidebar-logo span {
-      color: #fff;
-    }
+    .sidebar-logo span { color: #fff; }
 
     .nav-item {
       display: flex;
@@ -84,27 +84,10 @@
       transition: background 0.18s, color 0.18s;
       border-radius: 0;
     }
+    .nav-item:hover { background: var(--sidebar-hover); color: #fff; }
+    .nav-item.active { background: var(--orange); color: #fff; border-radius: 0 8px 8px 0; margin-right: 16px; }
+    .nav-icon { width: 18px; height: 18px; flex-shrink: 0; opacity: 0.9; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
-    .nav-item:hover {
-      background: var(--sidebar-hover);
-      color: #fff;
-    }
-
-    .nav-item.active {
-      background: var(--orange);
-      color: #fff;
-      border-radius: 0 8px 8px 0;
-      margin-right: 16px;
-    }
-
-    .nav-icon {
-      width: 18px;
-      height: 18px;
-      flex-shrink: 0;
-      opacity: 0.9;
-    }
-
-    /* Main Content */
     .main {
       margin-left: 260px;
       flex: 1;
@@ -112,25 +95,10 @@
       max-width: calc(100vw - 260px);
     }
 
-    /* Header */
-    .page-header {
-      margin-bottom: 32px;
-    }
+    .page-header { margin-bottom: 32px; }
+    .page-title { font-family: 'Montserrat', sans-serif; font-size: 1.75rem; font-weight: 700; color: var(--text-dark); margin-bottom: 6px; }
+    .page-subtitle { font-size: 0.95rem; color: var(--text-mid); }
 
-    .page-title {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 1.75rem;
-      font-weight: 700;
-      color: var(--text-dark);
-      margin-bottom: 6px;
-    }
-
-    .page-subtitle {
-      font-size: 0.95rem;
-      color: var(--text-mid);
-    }
-
-    /* Search Box */
     .search-box {
       background: var(--card-bg);
       border: 1px solid var(--border);
@@ -142,18 +110,11 @@
       margin-bottom: 24px;
       transition: all 0.2s;
     }
-
     .search-box:focus-within {
       border-color: var(--orange);
       box-shadow: 0 0 0 3px rgba(232, 101, 26, 0.1);
     }
-
-    .search-icon {
-      width: 20px;
-      height: 20px;
-      color: var(--text-light);
-    }
-
+    .search-icon { width: 20px; height: 20px; color: var(--text-light); }
     .search-box input {
       flex: 1;
       border: none;
@@ -162,19 +123,14 @@
       font-size: 14px;
       background: transparent;
     }
+    .search-box input::placeholder { color: var(--text-light); }
 
-    .search-box input::placeholder {
-      color: var(--text-light);
-    }
-
-    /* Filters */
     .filters {
       display: flex;
       gap: 12px;
       margin-bottom: 28px;
       flex-wrap: wrap;
     }
-
     .filter-btn {
       padding: 10px 24px;
       border-radius: 999px;
@@ -187,47 +143,44 @@
       background: var(--card-bg);
       color: var(--text-mid);
     }
+    .filter-btn:hover { border-color: var(--orange); color: var(--orange); }
+    .filter-btn.active-btn { background: var(--orange); border-color: var(--orange); color: white; }
 
-    .filter-btn:hover {
-      border-color: var(--orange);
-      color: var(--orange);
-    }
-
-    .filter-btn.active-btn {
-      background: var(--orange);
-      border-color: var(--orange);
-      color: white;
-    }
-
-    /* Jobs Grid */
     .jobs-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 24px;
     }
 
-    /* Card */
     .card {
       background: var(--card-bg);
       border: 1px solid var(--border);
       border-radius: 16px;
       padding: 24px;
       transition: all 0.2s;
+      animation: fadeIn 0.3s ease;
     }
-
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
     .card:hover {
       box-shadow: 0 4px 18px rgba(232, 101, 26, 0.10);
       border-color: var(--orange-light);
       transform: translateY(-2px);
     }
-
     .card-top {
       display: flex;
       align-items: center;
       justify-content: space-between;
       margin-bottom: 12px;
     }
-
+    .tag-group {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
     .tag {
       font-size: 0.7rem;
       font-weight: 600;
@@ -237,39 +190,36 @@
       text-transform: uppercase;
       letter-spacing: 0.4px;
     }
+    .tag-internship { background: var(--tag-intern); color: var(--tag-intern-c); }
+    .tag-learnership { background: var(--tag-learnership); color: var(--tag-learnership-c); }
+    .tag-graduate { background: var(--tag-graduate); color: var(--tag-graduate-c); }
 
-    .tag-internship {
-      background: var(--tag-intern);
-      color: var(--tag-intern-c);
-    }
-
-    .tag-learnership {
-      background: var(--tag-learnership);
-      color: var(--tag-learnership-c);
-    }
-
-    .tag-graduate {
-      background: var(--tag-graduate);
-      color: var(--tag-graduate-c);
-    }
-
-    .save-btn {
+    .bookmark-btn {
       background: none;
       border: none;
       cursor: pointer;
       color: var(--text-light);
       padding: 4px;
-      transition: color 0.18s;
-      font-size: 1.2rem;
+      transition: color 0.18s, transform 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-
-    .save-btn:hover {
-      color: var(--orange);
+    .bookmark-btn:hover { 
+      color: var(--orange); 
+      transform: scale(1.1);
     }
-
-    .save-btn.saved {
-      color: var(--orange);
+    .bookmark-btn.saved { color: var(--orange); }
+    .bookmark-icon {
+      width: 20px;
+      height: 20px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
     }
+    .bookmark-btn.saved .bookmark-icon { fill: var(--orange); stroke: var(--orange); }
 
     .card-title {
       font-family: 'Montserrat', sans-serif;
@@ -278,7 +228,6 @@
       color: var(--text-dark);
       margin-bottom: 8px;
     }
-
     .meta {
       display: flex;
       align-items: center;
@@ -288,32 +237,19 @@
       flex-wrap: wrap;
       margin-bottom: 12px;
     }
-
-    .meta span {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .meta svg {
-      width: 14px;
-      height: 14px;
-      color: var(--text-light);
-    }
-
+    .meta span { display: flex; align-items: center; gap: 6px; }
+    .meta svg { width: 14px; height: 14px; color: var(--text-light); }
     .description {
       font-size: 0.85rem;
       color: var(--text-mid);
       line-height: 1.5;
       margin-bottom: 12px;
     }
-
     .actions {
       display: flex;
       gap: 12px;
       margin-top: 16px;
     }
-
     .apply-btn {
       background: var(--orange);
       color: #fff;
@@ -327,11 +263,7 @@
       transition: background 0.18s;
       flex: 1;
     }
-
-    .apply-btn:hover {
-      background: var(--orange-light);
-    }
-
+    .apply-btn:hover { background: var(--orange-light); }
     .details-btn {
       background: var(--sidebar-bg);
       color: #fff;
@@ -345,130 +277,123 @@
       transition: background 0.18s;
       flex: 1;
     }
+    .details-btn:hover { background: var(--sidebar-hover); }
 
-    .details-btn:hover {
-      background: var(--sidebar-hover);
-    }
-
-    /* Empty State */
     .empty-state {
       text-align: center;
       padding: 60px 20px;
       background: var(--card-bg);
       border-radius: 16px;
       border: 1px solid var(--border);
+      grid-column: 1 / -1;
     }
+    .empty-state svg { width: 80px; height: 80px; color: var(--text-light); margin-bottom: 20px; }
+    .empty-state h3 { font-family: 'Montserrat', sans-serif; font-size: 1.2rem; margin-bottom: 8px; }
+    .empty-state p { color: var(--text-mid); }
 
-    .empty-state svg {
-      width: 80px;
-      height: 80px;
-      color: var(--text-light);
-      margin-bottom: 20px;
+    .show-more-container {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 20px 0;
     }
-
-    .empty-state h3 {
+    .show-more-btn {
+      background: var(--orange);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 14px 40px;
       font-family: 'Montserrat', sans-serif;
-      font-size: 1.2rem;
-      margin-bottom: 8px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: background 0.18s;
+    }
+    .show-more-btn:hover { background: var(--orange-light); }
+    .show-more-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
     }
 
-    .empty-state p {
-      color: var(--text-mid);
+    .end-message {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 30px 0;
+      color: var(--text-light);
+      font-size: 0.9rem;
     }
 
-    /* Apply Modal */
-    .modal {
+    .apply-modal {
       display: none;
       position: fixed;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 100%;
+      right: 0;
+      bottom: 0;
       background: rgba(0, 0, 0, 0.6);
       justify-content: center;
       align-items: center;
       z-index: 1000;
     }
-
-    .modal.show {
-      display: flex;
-    }
-
-    .modal-content {
-      background: var(--card-bg);
-      padding: 32px;
+    .apply-modal.active { display: flex; }
+    .apply-modal-content {
+      background: white;
+      padding: 32px 40px;
       border-radius: 20px;
+      max-width: 480px;
       width: 90%;
-      max-width: 500px;
       text-align: center;
       animation: fadeUp 0.3s ease;
     }
-
-    @keyframes fadeUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .modal-icon {
-      font-size: 48px;
-      margin-bottom: 16px;
-    }
-
-    .modal-title {
+    .apply-modal-icon { font-size: 48px; margin-bottom: 16px; }
+    .apply-modal h3 {
       font-family: 'Montserrat', sans-serif;
-      font-size: 1.4rem;
-      margin-bottom: 16px;
+      font-size: 1.2rem;
       color: var(--text-dark);
+      margin-bottom: 12px;
     }
-
-    .modal-message {
+    .apply-modal .apply-company {
+      font-size: 0.9rem;
       color: var(--text-mid);
+      margin-bottom: 16px;
+    }
+    .apply-modal .apply-message {
+      color: var(--text-mid);
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+    }
+    .apply-modal .apply-note {
+      font-size: 0.85rem;
+      color: var(--text-light);
       margin-bottom: 24px;
     }
-
-    .modal-buttons {
+    .apply-modal-buttons {
       display: flex;
       gap: 12px;
       justify-content: center;
     }
-
-    .modal-cancel {
-      background: var(--sidebar-bg);
-      color: white;
+    .apply-modal-buttons .btn-cancel {
+      background: #e5e5e5;
+      color: #333;
       border: none;
-      padding: 12px 24px;
+      padding: 12px 28px;
       border-radius: 8px;
       font-weight: 600;
       cursor: pointer;
       transition: background 0.18s;
     }
-
-    .modal-cancel:hover {
-      background: var(--sidebar-hover);
-    }
-
-    .modal-confirm {
+    .apply-modal-buttons .btn-cancel:hover { background: #d5d5d5; }
+    .apply-modal-buttons .btn-confirm {
       background: var(--orange);
       color: white;
       border: none;
-      padding: 12px 24px;
+      padding: 12px 28px;
       border-radius: 8px;
       font-weight: 600;
       cursor: pointer;
       transition: background 0.18s;
     }
+    .apply-modal-buttons .btn-confirm:hover { background: var(--orange-light); }
 
-    .modal-confirm:hover {
-      background: var(--orange-light);
-    }
-
-    /* Large Details Modal (same as Welcome page) */
     .large-modal {
       display: none;
       position: fixed;
@@ -481,18 +406,13 @@
       align-items: center;
       z-index: 1000;
     }
-
-    .large-modal.show {
-      display: flex;
-    }
-
+    .large-modal.show { display: flex; }
     .large-modal-dialog {
       width: 90%;
       max-width: 800px;
       margin: 30px auto;
       animation: fadeUp 0.3s ease;
     }
-
     .large-modal-content {
       background: var(--card-bg);
       border-radius: 20px;
@@ -502,7 +422,6 @@
       display: flex;
       flex-direction: column;
     }
-
     .large-modal-header {
       padding: 24px 32px;
       border-bottom: 1px solid var(--border);
@@ -510,7 +429,6 @@
       justify-content: space-between;
       align-items: center;
     }
-
     .large-modal-header h2 {
       font-family: 'Montserrat', sans-serif;
       font-size: 1.5rem;
@@ -518,7 +436,6 @@
       color: var(--text-dark);
       margin: 0;
     }
-
     .large-modal-close-btn {
       background: none;
       border: none;
@@ -528,17 +445,12 @@
       transition: color 0.18s;
       line-height: 1;
     }
-
-    .large-modal-close-btn:hover {
-      color: var(--orange);
-    }
-
+    .large-modal-close-btn:hover { color: var(--orange); }
     .large-modal-body {
       padding: 24px 32px;
       overflow-y: auto;
       flex: 1;
     }
-
     .large-modal-footer {
       padding: 20px 32px;
       border-top: 1px solid var(--border);
@@ -546,11 +458,7 @@
       gap: 12px;
       justify-content: flex-end;
     }
-
-    .details-modal-section {
-      margin-bottom: 20px;
-    }
-
+    .details-modal-section { margin-bottom: 20px; }
     .details-modal-section-label {
       font-weight: 700;
       color: var(--orange);
@@ -558,29 +466,31 @@
       text-transform: uppercase;
       margin-bottom: 6px;
     }
-
     .details-modal-section-value {
       color: var(--text-mid);
       font-size: 0.95rem;
       line-height: 1.6;
     }
-
-    .details-modal-section-value a {
-      color: var(--orange);
-      text-decoration: none;
-    }
-
-    .details-modal-section-value a:hover {
-      text-decoration: underline;
-    }
-
+    .details-modal-section-value a { color: var(--orange); text-decoration: none; }
+    .details-modal-section-value a:hover { text-decoration: underline; }
     .details-modal-divider {
       height: 1px;
       background: var(--border);
       margin: 20px 0;
     }
 
-    /* Toast Notification */
+    .modal-cancel {
+      background: var(--sidebar-bg);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.18s;
+    }
+    .modal-cancel:hover { background: var(--sidebar-hover); }
+
     .toast {
       position: fixed;
       bottom: 30px;
@@ -593,86 +503,31 @@
       transition: transform 0.3s ease;
       z-index: 1000;
     }
+    .toast.show { transform: translateX(0); }
+    .toast-content { display: flex; align-items: center; gap: 10px; }
+    .toast-icon { font-size: 18px; font-weight: bold; }
 
-    .toast.show {
-      transform: translateX(0);
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    .toast-content {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .toast-icon {
-      font-size: 18px;
-      font-weight: bold;
-    }
-
-    /* SVG Icons */
-    svg {
-      fill: none;
-      stroke: currentColor;
-      stroke-width: 2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
-
-    /* Responsive */
     @media (max-width: 1024px) {
-      .jobs-grid {
-        grid-template-columns: 1fr;
-      }
+      .jobs-grid { grid-template-columns: 1fr; }
     }
-
     @media (max-width: 768px) {
-      .sidebar {
-        width: 80px;
-      }
-      
-      .sidebar-logo {
-        padding: 0 16px 32px;
-        font-size: 1rem;
-      }
-      
-      .sidebar-logo span {
-        display: none;
-      }
-      
-      .nav-item span {
-        display: none;
-      }
-      
-      .main {
-        margin-left: 80px;
-        padding: 20px;
-        max-width: calc(100vw - 80px);
-      }
-      
-      .filters {
-        gap: 8px;
-      }
-      
-      .filter-btn {
-        padding: 8px 16px;
-        font-size: 0.75rem;
-      }
-      
-      .meta {
-        gap: 12px;
-      }
-      
-      .actions {
-        flex-direction: column;
-      }
-      
-      .modal-buttons {
-        flex-direction: column;
-      }
-      
-      .large-modal-header, .large-modal-body, .large-modal-footer {
-        padding: 20px;
-      }
+      .sidebar { width: 80px; }
+      .sidebar-logo { padding: 0 16px 32px; font-size: 1rem; }
+      .sidebar-logo span { display: none; }
+      .nav-item span { display: none; }
+      .main { margin-left: 80px; padding: 20px; max-width: calc(100vw - 80px); }
+      .filters { gap: 8px; }
+      .filter-btn { padding: 8px 16px; font-size: 0.75rem; }
+      .meta { gap: 12px; }
+      .actions { flex-direction: column; }
+      .apply-modal-content { padding: 24px 20px; }
+      .apply-modal-buttons { flex-direction: column; }
+      .large-modal-header, .large-modal-body, .large-modal-footer { padding: 20px; }
     }
   </style>
 </head>
@@ -680,59 +535,32 @@
   <!-- Sidebar -->
   <aside class="sidebar">
     <div class="sidebar-logo">Career<span>GPS</span></div>
-    
     <a class="nav-item" href="{% url 'welcome' %}">
-      <svg class="nav-icon" viewBox="0 0 24 24">
-        <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z" />
-        <polyline points="9 21 9 12 15 12 15 21" />
-      </svg>
+      <svg class="nav-icon" viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z" /><polyline points="9 21 9 12 15 12 15 21" /></svg>
       <span>Home</span>
     </a>
-    
     <a class="nav-item active" href="{% url 'opportunities' %}">
-      <svg class="nav-icon" viewBox="0 0 24 24">
-        <rect x="2" y="7" width="20" height="14" rx="2" />
-        <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" />
-      </svg>
+      <svg class="nav-icon" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2" /><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" /></svg>
       <span>Opportunities</span>
     </a>
-    
     <a class="nav-item" href="{% url 'saved' %}">
-      <svg class="nav-icon" viewBox="0 0 24 24">
-        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
-      </svg>
+      <svg class="nav-icon" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" /></svg>
       <span>Saved</span>
     </a>
-    
     <a class="nav-item" href="{% url 'resources' %}">
-      <svg class="nav-icon" viewBox="0 0 24 24">
-        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
-        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
-      </svg>
+      <svg class="nav-icon" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" /><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" /></svg>
       <span>Resources</span>
     </a>
-    
     <a class="nav-item" href="{% url 'profile' %}">
-      <svg class="nav-icon" viewBox="0 0 24 24">
-        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-        <circle cx="12" cy="7" r="4" />
-      </svg>
+      <svg class="nav-icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></svg>
       <span>Profile</span>
     </a>
-    
     <a class="nav-item" href="{% url 'stories' %}">
-      <svg class="nav-icon" viewBox="0 0 24 24">
-        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-      </svg>
+      <svg class="nav-icon" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg>
       <span>Stories</span>
     </a>
-    
     <a class="nav-item" href="{% url 'signin' %}" style="margin-top: auto;">
-      <svg class="nav-icon" viewBox="0 0 24 24">
-        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-        <polyline points="16 17 21 12 16 7" />
-        <line x1="21" y1="12" x2="9" y2="12" />
-      </svg>
+      <svg class="nav-icon" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /><polyline points="16 17 21 12 16 7" /><line x1="21" y1="12" x2="9" y2="12" /></svg>
       <span>Logout</span>
     </a>
   </aside>
@@ -741,7 +569,7 @@
   <main class="main">
     <div class="page-header">
       <h1 class="page-title">Opportunities</h1>
-      <p class="page-subtitle">Find roles matched to your skills and interests</p>
+      <p class="page-subtitle">Find roles matched to your skills and interests — each opportunity shows your personalized match score</p>
     </div>
 
     <!-- Search Box -->
@@ -764,15 +592,21 @@
     <!-- Jobs Grid -->
     <div class="jobs-grid" id="jobsGrid">
       {% for opp in opportunities %}
-      <div class="card" data-category="{{ opp.opportunity_type }}" data-id="{{ opp.id }}">
+      <div class="card" data-category="{{ opp.opportunity_type }}" data-id="{{ opp.id }}" style="display: none;">
         <div class="card-top">
-          <span class="tag 
-            {% if opp.opportunity_type == 'internship' %}tag-internship
-            {% elif opp.opportunity_type == 'learnership' %}tag-learnership
-            {% else %}tag-graduate{% endif %}">
-            {{ opp.opportunity_type|upper }}
-          </span>
-          <button class="save-btn" data-id="{{ opp.id }}" onclick="toggleSave(this, {{ opp.id }})">☆</button>
+          <div class="tag-group">
+            <span class="tag 
+              {% if opp.opportunity_type == 'internship' %}tag-internship
+              {% elif opp.opportunity_type == 'learnership' %}tag-learnership
+              {% else %}tag-graduate{% endif %}">
+              {{ opp.opportunity_type|upper }}
+            </span>
+          </div>
+          <button class="bookmark-btn" data-id="{{ opp.id }}" onclick="saveOpportunity(this, {{ opp.id }})">
+            <svg class="bookmark-icon" viewBox="0 0 24 24">
+              <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+            </svg>
+          </button>
         </div>
         <h2 class="card-title">{{ opp.title }}</h2>
         <div class="meta">
@@ -804,7 +638,7 @@
           {{ opp.description|truncatewords:30 }}
         </div>
         <div class="actions">
-          <button class="apply-btn" onclick="openApplyModal('{{ opp.redirect_url|default:'#' }}', '{{ opp.title|escapejs }}')">Apply Now</button>
+          <button class="apply-btn" onclick="openApplyModal('{{ opp.redirect_url|default:'#' }}', '{{ opp.title|escapejs }}', '{{ opp.company|escapejs }}', {{ opp.id }})">Apply Now</button>
           <button class="details-btn" onclick="openDetailsModal({{ opp.id }})">Details</button>
         </div>
       </div>
@@ -819,22 +653,29 @@
       </div>
       {% endfor %}
     </div>
+
+    <!-- Show More Button -->
+    <div class="show-more-container" id="showMoreContainer">
+      <button class="show-more-btn" id="showMoreBtn" onclick="showMore()">Show More Opportunities</button>
+    </div>
   </main>
 
   <!-- Apply Modal -->
-  <div class="modal" id="applyModal">
-    <div class="modal-content">
-      <div class="modal-icon">🔗</div>
-      <h2 class="modal-title">External Application</h2>
-      <p class="modal-message" id="applyModalMessage">You will be redirected to the company's application page.</p>
-      <div class="modal-buttons">
-        <button class="modal-cancel" onclick="closeApplyModal()">Cancel</button>
-        <button class="modal-confirm" id="confirmApplyBtn">Continue to Apply</button>
+  <div class="apply-modal" id="applyModal">
+    <div class="apply-modal-content">
+      <div class="apply-modal-icon">📌</div>
+      <h3 id="applyTitle">Apply for this opportunity</h3>
+      <p class="apply-company" id="applyCompany"></p>
+      <p class="apply-message">You are about to leave CareerGPS and visit the company's application page.</p>
+      <p class="apply-note">🔗 This will open in a new tab. You can always come back here.</p>
+      <div class="apply-modal-buttons">
+        <button class="btn-cancel" onclick="closeApplyModal()">Cancel</button>
+        <button class="btn-confirm" id="confirmApplyBtn" onclick="confirmApply()">Continue to Apply →</button>
       </div>
     </div>
   </div>
 
-  <!-- Large Details Modal (same as Welcome page) -->
+  <!-- Details Modal -->
   <div class="large-modal" id="detailsModal">
     <div class="large-modal-dialog">
       <div class="large-modal-content">
@@ -850,7 +691,7 @@
     </div>
   </div>
 
-  <!-- Toast Notification -->
+  <!-- Toast -->
   <div class="toast" id="toast">
     <div class="toast-content">
       <span class="toast-icon">✓</span>
@@ -859,7 +700,44 @@
   </div>
 
   <script>
-    // CSRF Token
+    // ============================================================
+    // CACHE HELPERS (like welcome page)
+    // ============================================================
+    const CACHE_KEY = 'opportunities_data';
+    const TIMESTAMP_KEY = 'opportunities_timestamp';
+
+    function getCachedData() {
+      try {
+        const cached = sessionStorage.getItem(CACHE_KEY);
+        if (cached) {
+          const data = JSON.parse(cached);
+          const timestamp = sessionStorage.getItem(TIMESTAMP_KEY);
+          return { data, timestamp };
+        }
+        return null;
+      } catch (e) {
+        console.error('Error reading cache:', e);
+        return null;
+      }
+    }
+
+    function setCachedData(data) {
+      try {
+        sessionStorage.setItem(CACHE_KEY, JSON.stringify(data));
+        sessionStorage.setItem(TIMESTAMP_KEY, new Date().toISOString());
+      } catch (e) {
+        console.error('Error saving cache:', e);
+      }
+    }
+
+    function clearCache() {
+      sessionStorage.removeItem(CACHE_KEY);
+      sessionStorage.removeItem(TIMESTAMP_KEY);
+    }
+
+    // ============================================================
+    // CSRF TOKEN
+    // ============================================================
     function getCookie(name) {
       let cookieValue = null;
       if (document.cookie && document.cookie !== '') {
@@ -874,13 +752,14 @@
       }
       return cookieValue;
     }
-
     const csrftoken = getCookie('csrftoken');
 
-    // Store opportunities data
-    const opportunitiesData = {
+    // ============================================================
+    // DATA FROM SERVER
+    // ============================================================
+    const allOpportunities = [
       {% for opp in opportunities %}
-      {{ opp.id }}: {
+      {
         id: {{ opp.id }},
         title: "{{ opp.title|escapejs }}",
         company: "{{ opp.company|escapejs }}",
@@ -889,127 +768,69 @@
         location: "{{ opp.location|escapejs }}",
         duration: "{{ opp.duration|default:'Not specified' }}",
         stipend: "{{ opp.stipend|default:'Market related' }}",
-        required_degree: "{{ opp.required_degree|default:'Not specified' }}",
-        minimum_nqf: "{{ opp.minimum_nqf|default:'Not specified' }}",
         description: "{{ opp.description|escapejs }}",
-        duties: "{{ opp.duties|escapejs|default:'Training and workplace exposure.' }}",
         eligibility: "{{ opp.eligibility|escapejs|default:'South African citizens' }}",
         deadline: "{{ opp.application_deadline|date:'d M Y'|default:'Not specified' }}",
-        redirect_url: "{{ opp.redirect_url|default:'#' }}"
+        redirect_url: "{{ opp.redirect_url|default:'#' }}",
+        match_score: {{ opp.match_score|default:0 }},
+        match_reason: "{{ opp.match_reason|default:'Based on your profile preferences'|escapejs }}"
       },
       {% endfor %}
-    };
+    ];
 
-    let pendingApplyUrl = '';
-    let pendingApplyTitle = '';
+    console.log('📊 Total opportunities loaded:', allOpportunities.length);
 
-    // Show Toast
-    function showToast(message, type) {
-      const toast = document.getElementById('toast');
-      const toastMessage = toast.querySelector('.toast-message');
-      const toastIcon = toast.querySelector('.toast-icon');
-      
-      toastMessage.textContent = message;
-      
-      if (type === 'success') {
-        toastIcon.textContent = '✓';
-        toastIcon.style.color = '#27AE60';
-      } else if (type === 'error') {
-        toastIcon.textContent = '✗';
-        toastIcon.style.color = '#dc2626';
-      } else {
-        toastIcon.textContent = 'ℹ';
-        toastIcon.style.color = '#E8651A';
-      }
-      
-      toast.classList.add('show');
-      setTimeout(() => {
-        toast.classList.remove('show');
-      }, 3000);
-    }
-
-    // Toggle Save
-    async function toggleSave(btn, oppId) {
-      const isSaved = btn.classList.contains('saved');
-      
-      try {
-        const response = await fetch('/api/save-opportunity/', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': csrftoken
-          },
-          body: JSON.stringify({ 
-            opportunity_id: oppId, 
-            action: isSaved ? 'unsave' : 'save' 
-          })
-        });
-        
-        const data = await response.json();
-        
-        if (data.success) {
-          if (isSaved) {
-            btn.classList.remove('saved');
-            btn.textContent = '☆';
-            showToast('Removed from saved', 'info');
-          } else {
-            btn.classList.add('saved');
-            btn.textContent = '★';
-            showToast('Opportunity saved!', 'success');
-          }
-          let savedIds = JSON.parse(localStorage.getItem('savedOpportunities') || '[]');
-          if (isSaved) {
-            savedIds = savedIds.filter(id => id !== oppId);
-          } else {
-            savedIds.push(oppId);
-          }
-          localStorage.setItem('savedOpportunities', JSON.stringify(savedIds));
-        } else {
-          showToast(data.error || 'Error saving opportunity', 'error');
-        }
-      } catch (error) {
-        console.error('Error:', error);
-        showToast('Network error. Please try again.', 'error');
-      }
-    }
-
-    // Apply Modal
-    function openApplyModal(url, title) {
-      pendingApplyUrl = url;
-      pendingApplyTitle = title;
-      const modal = document.getElementById('applyModal');
-      const message = document.getElementById('applyModalMessage');
-      
-      if (url === '#' || !url) {
-        message.textContent = 'No external application link available for this opportunity. Please check the details page.';
-        document.getElementById('confirmApplyBtn').disabled = true;
-        document.getElementById('confirmApplyBtn').style.opacity = '0.5';
-      } else {
-        message.textContent = `You are about to leave CareerGPS and visit ${title} application page.`;
-        document.getElementById('confirmApplyBtn').disabled = false;
-        document.getElementById('confirmApplyBtn').style.opacity = '1';
-      }
-      
-      modal.classList.add('show');
-    }
-
-    function closeApplyModal() {
-      document.getElementById('applyModal').classList.remove('show');
-      pendingApplyUrl = '';
-      pendingApplyTitle = '';
-    }
-
-    document.getElementById('confirmApplyBtn').addEventListener('click', function() {
-      if (pendingApplyUrl && pendingApplyUrl !== '#') {
-        window.open(pendingApplyUrl, '_blank');
-        showToast(`Redirecting to ${pendingApplyTitle} application page`, 'success');
-        closeApplyModal();
-      } else {
-        showToast('No external application link available', 'error');
-      }
+    // Store opportunities data for details modal
+    const opportunitiesData = {};
+    allOpportunities.forEach(opp => {
+      opportunitiesData[opp.id] = opp;
     });
 
-    // Filter and Search
+    // ============================================================
+    // CONFIGURATION
+    // ============================================================
+    const ITEMS_PER_PAGE = 12;
+    let savedOpportunities = [];
+    let pendingApplyUrl = '';
+    let pendingApplyTitle = '';
+    let pendingApplyId = null;
+
+    // ============================================================
+    // SHOW MORE FUNCTION
+    // ============================================================
+    function showMore() {
+      const cards = document.querySelectorAll('.card');
+      const totalCards = cards.length;
+      let visibleCount = 0;
+
+      cards.forEach(card => {
+        if (card.style.display === 'block') {
+          visibleCount++;
+        }
+      });
+
+      if (visibleCount >= totalCards) {
+        document.getElementById('showMoreContainer').innerHTML = '<div class="end-message">✨ You\'ve seen all ' + totalCards + ' opportunities ✨</div>';
+        return;
+      }
+
+      let shown = 0;
+      cards.forEach(card => {
+        if (card.style.display === 'none' && shown < ITEMS_PER_PAGE) {
+          card.style.display = 'block';
+          shown++;
+        }
+      });
+
+      const newVisible = document.querySelectorAll('.card[style*="display: block"]').length;
+      if (newVisible >= totalCards) {
+        document.getElementById('showMoreContainer').innerHTML = '<div class="end-message">✨ You\'ve seen all ' + totalCards + ' opportunities ✨</div>';
+      }
+    }
+
+    // ============================================================
+    // FILTER AND SEARCH
+    // ============================================================
     const filterButtons = document.querySelectorAll('.filter-btn');
     const cards = document.querySelectorAll('.card');
     const searchInput = document.getElementById('searchInput');
@@ -1020,6 +841,7 @@
       const searchTerm = searchInput.value.toLowerCase();
       
       let visibleCount = 0;
+      let visibleCards = [];
       
       cards.forEach(card => {
         const category = card.dataset.category;
@@ -1031,13 +853,38 @@
         const matchesSearch = title.includes(searchTerm) || company.includes(searchTerm) || description.includes(searchTerm);
         
         if (matchesFilter && matchesSearch) {
-          card.style.display = 'block';
           visibleCount++;
-        } else {
-          card.style.display = 'none';
+          visibleCards.push(card);
         }
       });
       
+      // Hide all cards first
+      cards.forEach(card => {
+        card.style.display = 'none';
+      });
+
+      // Show only first 12 of visible cards
+      let shown = 0;
+      visibleCards.forEach(card => {
+        if (shown < ITEMS_PER_PAGE) {
+          card.style.display = 'block';
+          shown++;
+        }
+      });
+
+      // Show/hide show more button
+      const showMoreContainer = document.getElementById('showMoreContainer');
+      
+      if (visibleCount > ITEMS_PER_PAGE) {
+        showMoreContainer.style.display = 'block';
+        document.getElementById('showMoreBtn').textContent = 'Show More Opportunities';
+      } else if (visibleCount > 0 && visibleCount <= ITEMS_PER_PAGE) {
+        showMoreContainer.innerHTML = '<div class="end-message">✨ You\'ve seen all ' + visibleCount + ' opportunities ✨</div>';
+      } else {
+        showMoreContainer.style.display = 'none';
+      }
+
+      // Show empty state if no results
       let emptyState = document.querySelector('.empty-state:not(.no-opportunities)');
       if (visibleCount === 0 && cards.length > 0) {
         if (!emptyState) {
@@ -1072,18 +919,178 @@
       searchInput.addEventListener('input', filterAndSearch);
     }
 
-    // Open Large Details Modal (same as Welcome page)
+    // ============================================================
+    // APPLY MODAL
+    // ============================================================
+    function openApplyModal(url, title, company, id) {
+      if (!url || url === '#') {
+        showToast('No application link available for this opportunity', 'error');
+        return;
+      }
+      
+      pendingApplyUrl = url;
+      pendingApplyTitle = title;
+      pendingApplyId = id;
+      
+      document.getElementById('applyTitle').textContent = title;
+      document.getElementById('applyCompany').textContent = `🏢 ${company}`;
+      document.getElementById('applyModal').classList.add('active');
+    }
+
+    function closeApplyModal() {
+      document.getElementById('applyModal').classList.remove('active');
+      pendingApplyUrl = '';
+      pendingApplyTitle = '';
+      pendingApplyId = null;
+    }
+
+    function confirmApply() {
+      if (pendingApplyUrl && pendingApplyUrl !== '#') {
+        if (pendingApplyId) {
+          trackClick(pendingApplyId);
+        }
+        window.open(pendingApplyUrl, '_blank');
+        showToast(`Opening ${pendingApplyTitle} application page...`, 'success');
+        closeApplyModal();
+      } else {
+        showToast('No application link available', 'error');
+      }
+    }
+
+    function trackClick(opportunityId) {
+      fetch('/api/track-apply-click/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': csrftoken
+        },
+        body: JSON.stringify({ opportunity_id: opportunityId })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          console.log('✅ Click tracked for opportunity:', opportunityId);
+        }
+      })
+      .catch(error => {
+        console.error('Error tracking click:', error);
+      });
+    }
+
+    // ============================================================
+    // SAVE OPPORTUNITY
+    // ============================================================
+    async function saveOpportunity(btn, oppId) {
+      const isSaved = btn.classList.contains('saved');
+      
+      try {
+        const response = await fetch('/api/save-opportunity/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrftoken
+          },
+          body: JSON.stringify({ 
+            opportunity_id: oppId, 
+            action: isSaved ? 'unsave' : 'save' 
+          })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+          if (isSaved) {
+            btn.classList.remove('saved');
+            showToast('Removed from saved', 'info');
+            savedOpportunities = savedOpportunities.filter(id => id !== oppId);
+          } else {
+            btn.classList.add('saved');
+            showToast('Opportunity saved!', 'success');
+            savedOpportunities.push(oppId);
+          }
+          sessionStorage.setItem('refreshSaved', 'true');
+        } else {
+          showToast(data.error || 'Error saving opportunity', 'error');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        if (isSaved) {
+          btn.classList.remove('saved');
+          savedOpportunities = savedOpportunities.filter(id => id !== oppId);
+          showToast('Removed from saved', 'info');
+        } else {
+          btn.classList.add('saved');
+          savedOpportunities.push(oppId);
+          showToast('Opportunity saved!', 'success');
+        }
+        sessionStorage.setItem('refreshSaved', 'true');
+      }
+    }
+
+    // ============================================================
+    // LOAD SAVED STATUS
+    // ============================================================
+    async function loadSavedStatus() {
+      try {
+        const response = await fetch('/api/get-saved-opportunities/');
+        const data = await response.json();
+        if (data.success) {
+          savedOpportunities = data.saved_ids;
+          document.querySelectorAll('.bookmark-btn').forEach(btn => {
+            const id = parseInt(btn.dataset.id);
+            if (savedOpportunities.includes(id)) {
+              btn.classList.add('saved');
+            }
+          });
+        }
+      } catch (error) {
+        console.error('Error loading saved status:', error);
+      }
+    }
+
+    // ============================================================
+    // TOAST
+    // ============================================================
+    function showToast(message, type) {
+      const toast = document.getElementById('toast');
+      const toastMessage = toast.querySelector('.toast-message');
+      const toastIcon = toast.querySelector('.toast-icon');
+      
+      toastMessage.textContent = message;
+      
+      if (type === 'success') {
+        toastIcon.textContent = '✓';
+        toastIcon.style.color = '#27AE60';
+      } else if (type === 'error') {
+        toastIcon.textContent = '✗';
+        toastIcon.style.color = '#dc2626';
+      } else {
+        toastIcon.textContent = 'ℹ';
+        toastIcon.style.color = '#E8651A';
+      }
+      
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+
+    // ============================================================
+    // DETAILS MODAL
+    // ============================================================
     function openDetailsModal(oppId) {
       const opp = opportunitiesData[oppId];
       if (!opp) return;
       
       const modal = document.getElementById('detailsModal');
-      const modalTitle = document.getElementById('detailsModalTitle');
-      const modalContent = document.getElementById('detailsModalContent');
+      document.getElementById('detailsModalTitle').textContent = opp.title;
       
-      modalTitle.textContent = opp.title;
+      let scoreColor = '';
+      if (opp.match_score >= 70) scoreColor = '#27AE60';
+      else if (opp.match_score >= 40) scoreColor = '#F39C12';
+      else scoreColor = '#E74C3C';
       
-      modalContent.innerHTML = `
+      document.getElementById('detailsModalContent').innerHTML = `
         <div class="details-modal-section">
           <div class="details-modal-section-label">Company</div>
           <div class="details-modal-section-value">${opp.company}</div>
@@ -1106,21 +1113,17 @@
         </div>
         <div class="details-modal-divider"></div>
         <div class="details-modal-section">
-          <div class="details-modal-section-label">Required Degree</div>
-          <div class="details-modal-section-value">${opp.required_degree}</div>
+          <div class="details-modal-section-label">Match Score</div>
+          <div class="details-modal-section-value"><strong style="color: ${scoreColor};">${opp.match_score}%</strong> match with your profile</div>
         </div>
         <div class="details-modal-section">
-          <div class="details-modal-section-label">Minimum NQF Level</div>
-          <div class="details-modal-section-value">${opp.minimum_nqf}</div>
+          <div class="details-modal-section-label">Why This Matches You</div>
+          <div class="details-modal-section-value">${opp.match_reason}</div>
         </div>
         <div class="details-modal-divider"></div>
         <div class="details-modal-section">
           <div class="details-modal-section-label">Description</div>
           <div class="details-modal-section-value">${opp.description}</div>
-        </div>
-        <div class="details-modal-section">
-          <div class="details-modal-section-label">Key Duties</div>
-          <div class="details-modal-section-value">${opp.duties}</div>
         </div>
         <div class="details-modal-section">
           <div class="details-modal-section-label">Eligibility</div>
@@ -1146,48 +1149,77 @@
       document.getElementById('detailsModal').classList.remove('show');
     }
 
-    // Close modals when clicking outside
+    // ============================================================
+    // CLOSE MODALS
+    // ============================================================
     window.onclick = function(event) {
       const applyModal = document.getElementById('applyModal');
       const detailsModal = document.getElementById('detailsModal');
       if (event.target === applyModal) {
-        applyModal.classList.remove('show');
+        applyModal.classList.remove('active');
       }
       if (event.target === detailsModal) {
         detailsModal.classList.remove('show');
       }
     }
 
-    // Initialize saved states on page load
-    async function loadSavedStatus() {
-      try {
-        const response = await fetch('/api/get-saved-opportunities/');
-        const data = await response.json();
-        if (data.success) {
-          const savedIds = data.saved_ids;
-          localStorage.setItem('savedOpportunities', JSON.stringify(savedIds));
-          document.querySelectorAll('.save-btn').forEach(btn => {
-            const id = parseInt(btn.dataset.id);
-            if (savedIds.includes(id)) {
-              btn.classList.add('saved');
-              btn.textContent = '★';
-            }
-          });
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        const applyModal = document.getElementById('applyModal');
+        if (applyModal.classList.contains('active')) {
+          closeApplyModal();
         }
-      } catch (error) {
-        const savedIds = JSON.parse(localStorage.getItem('savedOpportunities') || '[]');
-        document.querySelectorAll('.save-btn').forEach(btn => {
-          const id = parseInt(btn.dataset.id);
-          if (savedIds.includes(id)) {
-            btn.classList.add('saved');
-            btn.textContent = '★';
-          }
-        });
+      }
+    });
+
+    // ============================================================
+    // CHECK FOR LOGIN REFRESH
+    // ============================================================
+    function checkForRefresh() {
+      const justLoggedIn = sessionStorage.getItem('justLoggedIn') === 'true';
+      if (justLoggedIn) {
+        sessionStorage.removeItem('justLoggedIn');
+        clearCache();
+        location.reload();
       }
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
-      loadSavedStatus();
+    // ============================================================
+    // INITIALIZE
+    // ============================================================
+    document.addEventListener('DOMContentLoaded', async function() {
+      console.log('🚀 Opportunities page loaded');
+      
+      checkForRefresh();
+      await loadSavedStatus();
+      
+      // Check if we have cached data
+      const cached = getCachedData();
+      if (cached && cached.data) {
+        console.log('📦 Using cached data');
+        // Use cached data to restore state if needed
+      } else {
+        console.log('🔄 No cache found, using server data');
+        // Cache the current data
+        setCachedData({ count: allOpportunities.length });
+      }
+      
+      // Show first 12 cards
+      const cards = document.querySelectorAll('.card');
+      let shown = 0;
+      cards.forEach(card => {
+        if (shown < ITEMS_PER_PAGE) {
+          card.style.display = 'block';
+          shown++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+      
+      // If all cards are shown, show end message
+      if (shown >= cards.length) {
+        document.getElementById('showMoreContainer').innerHTML = '<div class="end-message">✨ You\'ve seen all ' + cards.length + ' opportunities ✨</div>';
+      }
     });
   </script>
 </body>

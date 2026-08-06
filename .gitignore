@@ -2,3 +2,9 @@ __pycache__/
 *.pyc 
 db.sqlite3 
 myenv/ 
+.env
+media/
+logs/
+__pycache__/
+*.pyc
+venv/

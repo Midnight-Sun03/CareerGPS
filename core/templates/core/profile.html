@@ -103,6 +103,9 @@
       padding: 32px;
     }
 
+    /* ============================================================
+       DISPLAY MODE - KEPT EXACTLY THE SAME
+       ============================================================ */
     .profile-info { display: flex; gap: 32px; align-items: flex-start; flex-wrap: wrap; }
     .avatar {
       width: 120px; height: 120px;
@@ -119,7 +122,6 @@
     .info-label { width: 120px; font-weight: 600; color: var(--text-mid); font-size: 0.85rem; }
     .info-value { flex: 1; color: var(--text-dark); font-size: 0.9rem; }
 
-    /* Checklist Section - Moved to top */
     .checklist-section {
       margin-top: 24px;
       padding-top: 20px;
@@ -148,9 +150,7 @@
       transition: transform 0.3s;
       color: var(--text-light);
     }
-    .checklist-toggle.open {
-      transform: rotate(180deg);
-    }
+    .checklist-toggle.open { transform: rotate(180deg); }
     .checklist-content {
       max-height: 0;
       overflow: hidden;
@@ -181,7 +181,6 @@
     .checklist-text.completed { text-decoration: line-through; }
     .checklist-text.pending { color: var(--text-mid); }
 
-    /* Progress Section */
     .progress-section { margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border); }
     .progress-header { display: flex; justify-content: space-between; margin-bottom: 8px; }
     .progress-label { font-weight: 600; color: var(--text-mid); font-size: 0.85rem; }
@@ -197,23 +196,10 @@
       align-items: center;
       gap: 10px;
     }
-    .progress-tip.complete {
-      background: var(--green-bg);
-      color: var(--green);
-      border-left: 3px solid var(--green);
-    }
-    .progress-tip.good {
-      background: var(--yellow-bg);
-      color: var(--yellow);
-      border-left: 3px solid var(--yellow);
-    }
-    .progress-tip.low {
-      background: var(--red-bg);
-      color: var(--red);
-      border-left: 3px solid var(--red);
-    }
+    .progress-tip.complete { background: var(--green-bg); color: var(--green); border-left: 3px solid var(--green); }
+    .progress-tip.good { background: var(--yellow-bg); color: var(--yellow); border-left: 3px solid var(--yellow); }
+    .progress-tip.low { background: var(--red-bg); color: var(--red); border-left: 3px solid var(--red); }
 
-    /* Professional Statement */
     .statement-section {
       margin-top: 24px;
       padding: 20px;
@@ -251,30 +237,6 @@
     .btn-primary:hover { background: var(--orange-light); transform: translateY(-2px); }
     .btn-secondary { background: var(--sidebar-bg); color: white; }
     .btn-secondary:hover { background: var(--sidebar-hover); transform: translateY(-2px); }
-
-    .edit-form { margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border); }
-    .form-group { margin-bottom: 20px; }
-    .form-group label { display: block; font-weight: 600; color: var(--text-mid); font-size: 0.85rem; margin-bottom: 6px; }
-    .form-control {
-      width: 100%;
-      padding: 10px 14px;
-      border: 1.5px solid var(--border);
-      border-radius: 8px;
-      font-family: 'Open Sans', sans-serif;
-      font-size: 0.9rem;
-      transition: all 0.2s;
-    }
-    .form-control:focus { outline: none; border-color: var(--orange); box-shadow: 0 0 0 3px rgba(232, 101, 26, 0.1); }
-    textarea.form-control { resize: vertical; min-height: 100px; }
-    .form-actions { display: flex; gap: 12px; margin-top: 24px; }
-    .alert {
-      padding: 12px 20px;
-      border-radius: 8px;
-      margin-bottom: 20px;
-      background: #EAFAF1;
-      color: #2E7D32;
-      border-left: 4px solid #2E7D32;
-    }
 
     /* CV Upload Section */
     .cv-section {
@@ -357,6 +319,279 @@
     }
     .remove-cv-btn:hover { background: rgba(220, 38, 38, 0.1); }
 
+    .alert {
+      padding: 12px 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      background: #EAFAF1;
+      color: #2E7D32;
+      border-left: 4px solid #2E7D32;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      padding: 12px 20px;
+      transform: translateX(400px);
+      transition: transform 0.3s ease;
+      z-index: 1000;
+      font-family: 'Open Sans', sans-serif;
+    }
+    .toast.show { transform: translateX(0); }
+
+    /* ============================================================
+       EDIT MODE - EXACT SAME STRUCTURE AS REGISTRATION STEP 3
+       ============================================================ */
+    .edit-mode-container {
+      display: none;
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      animation: fadeIn 0.3s ease;
+    }
+
+    .edit-mode-container.show {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .edit-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .edit-header h2 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+
+    .edit-close-btn {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: var(--text-light);
+      transition: color 0.2s;
+      padding: 4px 8px;
+      border-radius: 6px;
+    }
+
+    .edit-close-btn:hover {
+      color: var(--orange);
+      background: var(--orange-pale);
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--text-dark);
+      margin-bottom: 6px;
+    }
+
+    .form-control, .form-select {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-family: 'Open Sans', sans-serif;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+      background: white;
+    }
+
+    .form-control:focus, .form-select:focus {
+      outline: none;
+      border-color: var(--orange);
+      box-shadow: 0 0 0 3px rgba(232, 101, 26, 0.1);
+    }
+
+    .form-control::placeholder {
+      color: #bbb;
+    }
+
+    .form-textarea {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-family: 'Open Sans', sans-serif;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+      resize: vertical;
+      min-height: 80px;
+      background: white;
+    }
+
+    .form-textarea:focus {
+      outline: none;
+      border-color: var(--orange);
+      box-shadow: 0 0 0 3px rgba(232, 101, 26, 0.1);
+    }
+
+    .custom-hidden {
+      display: none;
+      margin-top: 6px;
+    }
+
+    /* LinkedIn-style Skills & Interests */
+    .skill-section {
+      margin-bottom: 20px;
+    }
+
+    .skill-section__label {
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: #1C1C1C;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .skill-section__sub {
+      font-size: 0.75rem;
+      color: #888;
+      margin-bottom: 10px;
+    }
+
+    .skill-input-wrapper {
+      position: relative;
+    }
+
+    .skill-input-wrapper .form-control {
+      width: 100%;
+    }
+
+    .suggestions-dropdown {
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0;
+      right: 0;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      max-height: 200px;
+      overflow-y: auto;
+      display: none;
+      z-index: 100;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .suggestions-dropdown.show {
+      display: block;
+    }
+
+    .suggestion-item {
+      padding: 10px 14px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      color: #333;
+      transition: background 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .suggestion-item:hover {
+      background: var(--orange-pale);
+    }
+
+    .suggestion-item .suggestion-add {
+      color: var(--orange);
+      font-weight: 600;
+      font-size: 0.75rem;
+    }
+
+    .suggestion-item--no-results {
+      color: #888;
+      padding: 12px 14px;
+      font-size: 0.85rem;
+      text-align: center;
+    }
+
+    .tags-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+      min-height: 36px;
+      padding: 4px 2px;
+    }
+
+    .tag {
+      padding: 6px 12px 6px 14px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      animation: tagPop 0.2s ease;
+      cursor: default;
+    }
+
+    .tag--skill {
+      background: #E8F5E9;
+      color: #2E7D32;
+      border: 1px solid rgba(46, 125, 50, 0.2);
+    }
+
+    .tag--interest {
+      background: #E3F2FD;
+      color: #1565C0;
+      border: 1px solid rgba(21, 101, 192, 0.2);
+    }
+
+    @keyframes tagPop {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .tag__remove {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+      line-height: 1;
+      padding: 0 2px;
+      opacity: 0.5;
+      transition: opacity 0.2s;
+      color: inherit;
+    }
+
+    .tag__remove:hover {
+      opacity: 1;
+    }
+
+    .edit-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 24px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    .edit-actions .btn {
+      padding: 12px 28px;
+    }
+
     svg { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
     @media (max-width: 768px) {
@@ -369,7 +604,8 @@
       .info-row { flex-direction: column; gap: 4px; }
       .info-label { width: 100%; }
       .buttons { flex-direction: column; }
-      .form-actions { flex-direction: column; }
+      .edit-actions { flex-direction: column; }
+      .edit-actions .btn { width: 100%; text-align: center; }
     }
   </style>
 </head>
@@ -398,7 +634,9 @@
     {% endif %}
 
     <div class="profile-card">
-      <!-- Display Mode -->
+      <!-- ========================================================== -->
+      <!-- DISPLAY MODE - KEPT EXACTLY THE SAME                        -->
+      <!-- ========================================================== -->
       <div id="displayMode">
         <div class="profile-info">
           <div class="avatar">{{ user.first_name|slice:":1" }}{{ user.last_name|slice:":1"|default:user.username|slice:":1" }}</div>
@@ -439,7 +677,7 @@
           {% endif %}
         </div>
 
-        <!-- Profile Checklist - MOVED TO TOP (Above Progress) -->
+        <!-- Profile Checklist -->
         <div class="checklist-section">
           <div class="checklist-header" onclick="toggleChecklist()">
             <div class="checklist-title">
@@ -449,7 +687,7 @@
           </div>
           <div class="checklist-content" id="checklistContent">
             <div class="checklist-item">
-              <div class="checklist-icon" id="checklistIcon-degree" style="{% if profile.degree %}background: var(--green-bg); color: var(--green);{% else %}background: var(--red-bg); color: var(--red);{% endif %}">
+              <div class="checklist-icon" style="{% if profile.degree %}background: var(--green-bg); color: var(--green);{% else %}background: var(--red-bg); color: var(--red);{% endif %}">
                 {% if profile.degree %}✓{% else %}○{% endif %}
               </div>
               <div class="checklist-text {% if profile.degree %}completed{% else %}pending{% endif %}" style="{% if profile.degree %}color: var(--green);{% endif %}">
@@ -457,7 +695,7 @@
               </div>
             </div>
             <div class="checklist-item">
-              <div class="checklist-icon" id="checklistIcon-institution" style="{% if profile.institution %}background: var(--green-bg); color: var(--green);{% else %}background: var(--red-bg); color: var(--red);{% endif %}">
+              <div class="checklist-icon" style="{% if profile.institution %}background: var(--green-bg); color: var(--green);{% else %}background: var(--red-bg); color: var(--red);{% endif %}">
                 {% if profile.institution %}✓{% else %}○{% endif %}
               </div>
               <div class="checklist-text {% if profile.institution %}completed{% else %}pending{% endif %}" style="{% if profile.institution %}color: var(--green);{% endif %}">
@@ -465,7 +703,7 @@
               </div>
             </div>
             <div class="checklist-item">
-              <div class="checklist-icon" id="checklistIcon-location" style="{% if profile.location %}background: var(--green-bg); color: var(--green);{% else %}background: var(--red-bg); color: var(--red);{% endif %}">
+              <div class="checklist-icon" style="{% if profile.location %}background: var(--green-bg); color: var(--green);{% else %}background: var(--red-bg); color: var(--red);{% endif %}">
                 {% if profile.location %}✓{% else %}○{% endif %}
               </div>
               <div class="checklist-text {% if profile.location %}completed{% else %}pending{% endif %}" style="{% if profile.location %}color: var(--green);{% endif %}">
@@ -473,7 +711,7 @@
               </div>
             </div>
             <div class="checklist-item">
-              <div class="checklist-icon" id="checklistIcon-skills" style="{% if skills_list %}background: var(--green-bg); color: var(--green);{% else %}background: var(--red-bg); color: var(--red);{% endif %}">
+              <div class="checklist-icon" style="{% if skills_list %}background: var(--green-bg); color: var(--green);{% else %}background: var(--red-bg); color: var(--red);{% endif %}">
                 {% if skills_list %}✓{% else %}○{% endif %}
               </div>
               <div class="checklist-text {% if skills_list %}completed{% else %}pending{% endif %}" style="{% if skills_list %}color: var(--green);{% endif %}">
@@ -481,7 +719,7 @@
               </div>
             </div>
             <div class="checklist-item">
-              <div class="checklist-icon" id="checklistIcon-interests" style="{% if interests_list %}background: var(--green-bg); color: var(--green);{% else %}background: var(--red-bg); color: var(--red);{% endif %}">
+              <div class="checklist-icon" style="{% if interests_list %}background: var(--green-bg); color: var(--green);{% else %}background: var(--red-bg); color: var(--red);{% endif %}">
                 {% if interests_list %}✓{% else %}○{% endif %}
               </div>
               <div class="checklist-text {% if interests_list %}completed{% else %}pending{% endif %}" style="{% if interests_list %}color: var(--green);{% endif %}">
@@ -489,7 +727,7 @@
               </div>
             </div>
             <div class="checklist-item">
-              <div class="checklist-icon" id="checklistIcon-cv" style="{% if profile.cv %}background: var(--green-bg); color: var(--green);{% else %}background: var(--red-bg); color: var(--red);{% endif %}">
+              <div class="checklist-icon" style="{% if profile.cv %}background: var(--green-bg); color: var(--green);{% else %}background: var(--red-bg); color: var(--red);{% endif %}">
                 {% if profile.cv %}✓{% else %}○{% endif %}
               </div>
               <div class="checklist-text {% if profile.cv %}completed{% else %}pending{% endif %}" style="{% if profile.cv %}color: var(--green);{% endif %}">
@@ -499,7 +737,7 @@
           </div>
         </div>
 
-        <!-- Profile Completion with Colored Bar -->
+        <!-- Profile Completion -->
         <div class="progress-section">
           <div class="progress-header">
             <span class="progress-label">Profile Completion</span>
@@ -510,9 +748,7 @@
           <div class="progress-bar">
             <div class="progress-fill" id="progressFill" style="width: {{ profile_completion }}%; background: {% if profile_completion >= 70 %}#27AE60{% elif profile_completion >= 40 %}#F39C12{% else %}#E74C3C{% endif %};"></div>
           </div>
-          <div class="progress-tip" id="progressTip">
-            <!-- Dynamic content will be set by JavaScript -->
-          </div>
+          <div class="progress-tip" id="progressTip"></div>
         </div>
 
         <!-- Professional Statement -->
@@ -528,49 +764,121 @@
         </div>
       </div>
 
-      <!-- Edit Mode -->
-      <div id="editMode" style="display: none;">
+      <!-- ========================================================== -->
+      <!-- EDIT MODE - EXACT SAME STRUCTURE AS REGISTRATION STEP 3    -->
+      <!-- ========================================================== -->
+      <div class="edit-mode-container" id="editMode">
+        <div class="edit-header">
+          <h2>✏️ Edit Profile</h2>
+          <button class="edit-close-btn" id="cancelBtn" title="Close edit mode">✕</button>
+        </div>
+
         <form method="POST" action="{% url 'profile' %}">
           {% csrf_token %}
+          
+          <!-- Qualification / Degree -->
           <div class="form-group">
-            <label>Qualification / Degree</label>
-            <input type="text" class="form-control" name="degree" value="{{ profile.degree|default:'' }}">
+            <label for="editDegree">Qualification / Degree</label>
+            <select id="editDegree" class="form-select" name="degree">
+              <option value="">Select your qualification...</option>
+              <option value="BCom in Logistics">BCom in Logistics</option>
+              <option value="BSc Computer Science">BSc Computer Science</option>
+              <option value="BA Communications">BA Communications</option>
+              <option value="BEng Electrical Engineering">BEng Electrical Engineering</option>
+              <option value="BCom Accounting">BCom Accounting</option>
+              <option value="Diploma in IT">Diploma in Information Technology</option>
+              <option value="BSc Data Science">BSc Data Science</option>
+              <option value="other">Other (specify)</option>
+            </select>
+            <input type="text" id="editCustomDegree" class="form-control custom-hidden" placeholder="Enter your qualification" />
           </div>
+
+          <!-- Institution -->
           <div class="form-group">
-            <label>Institution</label>
-            <input type="text" class="form-control" name="institution" value="{{ profile.institution|default:'' }}">
+            <label for="editInstitution">Institution</label>
+            <select id="editInstitution" class="form-select" name="institution">
+              <option value="">Select your institution...</option>
+              <option value="University of Johannesburg">University of Johannesburg</option>
+              <option value="University of Pretoria">University of Pretoria</option>
+              <option value="Wits University">Wits University</option>
+              <option value="UNISA">UNISA</option>
+              <option value="University of Cape Town">University of Cape Town</option>
+              <option value="Stellenbosch University">Stellenbosch University</option>
+              <option value="other">Other (specify)</option>
+            </select>
+            <input type="text" id="editCustomInstitution" class="form-control custom-hidden" placeholder="Enter your institution" />
           </div>
+
+          <!-- Location -->
           <div class="form-group">
-            <label>Skills (comma separated)</label>
-            <input type="text" class="form-control" name="skills" value="{% if skills_list %}{{ skills_list|join:', ' }}{% endif %}">
-            <small style="color: #888; font-size: 0.7rem;">Example: Python, SQL, Communication</small>
+            <label for="editLocation">Location</label>
+            <select id="editLocation" class="form-select" name="location">
+              <option value="">Select your location...</option>
+              <option value="Johannesburg">Johannesburg</option>
+              <option value="Cape Town">Cape Town</option>
+              <option value="Durban">Durban</option>
+              <option value="Pretoria">Pretoria</option>
+              <option value="Port Elizabeth">Port Elizabeth</option>
+              <option value="other">Other (specify)</option>
+            </select>
+            <input type="text" id="editCustomLocation" class="form-control custom-hidden" placeholder="Enter your location" />
           </div>
+
+          <!-- SKILLS - LinkedIn Style with Custom Input Support -->
+          <div class="form-group skill-section">
+            <label class="skill-section__label">Skills</label>
+            <p class="skill-section__sub">Add your skills — type to search, click suggested skills, or press <strong>Enter</strong> to add custom skills</p>
+            
+            <div class="skill-input-wrapper">
+              <input type="text" id="skillInput" class="form-control" placeholder="Type a skill (e.g., Python, Project Management)" autocomplete="off" />
+              <div class="suggestions-dropdown" id="skillSuggestions"></div>
+            </div>
+            
+            <div class="tags-container" id="skillsContainer"></div>
+            <input type="hidden" id="skillsHidden" name="skills" value="" />
+          </div>
+
+          <!-- INTERESTS - LinkedIn Style with Custom Input Support -->
+          <div class="form-group skill-section">
+            <label class="skill-section__label">Interests</label>
+            <p class="skill-section__sub">Add your interests — type to search, click suggested interests, or press <strong>Enter</strong> to add custom interests</p>
+            
+            <div class="skill-input-wrapper">
+              <input type="text" id="interestInput" class="form-control" placeholder="Type an interest (e.g., Data Science, Finance)" autocomplete="off" />
+              <div class="suggestions-dropdown" id="interestSuggestions"></div>
+            </div>
+            
+            <div class="tags-container" id="interestsContainer"></div>
+            <input type="hidden" id="interestsHidden" name="interests" value="" />
+          </div>
+
+          <!-- Other Skills / Professional Statement -->
           <div class="form-group">
-            <label>Interests (comma separated)</label>
-            <input type="text" class="form-control" name="interests" value="{% if interests_list %}{{ interests_list|join:', ' }}{% endif %}">
-            <small style="color: #888; font-size: 0.7rem;">Example: Data Science, Finance, AI</small>
+            <label for="editOtherSkills">Other Skills (optional)</label>
+            <textarea id="editOtherSkills" class="form-textarea" name="custom_skills" rows="3" placeholder="List any other skills not mentioned above...">{{ profile.custom_skills|default:'' }}</textarea>
           </div>
-          <div class="form-group">
-            <label>Location</label>
-            <input type="text" class="form-control" name="location" value="{{ profile.location|default:'' }}">
-          </div>
-          <div class="form-group">
-            <label>Professional Statement</label>
-            <textarea class="form-control" name="custom_skills" rows="4">{{ profile.custom_skills|default:'' }}</textarea>
-          </div>
-          <div class="form-actions">
-            <button type="submit" class="btn btn-primary">Save Changes</button>
-            <button type="button" class="btn btn-secondary" id="cancelBtn">Cancel</button>
+
+          <!-- Edit Actions -->
+          <div class="edit-actions">
+            <button type="submit" class="btn btn-primary">💾 Save Changes</button>
+            <button type="button" class="btn btn-secondary" id="cancelBtn2">Cancel</button>
           </div>
         </form>
       </div>
     </div>
   </main>
 
-  <div class="toast" id="toast" style="position: fixed; bottom: 30px; right: 30px; background: white; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); padding: 12px 20px; transform: translateX(400px); transition: transform 0.3s ease; z-index: 1000;"><div class="toast-content"><span class="toast-icon">✓</span><span class="toast-message"></span></div></div>
+  <div class="toast" id="toast">
+    <div class="toast-content">
+      <span class="toast-icon">✓</span>
+      <span class="toast-message"></span>
+    </div>
+  </div>
 
   <script>
-    // Toggle only the checklist section
+    // ============================================================
+    // TOGGLE CHECKLIST
+    // ============================================================
     function toggleChecklist() {
       const content = document.getElementById('checklistContent');
       const toggle = document.getElementById('checklistToggle');
@@ -584,6 +892,9 @@
       }
     }
 
+    // ============================================================
+    // TOAST & COOKIE FUNCTIONS
+    // ============================================================
     function getCookie(name) {
       let cookieValue = null;
       if (document.cookie && document.cookie !== '') {
@@ -610,16 +921,6 @@
       else { toastIcon.textContent = 'ℹ'; toastIcon.style.color = '#E8651A'; }
       toast.classList.add('show');
       setTimeout(() => toast.classList.remove('show'), 3000);
-    }
-
-    function updateChecklistColors(completion) {
-      // Update all checklist icons based on completion status
-      const checklistIcons = document.querySelectorAll('.checklist-icon');
-      const checklistTexts = document.querySelectorAll('.checklist-text');
-      
-      // For each item, check if it's completed and apply appropriate color
-      // The colors are already set in the Django template based on actual data
-      // This function ensures the colors match the theme
     }
 
     function updateProgressUI(completion) {
@@ -672,6 +973,9 @@
       }
     }
 
+    // ============================================================
+    // CV FUNCTIONS
+    // ============================================================
     async function uploadCV(input) {
       const file = input.files[0];
       if (!file) return;
@@ -738,20 +1042,456 @@
       }
     }
 
-    document.getElementById('editBtn')?.addEventListener('click', () => {
+    // ============================================================
+    // EDIT MODE TOGGLE
+    // ============================================================
+    document.getElementById('editBtn')?.addEventListener('click', function() {
       document.getElementById('displayMode').style.display = 'none';
-      document.getElementById('editMode').style.display = 'block';
+      document.getElementById('editMode').classList.add('show');
+      loadExistingData();
     });
 
-    document.getElementById('cancelBtn')?.addEventListener('click', () => {
+    document.getElementById('cancelBtn')?.addEventListener('click', function() {
       document.getElementById('displayMode').style.display = 'block';
-      document.getElementById('editMode').style.display = 'none';
+      document.getElementById('editMode').classList.remove('show');
     });
 
-    document.getElementById('logoutBtn')?.addEventListener('click', () => {
+    document.getElementById('cancelBtn2')?.addEventListener('click', function() {
+      document.getElementById('displayMode').style.display = 'block';
+      document.getElementById('editMode').classList.remove('show');
+    });
+
+    document.getElementById('logoutBtn')?.addEventListener('click', function() {
       window.location.href = "{% url 'signin' %}";
     });
 
+    // ============================================================
+    // LOAD EXISTING DATA - WITH CASE-INSENSITIVE COMPARISON
+    // ============================================================
+    function loadExistingData() {
+      // Clear existing selections
+      selectedSkills = [];
+      selectedInterests = [];
+      
+      // Get all info rows
+      const infoRows = document.querySelectorAll('.info-row');
+      
+      // Row 0: Email (skip)
+      // Row 1: Qualification (index 1)
+      // Row 2: Institution (index 2)  
+      // Row 3: Skills (index 3)
+      // Row 4: Interests (index 4)
+      // Row 5: Location (index 5)
+      
+      // 1. Set Qualification / Degree (row index 1)
+      const degreeText = infoRows[1]?.querySelector('.info-value')?.textContent?.trim() || '';
+      const degreeSelect = document.getElementById('editDegree');
+      const customDegree = document.getElementById('editCustomDegree');
+      
+      if (degreeText && degreeText !== 'Not provided') {
+        let found = false;
+        // Try exact match first
+        for (let opt of degreeSelect.options) {
+          if (opt.value.toLowerCase() === degreeText.toLowerCase()) {
+            opt.selected = true;
+            found = true;
+            break;
+          }
+        }
+        // If no exact match, try partial match
+        if (!found) {
+          for (let opt of degreeSelect.options) {
+            if (opt.value.toLowerCase().includes(degreeText.toLowerCase()) || 
+                degreeText.toLowerCase().includes(opt.value.toLowerCase())) {
+              opt.selected = true;
+              found = true;
+              break;
+            }
+          }
+        }
+        if (!found) {
+          degreeSelect.value = 'other';
+          customDegree.value = degreeText;
+          customDegree.style.display = 'block';
+        } else {
+          customDegree.style.display = 'none';
+          customDegree.value = '';
+        }
+      }
+
+      // 2. Set Institution (row index 2)
+      const institutionText = infoRows[2]?.querySelector('.info-value')?.textContent?.trim() || '';
+      const institutionSelect = document.getElementById('editInstitution');
+      const customInstitution = document.getElementById('editCustomInstitution');
+      
+      if (institutionText && institutionText !== 'Not provided') {
+        let found = false;
+        for (let opt of institutionSelect.options) {
+          if (opt.value.toLowerCase() === institutionText.toLowerCase()) {
+            opt.selected = true;
+            found = true;
+            break;
+          }
+        }
+        if (!found) {
+          institutionSelect.value = 'other';
+          customInstitution.value = institutionText;
+          customInstitution.style.display = 'block';
+        } else {
+          customInstitution.style.display = 'none';
+          customInstitution.value = '';
+        }
+      }
+
+      // 3. Set Skills (row index 3)
+      const skillsText = infoRows[3]?.querySelector('.info-value')?.textContent?.trim() || '';
+      if (skillsText && skillsText !== 'Not provided') {
+        const skills = skillsText.split(', ').map(s => s.trim()).filter(s => s);
+        skills.forEach(skill => {
+          if (skill && !selectedSkills.includes(skill)) {
+            selectedSkills.push(skill);
+          }
+        });
+        updateSkillsUI();
+      }
+
+      // 4. Set Interests (row index 4)
+      const interestsText = infoRows[4]?.querySelector('.info-value')?.textContent?.trim() || '';
+      if (interestsText && interestsText !== 'Not provided') {
+        const interests = interestsText.split(', ').map(i => i.trim()).filter(i => i);
+        interests.forEach(interest => {
+          if (interest && !selectedInterests.includes(interest)) {
+            selectedInterests.push(interest);
+          }
+        });
+        updateInterestsUI();
+      }
+
+      // 5. Set Location (row index 5)
+      const locationText = infoRows[5]?.querySelector('.info-value')?.textContent?.trim() || '';
+      const locationSelect = document.getElementById('editLocation');
+      const customLocation = document.getElementById('editCustomLocation');
+      
+      if (locationText && locationText !== 'Not provided') {
+        let found = false;
+        for (let opt of locationSelect.options) {
+          if (opt.value.toLowerCase() === locationText.toLowerCase()) {
+            opt.selected = true;
+            found = true;
+            break;
+          }
+        }
+        if (!found) {
+          locationSelect.value = 'other';
+          customLocation.value = locationText;
+          customLocation.style.display = 'block';
+        } else {
+          customLocation.style.display = 'none';
+          customLocation.value = '';
+        }
+      }
+
+      // 6. Set Other Skills / Professional Statement
+      const statementText = document.querySelector('.statement-section p')?.textContent?.trim() || '';
+      const editOtherSkills = document.getElementById('editOtherSkills');
+      if (editOtherSkills) {
+        editOtherSkills.value = statementText;
+      }
+    }
+
+    // ============================================================
+    // SKILLS & INTERESTS - LINKEDIN STYLE WITH CUSTOM INPUT
+    // ============================================================
+    const SKILL_SUGGESTIONS = [
+      'Python programming', 'JavaScript', 'Data analysis', 'Project management',
+      'Financial modelling', 'SQL & databases', 'Machine learning', 'Communication',
+      'Leadership', 'Team collaboration', 'Problem solving', 'Critical thinking',
+      'Time management', 'Adaptability', 'Creativity', 'Emotional intelligence',
+      'Conflict resolution', 'Decision making', 'Strategic planning', 'Risk management',
+      'Budgeting', 'Forecasting', 'Market research', 'Digital marketing',
+      'Content creation', 'Graphic design', 'UX/UI design', 'Web development',
+      'Mobile development', 'Cloud computing', 'DevOps', 'Agile methodology',
+      'Scrum', 'Kanban', 'Quality assurance', 'Testing', 'Technical writing',
+      'Public speaking', 'Negotiation', 'Sales', 'Customer service',
+      'Data visualization', 'Statistics', 'Research', 'Writing',
+      'Editing', 'Translation', 'Teaching', 'Coaching', 'Mentoring'
+    ];
+
+    const INTEREST_SUGGESTIONS = [
+      'Data Science', 'Artificial Intelligence', 'Finance & Banking', 'Marketing & Brand',
+      'Entrepreneurship', 'Software Engineering', 'Healthcare', 'Cybersecurity',
+      'Renewable Energy', 'Sustainable Development', 'Education', 'E-commerce',
+      'Digital Transformation', 'Innovation', 'Product Management', 'User Experience',
+      'Business Strategy', 'Consulting', 'Human Resources', 'Talent Acquisition',
+      'Public Policy', 'International Relations', 'Journalism', 'Media & Entertainment',
+      'Sports Management', 'Event Planning', 'Hospitality', 'Tourism',
+      'Real Estate', 'Investment Banking', 'Private Equity', 'Venture Capital',
+      'Blockchain', 'Internet of Things', 'Robotics', 'Biotechnology',
+      'Environmental Science', 'Marine Biology', 'Astronomy', 'Physics',
+      'Mathematics', 'Chemistry', 'Psychology', 'Sociology', 'Anthropology'
+    ];
+
+    // SKILLS
+    const skillInput = document.getElementById('skillInput');
+    const skillSuggestions = document.getElementById('skillSuggestions');
+    const skillsContainer = document.getElementById('skillsContainer');
+    const skillsHidden = document.getElementById('skillsHidden');
+    let selectedSkills = [];
+
+    function renderSkillSuggestions(query) {
+      const filtered = SKILL_SUGGESTIONS.filter(s => 
+        s.toLowerCase().includes(query.toLowerCase()) && 
+        !selectedSkills.includes(s)
+      );
+
+      if (filtered.length === 0 && query.length > 0) {
+        skillSuggestions.innerHTML = `
+          <div class="suggestion-item--no-results">
+            No matching skills found. Press <strong>Enter</strong> to add "<strong>${query}</strong>"
+          </div>
+        `;
+        skillSuggestions.classList.add('show');
+        return;
+      }
+
+      if (filtered.length === 0) {
+        skillSuggestions.classList.remove('show');
+        return;
+      }
+
+      skillSuggestions.innerHTML = filtered.map(s => `
+        <div class="suggestion-item" data-value="${s}">
+          <span>${s}</span>
+          <span class="suggestion-add">+ Add</span>
+        </div>
+      `).join('');
+
+      skillSuggestions.querySelectorAll('.suggestion-item').forEach(item => {
+        item.addEventListener('click', function() {
+          addSkill(this.dataset.value);
+        });
+      });
+
+      skillSuggestions.classList.add('show');
+    }
+
+    function addSkill(value) {
+      if (!value || value.trim() === '') return;
+      const trimmed = value.trim();
+      if (selectedSkills.includes(trimmed)) return;
+
+      selectedSkills.push(trimmed);
+      updateSkillsUI();
+      skillInput.value = '';
+      skillSuggestions.classList.remove('show');
+      skillInput.focus();
+      updateHiddenFields();
+      showToast(`Added "${trimmed}" to skills`, 'success');
+    }
+
+    function removeSkill(value) {
+      selectedSkills = selectedSkills.filter(s => s !== value);
+      updateSkillsUI();
+      updateHiddenFields();
+    }
+
+    function updateSkillsUI() {
+      skillsContainer.innerHTML = selectedSkills.map(s => `
+        <span class="tag tag--skill">
+          ${s}
+          <button type="button" class="tag__remove" onclick="removeSkill('${s}')">×</button>
+        </span>
+      `).join('');
+      updateHiddenFields();
+    }
+
+    function updateHiddenFields() {
+      skillsHidden.value = selectedSkills.join(',');
+      interestsHidden.value = selectedInterests.join(',');
+    }
+
+    window.removeSkill = removeSkill;
+
+    skillInput.addEventListener('input', function() {
+      const query = this.value.trim();
+      if (query.length > 0) {
+        renderSkillSuggestions(query);
+      } else {
+        skillSuggestions.classList.remove('show');
+      }
+    });
+
+    skillInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        const query = this.value.trim();
+        if (query.length > 0 && !selectedSkills.includes(query)) {
+          addSkill(query);
+        }
+      }
+      if (e.key === 'Escape') {
+        skillSuggestions.classList.remove('show');
+      }
+    });
+
+    skillInput.addEventListener('blur', function() {
+      setTimeout(() => {
+        skillSuggestions.classList.remove('show');
+      }, 200);
+    });
+
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.skill-input-wrapper')) {
+        skillSuggestions.classList.remove('show');
+      }
+    });
+
+    // INTERESTS
+    const interestInput = document.getElementById('interestInput');
+    const interestSuggestions = document.getElementById('interestSuggestions');
+    const interestsContainer = document.getElementById('interestsContainer');
+    const interestsHidden = document.getElementById('interestsHidden');
+    let selectedInterests = [];
+
+    function renderInterestSuggestions(query) {
+      const filtered = INTEREST_SUGGESTIONS.filter(s => 
+        s.toLowerCase().includes(query.toLowerCase()) && 
+        !selectedInterests.includes(s)
+      );
+
+      if (filtered.length === 0 && query.length > 0) {
+        interestSuggestions.innerHTML = `
+          <div class="suggestion-item--no-results">
+            No matching interests found. Press <strong>Enter</strong> to add "<strong>${query}</strong>"
+          </div>
+        `;
+        interestSuggestions.classList.add('show');
+        return;
+      }
+
+      if (filtered.length === 0) {
+        interestSuggestions.classList.remove('show');
+        return;
+      }
+
+      interestSuggestions.innerHTML = filtered.map(s => `
+        <div class="suggestion-item" data-value="${s}">
+          <span>${s}</span>
+          <span class="suggestion-add">+ Add</span>
+        </div>
+      `).join('');
+
+      interestSuggestions.querySelectorAll('.suggestion-item').forEach(item => {
+        item.addEventListener('click', function() {
+          addInterest(this.dataset.value);
+        });
+      });
+
+      interestSuggestions.classList.add('show');
+    }
+
+    function addInterest(value) {
+      if (!value || value.trim() === '') return;
+      const trimmed = value.trim();
+      if (selectedInterests.includes(trimmed)) return;
+
+      selectedInterests.push(trimmed);
+      updateInterestsUI();
+      interestInput.value = '';
+      interestSuggestions.classList.remove('show');
+      interestInput.focus();
+      updateHiddenFields();
+      showToast(`Added "${trimmed}" to interests`, 'success');
+    }
+
+    function removeInterest(value) {
+      selectedInterests = selectedInterests.filter(s => s !== value);
+      updateInterestsUI();
+      updateHiddenFields();
+    }
+
+    function updateInterestsUI() {
+      interestsContainer.innerHTML = selectedInterests.map(s => `
+        <span class="tag tag--interest">
+          ${s}
+          <button type="button" class="tag__remove" onclick="removeInterest('${s}')">×</button>
+        </span>
+      `).join('');
+      updateHiddenFields();
+    }
+
+    window.removeInterest = removeInterest;
+
+    interestInput.addEventListener('input', function() {
+      const query = this.value.trim();
+      if (query.length > 0) {
+        renderInterestSuggestions(query);
+      } else {
+        interestSuggestions.classList.remove('show');
+      }
+    });
+
+    interestInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        const query = this.value.trim();
+        if (query.length > 0 && !selectedInterests.includes(query)) {
+          addInterest(query);
+        }
+      }
+      if (e.key === 'Escape') {
+        interestSuggestions.classList.remove('show');
+      }
+    });
+
+    interestInput.addEventListener('blur', function() {
+      setTimeout(() => {
+        interestSuggestions.classList.remove('show');
+      }, 200);
+    });
+
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.skill-input-wrapper')) {
+        interestSuggestions.classList.remove('show');
+      }
+    });
+
+    // ============================================================
+    // CUSTOM INPUT TOGGLES
+    // ============================================================
+    document.getElementById('editDegree').addEventListener('change', function() {
+      const customInput = document.getElementById('editCustomDegree');
+      if (this.value === 'other') {
+        customInput.style.display = 'block';
+      } else {
+        customInput.style.display = 'none';
+        customInput.value = '';
+      }
+    });
+
+    document.getElementById('editInstitution').addEventListener('change', function() {
+      const customInput = document.getElementById('editCustomInstitution');
+      if (this.value === 'other') {
+        customInput.style.display = 'block';
+      } else {
+        customInput.style.display = 'none';
+        customInput.value = '';
+      }
+    });
+
+    document.getElementById('editLocation').addEventListener('change', function() {
+      const customInput = document.getElementById('editCustomLocation');
+      if (this.value === 'other') {
+        customInput.style.display = 'block';
+      } else {
+        customInput.style.display = 'none';
+        customInput.value = '';
+      }
+    });
+
+    // ============================================================
+    // INITIALIZE
+    // ============================================================
     setTimeout(() => {
       const alert = document.querySelector('.alert');
       if (alert) {
@@ -762,7 +1502,6 @@
     }, 3000);
     
     updateProgressUI({{ profile_completion }});
-    updateChecklistColors({{ profile_completion }});
   </script>
 </body>
 </html>
