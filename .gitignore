@@ -4,6 +4,7 @@ __pycache__/
 *$py.class
 
 # Virtual environments
+myenv/
 venv/
 .venv/
 env/
