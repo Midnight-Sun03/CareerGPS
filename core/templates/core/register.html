@@ -1,0 +1,123 @@
+{% extends "public_pages.html" %}
+{% load static %}
+
+{% block title %}
+CareerGPS - Create Account
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'core/css/register.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+{% endblock %}
+
+{% block content %}
+
+<!-- ================= NAV ================= -->
+<nav class="nav">
+  <a href="{% url 'landing' %}" class="nav__logo">
+    <span class="nav__logo-icon">C</span>
+    <span class="nav__logo-text">
+      <span class="logo-career">Career</span><span class="logo-gps">GPS</span>
+    </span>
+  </a>
+  <a href="{% url 'login' %}" class="nav__register-btn">Sign In</a>
+</nav>
+
+<!-- ================= MAIN ================= -->
+<main class="main">
+
+  <!-- Left Panel -->
+  <div class="panel panel--left">
+    <div class="panel__tagline">
+      <h1>
+        Start building<br>
+        <em>your career.</em>
+      </h1>
+      <p>
+        Join a growing community of students and graduates discovering internships,
+        learnerships, graduate programmes, and entry-level opportunities—all in one place.
+      </p>
+    </div>
+    <div class="panel__dots" aria-hidden="true">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+
+  <!-- Right Panel -->
+  <div class="panel panel--right">
+    <div class="card">
+      <div class="card__header">
+        <h2 class="card__title">Create your account</h2>
+        <p class="card__subtitle">It only takes a minute to get started.</p>
+      </div>
+
+      <form id="registerForm" class="form" method="POST" action="{% url 'register' %}" novalidate>
+        {% csrf_token %}
+
+        <!-- First Name -->
+        <div class="form__group">
+          <label class="form__label" for="firstName">First Name</label>
+          <input class="form__input" type="text" id="firstName" name="first_name" placeholder="John"
+           value="{{ request.POST.first_name }}" required>
+          <span class="form__error" id="firstNameError"></span>
+        </div>
+
+        <!-- Last Name -->
+        <div class="form__group">
+          <label class="form__label" for="lastName">Last Name</label>
+          <input class="form__input" type="text" id="lastName" name="last_name" placeholder="Doe"
+          value="{{ request.POST.last_name }}" required>
+          <span class="form__error" id="lastNameError"></span>
+        </div>
+
+        <!-- Email -->
+        <div class="form__group">
+          <label class="form__label" for="email">Email Address</label>
+          <input class="form__input" type="email" id="email" name="email" placeholder="you@example.com"
+          value="{{ request.POST.email }}" required>
+          <span class="form__error" id="emailError"></span>
+        </div>
+
+        <!-- Password -->
+        <div class="form__group">
+          <label class="form__label" for="password">Password</label>
+          <div class="password-wrapper">
+            <input class="form__input" type="password" id="password" name="password" required>
+            <button type="button" class="password-toggle" id="togglePassword">
+              <i class="fa-regular fa-eye"></i>
+            </button>
+          </div>
+          <span class="form__error" id="passwordError"></span>
+          <div id="passwordStrength" class="password-strength"></div>
+        </div>
+
+        <!-- Confirm Password -->
+        <div class="form__group">
+          <label class="form__label" for="confirmPassword">Confirm Password</label>
+          <div class="password-wrapper">
+            <input class="form__input" type="password" id="confirmPassword" name="confirm_password" required>
+            <button type="button" class="password-toggle" id="toggleConfirmPassword">
+              <i class="fa-regular fa-eye"></i>
+            </button>
+          </div>
+          <span class="form__error" id="confirmPasswordError"></span>
+        </div>
+
+        <!-- Register -->
+        <button class="btn btn--primary" type="submit">Create Account</button>
+      </form>
+
+      <!-- Login -->
+      <p class="card__register">
+        Already have an account?
+        <a href="{% url 'login' %}" class="card__register-link">Sign In</a>
+      </p>
+    </div>
+  </div>
+</main>
+
+{% endblock %}
+
+{% block javascript %}
+<script src="{% static 'core/js/register.js' %}"></script>
+{% endblock %}

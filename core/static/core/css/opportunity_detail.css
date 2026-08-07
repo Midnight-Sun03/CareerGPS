@@ -1,0 +1,418 @@
+/* ===========================
+   Global
+=========================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+:root{
+
+    --orange:#e85d04;
+    --orange-dark:#cf4f00;
+    --orange-light:#fff7f2;
+
+    --bg:#f8f8f8;
+
+    --text:#222;
+    --text-light:#666;
+
+    --border:#e8e8e8;
+
+}
+
+body{
+
+    background:var(--bg);
+
+    font-family:"Open Sans",sans-serif;
+
+    color:var(--text);
+
+}
+
+
+/* ===========================
+   Layout
+=========================== */
+
+.container{
+
+    max-width:950px;
+
+    margin:45px auto;
+
+    padding:0 20px;
+
+}
+
+
+/* ===========================
+   Back Link
+=========================== */
+
+.back-link{
+
+    display:inline-block;
+
+    margin-bottom:22px;
+
+    color:var(--orange);
+
+    font-weight:600;
+
+    text-decoration:none;
+
+}
+
+.back-link:hover{
+
+    text-decoration:underline;
+
+}
+
+
+/* ===========================
+   Hero Card
+=========================== */
+
+.hero-card{
+
+    background:#fff;
+
+    border:1px solid var(--border);
+
+    border-radius:14px;
+
+    padding:36px;
+
+    margin-bottom:24px;
+
+    box-shadow:0 8px 24px rgba(0,0,0,.05);
+
+}
+
+
+/* ===========================
+   Badges
+=========================== */
+
+.top-row{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    margin-bottom:18px;
+
+}
+
+.badge{
+
+    display:inline-block;
+
+    padding:5px 12px;
+
+    border-radius:6px;
+
+    background:var(--orange-light);
+
+    color:var(--orange);
+
+    font-size:12px;
+
+    font-weight:700;
+
+    text-transform:uppercase;
+
+    letter-spacing:.4px;
+
+}
+
+.match{
+
+    display:inline-block;
+
+    margin-left:10px;
+
+    padding:5px 12px;
+
+    border-radius:6px;
+
+    background:#edf8ef;
+
+    color:#2b8a3e;
+
+    font-size:12px;
+
+    font-weight:700;
+
+}
+
+
+/* ===========================
+   Title
+=========================== */
+
+.hero-card h1{
+
+    font-family:"Montserrat",sans-serif;
+
+    font-size:34px;
+
+    margin-bottom:18px;
+
+}
+
+
+/* ===========================
+   Meta
+=========================== */
+
+.meta{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:18px;
+
+    color:var(--text-light);
+
+    font-size:14px;
+
+    margin-bottom:30px;
+
+}
+
+.meta span{
+
+    padding-right:16px;
+
+    border-right:1px solid #ddd;
+
+}
+
+.meta span:last-child{
+
+    border-right:none;
+
+}
+
+
+/* ===========================
+   Buttons
+=========================== */
+
+.actions{
+
+    display:flex;
+
+    gap:12px;
+
+}
+
+.save-btn{
+
+    background:#fff;
+
+    border:1px solid var(--border);
+
+    color:#555;
+
+    padding:12px 24px;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+.save-btn:hover{
+
+    border-color:var(--orange);
+
+    color:var(--orange);
+
+    background:var(--orange-light);
+
+}
+
+.apply-btn{
+
+    background:var(--orange);
+
+    color:#fff;
+
+    border:none;
+
+    padding:12px 24px;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    font-weight:600;
+
+    transition:.2s;
+
+}
+
+.apply-btn:hover{
+
+    background:var(--orange-dark);
+
+}
+
+
+/* ===========================
+   Sections
+=========================== */
+
+.card{
+
+    background:#fff;
+
+    border:1px solid var(--border);
+
+    border-radius:14px;
+
+    padding:30px;
+
+    margin-bottom:20px;
+
+    box-shadow:0 6px 16px rgba(0,0,0,.04);
+
+}
+
+.card h2{
+
+    font-family:"Montserrat",sans-serif;
+
+    font-size:22px;
+
+    margin-bottom:18px;
+
+}
+
+.card p{
+
+    line-height:1.8;
+
+    color:#555;
+
+}
+
+
+/* ===========================
+   Why Matches
+=========================== */
+
+.why-box{
+
+    background:var(--orange-light);
+
+    border-left:4px solid var(--orange);
+
+    border-radius:8px;
+
+    padding:18px;
+
+}
+
+.why-box ul{
+
+    padding-left:20px;
+
+}
+
+.why-box li{
+
+    margin-bottom:12px;
+
+    color:#444;
+
+}
+
+
+/* ===========================
+   CV Tips
+=========================== */
+
+.tip-box{
+
+    background:#f7fafc;
+
+    border-left:4px solid #4b6cb7;
+
+    border-radius:8px;
+
+    padding:18px;
+
+}
+
+.tip-box p{
+
+    color:#444;
+
+}
+
+
+/* ===========================
+   Responsive
+=========================== */
+
+@media(max-width:768px){
+
+.hero-card{
+
+padding:26px;
+
+}
+
+.hero-card h1{
+
+font-size:28px;
+
+}
+
+.actions{
+
+flex-direction:column;
+
+}
+
+.save-btn,
+.apply-btn{
+
+width:100%;
+
+}
+
+.meta{
+
+flex-direction:column;
+
+gap:10px;
+
+}
+
+.meta span{
+
+border-right:none;
+
+padding-right:0;
+
+}
+
+.card{
+
+padding:22px;
+
+}
+
+}

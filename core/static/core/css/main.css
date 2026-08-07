@@ -1,0 +1,149 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --orange: #e8651a;
+    --orange-light: #f47c35;
+    --orange-pale: #fff3ec;
+    --sidebar-bg: #1a1a2e;
+    --sidebar-hover: #2a2a3e;
+    --text-dark: #1c1c1c;
+    --text-mid: #555;
+    --text-light: #888;
+    --border: #e5e5e5;
+    --card-bg: #ffffff;
+    --page-bg: #f7f7f7;
+}
+
+body {
+    font-family: "Open Sans", sans-serif;
+    background: var(--page-bg);
+    color: var(--text-dark);
+    display: flex;
+    min-height: 100vh;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* ── Sidebar ── */
+.sidebar {
+    width: 220px;
+    min-height: 100vh;
+    background: var(--sidebar-bg);
+    display: flex;
+    flex-direction: column;
+    padding: 28px 0 24px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 100;
+}
+
+.sidebar-logo {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 700;
+    font-size: 1.35rem;
+    padding: 0 24px 32px;
+    letter-spacing: -0.3px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.sidebar-logo .orange {
+    color: #e85d04;
+}
+
+.sidebar-logo .white {
+    color: #ffffff;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 24px;
+    color: #b0b0c8;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: background 0.18s, color 0.18s;
+    background: none;
+    width: 100%;
+    text-align: left;
+    text-decoration: none;
+}
+
+.nav-item:hover {
+    background: var(--sidebar-hover);
+    color: #fff;
+}
+
+.nav-item.active {
+    background: var(--orange);
+    color: #fff;
+    border-radius: 0 8px 8px 0;
+    margin-right: 16px;
+}
+
+.nav-icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    opacity: 0.9;
+}
+
+svg {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* ── Main content area ── */
+.main {
+     margin-left: 210px;
+     flex: 1;
+     padding: 32px 32px 60px;
+    }
+
+/* ── Messages ── */
+.message {
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    font-size: 0.9rem;
+    font-family: "Montserrat", sans-serif;
+}
+
+.message.success {
+    background: #e6f4ea;
+    color: #2d6a4f;
+}
+
+.message.error {
+    background: #fdecea;
+    color: #c0392b;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 70px;
+    }
+
+    .main {
+        margin-left: 70px;
+        max-width: calc(100vw - 70px);
+        padding: 24px;
+    }
+}

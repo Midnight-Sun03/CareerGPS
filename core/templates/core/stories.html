@@ -1,0 +1,86 @@
+{% extends "dashboard_pages.html" %}
+{% load static %}
+
+{% block title %}CareerGPS - Stories{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'core/css/stories.css' %}">
+{% endblock %}
+
+{% block content %}
+
+      <h1 class="page-title">
+         Stories
+      </h1>
+      <p class="subtitle">
+       Share your career journey with the CareerGPS community.
+       Whether it's a success, a challenge, or a lesson learned, your experience could help someone else take their next step.
+       </p>
+
+    <div class="stories-container">
+ 
+    <div class="stories-header">
+       <a href="{% url 'submit_story' %}" class="post-btn">
+        Share Your Story
+       </a>
+    </div>
+
+      <a href="#stories-list" class="see-stories-link">
+        See your stories
+     </a>
+
+      <!-- Stories list -->
+      <div id="stories-list">
+
+     {% for story in stories %}
+
+     <div class="story-card">
+     <div class="story-header">
+          <div class="story-avatar">
+             <svg width="22" height="22" viewBox="0 0 24 24">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                <circle cx="12" cy="7" r="4"/>
+            </svg>
+          </div>
+
+       <div class="story-meta">
+            <span class="story-time">
+                {{ story.submitted_at|timesince }} ago
+            </span>
+
+            <span class="story-author">
+                {{ story.display_name }}
+            </span>
+        </div>
+
+    </div>
+
+    <p class="story-body">{{ story.content|linebreaksbr }}</p>
+
+    <div class="story-footer">
+
+        <span class="story-date">
+            {{ story.submitted_at|date:"d M Y | H:i" }}
+        </span>
+
+    </div>
+
+   </div>
+
+      {% empty %}
+
+    <div class="story-card">
+
+    <p>
+        No stories have been shared yet.
+        Be the first to inspire other CareerGPS users.
+   </p>
+
+    </div>
+
+    {% endfor %}
+
+    </div>
+
+    </div>
+    {% endblock %}

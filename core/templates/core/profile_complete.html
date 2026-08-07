@@ -1,0 +1,139 @@
+{% extends "dashboard_pages.html" %}
+{% load static %}
+
+{% block title %}CareerGPS | Complete Profile{% endblock %}
+
+{% block fonts %}
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'core/css/profile_complete.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="logo">
+    Career<span>GPS</span>
+</div>
+
+<div class="profile-wrapper">
+
+    <div class="profile-card">
+
+        <h1>{{ page_title }}</h1>
+
+       <p class="subtitle">
+            {{ page_subtitle }}
+       </p>
+
+        <div class="info-box">
+
+            <h3>Why complete your profile?</h3>
+
+            <p>
+                You can continue browsing opportunities without completing
+                your profile, but CareerGPS can only recommend opportunities
+                that match your qualification, skills, interests and location
+                once your profile is complete.
+            </p>
+
+        </div>
+
+       <form method="POST">
+           {% csrf_token %}
+
+            <div class="form-group">
+
+                <label>Qualification *</label>
+
+                <input
+                    type="text"
+                    name="qualification"
+                    value="{{ profile.qualification }}"
+                    placeholder="e.g. BCom Information Systems">
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Institution *</label>
+
+                <input
+                     type="text"
+                     name="institution"
+                     value="{{ profile.institution }}"
+                     placeholder="e.g. University of Johannesburg">
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Location</label>
+
+                <input
+                    type="text"
+                    name="location"
+                    value="{{ profile.location }}"
+                    placeholder="e.g. Johannesburg, Gauteng">
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Skills</label>
+
+                <div class="checkbox-group">
+
+                   {% for skill in skills %}
+                   <label>
+
+                    <input type="checkbox" name="skills" value="{{ skill.id }}"
+                    {% if skill in profile.skills.all %}checked{% endif %}>
+                    {{ skill.name }}
+
+                   </label>
+
+                   {% endfor %}
+
+                 </div>
+            </div>
+
+            <div class="form-group">
+
+                <label>Interests</label>
+
+                <div class="checkbox-group">
+
+                {% for interest in interests %}
+
+                 <label>
+                    <input type="checkbox" name="interests" value="{{ interest.id }}"
+                   {% if interest in profile.interests.all %}checked{% endif %}>
+                   {{ interest.name }}
+                </label>
+
+                 {% endfor %}
+
+              </div>
+            </div>
+
+            <div class="form-group">
+
+                <label>Additional Skills (Optional)</label>
+                <textarea rows="4" name="custom_skills"
+                placeholder="Separate skills with commas">{{ profile.custom_skills }}</textarea>
+
+            </div>
+
+            <button class="save-btn" type="submit">
+               Save profile
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

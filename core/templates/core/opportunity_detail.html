@@ -1,0 +1,170 @@
+{% extends "dashboard_pages.html" %}
+{% load static %}
+
+{% block title %}CareerGPS | Opportunity Detail {% endblock %}
+
+{% block fonts %}
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'core/css/opportunity_detail.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<a href="{% url 'opportunities' %}" class="back-link">
+
+← Back to Opportunities
+
+</a>
+
+<div class="hero-card">
+
+<div class="top-row">
+
+<div>
+
+<span class="badge">
+
+{{ opportunity.get_opportunity_type_display }}
+
+</span>
+
+{% if match_data %}
+<span class="match">
+
+{{ match_data.match_strength }}
+
+</span>
+{% endif %}
+
+</div>
+
+</div>
+
+<h1>
+
+{{ opportunity.title }}
+
+</h1>
+
+<div class="meta">
+
+<span>{{ opportunity.company }}</span>
+
+<span>{{ opportunity.location }}</span>
+
+<span>{{ opportunity.duration }}</span>
+
+<span>{{ opportunity.stipend }}</span>
+
+<span>
+
+Closing:
+{{ opportunity.application_deadline|date:"d M Y" }}
+
+</span>
+
+</div>
+
+</div>
+
+<div class="actions">
+
+<form action="{% url 'toggle_save' opportunity.id %}" method="post">
+
+{% csrf_token %}
+
+<button class="save-btn" type="submit">
+
+{% if is_saved %}
+Saved
+{% else %}
+Save
+{% endif %}
+
+</button>
+
+</form>
+
+<a
+href="{{ opportunity.application_link }}"
+class="apply-btn"
+target="_blank">
+
+Apply Now
+
+</a>
+
+</div>
+
+<section class="card">
+
+<h2>
+
+About this opportunity
+
+</h2>
+
+<p>
+
+{{ opportunity.description }}
+
+</p>
+
+</section>
+
+
+{% if match_data %}
+
+<section class="card">
+
+<h2>
+
+Why this matches you
+
+</h2>
+
+<div class="why-box">
+
+<p>
+
+{{ match_data.why_text }}
+
+</p>
+
+</div>
+
+</section>
+
+{% endif %}
+
+
+<section class="card">
+
+<h2>CV Tips</h2>
+
+{% if match_data and match_data.cv_tips %}
+    {% for tip in match_data.cv_tips %}
+        <div class="tip-box">
+            <h3>{{ tip.title }}</h3>
+            <p>{{ tip.content }}</p>
+            {% if tip.example %}
+                <p><strong>Example:</strong> {{ tip.example }}</p>
+            {% endif %}
+        </div>
+    {% endfor %}
+{% else %}
+    <div class="tip-box">
+        <p>Tailor your CV to highlight the skills most relevant to this opportunity.</p>
+    </div>
+{% endif %}
+
+</div>
+
+</section>
+
+</div>
+
+{% endblock %}

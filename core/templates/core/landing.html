@@ -1,0 +1,294 @@
+ {% extends "public_pages.html" %}
+ {% load static %}
+
+ {% block title %}CareerGPS - Your Personal Career Navigator{% endblock %}
+
+ {% block css %}
+ <link rel="stylesheet" href="{% static 'core/css/landing.css' %}">
+ {% endblock %}
+
+ {% block content %}
+
+    <!-- NAV -->
+    <nav class="nav" id="mainNav">
+       <a href="{% url 'landing' %}" class="nav__logo">
+        <span class="nav__logo-icon">C</span>
+        <span class="nav__logo-text">CareerGPS</span>
+      </a>
+      <div class="nav__actions">
+        <a href="{% url 'login' %}" class="nav__signin">Sign In</a>
+        <a href="{% url 'register' %}" class="nav__register">Register</a>
+      </div>
+      <!-- Mobile hamburger -->
+      <button class="nav__burger" id="burger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+
+    <!-- Mobile menu -->
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="{% url 'login' %}" class="mobile-menu__link">Sign In</a>
+      <a href="{% url 'register' %}" class="mobile-menu__link mobile-menu__link--primary">Register</a>
+    </div>
+
+    <!-- HERO -->
+    <section class="hero" id="hero">
+      <div class="hero__content">
+        <h1 class="hero__title">
+          CareerGPS –<br />Your personal<br /><em>career navigator</em>
+        </h1>
+        <p class="hero__desc">
+          Explore internships, learnerships, and graduate programmes in Tech,
+          Finance, Business, and beyond. CareerGPS curates opportunities
+          tailored to your qualification, skills, and ambitions, with targeted
+          CV tips and tailored resources to help you apply confidently and stand
+          out.
+        </p>
+
+        <!-- Search bar -->
+        <div class="search-bar" id="searchBar">
+          <svg
+            class="search-bar__icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <circle cx="11" cy="11" r="8" />
+            <path d="m21 21-4.35-4.35" />
+          </svg>
+          <input
+            class="search-bar__input"
+            type="text"
+            id="searchInput"
+            placeholder="Search opportunities..."
+            autocomplete="off"
+          />
+          <button class="search-bar__btn" id="searchBtn" type="button">
+            Search
+          </button>
+        </div>
+
+        <!-- Results panel -->
+        <div class="results-panel" id="resultsPanel" hidden>
+          <div class="results-panel__header">
+            <span class="results-panel__count" id="resultsCount"></span>
+            <button
+              class="results-panel__close"
+              id="closeResults"
+              aria-label="Close results"
+            >
+              ✕
+            </button>
+          </div>
+          <div class="results-list" id="resultsList"></div>
+          <div class="results-panel__empty" id="resultsEmpty" hidden>
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              style="width: 36px; height: 36px; color: #bdb0a8; margin-bottom: 10px;"
+            >
+              <circle cx="11" cy="11" r="8" />
+              <path d="m21 21-4.35-4.35" />
+            </svg>
+            <p>
+              No results for that search.<br />Try a different title or
+              location.
+            </p>
+          </div>
+        </div>
+
+        <div class="hero__ctas">
+          <a href="{% url 'register' %}" class="btn btn--primary">Get Started</a>
+          <a href="#why" class="btn btn--outline">Learn More</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Platform Value -->
+    <section class="platform-value">
+      <div class="section-header">
+        <h2 class="section-title">Discover What CareerGPS Can Do For You</h2>
+        <p class="section-sub">A platform designed to simplify your journey from student to professional.</p>
+      </div>
+
+      <div class="value-grid">
+        <article class="value-card reveal">
+          <div class="value-card__icon">
+            <!-- Opportunity Icon -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="7" width="20" height="14" rx="2"></rect>
+              <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"></path>
+            </svg>
+          </div>
+          <h3 class="value-card__title">Find Opportunities</h3>
+          <p class="value-card__body">Browse internships, learnerships, graduate programmes and entry-level opportunities in one place.</p>
+        </article>
+
+        <article class="value-card reveal">
+          <div class="value-card__icon">
+            <!-- Target Icon -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="8"></circle>
+              <circle cx="12" cy="12" r="4"></circle>
+              <circle cx="12" cy="12" r="1"></circle>
+            </svg>
+          </div>
+          <h3 class="value-card__title">Personalized Recommendations</h3>
+          <p class="value-card__body">Discover opportunities that align with your qualifications, skills and career interests.</p>
+        </article>
+
+        <article class="value-card reveal">
+          <div class="value-card__icon">
+            <!-- Document Icon -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="8" y1="13" x2="16" y2="13"></line>
+              <line x1="8" y1="17" x2="14" y2="17"></line>
+            </svg>
+          </div>
+          <h3 class="value-card__title">Application Support</h3>
+          <p class="value-card__body">Access CV guidance, career resources and practical tips to strengthen every application.</p>
+        </article>
+
+        <article class="value-card reveal">
+          <div class="value-card__icon">
+            <!-- Progress Icon -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 12h4l3-8 4 16 3-8h4"></path>
+            </svg>
+          </div>
+          <h3 class="value-card__title">Track Your Progress</h3>
+          <p class="value-card__body">Save opportunities, monitor application deadlines and keep your career journey organized.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- WHY CAREERGPS -->
+<section class="why" id="why">
+  <div class="section-header">
+    <h2 class="section-title">Why Choose CareerGPS?</h2>
+    <p class="section-sub">
+      Everything you need to land your first or next big opportunity.
+    </p>
+  </div>
+
+  <div class="why__grid">
+    <a href="#" class="why-card reveal">
+      <div class="why-card__icon-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#C0410A" stroke-width="2" class="why-card__icon">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+          <polyline points="22 4 12 14.01 9 11.01" />
+        </svg>
+      </div>
+      <h3 class="why-card__title">Student-Centred Experience</h3>
+      <p class="why-card__body">
+        CareerGPS is designed with students and graduates in mind, making career discovery simpler, more accessible, and less overwhelming.
+      </p>
+      <span class="why-card__cta">Explore guidance →</span>
+    </a>
+
+    <a href="{% url 'opportunities' %}" class="why-card reveal">
+      <div class="why-card__icon-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#C0410A" stroke-width="2" class="why-card__icon">
+          <circle cx="12" cy="8" r="6" />
+          <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11" />
+        </svg>
+      </div>
+      <h3 class="why-card__title">Verified Opportunities</h3>
+      <p class="why-card__body">
+        Explore carefully curated internships, learnerships, graduate programmes, and entry-level opportunities from trusted sources.
+      </p>
+      <span class="why-card__cta">Browse opportunities →</span>
+    </a>
+
+    <a href="#" class="why-card reveal">
+      <div class="why-card__icon-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#C0410A" stroke-width="2" class="why-card__icon">
+          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+        </svg>
+      </div>
+      <h3 class="why-card__title">Built for Career Growth</h3>
+      <p class="why-card__body">
+        Beyond finding opportunities, CareerGPS supports your career journey with practical resources, application guidance,
+        and tools to help you grow professionally.
+      </p>
+      <span class="why-card__cta">View resources →</span>
+    </a>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how" id="how">
+  <div class="section-header">
+    <h2 class="section-title">How it works</h2>
+    <p class="section-sub">Three simple steps to your next opportunity.</p>
+  </div>
+
+  <div class="how__steps">
+    <div class="how-step reveal">
+      <div class="how-step__num">01</div>
+      <h3 class="how-step__title">Create Your Career Profile</h3>
+      <p class="how-step__body">
+        Register for a free account and tell us about your education, skills, interests, 
+        and career goals so we can personalize your experience.
+      </p>
+    </div>
+    <div class="how-step__arrow" aria-hidden="true">→</div>
+    <div class="how-step reveal">
+      <div class="how-step__num">02</div>
+      <h3 class="how-step__title">Discover Relevant Opportunities</h3>
+      <p class="how-step__body">
+        Browse internships, learnerships, graduate programmes, and entry-level 
+        opportunities that match your profile and career aspirations.
+      </p>
+    </div>
+    <div class="how-step__arrow" aria-hidden="true">→</div>
+    <div class="how-step reveal">
+      <div class="how-step__num">03</div>
+      <h3 class="how-step__title">Apply with confidence</h3>
+      <p class="how-step__body">
+        Use CareerGPS resources, CV guidance, and application support to prepare stronger applications and take the next step in your career.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<section class="cta-section" id="cta">
+  <div class="cta-section__inner reveal">
+    <h2 class="cta-section__title">Take the First Step Towards Your Career</h2>
+    <p class="cta-section__sub">
+      Join CareerGPS to discover opportunities, receive personalized recommendations, access career resources, 
+      and confidently navigate your journey from student to professional.
+    </p>
+    <a href="{% url 'register' %}" class="btn btn--primary btn--lg">Start Your Journey</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer__inner">
+    <div class="footer__logo">
+      <span class="nav__logo-icon">C</span>
+      <span class="nav__logo-text">CareerGPS</span>
+    </div>
+    <nav class="footer__links">
+      <a href="#" class="footer__link">Disclaimer</a>
+      <a href="#" class="footer__link">Privacy Policy</a>
+      <a href="#" class="footer__link">Terms and Conditions</a>
+      <a href="#" class="footer__link">Contact Us</a>
+      <a href="#" class="footer__link">About Us</a>
+    </nav>
+    <span class="footer__copy">&copy; 2026 CareerGPS. All rights reserved.
+  </div>
+</footer>
+
+ {% endblock %}
+
+ {% block javascript %}
+ <script src="{% static 'core/js/landing.js' %}"></script>
+ {% endblock %}

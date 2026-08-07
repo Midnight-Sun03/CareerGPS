@@ -1,0 +1,333 @@
+/* =========================
+   Global
+========================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+:root{
+
+    --orange:#e85d04;
+    --orange-dark:#cf4f00;
+    --orange-light:#fff7f2;
+
+    --bg:#f8f8f8;
+
+    --text:#1f2937;
+    --text-light:#666;
+
+    --border:#e6e6e6;
+
+}
+
+body{
+
+    background:var(--bg);
+    font-family:"Open Sans",sans-serif;
+    color:var(--text);
+
+}
+
+
+/* =========================
+   Logo
+========================= */
+
+.logo{
+
+    font-family:"Montserrat",sans-serif;
+    font-size:32px;
+    font-weight:700;
+
+    color:var(--orange);
+
+    text-align:center;
+
+    margin-top:50px;
+    margin-bottom:40px;
+
+}
+
+.logo span{
+
+    color:#1c2230;
+
+}
+
+
+/* =========================
+   Wrapper
+========================= */
+
+.profile-wrapper{
+
+    display:flex;
+    justify-content:center;
+
+    padding:0 20px 60px;
+
+}
+
+
+/* =========================
+   Card
+========================= */
+
+.profile-card{
+
+    width:100%;
+    max-width:760px;
+
+    background:#fff;
+
+    border-radius:14px;
+
+    padding:42px;
+
+    border:1px solid var(--border);
+
+    box-shadow:0 8px 24px rgba(0,0,0,.05);
+
+}
+
+
+.profile-card h1{
+
+    font-family:"Montserrat",sans-serif;
+    font-size:30px;
+
+    margin-bottom:10px;
+
+    color:#222;
+
+}
+
+.subtitle{
+
+    color:var(--text-light);
+
+    line-height:1.6;
+
+    margin-bottom:28px;
+
+}
+
+
+/* =========================
+   Info Box
+========================= */
+
+.info-box{
+
+    background:var(--orange-light);
+
+    border-left:4px solid var(--orange);
+
+    padding:18px 20px;
+
+    border-radius:8px;
+
+    margin-bottom:35px;
+
+}
+
+.info-box h3{
+
+    font-size:16px;
+
+    margin-bottom:8px;
+
+    color:var(--orange);
+
+}
+
+.info-box p{
+
+    color:#555;
+
+    line-height:1.6;
+
+}
+
+
+/* =========================
+   Form
+========================= */
+
+.form-group{
+
+    margin-bottom:24px;
+
+}
+
+.form-group label{
+
+    display:block;
+
+    font-weight:600;
+
+    margin-bottom:8px;
+
+    color:#333;
+
+}
+
+input,
+textarea{
+
+    width:100%;
+
+    padding:13px 15px;
+
+    border:1px solid var(--border);
+
+    border-radius:8px;
+
+    font-family:inherit;
+
+    font-size:14px;
+
+    transition:.2s;
+
+}
+
+input:focus,
+textarea:focus{
+
+    outline:none;
+
+    border-color:var(--orange);
+
+    box-shadow:0 0 0 3px rgba(232,93,4,.12);
+
+}
+
+textarea{
+
+    resize:vertical;
+
+    min-height:100px;
+
+}
+
+
+/* =========================
+   Checkbox Groups
+========================= */
+
+.checkbox-group{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:12px;
+
+    margin-top:8px;
+
+}
+
+.checkbox-group label{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    padding:12px;
+
+    border:1px solid var(--border);
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+    background:#fff;
+
+}
+
+.checkbox-group label:hover{
+
+    border-color:var(--orange);
+
+    background:var(--orange-light);
+
+}
+
+.checkbox-group input{
+
+    width:auto;
+
+}
+
+
+/* =========================
+   Button
+========================= */
+
+.save-btn{
+
+    width:100%;
+
+    margin-top:12px;
+
+    padding:14px;
+
+    border:none;
+
+    border-radius:8px;
+
+    background:var(--orange);
+
+    color:#fff;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    font-family:inherit;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+.save-btn:hover{
+
+    background:var(--orange-dark);
+
+}
+
+
+/* =========================
+   Responsive
+========================= */
+
+@media(max-width:768px){
+
+    .profile-card{
+
+        padding:28px;
+
+    }
+
+    .profile-card h1{
+
+        font-size:25px;
+
+    }
+
+    .checkbox-group{
+
+        grid-template-columns:1fr;
+
+    }
+
+}

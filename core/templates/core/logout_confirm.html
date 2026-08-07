@@ -1,0 +1,40 @@
+{% extends "public_pages.html" %}
+{% load static %}
+
+{% block title %}
+CareerGPS | Sign Out
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'core/css/logout_confirm.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="logout-container">
+
+    <div class="logout-card">
+
+        <h1>Sign Out</h1>
+
+        <p>
+            Are you sure you want to sign out of your CareerGPS account?
+        </p>
+
+        <div class="logout-actions">
+
+            <a href="{% url 'dashboard' %}" class="cancel-btn">
+                Cancel
+            </a>
+
+            <a href="{% url 'logout' %}" class="logout-btn">
+                Sign Out
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

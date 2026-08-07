@@ -1,0 +1,115 @@
+{% extends "public_pages.html" %}
+{% load static %}
+
+{% block title %}
+CareerGPS - Sign In
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'core/css/login.css' %}">
+{% endblock %}
+
+{% block content %}
+
+  <!-- NAV -->
+  <nav class="nav">
+    <a href="{% url 'landing' %}" class="nav__logo">
+        <span class="nav__logo-icon">C</span>
+        <span class="nav__logo-text">
+        <span class="logo-career">Career</span><span class="logo-gps">GPS</span>
+        </span>
+    </a>
+    <a href="{% url 'register' %}" class="nav__register-btn">Register</a>
+  </nav>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- Left panel -->
+    <div class="panel panel--left">
+      <div class="panel__tagline">
+        <h1>Navigate your future with<br><em>CareerGPS.</em></h1>
+        <p>Discover opportunities, receive personalized recommendations, and build your career with confidence.</p>
+      </div>
+      <div class="panel__dots" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+
+    <!-- Right panel / card -->
+    <div class="panel panel--right">
+      <div class="card">
+
+        <div class="card__header">
+          <h2 class="card__title">Sign In</h2>
+          <p class="card__subtitle">Welcome back! Let's pick up where you left off.</p>
+        </div>
+
+        <!-- Email / password form -->
+        <form class="form" id="loginForm" method="POST" action="{% url 'login' %}" novalidate>
+          {% csrf_token %}
+
+          <div class="form__group">
+            <label class="form__label" for="email">Email address</label>
+            <input
+             class="form__input"
+             type="email"
+             id="email"
+             name="email"
+             placeholder="you@example.com"
+             autocomplete="email"
+             value="{{ request.POST.email }}"
+             required
+           />
+            <span class="form__error" id="emailError"></span>
+          </div>
+
+          <div class="form__group">
+            <div class="form__label-row">
+              <label class="form__label" for="password">Password</label>
+              <a class="form__forgot" href="{% url 'password_reset' %}">Forgot password?</a>
+            </div>
+            <div class="form__input-wrap">
+              <input
+                class="form__input"
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Enter your password"
+                autocomplete="current-password"
+                required
+              />
+              <button class="form__eye" type="button" aria-label="Toggle password visibility" id="togglePwd">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+              </button>
+            </div>
+            <span class="form__error" id="pwdError"></span>
+          </div>
+                {% if error %}
+                <div class="error-message">
+                {{ error }}
+                </div>
+                {% endif %}
+          <button class="btn btn--primary" type="submit">Sign In</button>
+        </form>
+
+
+        <!-- Register prompt -->
+        <p class="card__register">
+          New to CareerGPS?&nbsp;
+          <a href="{% url 'register' %}" class="card__register-link">Create an account</a>
+        </p>
+
+      </div>
+    </div>
+
+  </main>
+
+{% endblock %}
+
+{% block javascript %}
+<script src="{% static 'core/js/login.js' %}"></script>
+{% endblock %}

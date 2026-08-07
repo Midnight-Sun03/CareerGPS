@@ -1,0 +1,60 @@
+{% extends "public_pages.html" %}
+{% load static %}
+
+{% block title %}CareerGPS | Verify OTP{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'core/css/login.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<nav class="nav">
+    <a href="{% url 'landing' %}" class="nav__logo">
+        <span class="nav__logo-icon">C</span>
+        <span class="nav__logo-text">
+            <span class="logo-career">Career</span><span class="logo-gps">GPS</span>
+        </span>
+    </a>
+</nav>
+
+<main class="main">
+    <div class="panel panel--left">
+        <h1 class="form__title">Verify your email</h1>
+        <p class="form__subtitle">
+            We sent a 6-digit code to your email. 
+            Check your inbox and enter it below.
+        </p>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="error-message">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form__group">
+                <label>Enter OTP</label>
+                <input 
+                    type="text" 
+                    name="otp" 
+                    placeholder="e.g. 483920"
+                    maxlength="6"
+                    autofocus
+                    required
+                >
+            </div>
+            <button type="submit" class="btn btn--primary">
+                Verify & Continue
+            </button>
+        </form>
+
+        <p style="margin-top: 16px; font-size: 0.85rem; color: #888;">
+            Didn't receive a code? 
+            <a href="{% url 'register' %}" style="color: #e85d04;">Register again</a>
+        </p>
+    </div>
+</main>
+
+{% endblock %}

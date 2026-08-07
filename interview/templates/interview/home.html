@@ -1,0 +1,276 @@
+{% extends 'base.html' %}
+{% block title %}AI Interview Coach | CareerGPS{% endblock %}
+
+{% block content %}
+<style>
+  :root {
+    --orange: #E8612A;
+    --orange-light: #ff8c5a;
+    --green: #4caf82;
+    --red-warm: #d95f3b;
+    --light-bg: #f5f6fa;
+    --card-bg: #ffffff;
+    --card-border: rgba(0,0,0,0.09);
+    --text-muted: #6b7c93;
+  }
+
+  .interview-hero {
+    min-height: 92vh;
+    background: var(--light-bg);
+    color: #1a2535;
+    font-family: 'Inter', sans-serif;
+  }
+
+  /* ── Nav ── */
+  .coach-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 2rem;
+    border-bottom: 1px solid var(--card-border);
+    background: rgba(255,255,255,0.97);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    backdrop-filter: blur(8px); border-bottom: 1px solid rgba(0,0,0,0.08);
+  }
+  .coach-nav .brand { font-size: .75rem; font-weight: 700; letter-spacing: .15em; color: var(--orange); text-transform: uppercase; }
+  .coach-nav .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+  .coach-nav .nav-links a { color: #444e5c; text-decoration: none; font-size: .875rem; transition: color .2s; }
+  .coach-nav .nav-links a:hover { color: #1a2535; }
+  .btn-gold { background: var(--orange); color: #ffffff; font-weight: 700; padding: .6rem 1.5rem; border-radius: 999px; border: none; cursor: pointer; font-size: .875rem; text-decoration: none; transition: background .2s; display: inline-flex; align-items: center; gap: .5rem; }
+  .btn-gold:hover { background: var(--orange-light); color: #ffffff; text-decoration: none; }
+  .btn-outline { background: transparent; color: #1a2535; border: 1px solid var(--card-border); padding: .6rem 1.5rem; border-radius: 999px; cursor: pointer; font-size: .875rem; text-decoration: none; transition: all .2s; display: inline-flex; align-items: center; gap: .5rem; }
+  .btn-outline:hover { border-color: var(--orange); color: var(--orange); text-decoration: none; }
+
+  /* ── Hero ── */
+  .hero-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 6rem 1.5rem 4rem;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .badge-label {
+    font-size: .7rem; font-weight: 700; letter-spacing: .2em; color: var(--orange);
+    text-transform: uppercase; margin-bottom: 1.5rem;
+    padding: .35rem .85rem; border: 1px solid rgba(232,97,42,.3);
+    border-radius: 999px; background: rgba(232,97,42,.08);
+  }
+  .hero-title {
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 1.25rem;
+    font-family: Georgia, serif;
+  }
+  .hero-title span { color: var(--orange); }
+  .hero-sub {
+    font-size: 1.1rem; color: #444e5c; line-height: 1.7;
+    max-width: 580px; margin-bottom: 2.5rem;
+  }
+  .hero-cta { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+  /* ── Marcus card ── */
+  .marcus-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 1.25rem;
+    padding: 2rem;
+    max-width: 700px;
+    margin: 3rem auto;
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+    text-align: left;
+  }
+  .marcus-avatar {
+    width: 64px; height: 64px; border-radius: 50%;
+    background: var(--orange); color: #ffffff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; font-weight: 800; flex-shrink: 0;
+    font-family: Georgia, serif;
+  }
+  .marcus-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: .25rem; }
+  .marcus-card .role { font-size: .8rem; color: var(--orange); margin-bottom: .75rem; }
+  .marcus-card p { font-size: .9rem; color: #444e5c; line-height: 1.6; }
+
+  /* ── Features ── */
+  .features-section { padding: 4rem 1.5rem; max-width: 1100px; margin: 0 auto; }
+  .section-label { font-size: .7rem; font-weight: 700; letter-spacing: .2em; color: var(--orange); text-transform: uppercase; margin-bottom: .75rem; }
+  .section-title { font-size: 1.8rem; font-weight: 800; margin-bottom: 2.5rem; font-family: Georgia, serif; }
+  .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem; }
+  .feature-card {
+    background: var(--card-bg); border: 1px solid var(--card-border);
+    border-radius: 1rem; padding: 1.75rem;
+    transition: border-color .2s;
+  }
+  .feature-card:hover { border-color: rgba(232,97,42,.3); }
+  .feature-icon { font-size: 1.75rem; margin-bottom: 1rem; }
+  .feature-card h4 { font-size: 1rem; font-weight: 700; margin-bottom: .5rem; }
+  .feature-card p { font-size: .875rem; color: #444e5c; line-height: 1.6; }
+
+  /* ── How it works ── */
+  .how-section { padding: 4rem 1.5rem; max-width: 800px; margin: 0 auto; text-align: center; }
+  .steps { display: flex; flex-direction: column; gap: 1rem; margin-top: 2rem; text-align: left; }
+  .step {
+    display: flex; gap: 1.25rem; align-items: flex-start;
+    background: var(--card-bg); border: 1px solid var(--card-border);
+    border-radius: 1rem; padding: 1.25rem 1.5rem;
+  }
+  .step-num {
+    width: 36px; height: 36px; border-radius: 50%; background: rgba(232,97,42,.12);
+    color: var(--orange); font-weight: 800; font-size: .875rem;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .step h4 { font-size: .95rem; font-weight: 700; margin-bottom: .25rem; }
+  .step p { font-size: .85rem; color: #444e5c; }
+
+  /* ── Limit banner ── */
+  .limit-banner {
+    max-width: 700px; margin: 2rem auto;
+    background: rgba(217,95,59,.08);
+    border: 1px solid rgba(217,95,59,.3);
+    border-radius: 1rem; padding: 1.25rem 1.5rem;
+    display: flex; align-items: center; gap: 1rem; color: #e07a5f;
+    font-size: .9rem;
+  }
+
+  /* ── CTA bottom ── */
+  .cta-section { text-align: center; padding: 5rem 1.5rem; background: linear-gradient(to bottom, #f5f6fa, #eef0f5); }
+  .cta-section h2 { font-size: 2rem; font-weight: 800; font-family: Georgia, serif; margin-bottom: 1rem; }
+  .cta-section p { color: #444e5c; margin-bottom: 2rem; }
+</style>
+
+<div class="interview-hero">
+
+  <!-- Nav -->
+  <nav class="coach-nav">
+    <span class="brand">🇿🇦 CareerGPS</span>
+    <div class="nav-links">
+      <a href="{% url 'interview_saved' %}">My Interviews</a>
+      <a href="{% url 'interview_setup' %}" class="btn-gold">Start Interview</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <div class="hero-section">
+    <div class="badge-label">🇿🇦 Built for South Africa</div>
+    <h1 class="hero-title">Practice Interviews with<br><span>AI Interview Coach</span></h1>
+    <p class="hero-sub">
+      Get real-time feedback on your answers, body language, and communication style — 
+      tailored specifically for the South African job market.
+    </p>
+
+    {% if at_limit %}
+    <div class="limit-banner">
+      ⚠️ You've reached the maximum of {{ max_interviews }} saved interviews. 
+      Delete one to start a new session.
+      <a href="{% url 'interview_saved' %}" class="btn-outline" style="margin-left:auto; white-space:nowrap;">Manage Interviews</a>
+    </div>
+    {% else %}
+    <div class="hero-cta">
+      <a href="{% url 'interview_setup' %}" class="btn-gold">🎙️ Start Interview</a>
+      <a href="{% url 'interview_saved' %}" class="btn-outline">📋 My Interviews ({{ count }}/{{ max_interviews }})</a>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- Marcus Card -->
+  <div class="marcus-card">
+    <div class="marcus-avatar">MR</div>
+    <div>
+      <h3>Marcus Reid</h3>
+      <div class="role">Senior Hiring Manager · AI Interview Coach</div>
+      <p>
+        With 20 years of experience across South Africa's top firms, Marcus Reid will ask you 
+        targeted questions based on your occupation, experience level, and CV — then give you 
+        detailed, honest feedback to help you land the job.
+      </p>
+    </div>
+  </div>
+
+  <!-- Features -->
+  <div class="features-section">
+    <div class="section-label">What you get</div>
+    <div class="section-title">Everything you need to ace your interview</div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🎯</div>
+        <h4>SA-Specific Questions</h4>
+        <p>Questions tailored to the South African market — including B-BBEE, NQF levels, and local industry context.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">👁️</div>
+        <h4>Body Language Analysis</h4>
+        <p>Real-time eye contact, posture, and gesture scoring using your camera — just like a real interview panel.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🎙️</div>
+        <h4>Voice Recording & Transcript</h4>
+        <p>Your answers are recorded and transcribed so the AI can give precise, personalised feedback.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <h4>Detailed Score Report</h4>
+        <p>Communication, confidence, structure (STAR method), and SA market relevance — all scored out of 100.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📄</div>
+        <h4>CV-Tailored Questions</h4>
+        <p>Upload your CV and Marcus will ask questions specific to your actual experience and background.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">💾</div>
+        <h4>Save & Replay Sessions</h4>
+        <p>Store up to 5 interview sessions. Review your answers, recordings, and feedback anytime.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- How it works -->
+  <div class="how-section">
+    <div class="section-label">How it works</div>
+    <div class="section-title">Three steps to interview confidence</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div>
+          <h4>Set up your interview</h4>
+          <p>Choose your occupation, experience level, number of questions, and optionally upload your CV.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div>
+          <h4>Answer with Marcus Reid</h4>
+          <p>Camera on, mic ready — answer each question while your body language is analysed in real time.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div>
+          <h4>Get your full report</h4>
+          <p>Receive a detailed breakdown of scores, strengths, improvements, and per-question AI feedback.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-section">
+    <h2>Ready to practise?</h2>
+    <p>Your next interview could be the one that changes everything.</p>
+    {% if not at_limit %}
+    <a href="{% url 'interview_setup' %}" class="btn-gold" style="font-size:1rem; padding:.85rem 2.5rem;">
+      🎙️ Start Your Interview Now
+    </a>
+    {% else %}
+    <a href="{% url 'interview_saved' %}" class="btn-outline">Manage My Interviews</a>
+    {% endif %}
+  </div>
+
+</div>
+{% endblock %}

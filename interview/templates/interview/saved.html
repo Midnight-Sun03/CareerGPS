@@ -1,0 +1,227 @@
+{% extends 'base.html' %}
+{% block title %}My Interviews | CareerGPS{% endblock %}
+
+{% block content %}
+<style>
+  :root{--orange:#E8612A;--orange-light:#ff8c5a;--green:#4caf82;--red:#d95f3b;--light-bg:#f5f6fa;--card-bg:#ffffff;--card-border:rgba(0,0,0,.09);--text-muted:#6b7c93;}
+  body{background:var(--light-bg);color:#1a2535;font-family:'Inter',sans-serif;}
+  .saved-wrap{max-width:800px;margin:0 auto;padding:3rem 1.5rem 5rem;}
+
+  .page-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:2rem;gap:1rem;flex-wrap:wrap;}
+  .page-label{font-size:.7rem;font-weight:700;letter-spacing:.2em;color:var(--orange);text-transform:uppercase;margin-bottom:.4rem;}
+  .page-title{font-size:2rem;font-weight:800;font-family:Georgia,serif;}
+  .page-sub{color:var(--text-muted);font-size:.875rem;margin-top:.25rem;}
+
+  .btn-gold{background:var(--orange);color:#ffffff;font-weight:700;padding:.65rem 1.4rem;border-radius:999px;border:none;cursor:pointer;font-size:.875rem;text-decoration:none;display:inline-flex;align-items:center;gap:.4rem;transition:background .2s;white-space:nowrap;}
+  .btn-gold:hover{background:var(--orange-light);color:#ffffff;text-decoration:none;}
+  .btn-gold:disabled{opacity:.5;cursor:not-allowed;}
+  .btn-outline{background:transparent;color:#1a2535;border:1px solid var(--card-border);padding:.6rem 1.25rem;border-radius:999px;font-size:.875rem;text-decoration:none;display:inline-flex;align-items:center;gap:.4rem;transition:all .2s;cursor:pointer;}
+  .btn-outline:hover{border-color:var(--orange);color:var(--orange);text-decoration:none;}
+  .btn-danger{background:transparent;color:#e07a5f;border:1px solid rgba(217,95,59,.2);padding:.5rem 1rem;border-radius:999px;font-size:.8rem;display:inline-flex;align-items:center;gap:.3rem;cursor:pointer;transition:all .2s;}
+  .btn-danger:hover{background:rgba(217,95,59,.1);border-color:rgba(217,95,59,.4);}
+
+  /* Storage bar */
+  .storage-bar-wrap{margin-bottom:2rem;}
+  .storage-labels{display:flex;justify-content:space-between;font-size:.78rem;color:var(--text-muted);margin-bottom:.5rem;}
+  .storage-bar{height:6px;background:rgba(0,0,0,.06);border-radius:999px;overflow:hidden;}
+  .storage-fill{height:100%;border-radius:999px;transition:width .4s;}
+  .limit-warn{font-size:.78rem;color:var(--red);margin-top:.4rem;}
+
+  /* Cards */
+  .interview-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:1.25rem;overflow:hidden;margin-bottom:1rem;transition:border-color .2s;}
+  .interview-card:hover{border-color:rgba(201,168,76,.2);}
+  .card-main{padding:1.25rem;}
+  .card-row{display:flex;align-items:flex-start;gap:1rem;}
+
+  /* Ring */
+  .mini-ring{flex-shrink:0;text-align:center;}
+  .mini-ring p{font-size:.7rem;color:var(--text-muted);margin:.25rem 0 0;}
+
+  .card-info{flex:1;min-width:0;}
+  .card-info .job-title{font-size:1rem;font-weight:700;color:#1a2535;}
+  .card-info .job-sub{font-size:.78rem;color:var(--text-muted);text-transform:capitalize;margin-top:.15rem;}
+  .card-info .date{font-size:.75rem;color:var(--text-muted);margin-top:.15rem;}
+
+  .mini-scores{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:.75rem;}
+  .mini-score{font-size:.75rem;display:flex;align-items:center;gap:.3rem;}
+
+  .card-actions{display:flex;align-items:center;gap:.6rem;margin-top:1rem;padding-top:1rem;border-top:1px solid var(--card-border);flex-wrap:wrap;}
+
+  /* Video replay */
+  .replay-section{padding:1rem 1.25rem;background:rgba(240,242,247,0.9);border-top:1px solid var(--card-border);display:none;}
+  .replay-section.open{display:block;}
+  .replay-label{font-size:.72rem;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.6rem;}
+
+  /* Empty state */
+  .empty-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:1.25rem;padding:4rem 2rem;text-align:center;}
+  .empty-icon{width:64px;height:64px;border-radius:50%;background:rgba(232,97,42,.08);display:flex;align-items:center;justify-content:center;margin:0 auto 1.25rem;font-size:1.75rem;}
+  .empty-card h2{font-size:1.2rem;font-weight:800;font-family:Georgia,serif;margin-bottom:.5rem;}
+  .empty-card p{color:var(--text-muted);font-size:.9rem;margin-bottom:1.5rem;}
+
+  /* Modal */
+  .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:200;display:none;align-items:center;justify-content:center;padding:1rem;}
+  .modal-backdrop.open{display:flex;}
+  .modal{background:#f0f2f7;border:1px solid var(--card-border);border-radius:1.25rem;padding:2rem;max-width:420px;width:100%;}
+  .modal h3{font-size:1.1rem;font-weight:800;margin-bottom:.6rem;}
+  .modal p{color:var(--text-muted);font-size:.9rem;line-height:1.6;margin-bottom:1.5rem;}
+  .modal-actions{display:flex;gap:.75rem;justify-content:flex-end;}
+</style>
+
+<div class="saved-wrap">
+
+  <!-- Header -->
+  <div class="page-header">
+    <div>
+      <div class="page-label">🇿🇦 CareerGPS</div>
+      <h1 class="page-title">My Interviews</h1>
+      <p class="page-sub">{{ count }} of {{ max_interviews }} sessions saved</p>
+    </div>
+    {% if at_limit %}
+    <button class="btn-gold" disabled>+ New Interview</button>
+    {% else %}
+    <a href="{% url 'interview_setup' %}" class="btn-gold">+ New Interview</a>
+    {% endif %}
+  </div>
+
+  <!-- Storage bar -->
+  <div class="storage-bar-wrap">
+    <div class="storage-labels"><span>Session storage</span><span>{{ count }}/{{ max_interviews }}</span></div>
+    <div class="storage-bar">
+      <div class="storage-fill" style="width:{{ count|floatformat:0 }}0%;background:{% if at_limit %}var(--red){% else %}var(--orange){% endif %}"></div>
+    </div>
+    {% if at_limit %}<p class="limit-warn">Session limit reached. Delete an interview to start a new one.</p>{% endif %}
+  </div>
+
+  <!-- Empty state -->
+  {% if not interviews %}
+  <div class="empty-card">
+    <div class="empty-icon">📋</div>
+    <h2>No interviews yet</h2>
+    <p>Start your first mock interview with Marcus Reid and get detailed AI feedback on your performance.</p>
+    <a href="{% url 'interview_setup' %}" class="btn-gold">Start your first interview →</a>
+  </div>
+  {% endif %}
+
+  <!-- Interview cards -->
+  {% for iv in interviews %}
+  {% with overall=iv.overall_presence_score|default:0 %}
+  <div class="interview-card" id="card-{{ iv.id }}">
+    <div class="card-main">
+      <div class="card-row">
+        <!-- Ring -->
+        <div class="mini-ring">
+          <svg width="60" height="60">
+            <circle cx="30" cy="30" r="24" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="5"/>
+            <circle cx="30" cy="30" r="24" fill="none"
+              stroke="{% if overall >= 75 %}var(--green){% elif overall >= 50 %}var(--orange){% else %}var(--red){% endif %}"
+              stroke-width="5" stroke-linecap="round"
+              stroke-dasharray="150.8"
+              stroke-dashoffset="{% widthratio 150.8|floatformat:0 100 overall|floatformat:0 %}"
+              style="transform:rotate(-90deg);transform-origin:30px 30px;"
+            />
+            <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="13" font-weight="700"
+              fill="{% if overall >= 75 %}var(--green){% elif overall >= 50 %}var(--orange){% else %}var(--red){% endif %}">
+              {{ overall|floatformat:0 }}
+            </text>
+          </svg>
+          <p>Presence</p>
+        </div>
+
+        <div class="card-info">
+          <div class="job-title">{{ iv.occupation }}</div>
+          <div class="job-sub">{{ iv.get_experience_level_display }}</div>
+          <div class="date">📅 {{ iv.created_at|date:"j M Y" }}</div>
+
+          <div class="mini-scores">
+            {% if iv.eye_contact_score is not None %}
+            <span class="mini-score" style="color:{% if iv.eye_contact_score >= 75 %}var(--green){% elif iv.eye_contact_score >= 50 %}var(--orange){% else %}var(--red){% endif %}">
+              👁 Eye {{ iv.eye_contact_score|floatformat:0 }}%
+            </span>
+            {% endif %}
+            {% if iv.posture_score is not None %}
+            <span class="mini-score" style="color:{% if iv.posture_score >= 75 %}var(--green){% elif iv.posture_score >= 50 %}var(--orange){% else %}var(--red){% endif %}">
+              🧍 Posture {{ iv.posture_score|floatformat:0 }}%
+            </span>
+            {% endif %}
+            {% if iv.communication_score is not None %}
+            <span class="mini-score" style="color:{% if iv.communication_score >= 75 %}var(--green){% elif iv.communication_score >= 50 %}var(--orange){% else %}var(--red){% endif %}">
+              🎙 Comm. {{ iv.communication_score|floatformat:0 }}%
+            </span>
+            {% endif %}
+            {% if iv.confidence_score is not None %}
+            <span class="mini-score" style="color:{% if iv.confidence_score >= 75 %}var(--green){% elif iv.confidence_score >= 50 %}var(--orange){% else %}var(--red){% endif %}">
+              ⭐ Conf. {{ iv.confidence_score|floatformat:0 }}%
+            </span>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="card-actions">
+        <a href="{% url 'interview_feedback' iv.id %}" class="btn-outline" style="flex:1;justify-content:center;">
+          ▶ Full Feedback Report
+        </a>
+        <button class="btn-danger" onclick="confirmDelete({{ iv.id }})">🗑 Delete</button>
+      </div>
+    </div>
+  </div>
+  {% endwith %}
+  {% endfor %}
+
+</div>
+
+<!-- Delete modal -->
+<div class="modal-backdrop" id="deleteModal">
+  <div class="modal">
+    <h3>Delete this interview?</h3>
+    <p>This will permanently delete the session, all recordings, transcripts, and feedback. This cannot be undone.</p>
+    <div class="modal-actions">
+      <button class="btn-outline" onclick="closeModal()">Cancel</button>
+      <button class="btn-danger" id="confirmDeleteBtn" onclick="doDelete()">🗑 Delete Interview</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const CSRF = '{{ csrf_token }}';
+  let pendingDeleteId = null;
+
+  function confirmDelete(id) {
+    pendingDeleteId = id;
+    document.getElementById('deleteModal').classList.add('open');
+  }
+  function closeModal() {
+    document.getElementById('deleteModal').classList.remove('open');
+    pendingDeleteId = null;
+  }
+  async function doDelete() {
+    if (!pendingDeleteId) return;
+    const btn = document.getElementById('confirmDeleteBtn');
+    btn.textContent = 'Deleting…'; btn.disabled = true;
+    try {
+      const res = await fetch(`/api/interview/${pendingDeleteId}/delete/`, {
+        method: 'DELETE', headers: { 'X-CSRFToken': CSRF },
+      });
+      if (!res.ok) throw new Error('Failed');
+      document.getElementById(`card-${pendingDeleteId}`)?.remove();
+      closeModal();
+      location.reload();
+    } catch (err) {
+      alert('Failed to delete. Please try again.');
+      btn.textContent = '🗑 Delete Interview'; btn.disabled = false;
+    }
+  }
+
+  // Fix SVG ring offsets on load
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.interview-card').forEach(card => {
+      const circle = card.querySelector('circle:last-child');
+      if (circle) {
+        const val = parseFloat(circle.nextElementSibling?.textContent || '0');
+        circle.style.strokeDashoffset = 150.8 - (val / 100) * 150.8;
+      }
+    });
+  });
+</script>
+{% endblock %}

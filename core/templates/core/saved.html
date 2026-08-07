@@ -1,0 +1,143 @@
+{% extends "dashboard_pages.html" %}
+{% load static %}
+
+{% block title %}
+CareerGPS - Saved
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'core/css/saved.css' %}">
+{% endblock %}
+
+{% block content %}
+
+    <!-- MAIN -->
+      <h1>Saved <span>Opportunities</span></h1>
+      <p class="subtitle">
+        Opportunities you've bookmarked — don't let them slip away.
+      </p>
+
+      <!-- Stats -->
+      <div class="stats">
+        <div class="stat-card">
+          <div class="stat-label">Saved Opportunities</div>
+          <div class="stat-value">{{ saved_count }}</div>
+          <div class="stat-sub">Across all categories</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Closing This Week</div>
+          <div class="stat-value">{{ closing_soon }}</div>
+          <div class="stat-sub">Act before they close</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Strong Matches</div>
+          <div class="stat-value">{{ strong_matches }}</div>
+          <div class="stat-sub">Based on your profile</div>
+        </div>
+      </div>
+
+      {% if saved_opportunities %}
+
+       <div class="section-heading">
+        Saved Opportunities<em>{{ saved_count }} saved</em>
+       </div>
+
+      {% for saved in saved_opportunities %}
+
+        <div class="job-card">
+        <div class="card-top">
+        <div class="tags">
+
+            <span class="tag">
+                {{ saved.opportunity.get_opportunity_type_display }}
+            </span>
+
+            {% if saved.match_data %}
+            <span class="match-badge">
+                {{ saved.match_data.match_strength }}
+            </span>
+            {% endif %}
+
+        </div>
+
+        <form
+            action="{% url 'toggle_save' saved.opportunity.id %}"
+            method="post">
+
+            {% csrf_token %}
+
+            <button class="bookmark-btn" type="submit">
+
+                <svg fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/>
+                </svg>
+
+            </button>
+
+        </form>
+
+        </div>
+
+        <div class="job-title">
+          {{ saved.opportunity.title }}
+        </div>
+
+        <div class="job-meta">
+
+        <span>{{ saved.opportunity.company }}</span>
+
+        <span>{{ saved.opportunity.location }}</span>
+
+        <span>{{ saved.opportunity.duration }}</span>
+
+        <span>{{ saved.opportunity.stipend }}</span>
+
+        <span class="closing-label">
+            Closing:
+            {{ saved.opportunity.application_deadline|date:"d M Y" }}
+        </span>
+
+        </div>
+
+         {% if saved.match_data %}
+         <div class="why-box">
+
+        <div class="why-title">
+            Why this matches you
+        </div>
+
+        <p>
+            {{ saved.match_data.why_text }}
+        </p>
+
+       </div>
+         {% endif %}
+
+      <div class="card-actions">
+
+        <a href="{% url 'opportunity_detail' saved.opportunity.id %}"
+            class="view-link">View Details → </a>
+
+        <a href="{{ saved.opportunity.application_link }}"class="btn-apply"target="_blank">Apply Now</a>
+
+      </div>
+
+      </div>
+
+      {% endfor %}
+
+      {% else %}
+
+    <div class="empty-state">
+
+       <h3>No saved opportunities yet</h3>
+    <p>
+        Save opportunities while browsing so you can easily
+        return to them later.
+    </p>
+    <a href="{% url 'opportunities' %}"class="btn-apply">Browse Opportunities</a>
+    </div>
+        {% endif %}
+
+{% endblock %}
+

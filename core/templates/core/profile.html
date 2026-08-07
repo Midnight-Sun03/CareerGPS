@@ -1,0 +1,85 @@
+{% extends "dashboard_pages.html" %}
+{% load static %}
+
+{% block title %}CareerGPS - Profile{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'core/css/profile.css' %}">
+{% endblock %}
+
+{% block content %}
+
+        <h1 class="page-title">My Profile</h1>
+        <p class="page-subtitle">Manage your career profile</p>
+
+        <div class="profile-card">
+
+          <!-- Avatar + Details -->
+          <div class="profile-info">
+            <div class="avatar">
+              <i class="fa-solid fa-user"></i>
+            </div>
+            <div class="details">
+              <h2 id="userName">{{ user.get_full_name }}</h2>
+              <p><strong>Qualification:</strong> <span id="userQual">{{ profile.qualification }}</span></p>
+              <p><strong>Institution:</strong> <span id="userInst">{{ profile.institution }}</span></p>
+              <p><strong>Skills:</strong> <span id="userSkills">{% for skill in profile.skills.all %}
+                                                                  {{ skill.name }}{% if not forloop.last %}, {% endif %}
+                                                                 {% empty %}
+                                                                    No skills added yet
+                                                                 {% endfor %}
+                                          </span></p>
+              <p><strong>Location:</strong> <span id="userLoc">{{ profile.location }}</span></p>
+              <p><strong>Interest:</strong> <span id="userInterest">{% for interest in profile.interests.all %}
+                                                                       {{ interest.name }}{% if not forloop.last %}, {% endif %}
+                                                                    {% empty %}
+                                                                       No interests added yet
+                                                                    {% endfor %}
+                  
+                                            </span></p>
+            </div>
+          </div>
+
+          <!-- Progress -->
+          <div class="progress-container">
+            <div class="progress-top">
+              <span class="progress-title">Profile Completion</span>
+              <span class="pct" id="progressPct">{{ completion_percentage }}% Complete</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" id="progressFill" style="width:{{ completion_percentage }}%;"></div>
+            </div> 
+            <div class="progress-checklist">
+              {% for item in progress_items %}
+                <div class="progress-item {% if item.complete %}complete{% else %}incomplete{% endif %}">
+                  {{ item.label }}
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+
+          <hr class="card-divider" />
+
+          <!-- Buttons -->
+          <div class="buttons">
+            <a href="{% url 'profile_complete' %}" class="edit-btn">
+              <i class="fa-solid fa-pen"></i> Edit Profile
+            </a>
+            <a href="{% url 'logout_confirm' %}" class="signout-btn">
+              <i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out
+            </a>
+          </div>
+        </div>
+        
+        <!-- Upload CV -->
+        <div class="upload-section">
+          <label for="cvUpload" class="upload-btn">
+            <i class="fa-solid fa-upload"></i>
+            Upload CV
+          </label>
+          <input type="file" id="cvUpload" hidden>
+          <p id="fileName"></p>
+        </div>
+ 
+{% endblock %}
+
