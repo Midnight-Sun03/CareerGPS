@@ -6,7 +6,9 @@ CareerGPS - Saved
 {% endblock %}
 
 {% block css %}
+<link rel="stylesheet" href="{% static 'core/css/setfunctions.css' %}">
 <link rel="stylesheet" href="{% static 'core/css/saved.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/main.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -44,7 +46,7 @@ CareerGPS - Saved
 
       {% for saved in saved_opportunities %}
 
-        <div class="job-card">
+        <div class="job-card" data-speak="{{ saved.opportunity.title }} at {{ saved.opportunity.company }}, {{ saved.opportunity.location }}. {{ saved.opportunity.duration }}, {{ saved.opportunity.stipend }}. Closing {{ saved.opportunity.application_deadline|date:'d M Y' }}.">
         <div class="card-top">
         <div class="tags">
 
@@ -139,5 +141,9 @@ CareerGPS - Saved
     </div>
         {% endif %}
 
+{% endblock %}
+
+{% block javascript %}
+    <script src="{% static 'core/js/settings.js' %}"></script>
 {% endblock %}
 

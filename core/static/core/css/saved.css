@@ -425,6 +425,75 @@
         margin: 28px 0;
       }
 
+      /* ============================================================
+          Force legible, dark-mode-immune colors on Saved page boxes.
+          These no longer read var(--text-mid) / var(--white) etc.,
+          because those variables get hijacked by main.css's dark-mode
+          overrides on <body> and inherited down into every card here.
+          ============================================================ */
+
+        .stat-card {
+          background: #ffffff !important;
+          border-color: #e5e7eb !important;
+        }
+
+        .stat-label {
+          color: #6b7280 !important; /* grey label, on purpose */
+        }
+
+        .stat-value {
+          color: #e8521a !important; /* orange number */
+        }
+
+        .stat-sub {
+          color: #374151 !important; /* darker grey, readable on white */
+        }
+
+        .job-card {
+          background: #ffffff !important;
+          border-color: #e5e7eb !important;
+        }
+
+        .job-title {
+          color: #1a1f2e !important;
+        }
+
+        .job-meta {
+          color: #1a1f2e !important; /* was grey, now solid black */
+        }
+
+        .job-meta span {
+          color: #1a1f2e !important;
+        }
+
+        .closing-label {
+          color: #374151 !important;
+        }
+
+        .closing-label.urgent {
+          color: #dc2626 !important;
+        }
+
+        .why-box p {
+          color: #5c4033 !important;
+        }
+
+        .section-heading {
+          color: #1a1f2e !important;
+        }
+
+        .section-heading em {
+          color: #6b7280 !important;
+        }
+
+        .subtitle {
+          color: #4b5563 !important;
+        }
+
+        .empty-state {
+          color: #374151 !important;
+        }
+
 
 
       

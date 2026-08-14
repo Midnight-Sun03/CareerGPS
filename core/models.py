@@ -28,6 +28,43 @@ class Interest(models.Model):
     def __str__(self):
         return self.name
 
+class Project(models.Model):
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="projects")
+    title = models.CharField(max_length=200)
+    organisation = models.CharField(max_length=200, blank=True)
+    dates = models.CharField(max_length=100, blank=True)
+    description = models.TextField(blank=True)
+    bullets = models.TextField(blank=True, help_text="One achievement per line")
+
+    def bullet_list(self):
+        return [line.strip() for line in self.bullets.splitlines() if line.strip()]
+
+    def __str__(self):
+        return f"{self.title} ({self.profile.user.username})"
+
+
+class WorkExperience(models.Model):
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="work_experiences")
+    title = models.CharField(max_length=200)
+    organisation = models.CharField(max_length=200, blank=True)
+    dates = models.CharField(max_length=100, blank=True)
+    bullets = models.TextField(blank=True, help_text="One achievement per line")
+
+    def bullet_list(self):
+        return [line.strip() for line in self.bullets.splitlines() if line.strip()]
+
+    def __str__(self):
+        return f"{self.title} ({self.profile.user.username})"
+
+
+class Certification(models.Model):
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="certifications")
+    title = models.CharField(max_length=200)
+    dates = models.CharField(max_length=100, blank=True)
+
+    def __str__(self):
+        return f"{self.title} ({self.profile.user.username})"
+
 class Opportunity(models.Model):
 
     TYPE_CHOICES = [

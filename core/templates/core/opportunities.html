@@ -6,6 +6,7 @@ CareerGPS - Opportunities
 {% endblock %}
 
 {% block css %}
+<link rel="stylesheet" href="{% static 'core/css/setfunctions.css' %}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <link rel="stylesheet" href="{% static 'core/css/opportunities.css' %}">
 {% endblock %}
@@ -19,9 +20,24 @@ CareerGPS - Opportunities
 
         <!-- Search -->
         <div class="search-box">
-          <i class="fa-solid fa-magnifying-glass"></i>
-          <input type="text" id="searchInput" placeholder="Search opportunities..." />
-        </div>
+    <i class="fa-solid fa-magnifying-glass"></i>
+
+    <input
+        type="text"
+        id="searchInput"
+        placeholder="Search opportunities..."
+    />
+
+    <button
+        type="button"
+        id="voiceSearchBtn"
+        class="voice-search-btn"
+        title="Search by voice"
+        aria-label="Search by voice"
+    >
+        <i class="fa-solid fa-microphone"></i>
+    </button>
+</div>
 
         <!-- Filters -->
         <div class="filters">
@@ -36,7 +52,8 @@ CareerGPS - Opportunities
         <div class="jobs-grid">
           {# Example loop for dynamic opportunities #}
           {% for match in results %}
-            <div class="job-card" data-type="{{ match.opportunity.opportunity_type }}">
+            <div class="job-card" data-type="{{ match.opportunity.opportunity_type }}"
+                  data-speak="{{ match.opportunity.title }} at {{ match.opportunity.company }}, {{ match.opportunity.location }}. {{ match.opportunity.duration }}, {{ match.opportunity.stipend }}. Closing {{ match.opportunity.application_deadline|date:'d M Y' }}.">
               <div class="card-top">
                  <div class="card-badges">
                   <span class="badge badge-type">
@@ -111,6 +128,7 @@ CareerGPS - Opportunities
    {% endblock %}
 
 {% block javascript %}
-<script src="{% static 'core/js/opportunities.js' %}"></script>
+    <script src="{% static 'core/js/settings.js' %}"></script>
+    <script src="{% static 'core/js/opportunities.js' %}"></script>
 {% endblock %}
 

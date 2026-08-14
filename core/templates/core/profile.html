@@ -4,6 +4,7 @@
 {% block title %}CareerGPS - Profile{% endblock %}
 
 {% block css %}
+<link rel="stylesheet" href="{% static 'core/css/setfunctions.css' %}">
 <link rel="stylesheet" href="{% static 'core/css/profile.css' %}">
 {% endblock %}
 
@@ -15,7 +16,7 @@
         <div class="profile-card">
 
           <!-- Avatar + Details -->
-          <div class="profile-info">
+          <div class="profile-info" data-speak>
             <div class="avatar">
               <i class="fa-solid fa-user"></i>
             </div>
@@ -82,4 +83,8 @@
         </div>
  
 {% endblock %}
+
+ {% block javascript %}
+      <script src="{% static 'core/js/settings.js' %}"></script>
+  {% endblock %}
 

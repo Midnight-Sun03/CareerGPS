@@ -1,0 +1,185 @@
+ /* ============================================================
+         SHARED STYLES — design tokens, sidebar, a11y modes, switches
+         ============================================================ */
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+      :root {
+        --orange: #E8651A; --orange-light: #F47C35; --orange-pale: #FFF3EC;
+        --sidebar-bg: #1A1A2E; --sidebar-hover: #2A2A3E;
+        --text-dark: #1C1C1C; --text-mid: #555; --text-light: #888;
+        --border: #E5E5E5;
+        --card-bg: #FFFFFF;
+        --page-bg: #F7F7F7;
+        --green: #27AE60;
+        --green-bg: #EAFAF1; --tag-intern: #FFF3EC; --tag-intern-c: #E8651A;
+        --focus-ring: #2A5DFF;
+      }
+
+      body {
+        font-family: 'Open Sans', sans-serif;
+        background: var(--page-bg);
+        color: var(--text-dark);
+        display: flex;
+        min-height: 100vh;
+      }
+
+      svg { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+      /* ── Main content shell ── */
+      .main {
+        margin-left: 220px;
+        flex: 1;
+        padding: 40px 40px 60px; max-width: calc(100vw - 220px);
+      }
+      .header { margin-bottom: 36px; }
+      .header h1 {
+        font-family: 'Montserrat', sans-serif; font-size: 26px;
+        font-weight: 700;
+        color: var(--text-dark); margin-bottom: 6px;
+      }
+      .header h1 span { color: var(--orange); }
+      .header p { color: var(--text-mid); font-size: 0.95rem; }
+      .section-heading {
+        font-family: 'Montserrat', sans-serif; font-weight: 600;
+        font-size: 1rem;
+        color: var(--text-dark); margin-bottom: 16px; letter-spacing: 0.1px;
+      }
+
+      /* ============================================================
+         ACCESSIBILITY MODES — classes on <body>, driven by the script
+         below + localStorage
+         ============================================================ */
+      body.keyboard-mode :focus {
+        outline: 3px solid var(--focus-ring) !important;
+        outline-offset: 2px !important;
+        border-radius: 2px;
+      }
+      body:not(.keyboard-mode) :focus { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+
+      body.reduce-motion *,
+      body.reduce-motion *::before,
+      body.reduce-motion *::after {
+        transition: none !important;
+        animation: none !important;
+      }
+
+      body.read-aloud-mode [data-speak] { cursor: pointer; }
+      body.read-aloud-mode [data-speak]:hover { outline: 2px dashed var(--orange); outline-offset: 2px; }
+      body.read-aloud-mode .card.speaking,
+      body.read-aloud-mode .speaking { outline: 2px solid var(--orange); outline-offset: 2px; }
+
+    body.dark-mode {
+        --orange: #FF7A1A; --orange-light: #FF9142; --orange-pale: #2A1400;
+        --sidebar-bg: #000000; --sidebar-hover: #1A1A1A;
+        --text-dark: #FFFFFF; --text-mid: #F0F0F0; --text-light: #D8D8D8;
+        --border: #FFFFFF; --card-bg: #000000; --page-bg: #000000;
+        --green: #4CFF7A; --green-bg: #003310;
+        --tag-intern: #2A1400; --tag-intern-c: #FF9142;
+      }
+      body.dark-mode .card,
+      body.dark-mode .setting-row { border-width: 2px; }
+      body.dark-mode .apply-btn { border: 2px solid #FFFFFF; }
+      body.dark-mode .nav-item { border: 1px solid transparent; }
+      body.dark-mode .nav-item:hover,
+      body.dark-mode .nav-item.active { border-color: #FFFFFF; }
+      body.dark-mode .switch-track { border: 2px solid #FFFFFF; }
+
+      /* ============================================================
+         ON / OFF TOGGLE SWITCH
+         ============================================================ */
+      .switch {
+        display: flex; align-items: center; gap: 10px;
+        background: none; border: none; cursor: pointer;
+        font-family: 'Montserrat', sans-serif;
+        padding: 4px; flex-shrink: 0;
+      }
+      .switch-track {
+        width: 46px; height: 26px; border-radius: 13px;
+        background: #C9C9C9; position: relative; transition: background 0.2s;
+        flex-shrink: 0;
+      }
+      .switch-thumb {
+        width: 20px; height: 20px; border-radius: 50%; background: #fff;
+        position: absolute; top: 3px; left: 3px; transition: left 0.2s;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.35);
+      }
+      .switch[aria-pressed="true"] .switch-track { background: var(--green); }
+      .switch[aria-pressed="true"] .switch-thumb { left: 23px; }
+      .switch-state {
+        font-size: 0.78rem; font-weight: 700; letter-spacing: 0.4px;
+        width: 34px; text-align: left; color: var(--text-light);
+      }
+      .switch[aria-pressed="true"] .switch-state { color: var(--green); }
+
+      /* ── Page-specific styles for Settings ── */
+      .settings-intro {
+        background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px;
+        padding: 18px 22px; margin-bottom: 28px; font-size: 0.88rem; color: var(--text-mid); line-height: 1.6;
+      }
+      .settings-list { display: flex; flex-direction: column; gap: 14px; max-width: 760px; }
+      .setting-row {
+        background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px;
+        padding: 18px 22px;
+        display: flex; align-items: center; gap: 18px;
+        transition: border-color 0.2s;
+        flex-wrap: wrap;
+      }
+      .setting-icon {
+        width: 42px; height: 42px; flex-shrink: 0; border-radius: 10px;
+        background: var(--orange-pale); color: var(--orange);
+        display: flex; align-items: center; justify-content: center;
+      }
+      .setting-icon svg { width: 20px; height: 20px; }
+      .setting-text { flex: 1; min-width: 180px; }
+      .setting-title { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.95rem; color: var(--text-dark); margin-bottom: 3px; }
+      .setting-desc { font-size: 0.82rem; color: var(--text-mid); line-height: 1.5; }
+
+      /* ── Percentage slider control (High Contrast / Font Size) ── */
+      .slider-control {
+        display: flex; align-items: center; gap: 10px; flex-shrink: 0; width: 240px;
+      }
+      .slider-btn {
+        width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
+        border: 1px solid var(--border); background: var(--card-bg); color: var(--text-dark);
+        font-size: 1.05rem; font-weight: 700; line-height: 1; cursor: pointer;
+        display: flex; align-items: center; justify-content: center;
+      }
+      .slider-btn:hover { background: var(--orange-pale); border-color: var(--orange); color: var(--orange); }
+      .slider-btn:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+      .slider-track-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+      .slider-track {
+        position: relative; width: 100%; height: 6px; background: #E2E2E2; border-radius: 3px; cursor: pointer;
+      }
+      .slider-track::before {
+        /* midpoint tick = "normal" (50%) */
+        content: ""; position: absolute; left: 50%; top: -4px; width: 2px; height: 14px;
+        background: var(--text-light); transform: translateX(-50%); border-radius: 1px;
+      }
+      .slider-fill {
+        position: absolute; top: 0; height: 100%; background: var(--orange); border-radius: 3px;
+      }
+      .slider-thumb {
+        position: absolute; top: 50%; width: 16px; height: 16px; border-radius: 50%;
+        background: #fff; border: 2px solid var(--orange); transform: translate(-50%, -50%);
+        cursor: grab;
+      }
+      .slider-thumb:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+      .slider-value {
+        font-family: 'Montserrat', sans-serif; font-size: 0.78rem; font-weight: 700; color: var(--text-mid);
+      }
+      .slider-value .is-normal { color: var(--green); }
+
+      /* ── Read Aloud: toggle + speed dropdown ── */
+      .setting-controls { display: flex; align-items: center; gap: 16px; flex-shrink: 0; flex-wrap: wrap; }
+      .rate-control { display: flex; flex-direction: column; gap: 4px; }
+      .rate-control label {
+        font-family: 'Montserrat', sans-serif; font-size: 0.72rem; font-weight: 700;
+        color: var(--text-light); text-transform: uppercase; letter-spacing: 0.4px;
+      }
+      .rate-select {
+        font-family: 'Open Sans', sans-serif; font-size: 0.85rem; color: var(--text-dark);
+        border: 1px solid var(--border); border-radius: 8px; padding: 7px 10px;
+        background: var(--card-bg); cursor: pointer;
+      }
+      .rate-select:disabled { opacity: 0.45; cursor: not-allowed; }
+      .rate-select:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }

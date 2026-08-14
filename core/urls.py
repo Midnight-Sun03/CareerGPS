@@ -11,6 +11,13 @@ urlpatterns = [
     path('login/', views.login_view, name='login'),
     path('logout/confirm/', views.logout_confirm, name='logout_confirm'),
     path('logout/', views.logout_view, name='logout'),
+    path('generate-cv/', views.generate_cv, name='generate_cv'),
+    path('generate-cover-letter/', views.generate_cover_letter, name='generate_cover_letter'),
+    path("resources/", views.resources_view, name="resources"),
+    path("resources/cv-enhancer/", views.cv_enhancer_view, name="cv_enhancer"),
+    path("resources/cover-letter/", views.cover_letter_generator_view, name="cover_letter_generator"),
+    path("generate-cv/", views.generate_cv, name="generate_cv"),
+    path("generate-cover-letter/", views.generate_cover_letter, name="generate_cover_letter"),
 
     # Dashboard
     path('dashboard/', views.dashboard_view, name='dashboard'),
@@ -33,4 +40,7 @@ urlpatterns = [
 
     # Resources
     path('resources/', views.resources_view, name='resources'),
+
+    # Settings
+    path('settings/', views.settings_view, name='settings'),
 ]

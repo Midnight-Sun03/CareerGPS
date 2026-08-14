@@ -23,6 +23,8 @@
 
       /* ── Search ── */
       .search-box {
+        display: flex;
+        align-items: center;
         background: #fff;
         border: 1px solid #e2e2e2;
         border-radius: 8px;
@@ -46,6 +48,42 @@
       }
 
       .search-box input::placeholder { color: #bbb; }
+
+      /* Voice Search Button */
+      .voice-search-btn {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    padding: 8px;
+}
+
+.voice-search-btn i {
+    color: #e85d04;
+    font-size: 22px;
+}
+
+.voice-search-btn:hover i {
+    color: #e85d04;
+    transform: scale(1.15);
+}
+
+.voice-search-btn.listening i {
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
 
       /* ── Filters ── */
       .filters {
@@ -234,4 +272,16 @@
       @media (max-width: 900px) {
         .jobs-grid { grid-template-columns: 1fr; }
       }
+
+      .voice-search-btn.listening {
+        color: var(--orange);
+        animation: pulse-mic 1.2s ease-in-out infinite;
+      }
+
+      @keyframes pulse-mic {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.4; }
+      }
+
+     
  

@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Profile, CVtip, Story, SavedOpportunity, Skill, Opportunity, MotivationalNudge, Interest
+from .models import Profile, CVtip, Story, SavedOpportunity, Skill, Opportunity, MotivationalNudge, Interest, Project, WorkExperience, Certification
+
 
 @admin.register(Skill)
 class SkillAdmin(admin.ModelAdmin):
@@ -10,6 +11,10 @@ class SkillAdmin(admin.ModelAdmin):
 class InterestAdmin(admin.ModelAdmin):
     list_display = ('name',)
     search_fields = ('name',)
+
+admin.site.register(Project)
+admin.site.register(WorkExperience)
+admin.site.register(Certification)
 
 @admin.register(Opportunity)
 class OpportunityAdmin(admin.ModelAdmin):

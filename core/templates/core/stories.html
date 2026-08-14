@@ -4,6 +4,7 @@
 {% block title %}CareerGPS - Stories{% endblock %}
 
 {% block css %}
+<link rel="stylesheet" href="{% static 'core/css/setfunctions.css' %}">
 <link rel="stylesheet" href="{% static 'core/css/stories.css' %}">
 {% endblock %}
 
@@ -34,7 +35,8 @@
 
      {% for story in stories %}
 
-     <div class="story-card">
+     <div class="story-card" data-speak="{{ story.display_name }} shared: {{ story.content }}">
+        <div>
      <div class="story-header">
           <div class="story-avatar">
              <svg width="22" height="22" viewBox="0 0 24 24">
@@ -83,4 +85,8 @@
     </div>
 
     </div>
+    {% endblock %}
+
+    {% block javascript %}
+        <script src="{% static 'core/js/settings.js' %}"></script>
     {% endblock %}

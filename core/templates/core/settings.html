@@ -1,0 +1,267 @@
+{% extends "dashboard_pages.html" %}
+{% load static %}
+
+{% block title %}CareerGPS – Settings{% endblock %}
+
+{% block css %} 
+<link rel="stylesheet" href="{% static 'core/css/setfunctions.css' %}">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="{% static 'core/css/settings.css' %}">
+{% endblock %}
+
+{% block content %}
+<h1 class="page-title">Settings</h1>
+   <div class="settings-intro">
+        Your choices are saved on this device and apply across every page of CareerGPS,
+        including Home. You can come back here any time to change them.
+      </div>
+
+      <p class="section-heading">Display &amp; Reading</p>
+      <div class="settings-list">
+
+        <!-- High Contrast — now a 0–100% slider, 50% = normal -->
+        <div class="setting-row">
+          <div class="setting-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor" stroke="none"/></svg>
+          </div>
+          <div class="setting-text">
+            <div class="setting-title">High Contrast</div>
+            <div class="setting-desc">Drag or use +/− to adjust contrast strength. 50% is the normal, default level.</div>
+          </div>
+          <div class="slider-control" data-slider="high-contrast-level">
+            <button type="button" class="slider-btn" data-dir="-1" aria-label="Decrease High Contrast">−</button>
+            <div class="slider-track-wrap">
+              <div class="slider-track">
+                <div class="slider-fill"></div>
+                <div class="slider-thumb" role="slider" tabindex="0"
+                     aria-valuemin="0" aria-valuemax="100" aria-valuenow="50"
+                     aria-label="High Contrast level" aria-valuetext="Normal, 50%"></div>
+              </div>
+              <div class="slider-value">50%</div>
+            </div>
+            <button type="button" class="slider-btn" data-dir="1" aria-label="Increase High Contrast">+</button>
+          </div>
+        </div>
+
+        <div class="setting-row">
+        <div class="setting-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            </div>
+            <div class="setting-text">
+            <div class="setting-title">Dark Mode</div>
+            <div class="setting-desc">Switch to a dark color scheme. Independent of High Contrast — use either, both, or neither.</div>
+        </div>
+            <button type="button" class="switch" data-toggle="dark-mode" aria-pressed="false" aria-label="Dark Mode">
+            <span class="switch-track"><span class="switch-thumb"></span></span>
+            <span class="switch-state">OFF</span>
+                </button>
+        </div>
+        
+        <!-- Font Size — now a 0–100% slider, 50% = normal -->
+        <div class="setting-row">
+          <div class="setting-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M4 20V6M4 6h6M4 13h4"/><path d="M14 20l4-12 4 12M15.5 16h5"/></svg>
+          </div>
+          <div class="setting-text">
+            <div class="setting-title">Font Size</div>
+            <div class="setting-desc">Drag or use +/− to adjust text size across the site. 50% is the normal, default size.</div>
+          </div>
+          <div class="slider-control" data-slider="font-size-level">
+            <button type="button" class="slider-btn" data-dir="-1" aria-label="Decrease Font Size">−</button>
+            <div class="slider-track-wrap">
+              <div class="slider-track">
+                <div class="slider-fill"></div>
+                <div class="slider-thumb" role="slider" tabindex="0"
+                     aria-valuemin="0" aria-valuemax="100" aria-valuenow="50"
+                     aria-label="Font Size level" aria-valuetext="Normal, 50%"></div>
+              </div>
+              <div class="slider-value">50%</div>
+            </div>
+            <button type="button" class="slider-btn" data-dir="1" aria-label="Increase Font Size">+</button>
+          </div>
+        </div>
+
+        <!-- Read Aloud — toggle kept, plus a speed dropdown -->
+        <div class="setting-row">
+          <div class="setting-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M11 5 6 9H3v6h3l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/></svg>
+          </div>
+          <div class="setting-text">
+            <div class="setting-title">Read Aloud</div>
+            <div class="setting-desc">Click your greeting or any opportunity card to have its details read aloud.</div>
+          </div>
+          <div class="setting-controls">
+            <button type="button" class="switch" data-toggle="read-aloud-mode" data-a11y-class aria-pressed="false" aria-label="Read Aloud">
+              <span class="switch-track"><span class="switch-thumb"></span></span>
+              <span class="switch-state">OFF</span>
+            </button>
+            <div class="rate-control">
+              <label for="read-aloud-rate">Speed</label>
+              <select id="read-aloud-rate" class="rate-select" data-a11y-select="read-aloud-rate">
+                <option value="0.5">0.5× (Slowest)</option>
+                <option value="0.75">0.75×</option>
+                <option value="1" selected>1.0× (Normal)</option>
+                <option value="1.25">1.25×</option>
+                <option value="1.5">1.5×</option>
+                <option value="1.75">1.75×</option>
+                <option value="2">2.0× (Fastest)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p class="section-heading" style="margin-top: 32px;">Navigation &amp; Motion</p>
+      <div class="settings-list">
+        <div class="setting-row">
+          <div class="setting-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M6 14h12"/></svg>
+          </div>
+          <div class="setting-text">
+            <div class="setting-title">Keyboard Mode</div>
+            <div class="setting-desc">Show bold, always-visible outlines around the item currently selected with the keyboard.</div>
+          </div>
+          <button type="button" class="switch" data-toggle="keyboard-mode" data-a11y-class aria-pressed="false" aria-label="Keyboard Mode">
+            <span class="switch-track"><span class="switch-thumb"></span></span>
+            <span class="switch-state">OFF</span>
+          </button>
+        </div>
+
+        <div class="setting-row">
+          <div class="setting-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </div>
+          <div class="setting-text">
+            <div class="setting-title">Reduce Motion</div>
+            <div class="setting-desc">Turn off animations and transitions throughout the site.</div>
+          </div>
+          <button type="button" class="switch" data-toggle="reduce-motion" data-a11y-class aria-pressed="false" aria-label="Reduce Motion">
+            <span class="switch-track"><span class="switch-thumb"></span></span>
+            <span class="switch-state">OFF</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- ── Notifications section ── -->
+      <p class="section-heading" style="margin-top: 32px;">Notifications</p>
+      <div class="settings-list">
+        <div class="setting-row">
+          <div class="setting-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/><path d="M17 3.5a4 4 0 0 1 0 7"/></svg>
+          </div>
+          <div class="setting-text">
+            <div class="setting-title">Profile completion</div>
+            <div class="setting-desc">Reminders and tips to help you finish setting up your profile.</div>
+          </div>
+          <button type="button" class="switch" data-toggle="notif-profile-completion" aria-pressed="true" aria-label="Profile completion notifications">
+            <span class="switch-track"><span class="switch-thumb"></span></span>
+            <span class="switch-state">ON</span>
+          </button>
+        </div>
+
+        <div class="setting-row">
+          <div class="setting-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+          </div>
+          <div class="setting-text">
+            <div class="setting-title">New job updates</div>
+            <div class="setting-desc">New opportunities that match your profile and saved searches.</div>
+          </div>
+          <button type="button" class="switch" data-toggle="notif-new-jobs" aria-pressed="true" aria-label="New job updates notifications">
+            <span class="switch-track"><span class="switch-thumb"></span></span>
+            <span class="switch-state">ON</span>
+          </button>
+        </div>
+
+        <div class="setting-row">
+          <div class="setting-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          </div>
+          <div class="setting-text">
+            <div class="setting-title">Application status updates</div>
+            <div class="setting-desc">Updates when an employer views, shortlists, or responds to your application.</div>
+          </div>
+          <button type="button" class="switch" data-toggle="notif-application-updates" aria-pressed="true" aria-label="Application status update notifications">
+            <span class="switch-track"><span class="switch-thumb"></span></span>
+            <span class="switch-state">ON</span>
+          </button>
+        </div>
+
+        <div class="setting-row">
+          <div class="setting-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <div class="setting-text">
+            <div class="setting-title">Saved job alerts</div>
+            <div class="setting-desc">Get notified about deadlines or changes to jobs you've saved.</div>
+          </div>
+          <button type="button" class="switch" data-toggle="notif-saved-job-alerts" aria-pressed="false" aria-label="Saved job alert notifications">
+            <span class="switch-track"><span class="switch-thumb"></span></span>
+            <span class="switch-state">OFF</span>
+          </button>
+        </div>
+
+        <div class="setting-row">
+          <div class="setting-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M4 4h16v16H4z"/><path d="m4 6 8 7 8-7"/></svg>
+          </div>
+          <div class="setting-text">
+            <div class="setting-title">Messages</div>
+            <div class="setting-desc">New messages from employers, mentors, and connections.</div>
+          </div>
+          <button type="button" class="switch" data-toggle="notif-messages" aria-pressed="true" aria-label="Messages notifications">
+            <span class="switch-track"><span class="switch-thumb"></span></span>
+            <span class="switch-state">ON</span>
+          </button>
+        </div>
+
+        <div class="setting-row">
+          <div class="setting-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <div class="setting-text">
+            <div class="setting-title">Connection requests</div>
+            <div class="setting-desc">When someone wants to connect or follow your activity.</div>
+          </div>
+          <button type="button" class="switch" data-toggle="notif-connection-requests" aria-pressed="true" aria-label="Connection request notifications">
+            <span class="switch-track"><span class="switch-thumb"></span></span>
+            <span class="switch-state">ON</span>
+          </button>
+        </div>
+
+        <div class="setting-row">
+          <div class="setting-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+          </div>
+          <div class="setting-text">
+            <div class="setting-title">Weekly digest email</div>
+            <div class="setting-desc">A weekly summary of top opportunities and activity on your account.</div>
+          </div>
+          <button type="button" class="switch" data-toggle="notif-weekly-digest" aria-pressed="false" aria-label="Weekly digest email notifications">
+            <span class="switch-track"><span class="switch-thumb"></span></span>
+            <span class="switch-state">OFF</span>
+          </button>
+        </div>
+
+        <div class="setting-row">
+          <div class="setting-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M20.59 13.41 11 3.83A2 2 0 0 0 9.59 3.24L4 3v5.59a2 2 0 0 0 .59 1.41l9.58 9.59a2 2 0 0 0 2.83 0l3.59-3.59a2 2 0 0 0 0-2.59z"/><circle cx="7.5" cy="7.5" r="1.5" fill="currentColor" stroke="none"/></svg>
+          </div>
+          <div class="setting-text">
+            <div class="setting-title">Promotions &amp; product news</div>
+            <div class="setting-desc">Occasional tips, offers, and announcements from CareerGPS.</div>
+          </div>
+          <button type="button" class="switch" data-toggle="notif-promotions" aria-pressed="false" aria-label="Promotions and product news notifications">
+            <span class="switch-track"><span class="switch-thumb"></span></span>
+            <span class="switch-state">OFF</span>
+          </button>
+        </div>
+    </div>
+      </div>
+     {% endblock %}
+  </div>
+
+{% block javascript %}
+    <script src="{% static 'core/js/settings.js' %}"></script>
+{% endblock %}
+

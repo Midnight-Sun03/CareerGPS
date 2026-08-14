@@ -6,6 +6,7 @@ CareerGPS - Home
 {% endblock %}
 
 {% block css %}
+<link rel="stylesheet" href="{% static 'core/css/setfunctions.css' %}">
 <link rel="stylesheet" href="{% static 'core/css/dashboard.css' %}">
 {% endblock %}
 
@@ -13,7 +14,7 @@ CareerGPS - Home
 
     <!-- Main -->
       <!-- Header -->
-      <div class="header">
+      <div class="header" data-speak>
         <h1>Hi, <span>{{ user.first_name }}</span></h1>
         <p>{{ nudge.message }}</p>
       </div>
@@ -77,7 +78,7 @@ CareerGPS - Home
 
       <div class="matches-grid">
         {% for match in top_matches %}
-        <div class="card">
+        <div class="card" data-speak>
           <div class="card-top">
             <div class="card-badges">
               <span class="badge badge-type">{{ match.opportunity.get_opportunity_type_display }}</span>
@@ -132,4 +133,8 @@ CareerGPS - Home
     </div> 
 
    {% endblock %}
+
+   {% block javascript %}
+      <script src="{% static 'core/js/settings.js' %}"></script>
+    {% endblock %}
 

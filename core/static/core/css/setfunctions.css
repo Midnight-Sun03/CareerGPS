@@ -1,0 +1,69 @@
+/* ============================================================
+   CareerGPS — shared accessibility CSS.
+   Load this on EVERY page (ideally once, from dashboard_pages.html).
+   Defines what the classes settings.js toggles on <body> actually do,
+   plus the ON/OFF switch component used on the Settings page.
+   ============================================================ */
+
+/* ── Accessibility modes — classes on <body>, driven by settings.js + localStorage ── */
+body.keyboard-mode :focus {
+  outline: 3px solid var(--focus-ring, #2A5DFF) !important;
+  outline-offset: 2px !important;
+  border-radius: 2px;
+}
+body:not(.keyboard-mode) :focus { outline: 2px solid var(--focus-ring, #2A5DFF); outline-offset: 2px; }
+
+body.reduce-motion *,
+body.reduce-motion *::before,
+body.reduce-motion *::after {
+  transition: none !important;
+  animation: none !important;
+}
+
+body.read-aloud-mode [data-speak] { cursor: pointer; }
+body.read-aloud-mode [data-speak]:hover { outline: 2px dashed var(--orange, #E8651A); outline-offset: 2px; }
+body.read-aloud-mode .card.speaking,
+body.read-aloud-mode .job-card.speaking,
+body.read-aloud-mode .speaking { outline: 2px solid var(--orange, #E8651A); outline-offset: 2px; }
+
+body.dark-mode {
+    --orange: #FF7A1A; --orange-light: #FF9142; --orange-pale: #2A1400;
+    --sidebar-bg: #000000; --sidebar-hover: #1A1A1A;
+    --text-dark: #FFFFFF; --text-mid: #F0F0F0; --text-light: #D8D8D8;
+    --border: #FFFFFF; --card-bg: #000000; --page-bg: #000000;
+    --green: #4CFF7A; --green-bg: #003310;
+    --tag-intern: #2A1400; --tag-intern-c: #FF9142;
+}
+
+body.dark-mode .card,
+body.dark-mode .setting-row { border-width: 2px; }
+body.dark-mode .apply-btn { border: 2px solid #FFFFFF; }
+body.dark-mode .nav-item { border: 1px solid transparent; }
+body.dark-mode .nav-item:hover,
+body.dark-mode .nav-item.active { border-color: #FFFFFF; }
+body.dark-mode .switch-track { border: 2px solid #FFFFFF; }
+
+/* ── ON / OFF toggle switch (used on Settings) ── */
+.switch {
+  display: flex; align-items: center; gap: 10px;
+  background: none; border: none; cursor: pointer;
+  font-family: 'Montserrat', sans-serif;
+  padding: 4px; flex-shrink: 0;
+}
+.switch-track {
+  width: 46px; height: 26px; border-radius: 13px;
+  background: #C9C9C9; position: relative; transition: background 0.2s;
+  flex-shrink: 0;
+}
+.switch-thumb {
+  width: 20px; height: 20px; border-radius: 50%; background: #fff;
+  position: absolute; top: 3px; left: 3px; transition: left 0.2s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.35);
+}
+.switch[aria-pressed="true"] .switch-track { background: var(--green, #27AE60); }
+.switch[aria-pressed="true"] .switch-thumb { left: 23px; }
+.switch-state {
+  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.4px;
+  width: 34px; text-align: left; color: var(--text-light, #888);
+}
+.switch[aria-pressed="true"] .switch-state { color: var(--green, #27AE60); }

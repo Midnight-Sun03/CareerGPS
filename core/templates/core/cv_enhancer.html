@@ -1,0 +1,143 @@
+{% extends "dashboard_pages.html" %}
+{% load static %}
+
+{% block title %}
+CareerGPS - AI CV Enhancer
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'core/css/setfunctions.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/ai_tools.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<h1 class="page-title"> AI CV Enhancer</h1>
+<p class="page-subtitle">Upload your CV and get an AI-enhanced version tailored to your profile, saved opportunities, or any job description.</p>
+
+<div class="ai-tool-grid">
+
+  <!-- ───────────────── Main column ───────────────── -->
+  <div class="ai-tool-main">
+
+    <div class="tool-card">
+      <h2 class="tool-card-title"> Your Profile</h2>
+      <div class="profile-box">
+        <p><strong>Name:</strong> {{ profile_name }}</p>
+        <p><strong>Email:</strong> {{ profile.user.email }}</p>
+        <p><strong>Qualification:</strong> {{ profile.qualification|default:"—" }}</p>
+        <p><strong>Location:</strong> {{ profile.location|default:"—" }}</p>
+        <p class="skills-line">
+          <strong>Skills:</strong>
+          <span class="skill-tags">
+            {% for skill in skill_names %}<span class="skill-tag">{{ skill }}</span>{% empty %}<span class="skill-tag-empty">No skills added yet</span>{% endfor %}
+          </span>
+        </p>
+      </div>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="tool-card-title">Your CV Content</h2>
+      <p class="tool-card-desc">Upload a file or paste your CV content below. <strong>Optional</strong> - if you don't provide a CV, we'll use your profile information.</p>
+
+      <div class="cv-tabs" role="tablist">
+        <button type="button" class="cv-tab active-tab" data-tab="paste"> Paste</button>
+        <button type="button" class="cv-tab" data-tab="upload"> Upload</button>
+      </div>
+
+      <div class="cv-tab-panel" data-panel="paste">
+        <textarea id="cvPasteText" class="tool-textarea" rows="6"
+          placeholder="Paste your CV content here (optional)..." maxlength="8000"></textarea>
+        <div class="char-count"><span id="cvCharCount">0</span> characters</div>
+      </div>
+
+      <div class="cv-tab-panel" data-panel="upload" hidden>
+        <label for="cvFileUpload" class="upload-dropzone">
+          <i class="fa-solid fa-cloud-arrow-up"></i>
+          <span>Click to upload your CV (PDF or DOCX)</span>
+        </label>
+        <input type="file" id="cvFileUpload" accept=".pdf,.docx" hidden />
+        <p class="file-name" id="cvFileUploadName"></p>
+      </div>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="tool-card-title">Job Description <span class="optional-tag">(Optional)</span></h2>
+      <p class="tool-card-desc">Paste the job description to get a CV tailored specifically to this role.</p>
+      <textarea id="jobDescriptionInput" class="tool-textarea" rows="5"
+        placeholder="Paste the job description here to personalize your CV..."></textarea>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="tool-card-title">Additional Notes <span class="optional-tag">(Optional)</span></h2>
+      <p class="tool-card-desc">Anything you want to highlight or include in your CV?</p>
+      <textarea id="additionalNotesInput" class="tool-textarea" rows="3"
+        placeholder="E.g., I want to emphasize my leadership experience, I'm looking for a remote role..."></textarea>
+    </div>
+
+    <div id="cvGenStatus" class="tool-status"></div>
+
+    <button type="button" id="generateCvBtn" class="generate-btn">
+      Generate Enhanced CV
+    </button>
+
+    <div id="cvGenResults" class="tool-results" hidden>
+      <a id="cvDocxLink" href="#" download class="see-more">⬇ Download .docx</a>
+      <a id="cvPdfLink" href="#" download class="see-more">⬇ Download .pdf</a>
+    </div>
+  </div>
+
+  <!-- ───────────────── Side column ───────────────── -->
+  <div class="ai-tool-side">
+
+    <div class="tool-card">
+      <h2 class="tool-card-title"> Saved Opportunities</h2>
+      <p class="tool-card-desc">Click an opportunity to load its job description and tailor your CV.</p>
+
+      <div class="saved-opp-list" id="savedOppList">
+        {% for saved in saved_opportunities %}
+        <div class="saved-opp-card" data-opp-id="{{ saved.opportunity.id }}"
+             data-job-desc="{{ saved.opportunity.description|default:''|escapejs }}">
+          <h4>{{ saved.opportunity.title }}</h4>
+          <p class="opp-company">{{ saved.opportunity.company|default:"Unknown" }}</p>
+          <div class="opp-tags">
+            {% if saved.opportunity.opportunity_type %}<span class="opp-tag opp-tag-type">{{ saved.opportunity.get_opportunity_type_display }}</span>{% endif %}
+            {% if saved.opportunity.location %}<span class="opp-tag opp-tag-location">{{ saved.opportunity.location }}</span>{% endif %}
+          </div>
+        </div>
+        {% empty %}
+        <p class="empty-state">You haven't saved any opportunities yet.</p>
+        {% endfor %}
+      </div>
+
+      <p class="selected-label">Selected: <span id="selectedOppLabel">None</span></p>
+      <button type="button" id="clearSelectionBtn" class="clear-btn">Clear Selection</button>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="tool-card-title"> Quick Stats</h2>
+      <div class="quick-stats-grid">
+        <div class="stat-box stat-saved">
+          <span class="stat-num">{{ saved_count }}</span>
+          <span class="stat-label">Saved</span>
+        </div>
+        <div class="stat-box stat-skills">
+          <span class="stat-num">{{ skills_count }}</span>
+          <span class="stat-label">Skills</span>
+        </div>
+        <div class="stat-box stat-cvs">
+          <span class="stat-num">{{ cv_count }}</span>
+          <span class="stat-label">CVs</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}
+
+{% block javascript %}
+<script src="{% static 'core/js/settings.js' %}"></script>
+<script src="{% static 'core/js/cv_enhancer.js' %}"></script>
+{% endblock %}
