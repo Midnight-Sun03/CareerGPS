@@ -1,0 +1,12 @@
+{% extends 'public_pages.html' %}
+{% block title %}Privacy request | CareerGPS{% endblock %}
+{% block content %}
+<main class="legal-page">
+  <h1>Your privacy request</h1>
+  <p><strong>Type:</strong> {{ item.get_category_display }}</p>
+  <p><strong>Status:</strong> {{ item.get_status_display }}</p>
+  <p><strong>Submitted:</strong> {{ item.created_at }}</p>
+  <h2>Your message</h2><p>{{ item.description|linebreaksbr }}</p>
+  <p><a href="{% url 'contact' %}">Back to your requests</a></p>
+</main>
+{% endblock %}

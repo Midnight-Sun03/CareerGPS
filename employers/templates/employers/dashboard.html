@@ -1,0 +1,8 @@
+{% extends 'employers/base.html' %}{% block content %}<p class="eyebrow">Employer overview</p><h1>{{ organization.name }}</h1>
+<p>Verification: {{ organization.get_verification_status_display }} · Account: {{ organization.get_account_status_display }}</p>
+{% if not employer_approved %}<section class="card"><h2>Prepare your first vacancy</h2><p>You can save drafts now. CareerGPS platform administration must verify your organization before you publish.</p></section>{% endif %}
+<p>Organization verification does not guarantee that every vacancy is safe.</p>
+<div class="metrics">{% for label,count in metrics %}<section class="card"><strong>{{ count }}</strong><p>{{ label }}</p></section>{% endfor %}</div>
+{% if 'vacancy' in permissions %}<a class="button" href="{% url 'employers:vacancy_create' organization.id %}">Create vacancy</a>{% endif %}
+<section class="card"><h2>Recent hiring activity</h2><p>Interview-stage counts show pipeline state; interviews are not scheduled here.</p>
+<ul class="activity">{% for event in activities %}<li><strong>{{ event.label }}</strong><span>{{ event.created_at|date:'d M Y H:i' }}</span></li>{% empty %}<li>No hiring activity yet.</li>{% endfor %}</ul></section>{% endblock %}

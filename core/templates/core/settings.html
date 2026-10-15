@@ -1,0 +1,514 @@
+{% extends "dashboard_pages.html" %}
+{% load static %}
+
+{% block title %}CareerGPS – Settings{% endblock %}
+
+{% block css %}
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'core/css/settings.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="settings-header">
+    <div>
+        <h1 class="page-title">Settings</h1>
+        <p class="settings-subtitle">
+            Personalise how CareerGPS looks, feels and communicates with you.
+        </p>
+    </div>
+</div>
+
+<div class="settings-intro">
+    Display and reading choices are saved in this browser on this device.
+    They apply to CareerGPS pages you open here, but do not follow your
+    account to another browser or device.
+</div>
+
+
+<!-- =========================================================
+     DISPLAY & READING
+     ========================================================= -->
+
+<section class="settings-section">
+    <div class="settings-section-header">
+        <div>
+            <h2 class="section-heading">Display &amp; Reading</h2>
+            <p class="section-description">
+                Adjust the appearance and reading experience of CareerGPS.
+            </p>
+        </div>
+    </div>
+
+    <div class="settings-list">
+
+        <!-- High Contrast -->
+        <div class="setting-row">
+            <div class="setting-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="9"/>
+                    <path d="M12 3a9 9 0 0 1 0 18z"
+                          fill="currentColor"
+                          stroke="none"/>
+                </svg>
+            </div>
+
+            <div class="setting-text">
+                <div class="setting-title">High Contrast</div>
+                <div class="setting-desc">
+                    Drag or use +/− to adjust contrast strength.
+                    50% is the normal, default level.
+                </div>
+            </div>
+
+            <div class="slider-control" data-slider="high-contrast-level">
+                <button
+                    type="button"
+                    class="slider-btn"
+                    data-dir="-1"
+                    aria-label="Decrease High Contrast">
+                    −
+                </button>
+
+                <div class="slider-track-wrap">
+                    <div class="slider-track">
+                        <div class="slider-fill"></div>
+
+                        <div
+                            class="slider-thumb"
+                            role="slider"
+                            tabindex="0"
+                            aria-valuemin="0"
+                            aria-valuemax="100"
+                            aria-valuenow="50"
+                            aria-label="High Contrast level"
+                            aria-valuetext="Normal, 50%">
+                        </div>
+                    </div>
+
+                    <div class="slider-value">50%</div>
+                </div>
+
+                <button
+                    type="button"
+                    class="slider-btn"
+                    data-dir="1"
+                    aria-label="Increase High Contrast">
+                    +
+                </button>
+            </div>
+        </div>
+
+
+        <!-- Dark Mode -->
+        <div class="setting-row">
+            <div class="setting-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                </svg>
+            </div>
+
+            <div class="setting-text">
+                <div class="setting-title">Dark Mode</div>
+                <div class="setting-desc">
+                    Switch to a dark colour scheme. Use it independently
+                    or together with High Contrast.
+                </div>
+            </div>
+
+            <button
+                type="button"
+                class="switch"
+                data-toggle="dark-mode"
+                aria-pressed="false"
+                aria-label="Dark Mode">
+
+                <span class="switch-track">
+                    <span class="switch-thumb"></span>
+                </span>
+
+                <span class="switch-state">OFF</span>
+            </button>
+        </div>
+
+
+        <!-- Font Size -->
+        <div class="setting-row">
+            <div class="setting-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                    <path d="M4 20V6M4 6h6M4 13h4"/>
+                    <path d="M14 20l4-12 4 12M15.5 16h5"/>
+                </svg>
+            </div>
+
+            <div class="setting-text">
+                <div class="setting-title">Font Size</div>
+                <div class="setting-desc">
+                    Adjust text size across CareerGPS.
+                    50% is the normal, default size.
+                </div>
+            </div>
+
+            <div class="slider-control" data-slider="font-size-level">
+                <button
+                    type="button"
+                    class="slider-btn"
+                    data-dir="-1"
+                    aria-label="Decrease Font Size">
+                    −
+                </button>
+
+                <div class="slider-track-wrap">
+                    <div class="slider-track">
+                        <div class="slider-fill"></div>
+
+                        <div
+                            class="slider-thumb"
+                            role="slider"
+                            tabindex="0"
+                            aria-valuemin="0"
+                            aria-valuemax="100"
+                            aria-valuenow="50"
+                            aria-label="Font Size level"
+                            aria-valuetext="Normal, 50%">
+                        </div>
+                    </div>
+
+                    <div class="slider-value">50%</div>
+                </div>
+
+                <button
+                    type="button"
+                    class="slider-btn"
+                    data-dir="1"
+                    aria-label="Increase Font Size">
+                    +
+                </button>
+            </div>
+        </div>
+
+
+        <!-- Read Aloud -->
+        <div class="setting-row">
+            <div class="setting-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                    <path d="M11 5 6 9H3v6h3l5 4V5z"/>
+                    <path d="M15.5 8.5a5 5 0 0 1 0 7"/>
+                </svg>
+            </div>
+
+            <div class="setting-text">
+                <div class="setting-title">Read Aloud</div>
+                <div class="setting-desc">
+                    Use CareerGPS Read Aloud controls to hear supported
+                    page content using your browser's speech engine.
+                </div>
+            </div>
+
+            <div class="setting-controls">
+                <button
+                    type="button"
+                    class="switch"
+                    data-toggle="read-aloud-mode"
+                    data-a11y-class
+                    aria-pressed="false"
+                    aria-label="Read Aloud">
+
+                    <span class="switch-track">
+                        <span class="switch-thumb"></span>
+                    </span>
+
+                    <span class="switch-state">OFF</span>
+                </button>
+
+                <div class="rate-control">
+                    <label for="read-aloud-rate">Speed</label>
+
+                    <select
+                        id="read-aloud-rate"
+                        class="rate-select"
+                        data-a11y-select="read-aloud-rate">
+
+                        <option value="0.5">0.5× (Slowest)</option>
+                        <option value="0.75">0.75×</option>
+                        <option value="1" selected>1.0× (Normal)</option>
+                        <option value="1.25">1.25×</option>
+                        <option value="1.5">1.5×</option>
+                        <option value="1.75">1.75×</option>
+                        <option value="2">2.0× (Fastest)</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+<!-- =========================================================
+     NAVIGATION & MOTION
+     ========================================================= -->
+
+<section class="settings-section">
+    <div class="settings-section-header">
+        <div>
+            <h2 class="section-heading">Navigation &amp; Motion</h2>
+            <p class="section-description">
+                Control keyboard focus and movement across the interface.
+            </p>
+        </div>
+    </div>
+
+    <div class="settings-list">
+
+        <!-- Keyboard Mode -->
+        <div class="setting-row">
+            <div class="setting-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                    <rect x="2" y="6" width="20" height="12" rx="2"/>
+                    <path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M6 14h12"/>
+                </svg>
+            </div>
+
+            <div class="setting-text">
+                <div class="setting-title">Keyboard Mode</div>
+                <div class="setting-desc">
+                    Show clear focus outlines around items selected
+                    using the keyboard.
+                </div>
+            </div>
+
+            <button
+                type="button"
+                class="switch"
+                data-toggle="keyboard-mode"
+                data-a11y-class
+                aria-pressed="false"
+                aria-label="Keyboard Mode">
+
+                <span class="switch-track">
+                    <span class="switch-thumb"></span>
+                </span>
+
+                <span class="switch-state">OFF</span>
+            </button>
+        </div>
+
+
+        <!-- Reduce Motion -->
+        <div class="setting-row">
+            <div class="setting-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                    <path d="M5 12h14M13 6l6 6-6 6"/>
+                </svg>
+            </div>
+
+            <div class="setting-text">
+                <div class="setting-title">Reduce Motion</div>
+                <div class="setting-desc">
+                    Reduce animations and transitions throughout CareerGPS.
+                </div>
+            </div>
+
+            <button
+                type="button"
+                class="switch"
+                data-toggle="reduce-motion"
+                data-a11y-class
+                aria-pressed="false"
+                aria-label="Reduce Motion">
+
+                <span class="switch-track">
+                    <span class="switch-thumb"></span>
+                </span>
+
+                <span class="switch-state">OFF</span>
+            </button>
+        </div>
+
+    </div>
+</section>
+
+
+<!-- =========================================================
+     NOTIFICATIONS
+     ========================================================= -->
+
+<section class="settings-section">
+    <div class="settings-section-header">
+        <div>
+            <h2 class="section-heading">In-app Notifications</h2>
+            <p class="section-description">
+                Choose which optional CareerGPS updates appear in your notification centre.
+            </p>
+        </div>
+
+        <span class="settings-badge">Account setting</span>
+    </div>
+
+    <form method="post" class="notification-preferences">
+        {% csrf_token %}
+
+        {{ notification_form.non_field_errors }}
+
+        <div class="notification-options">
+
+            {% for field in notification_form %}
+            <div class="notification-option">
+
+                <div class="notification-option-text">
+                    <label for="{{ field.id_for_label }}">
+                        {{ field.label }}
+                    </label>
+
+                    {% if field.help_text %}
+                    <span>{{ field.help_text }}</span>
+                    {% endif %}
+
+                    {{ field.errors }}
+                </div>
+
+                <div class="notification-checkbox">
+                    {{ field }}
+                </div>
+
+            </div>
+            {% endfor %}
+
+        </div>
+
+        <div class="notification-note">
+            Story moderation, report-review, application-stage and
+            talent-invitation updates are available now.
+
+            Deadline, interview and Career Intelligence alerts are
+            not currently sent.
+
+            System and security notices remain enabled.
+        </div>
+
+        <div class="notification-actions">
+            <button type="submit" class="preferences-save">
+                Save notification preferences
+            </button>
+        </div>
+    </form>
+</section>
+
+
+<!-- =========================================================
+     PRIVACY & ACCOUNT
+     ========================================================= -->
+
+<section class="settings-section settings-section-last">
+    <div class="settings-section-header">
+        <div>
+            <h2 class="section-heading">Privacy &amp; Account</h2>
+            <p class="section-description">
+                Manage employer visibility, your data rights and your CareerGPS privacy requests.
+            </p>
+        </div>
+    </div>
+
+    <div class="settings-list">
+
+        <a
+            href="{% url 'employers:visibility' %}"
+            class="setting-row setting-link">
+
+            <div class="setting-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                    <path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/>
+                    <circle cx="12" cy="12" r="3"/>
+                </svg>
+            </div>
+
+            <div class="setting-text">
+                <div class="setting-title">Employer Visibility</div>
+                <div class="setting-desc">
+                    Control whether approved employers can discover your
+                    CareerGPS profile and manage organisation blocks.
+                </div>
+            </div>
+
+            <div class="setting-arrow" aria-hidden="true">→</div>
+        </a>
+
+
+        <form method="post" action="{% url 'data_export' %}" class="setting-form">
+            {% csrf_token %}
+
+            <button type="submit" class="setting-row setting-link">
+
+                <div class="setting-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 3v12"/>
+                        <path d="M7 10l5 5 5-5"/>
+                        <path d="M5 21h14"/>
+                    </svg>
+                </div>
+
+                <div class="setting-text">
+                    <div class="setting-title">Download My Data</div>
+                    <div class="setting-desc">
+                        Download a ZIP copy of your profile, evidence, applications,
+                        interviews, documents and account records.
+                    </div>
+                </div>
+
+                <div class="setting-arrow" aria-hidden="true">↓</div>
+            </button>
+        </form>
+
+
+        <a
+            href="{% url 'contact' %}"
+            class="setting-row setting-link">
+
+            <div class="setting-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                    <path d="M4 4h16v16H4z"/>
+                    <path d="M4 7l8 6 8-6"/>
+                </svg>
+            </div>
+
+            <div class="setting-text">
+                <div class="setting-title">Privacy Requests</div>
+                <div class="setting-desc">
+                    Request access, correction, export, deletion,
+                    objection or other privacy assistance.
+                </div>
+            </div>
+
+            <div class="setting-arrow" aria-hidden="true">→</div>
+        </a>
+
+
+        <a
+            href="{% url 'account_closure' %}"
+            class="setting-row setting-link setting-link-danger">
+
+            <div class="setting-icon setting-icon-danger" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                    <path d="M3 6h18"/>
+                    <path d="M8 6V4h8v2"/>
+                    <path d="M19 6l-1 14H6L5 6"/>
+                    <path d="M10 11v5M14 11v5"/>
+                </svg>
+            </div>
+
+            <div class="setting-text">
+                <div class="setting-title">Delete Account</div>
+                <div class="setting-desc">
+                    Delete your account, your profile and your
+                    personal information straight away. This cannot be undone.
+                </div>
+            </div>
+
+            <div class="setting-arrow" aria-hidden="true">→</div>
+        </a>
+
+    </div>
+</section>
+
+{% endblock %}

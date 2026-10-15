@@ -1,0 +1,90 @@
+>>> 'Read-only audit probe. SELECT/COUNT only; no writes, no migrations.'
+>>> >>> >>> 'CareerGPS_Rebuild.settings'
+Python 3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)] on win32
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> >>> >>> >>> >>> >>> >>> >>> === DB IDENTITY ===
+>>> ENGINE: django.db.backends.sqlite3
+>>> NAME: D:\CG\db.sqlite3
+>>> HOST: (local)
+>>> >>> >>> >>> >>> === APPLIED MIGRATIONS PER APP ===
+  File "<console>", line 3
+    print('TOTAL_APPLIED', len(applied))
+    ^^^^^
+SyntaxError: invalid syntax
+>>> ... ... >>> >>> >>> ... ... ... ... ... >>> >>> >>> >>> >>> >>> >>> >>> === MODEL COUNTS ===
+>>> ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... core.Profile 16
+core.CareerPreference 5
+core.Opportunity 2670
+core.SavedOpportunity 4
+core.Notification 20
+core.Story 5
+core.TaxonomyRelease 4
+core.TaxonomyConcept 21995
+core.TaxonomyLabel 215296
+core.TaxonomyRelation 172948
+core.TaxonomyCrosswalk 4253
+core.OpportunityCleanAttempt 2423
+core.OpportunityCleanRevision 2421
+core.CleanOpportunityCriterion 24533
+core.OpportunityOccupationResolution 0
+core.CareerTargetResolution 5
+core.TargetOpportunityRelationshipAssessment 2928
+core.OccupationRelationshipPolicy 0
+core.OccupationRelationshipRule 1
+core.ProfileOpportunityEvaluation 1128
+core.ProfileFeedEvaluation 2328
+core.EvaluationRecomputeTask 5434
+core.ProfileEvaluationGeneration 38
+core.ProfileFeedState 14
+ingestion.IngestionSource 66
+ingestion.RawOpportunity 3321
+ingestion.OpportunitySourceRecord 2666
+ingestion.OpportunityExtraction 1857
+ingestion.IngestionRun 108
+ingestion.GreenhouseBoard 53
+ingestion.SmartRecruitersCompany 2
+ingestion.WorkdayBoard 5
+applications.Application 16
+applications.GeneratedDocument 12
+interview.Interview 2
+interview.InterviewQuestion 10
+employers.Organization 2
+employers.EmployerVacancy 1
+employers.HiringApplication 1
+employers.TalentPool 0
+employers.OrganizationVerification 3
+>>> === TAXONOMY RELEASES ===
+>>> ... ... ... ... ... {'source': 'esco', 'version': '1.2.1', 'is_active': True}
+{'source': 'isco', 'version': '08', 'is_active': True}
+{'source': 'ofo', 'version': '2021', 'is_active': True}
+{'source': 'onet', 'version': '31.0', 'is_active': True}
+>>> === OPPORTUNITY STATUS DIST ===
+  File "<console>", line 5
+    try:
+    ^^^
+SyntaxError: invalid syntax
+  File "<console>", line 1
+    print('professionally_ready', m.Opportunity.objects.professionally_ready().count())
+IndentationError: unexpected indent
+  File "<console>", line 1
+    except Exception as e:
+    ^^^^^^
+SyntaxError: invalid syntax
+  File "<console>", line 1
+    print('prof_ready ERR', type(e).__name__)
+IndentationError: unexpected indent
+>>> ... ... ... ... >>> >>> >>> >>> ... ... ... ... with_active_clean_rev 2421
+>>> === CLEAN REVISION STATUS ===
+>>> ... ... ... ... {'active': 2421}
+>>> === RELATIONSHIP ASSESSMENT discovery_category ===
+>>> ... ... ... ... ERR FieldError fields= ['id', 'target_resolution', 'revision', 'final_class', 'evidence_tier', 'tier_rank', 'reason_code', 'target_result_count', 'job_result_count', 'pairing_count', 'relationship_count', 'exact_relationship_count', 'related_relationship_count', 'denied_pairing_count', 'inconclusive_pairing_count', 'ofo_comparison', 'esco_comparison', 'policy_evidence', 'conflicting_evidence', 'aggregation_version', 'relationship_policy_version', 'dependency_hash', 'diagnostics', 'assessed_at']
+>>> === EVAL QUEUE STATE ===
+>>> ... ... ... ... {'COMPLETE': 871, 'FAILED': 2, 'SUPERSEDED': 4561}
+>>> === FEED READ VERSION ===
+>>> >>> CAREERGPS_FEED_READ_VERSION v2
+>>> CAREERGPS_V2_WORKER_SCHEDULED True
+>>> DONE
+
+now exiting InteractiveConsole...
+>>> 

@@ -1,0 +1,46 @@
+<div id="resumePreview" class="resume-paper rr-template-{{ document.template_key }} density-{{ layout.density }}">
+  <header class="resume-header">
+    <h1>{{ resume.basics.name|default:"Your Name" }}</h1>
+    {% if cv.summary %}<p class="resume-headline">{{ cv.summary|truncatewords:20 }}</p>{% endif %}
+    <p class="resume-contact">
+      {% if resume.basics.email %}{{ resume.basics.email }}{% endif %}
+      {% if resume.basics.phone %} · {{ resume.basics.phone }}{% endif %}
+      {% if resume.basics.location.address %} · {{ resume.basics.location.address }}{% endif %}
+    </p>
+  </header>
+
+  <div class="resume-layout">
+    <aside class="resume-sidebar">
+      <section class="resume-section section-skills" data-section="skills" {% if 'skills' in hidden_sections %}hidden{% endif %}>
+        {% if cv.technical_skills %}<h2>Skills</h2><ul>{% for group in cv.technical_skills %}{% for skill in group.items %}<li>{{ skill }}</li>{% endfor %}{% endfor %}</ul>{% elif resume.skills %}<h2>Skills</h2><ul>{% for skill in resume.skills %}<li>{{ skill.name }}</li>{% endfor %}</ul>{% endif %}
+      </section>
+      <section class="resume-section section-languages" data-section="languages" {% if 'languages' in hidden_sections %}hidden{% endif %}>
+        {% if resume.languages %}<h2>Languages</h2><ul>{% for item in resume.languages %}<li>{{ item.language }}{% if item.fluency %} - {{ item.fluency }}{% endif %}</li>{% endfor %}</ul>{% endif %}
+      </section>
+    </aside>
+
+    <main class="resume-main">
+      <section class="resume-section section-summary" data-section="summary" {% if 'summary' in hidden_sections %}hidden{% endif %}>
+        {% if cv.summary %}<h2>Profile</h2><p>{{ cv.summary }}</p>{% endif %}
+      </section>
+      <section class="resume-section section-work" data-section="work" {% if 'work' in hidden_sections %}hidden{% endif %}>
+        {% if cv.work_experience %}<h2>Experience</h2>{% for item in cv.work_experience %}<article><h3>{{ item.title }}{% if item.company %} · {{ item.company }}{% elif item.organisation %} · {{ item.organisation }}{% endif %}</h3>{% if item.dates %}<small>{{ item.dates }}</small>{% endif %}{% if item.bullets %}<ul>{% for bullet in item.bullets %}<li>{{ bullet }}</li>{% endfor %}</ul>{% endif %}</article>{% endfor %}{% elif resume.work %}<h2>Experience</h2>{% for item in resume.work %}<article><h3>{{ item.position }}{% if item.name %} · {{ item.name }}{% endif %}</h3>{% if item.summary %}<p>{{ item.summary }}</p>{% endif %}{% if item.highlights %}<ul>{% for bullet in item.highlights %}<li>{{ bullet }}</li>{% endfor %}</ul>{% endif %}</article>{% endfor %}{% endif %}
+      </section>
+      <section class="resume-section section-projects" data-section="projects" {% if 'projects' in hidden_sections %}hidden{% endif %}>
+        {% if cv.key_projects %}<h2>Projects</h2>{% for item in cv.key_projects %}<article><h3>{{ item.title }}</h3>{% if item.description %}<p>{{ item.description }}</p>{% endif %}{% if item.bullets %}<ul>{% for bullet in item.bullets %}<li>{{ bullet }}</li>{% endfor %}</ul>{% endif %}</article>{% endfor %}{% elif resume.projects %}<h2>Projects</h2>{% for item in resume.projects %}<article><h3>{{ item.name }}</h3><p>{{ item.description }}</p>{% if item.highlights %}<ul>{% for bullet in item.highlights %}<li>{{ bullet }}</li>{% endfor %}</ul>{% endif %}</article>{% endfor %}{% endif %}
+      </section>
+      <section class="resume-section section-education" data-section="education" {% if 'education' in hidden_sections %}hidden{% endif %}>
+        {% if resume.education %}<h2>Education</h2>{% for item in resume.education %}<article><h3>{{ item.studyType }}{% if item.area %} {{ item.area }}{% endif %}</h3><p>{{ item.institution }}</p></article>{% endfor %}{% endif %}
+      </section>
+      <section class="resume-section section-certificates" data-section="certificates" {% if 'certificates' in hidden_sections %}hidden{% endif %}>
+        {% if resume.certificates %}<h2>Certifications</h2>{% for item in resume.certificates %}<article><h3>{{ item.display|default:item.name }}</h3>{% if not item.display %}<p>{{ item.issuer }}</p>{% endif %}</article>{% endfor %}{% endif %}
+      </section>
+      <section class="resume-section section-awards" data-section="awards" {% if 'awards' in hidden_sections %}hidden{% endif %}>
+        {% if resume.awards %}<h2>Awards</h2>{% for item in resume.awards %}<article><h3>{{ item.title }}</h3><p>{{ item.awarder }}</p>{% if item.summary %}<p>{{ item.summary }}</p>{% endif %}</article>{% endfor %}{% endif %}
+      </section>
+      <section class="resume-section section-volunteer" data-section="volunteer" {% if 'volunteer' in hidden_sections %}hidden{% endif %}>
+        {% if resume.volunteer %}<h2>Volunteering</h2>{% for item in resume.volunteer %}<article><h3>{{ item.position }}{% if item.organization %} · {{ item.organization }}{% endif %}</h3><p>{{ item.summary }}</p></article>{% endfor %}{% endif %}
+      </section>
+    </main>
+  </div>
+</div>

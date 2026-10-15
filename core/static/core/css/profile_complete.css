@@ -1,0 +1,230 @@
+.back-link {
+  display: inline-flex;
+  margin-bottom: 22px;
+  color: var(--orange);
+  font-weight: 700;
+}
+
+.section-page-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  align-items: flex-start;
+  margin-bottom: 22px;
+}
+
+.section-page-header h1 {
+  margin: 4px 0 7px;
+  font: 700 clamp(1.7rem, 3vw, 2.3rem) "Montserrat", sans-serif;
+}
+
+.section-page-header p:not(.eyebrow) {
+  max-width: 720px;
+  color: var(--text-mid);
+  line-height: 1.55;
+}
+
+.eyebrow {
+  color: var(--orange);
+  font: 700 .75rem "Montserrat", sans-serif;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+}
+
+.profile-strength,
+.section-count {
+  flex: 0 0 auto;
+  padding: 7px 11px;
+  color: var(--orange);
+  background: var(--orange-pale);
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: .78rem;
+}
+
+.profile-section-card {
+  max-width: 1000px;
+  padding: 24px;
+  margin-bottom: 18px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: 0 7px 24px rgba(30, 25, 20, .05);
+}
+
+.section-heading-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.section-heading-row h2 {
+  font: 700 1rem "Montserrat", sans-serif;
+}
+
+.account-email {
+  padding: 12px 14px;
+  margin-bottom: 16px;
+  color: var(--text-mid);
+  background: var(--page-bg);
+  border-radius: 9px;
+}
+
+.entry-list {
+  display: grid;
+  gap: 11px;
+}
+
+.profile-entry {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: flex-start;
+  padding: 15px;
+  background: var(--page-bg);
+  border: 1px solid var(--border);
+  border-radius: 11px;
+}
+
+.entry-summary {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.entry-summary strong {
+  color: var(--text-dark);
+}
+
+.entry-summary span,
+.entry-summary small {
+  overflow-wrap: anywhere;
+  color: var(--text-mid);
+}
+
+.needs-confirmation {
+  color: #8a5d00 !important;
+  font-size: .78rem;
+}
+
+.entry-actions {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.entry-actions summary,
+.add-entry > summary {
+  color: var(--orange);
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.entry-actions details[open] {
+  width: min(570px, 65vw);
+}
+
+.chip-list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.profile-chip {
+  width: auto;
+  background: var(--orange-pale);
+  border-radius: 999px;
+}
+
+.empty-copy {
+  padding: 12px 0;
+  color: var(--text-light);
+}
+
+.add-card {
+  border-style: dashed;
+}
+
+.section-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 13px 16px;
+  margin-top: 16px;
+}
+
+.section-form p {
+  margin: 0;
+}
+
+.section-form label {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--text-mid);
+  font-weight: 600;
+}
+
+.section-form input:not([type="checkbox"]),
+.section-form select,
+.section-form textarea {
+  width: 100%;
+  padding: 10px 12px;
+  color: var(--text-dark);
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font: inherit;
+}
+
+.section-form textarea {
+  resize: vertical;
+}
+
+.section-form .errorlist {
+  margin: 0 0 5px;
+  padding-left: 18px;
+  color: #b42318;
+}
+
+.section-form .helptext {
+  display: block;
+  margin-top: 4px;
+  color: var(--text-light);
+  font-size: .8rem;
+}
+
+.save-btn,
+.delete-btn {
+  width: auto;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.save-btn {
+  justify-self: start;
+  padding: 10px 16px;
+  color: #fff;
+  background: var(--orange);
+  border: 1px solid var(--orange);
+}
+
+.delete-btn {
+  padding: 3px 5px;
+  color: #a33b27;
+  background: transparent;
+  border: 0;
+}
+
+.compact-form {
+  padding-top: 5px;
+}
+
+@media (max-width: 760px) {
+  .section-page-header { display: grid; }
+  .profile-section-card { padding: 18px; }
+  .profile-entry { display: grid; }
+  .entry-actions { flex-wrap: wrap; }
+  .entry-actions details,
+  .entry-actions details[open] { width: 100%; }
+  .section-form { grid-template-columns: 1fr; }
+}

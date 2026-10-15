@@ -1,0 +1,15 @@
+{% extends 'employers/base.html' %}{% block content %}
+<p class="eyebrow">Employer workspace</p><h1>Jobs</h1>
+{% if attention %}<section class="card"><h2>Needs your attention</h2><ul>{% for item in attention %}<li>{{ item }}</li>{% endfor %}</ul></section>{% endif %}
+<p>Availability reflects the live CareerGPS listing, not just its saved publication state.</p>
+<p>Active vacancies: {{ metrics.0.1 }}{% if overdue_tasks %} &middot; <strong>{{ overdue_tasks }} overdue hiring task{{ overdue_tasks|pluralize }}</strong>{% endif %}</p>
+{% if 'vacancy' in permissions %}<a class="button" href="{% url 'employers:vacancy_create' organization.id %}">Post a job</a>{% endif %}
+<nav class="talent-nav" aria-label="Job groups"><a href="#active">Active</a><a href="#closing">Closing soon</a><a href="#draft">Draft</a><a href="#hold">On hold</a><a href="#closed">Closed</a></nav>
+{% for key, rows in groups.items %}<section id="{{ key }}"><h2>{{ key|capfirst }} <small>{{ rows|length }}</small></h2>
+{% for vacancy in rows %}<article class="card"><h3><a href="{% url 'employers:job_detail' organization.id vacancy.id %}">{{ vacancy.title }}</a></h3>
+<p>{{ vacancy.location }}{% if vacancy.work_arrangement %} &middot; {{ vacancy.get_work_arrangement_display }}{% endif %} &middot; <strong>{{ vacancy.ui.label }}</strong>{% if vacancy.closing_date %} &middot; Closes {{ vacancy.closing_date|date:'d M Y' }}{% endif %}</p>
+<p>{{ vacancy.applicant_count }} application{{ vacancy.applicant_count|pluralize }}{% if vacancy.shortlisted_count %} &middot; {{ vacancy.shortlisted_count }} shortlisted{% endif %}{% if vacancy.new_count %} &middot; <strong>{{ vacancy.new_count }} awaiting first review</strong>{% endif %}</p>
+<div class="actions"><a href="{% url 'employers:job_detail' organization.id vacancy.id %}">View</a><a href="{% url 'employers:vacancy_applicants' organization.id vacancy.id %}">View applications</a>{% if 'vacancy' in permissions %}<a href="{% url 'employers:vacancy_edit' organization.id vacancy.id %}">Edit</a>{% endif %}</div>
+</article>{% empty %}<p>No {{ key }} jobs.</p>{% endfor %}</section>{% endfor %}
+{% if not job_count %}<p>No jobs yet. Start with a vacancy to prepare a draft.</p>{% endif %}
+<details class="card"><summary>Recent hiring activity</summary>{% for event in activities %}<p>{{ event.label }} &middot; {{ event.created_at|date:'d M Y H:i' }}</p>{% empty %}<p>No activity yet.</p>{% endfor %}<a href="{% url 'employers:activity' organization.id %}">Full activity history</a></details>{% endblock %}

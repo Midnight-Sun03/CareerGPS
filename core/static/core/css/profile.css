@@ -1,0 +1,169 @@
+.profile-hub-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 190px;
+  gap: 28px;
+  align-items: center;
+  margin-bottom: 28px;
+}
+
+.profile-hub-header h1 {
+  margin: 4px 0 8px;
+  font: 700 clamp(1.8rem, 3vw, 2.5rem) "Montserrat", sans-serif;
+}
+
+.eyebrow {
+  color: var(--orange);
+  font: 700 .75rem "Montserrat", sans-serif;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+}
+
+.profile-intro {
+  max-width: 760px;
+  color: var(--text-mid);
+  line-height: 1.65;
+}
+
+.strength-card,
+.profile-progress,
+.profile-tile {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+}
+
+.strength-card {
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(30, 25, 20, .06);
+}
+
+.strength-card strong {
+  display: block;
+  color: var(--orange);
+  font: 700 2rem "Montserrat", sans-serif;
+}
+
+.strength-card > span {
+  color: var(--text-mid);
+  font-size: .84rem;
+}
+
+.strength-track {
+  height: 7px;
+  margin-top: 12px;
+  overflow: hidden;
+  background: var(--orange-pale);
+  border-radius: 999px;
+}
+
+.strength-track span {
+  display: block;
+  height: 100%;
+  background: var(--orange);
+  border-radius: inherit;
+}
+
+.profile-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.profile-tile {
+  position: relative;
+  display: flex;
+  min-height: 176px;
+  padding: 22px;
+  flex-direction: column;
+  color: var(--text-dark);
+  box-shadow: 0 5px 18px rgba(30, 25, 20, .04);
+  transition: border-color .18s, box-shadow .18s, transform .18s;
+}
+
+.profile-tile:hover {
+  border-color: var(--orange);
+  box-shadow: 0 10px 26px rgba(232, 101, 26, .12);
+  transform: translateY(-2px);
+}
+
+.profile-tile h2 {
+  margin: 18px 0 7px;
+  font: 700 1.05rem "Montserrat", sans-serif;
+}
+
+.profile-tile p {
+  display: -webkit-box;
+  overflow: hidden;
+  color: var(--text-mid);
+  font-size: .9rem;
+  line-height: 1.5;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.tile-status {
+  align-self: flex-start;
+  padding: 5px 9px;
+  color: var(--text-light);
+  background: var(--page-bg);
+  border-radius: 999px;
+  font: 700 .7rem "Montserrat", sans-serif;
+  text-transform: uppercase;
+}
+
+.tile-status.complete {
+  color: #287247;
+  background: #eaf7ef;
+}
+
+.tile-count {
+  display: flex;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 17px;
+  color: var(--orange);
+  font-weight: 700;
+  font-size: .84rem;
+}
+
+.profile-progress {
+  display: grid;
+  grid-template-columns: minmax(220px, .7fr) minmax(0, 1.3fr);
+  gap: 28px;
+  margin-top: 24px;
+  padding: 24px;
+}
+
+.profile-progress h2 {
+  margin-top: 5px;
+  font: 700 1.1rem "Montserrat", sans-serif;
+}
+
+.progress-checklist {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px 18px;
+}
+
+.progress-item {
+  color: var(--text-light);
+  font-size: .85rem;
+}
+
+.progress-item.complete {
+  color: #287247;
+  font-weight: 600;
+}
+
+@media (max-width: 1050px) {
+  .profile-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 680px) {
+  .profile-hub-header,
+  .profile-progress { grid-template-columns: 1fr; }
+  .strength-card { text-align: left; }
+  .profile-grid { grid-template-columns: 1fr; }
+  .progress-checklist { grid-template-columns: 1fr; }
+}

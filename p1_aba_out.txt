@@ -1,0 +1,126 @@
+
+==============================================================================
+SNAPSHOT: BASELINE (expected broken: intent A / feed B)  (2026-10-08T00:34:36.575987+00:00)
+==============================================================================
+target_roles='Accountant' updated_at=2026-10-07 17:14:33.825872+00:00
+feed: state=READY pending='' active_generation_id=29 updated_at=2026-10-07 17:11:10.527913+00:00
+active generation: id=29 state=ACTIVE build_reason='careerpreference_changed' evals=3 intent_hash=7a42a78038186af8... matches_current_intent=False
+current intent fingerprint: 4c545dc66448245a...
+_authoritative_feed_ready: False
+target resolutions: 8:'Data Engineer'
+
+==============================================================================
+TASKS: baseline
+==============================================================================
+  task=5420 provisional-v1 COMPLETE att=0 product_gen=None err='' superseded=None reason=''
+  task=5419 feed-v2 COMPLETE att=3 product_gen=29 err='' superseded=None reason=''
+  task=5411 feed-v2 COMPLETE att=1 product_gen=26 err='' superseded=None reason=''
+  task=5410 feed-v2 FAILED att=3 product_gen=None err='Worker lease expired before completion.' superseded=None reason=''
+  task=5409 feed-v2 SUPERSEDED att=0 product_gen=None err='' superseded=2026-10-01 18:10:57.489685+00:00 reason='A newer complete-profile rebuild superseded this task.'
+  task=5395 feed-v2 COMPLETE att=1 product_gen=23 err='' superseded=None reason=''
+
+==============================================================================
+GENERATIONS: baseline
+==============================================================================
+  gen=5 state=COMPLETE reason='' evals=0 intent=... activated=None superseded=None
+  gen=11 state=COMPLETE reason='' evals=0 intent=... activated=None superseded=None
+  gen=14 state=SUPERSEDED reason='block2_shadow_backfill' evals=0 intent=c59010e4c49bde25... activated=2026-09-23 16:20:30.267563+00:00 superseded=2026-09-23 16:32:46.481484+00:00
+  gen=17 state=SUPERSEDED reason='block2_shadow_backfill' evals=0 intent=c59010e4c49bde25... activated=2026-09-23 16:32:46.481484+00:00 superseded=2026-09-23 16:49:22.275623+00:00
+  gen=20 state=SUPERSEDED reason='block2_shadow_backfill' evals=0 intent=c59010e4c49bde25... activated=2026-09-23 16:49:22.275623+00:00 superseded=2026-10-01 04:43:04.421394+00:00
+  gen=23 state=SUPERSEDED reason='active_clean_revision_changed' evals=1150 intent=4c545dc66448245a... activated=2026-10-01 04:43:04.421394+00:00 superseded=2026-10-02 02:32:43.198518+00:00
+  gen=26 state=SUPERSEDED reason='careerpreference_changed' evals=1143 intent=4c545dc66448245a... activated=2026-10-02 02:32:43.198518+00:00 superseded=2026-10-07 17:11:10.507172+00:00
+  gen=29 state=ACTIVE reason='careerpreference_changed' evals=3 intent=7a42a78038186af8... activated=2026-10-07 17:11:10.507172+00:00 superseded=None
+DASHBOARD [baseline]: status=200 linked_ids=['158', '160', '4831', '51', '5121'] h3_titles=['\n                                Notifications\n                            ']
+baseline feed size: 5
+
+==============================================================================
+STEP 1: POST target -> Data Engineer
+==============================================================================
+POST target_roles -> 'Data Engineer': status=302 location=/profile/career-preferences/ duration=0.16s
+CareerPreference now: target_roles='Data Engineer' (matches requested: True)
+drain [step 1]: join_worker=True after 10.1s (running=False)
+
+==============================================================================
+SNAPSHOT: AFTER STEP 1 (expect READY for Data Engineer)  (2026-10-08T00:35:02.268128+00:00)
+==============================================================================
+target_roles='Data Engineer' updated_at=2026-10-08 00:34:51.859554+00:00
+feed: state=READY pending='' active_generation_id=29 updated_at=2026-10-07 17:11:10.527913+00:00
+active generation: id=29 state=ACTIVE build_reason='careerpreference_changed' evals=3 intent_hash=7a42a78038186af8... matches_current_intent=True
+current intent fingerprint: 7a42a78038186af8...
+_authoritative_feed_ready: True
+target resolutions: 8:'Data Engineer'
+
+==============================================================================
+TASKS: after step 1
+==============================================================================
+  task=5421 provisional-v1 COMPLETE att=0 product_gen=None err='' superseded=None reason=''
+  task=5420 provisional-v1 COMPLETE att=0 product_gen=None err='' superseded=None reason=''
+  task=5419 feed-v2 COMPLETE att=3 product_gen=29 err='' superseded=None reason=''
+  task=5411 feed-v2 COMPLETE att=1 product_gen=26 err='' superseded=None reason=''
+  task=5410 feed-v2 FAILED att=3 product_gen=None err='Worker lease expired before completion.' superseded=None reason=''
+  task=5409 feed-v2 SUPERSEDED att=0 product_gen=None err='' superseded=2026-10-01 18:10:57.489685+00:00 reason='A newer complete-profile rebuild superseded this task.'
+DASHBOARD [step1-B]: status=200 linked_ids=['158', '160', '51'] h3_titles=['\n                                Notifications\n                            ']
+STEP1 VALID (target B + READY + authoritative): True
+
+==============================================================================
+STEP 2: POST target -> Accountant (historical COMPLETE task exists)
+==============================================================================
+POST target_roles -> 'Accountant': status=302 location=/profile/career-preferences/ duration=0.48s
+CareerPreference now: target_roles='Accountant' (matches requested: True)
+immediately after POST: feed state='UPDATING_INTENT' pending='intent_resolving:careerpreference_changed'
+fresh PENDING tasks: 5422(key=feed-v2:profile:9:d611317970ced49ad25f81...)
+historical task 5411: state='SUPERSEDED' supersession_reason='Completed product is no longer the active generation; a fresh rebuild is required.'
+drain [step 2]: join_worker=True after 15.8s (running=False)
+
+==============================================================================
+SNAPSHOT: AFTER STEP 2 (expect READY for Accountant)  (2026-10-08T00:35:27.661412+00:00)
+==============================================================================
+target_roles='Accountant' updated_at=2026-10-08 00:35:11.334832+00:00
+feed: state=READY pending='' active_generation_id=30 updated_at=2026-10-08 00:35:27.343022+00:00
+active generation: id=30 state=ACTIVE build_reason='careerpreference_changed' evals=7 intent_hash=4c545dc66448245a... matches_current_intent=True
+current intent fingerprint: 4c545dc66448245a...
+_authoritative_feed_ready: True
+target resolutions: 8:'Accountant'
+
+==============================================================================
+TASKS: after step 2
+==============================================================================
+  task=5422 feed-v2 COMPLETE att=1 product_gen=30 err='' superseded=None reason=''
+  task=5421 provisional-v1 COMPLETE att=0 product_gen=None err='' superseded=None reason=''
+  task=5420 provisional-v1 COMPLETE att=0 product_gen=None err='' superseded=None reason=''
+  task=5419 feed-v2 COMPLETE att=3 product_gen=29 err='' superseded=None reason=''
+  task=5411 feed-v2 SUPERSEDED att=1 product_gen=26 err='' superseded=2026-10-08 00:35:11.734389+00:00 reason='Completed product is no longer the active generation; a fresh rebuild is required.'
+  task=5410 feed-v2 FAILED att=3 product_gen=None err='Worker lease expired before completion.' superseded=None reason=''
+
+==============================================================================
+GENERATIONS: after step 2
+==============================================================================
+  gen=5 state=COMPLETE reason='' evals=0 intent=... activated=None superseded=None
+  gen=11 state=COMPLETE reason='' evals=0 intent=... activated=None superseded=None
+  gen=14 state=SUPERSEDED reason='block2_shadow_backfill' evals=0 intent=c59010e4c49bde25... activated=2026-09-23 16:20:30.267563+00:00 superseded=2026-09-23 16:32:46.481484+00:00
+  gen=17 state=SUPERSEDED reason='block2_shadow_backfill' evals=0 intent=c59010e4c49bde25... activated=2026-09-23 16:32:46.481484+00:00 superseded=2026-09-23 16:49:22.275623+00:00
+  gen=20 state=SUPERSEDED reason='block2_shadow_backfill' evals=0 intent=c59010e4c49bde25... activated=2026-09-23 16:49:22.275623+00:00 superseded=2026-10-01 04:43:04.421394+00:00
+  gen=23 state=SUPERSEDED reason='active_clean_revision_changed' evals=1150 intent=4c545dc66448245a... activated=2026-10-01 04:43:04.421394+00:00 superseded=2026-10-02 02:32:43.198518+00:00
+  gen=26 state=SUPERSEDED reason='careerpreference_changed' evals=1143 intent=4c545dc66448245a... activated=2026-10-02 02:32:43.198518+00:00 superseded=2026-10-07 17:11:10.507172+00:00
+  gen=29 state=SUPERSEDED reason='careerpreference_changed' evals=3 intent=7a42a78038186af8... activated=2026-10-07 17:11:10.507172+00:00 superseded=2026-10-08 00:35:27.331122+00:00
+  gen=30 state=ACTIVE reason='careerpreference_changed' evals=7 intent=4c545dc66448245a... activated=2026-10-08 00:35:27.331122+00:00 superseded=None
+DASHBOARD [step2-A]: status=200 linked_ids=['5433', '5434', '5436', '5437', '5439'] h3_titles=['\n                                Notifications\n                            ']
+
+==============================================================================
+VERDICTS
+==============================================================================
+  [PASS] S2a target is Accountant
+  [PASS] S2b feed READY
+  [PASS] S2c pending cleared
+  [PASS] S2d active generation changed from B
+  [PASS] S2e active generation is ACTIVE
+  [PASS] S2f active intent matches Accountant
+  [PASS] S2g authoritative feed ready
+  [PASS] S2h stale COMPLETE row superseded (5411)
+  [PASS] S2i fresh task was created after POST
+  [PASS] S2j resolutions are Accountant only
+  [PASS] S2k dashboard links changed from B phase
+dashboard ids B phase: ['158', '160', '51']
+dashboard ids A phase: ['5433', '5434', '5436', '5437', '5439']
+dashboard titles A phase: ['\n                                Notifications\n                            ']
+PHASE2_ABA_DONE rc=0

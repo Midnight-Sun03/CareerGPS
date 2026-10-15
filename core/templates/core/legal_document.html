@@ -1,0 +1,21 @@
+{% extends 'public_pages.html' %}
+{% block title %}{{ document.title }} | CareerGPS{% endblock %}
+{% block content %}
+<main class="legal-page">
+  <h1>{{ document.title }}</h1>
+  <p>Version {{ document.version }}</p>
+  {% for heading, paragraphs in document.sections %}
+    <section>
+      <h2>{{ heading }}</h2>
+      {% for paragraph in paragraphs %}<p>{{ paragraph }}</p>{% endfor %}
+    </section>
+  {% endfor %}
+  <section>
+    <h2>Operator and contact details</h2>
+    <dl class="fact-list">
+      {% for label, value in operator_facts %}<dt>{{ label }}</dt><dd>{{ value }}</dd>{% endfor %}
+    </dl>
+  </section>
+  <p><a href="{% url 'contact' %}">Contact CareerGPS or make a privacy request</a></p>
+</main>
+{% endblock %}

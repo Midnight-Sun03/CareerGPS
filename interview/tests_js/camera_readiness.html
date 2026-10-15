@@ -1,0 +1,72 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>CareerGPS head-only camera readiness test</title>
+<body>RUNNING</body>
+<script type="module">
+import {CameraAnalysisController} from "../static/interview/js/camera_analysis.js";
+
+const point = (x, y) => ({x, y, z: 0, visibility: 1});
+const face = {
+    nose: point(.5, .2), leftEye: point(.46, .17), rightEye: point(.54, .17),
+    forehead: point(.5, .09), chin: point(.5, .31),
+};
+let frameCount = 0;
+let readyCalls = 0;
+const messages = [];
+const status = {
+    set textContent(value) { messages.push(value); },
+    get textContent() { return messages.at(-1); },
+};
+const video = {
+    srcObject: null, videoWidth: 640, videoHeight: 480, readyState: 4,
+    play: async () => {}, addEventListener: () => {}, removeEventListener: () => {},
+};
+const track = {addEventListener: () => {}, stop: () => {}};
+Object.defineProperty(navigator, "mediaDevices", {
+    configurable: true,
+    value: {getUserMedia: async () => ({getVideoTracks: () => [track], getTracks: () => [track]})},
+});
+window.createImageBitmap = async () => ({close: () => {}});
+window.Worker = class {
+    postMessage(message) {
+        if (message.type === "init") {
+            queueMicrotask(() => this.onmessage({data: {type: "ready"}}));
+        } else if (message.type === "frame") {
+            frameCount += 1;
+            this.onmessage({data: {
+                type: "observation", inferenceMs: 1, pose: null,
+                face: frameCount <= 3 ? null : face,
+            }});
+            this.onmessage({data: {type: "frame_complete"}});
+        }
+    }
+    terminate() {}
+};
+
+const button = {disabled: true};
+const controller = new CameraAnalysisController({
+    video, status, readyButton: button, onReady: () => { readyCalls += 1; },
+    workerUrl: "worker", bundleUrl: "bundle", wasmRootUrl: "wasm",
+    poseModelUrl: "pose", faceModelUrl: "face",
+});
+try {
+    if (!await controller.setup()) throw new Error("setup failed");
+    await new Promise(resolve => setTimeout(resolve, 1250));
+    if (!messages.some(message => message.includes("Move your face into the preview"))) {
+        throw new Error("missing head guidance was not shown");
+    }
+    if (!controller.isReady || button.disabled || readyCalls !== 1) {
+        throw new Error("head-only frames did not enable the interview");
+    }
+    if (!status.textContent.includes("Camera Analysis READY")) {
+        throw new Error("READY status was not shown");
+    }
+    document.body.textContent = "PASS: head-only controller readiness after real frame observations";
+} catch (error) {
+    document.body.textContent = `FAIL: ${error.message}`;
+    throw error;
+} finally {
+    controller.finishSetup();
+    controller.close();
+}
+</script>

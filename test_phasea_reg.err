@@ -1,0 +1,24 @@
+Creating test database for alias 'default'...
+System check identified some issues:
+
+WARNINGS:
+?: (careergps.W001) Public operator/contact details are incomplete: CAREERGPS_OPERATOR_NAME, CAREERGPS_OPERATOR_LEGAL_STATUS, CAREERGPS_OPERATOR_PHYSICAL_ADDRESS, CAREERGPS_OPERATOR_LEGAL_SERVICE_ADDRESS, CAREERGPS_OPERATOR_TELEPHONE, CAREERGPS_CONTACT_EMAIL, CAREERGPS_PRIVACY_EMAIL, CAREERGPS_INFORMATION_OFFICER.
+	HINT: Supply verified owner facts before public production launch; review registration details and Information Officer information where applicable.
+
+System check identified 1 issue (0 silenced).
+..............................F...............................................
+======================================================================
+FAIL: test_unrelated_job_stays_visible_as_tier_zero_band_f (core.test_feed_v2.FeedV2PresentationTests.test_unrelated_job_stays_visible_as_tier_zero_band_f)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\CG\core\test_feed_v2.py", line 696, in test_unrelated_job_stays_visible_as_tier_zero_band_f
+    self.assertContains(dashboard, catalogue_title)
+  File "D:\CG\.venv\Lib\site-packages\django\test\testcases.py", line 660, in assertContains
+    self.assertTrue(
+AssertionError: False is not true : Couldn't find 'Warehouse Clerk' in response
+
+----------------------------------------------------------------------
+Ran 78 tests in 68.002s
+
+FAILED (failures=1)
+Destroying test database for alias 'default'...

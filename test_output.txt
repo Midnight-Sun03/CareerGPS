@@ -1,0 +1,3 @@
+Found 8 test(s).
+Creating test database for alias 'default'...
+

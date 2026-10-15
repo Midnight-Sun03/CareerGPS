@@ -1,0 +1,640 @@
+{% extends "dashboard_pages.html" %}
+
+{% block title %}
+CareerGPS - Prepare Interview
+{% endblock %}
+
+{% block content %}
+<style>
+.prepare-page {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+}
+
+.back-link {
+    color: #667085;
+    text-decoration: none;
+}
+
+.eyebrow {
+    margin-top: 1.5rem;
+    color: #E8612A;
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    font-size: .72rem;
+    font-weight: 800;
+}
+
+.prepare-page h1 {
+    margin: .4rem 0;
+    font-size: 2rem;
+}
+
+.job-meta {
+    color: #667085;
+    margin-bottom: 1.8rem;
+}
+
+.prepare-card {
+    background: #fff;
+    border: 1px solid rgba(0,0,0,.09);
+    border-radius: 16px;
+    padding: 1.4rem;
+    margin-bottom: 1rem;
+}
+
+.prepare-card h2 {
+    margin: 0 0 .9rem;
+    font-size: 1.05rem;
+}
+
+.delivery-options {
+    display: none;
+}
+
+.camera-options {
+    display: none;
+}
+
+.camera-consent {
+    display: none;
+    margin-top: 1rem;
+    padding: .85rem;
+    border-radius: 12px;
+    background: #f7f8fa;
+}
+
+.mode-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: .8rem;
+}
+
+.mode-card {
+    display: block;
+    border: 1px solid rgba(0,0,0,.12);
+    border-radius: 14px;
+    padding: 1rem;
+    cursor: pointer;
+}
+
+.mode-card.active {
+    border-color: #E8612A;
+    box-shadow:
+        0 0 0 2px rgba(232,97,42,.10);
+}
+
+.mode-card p {
+    margin: .45rem 0 0;
+    color: #667085;
+    font-size: .86rem;
+    line-height: 1.5;
+}
+
+.lengths {
+    display: flex;
+    gap: .65rem;
+    flex-wrap: wrap;
+}
+
+.length-btn {
+    border: 1px solid rgba(0,0,0,.12);
+    background: #fff;
+    border-radius: 999px;
+    padding: .65rem .9rem;
+    cursor: pointer;
+}
+
+.length-btn.active {
+    background: #E8612A;
+    color: #fff;
+    border-color: #E8612A;
+}
+
+.consent {
+    display: block;
+    line-height: 1.55;
+    color: #475467;
+    font-size: .88rem;
+}
+
+.start-btn {
+    width: 100%;
+    border: 0;
+    background: #E8612A;
+    color: #fff;
+    border-radius: 999px;
+    padding: .95rem 1rem;
+    font-size: 1rem;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.start-btn:disabled {
+    opacity: .55;
+    cursor: not-allowed;
+}
+
+.message {
+    display: none;
+    margin-bottom: 1rem;
+    padding: .8rem 1rem;
+    background: #fff3ef;
+    color: #9d3515;
+    border: 1px solid #ffd1c2;
+    border-radius: 12px;
+}
+
+@media (max-width: 620px) {
+    .mode-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+
+
+<div class="prepare-page">
+
+    <a
+        class="back-link"
+        href="{% url 'interview_home' %}"
+    >
+        ← Back to Interview Practice
+    </a>
+
+    <div class="eyebrow">
+        {% if source_type == "application" %}
+            Application Workspace
+        {% else %}
+            Saved Opportunity
+        {% endif %}
+    </div>
+
+    <h1>
+        {{ opportunity.active_clean_revision.cleaned_title }}
+    </h1>
+
+    <div class="job-meta">
+        {{ opportunity.active_clean_revision.company }}
+
+        {% if opportunity.active_clean_revision.location %}
+            ·
+            {{ opportunity.active_clean_revision.location }}
+        {% endif %}
+    </div>
+
+    <div
+        class="message"
+        id="message"
+    ></div>
+
+
+    <section class="prepare-card">
+
+        <h2>
+            How would you like to practise?
+        </h2>
+
+        <div class="mode-grid">
+
+            <label
+                class="mode-card active"
+                id="writtenChoice"
+            >
+
+                <input
+                    type="radio"
+                    name="mode"
+                    value="written"
+                    checked
+                >
+
+                <strong>
+                    Written interview
+                </strong>
+
+                <p>
+                    Type your answers one question
+                    at a time and receive feedback
+                    after the interview.
+                </p>
+
+            </label>
+
+
+            <label
+                class="mode-card"
+                id="voiceChoice"
+            >
+
+                <input
+                    type="radio"
+                    name="mode"
+                    value="voice"
+                >
+
+                <strong>
+                    Spoken interview
+                </strong>
+
+                <p>
+                    Answer each question naturally using
+                    your microphone, then review transcript
+                    accuracy after the full interview.
+                </p>
+
+            </label>
+
+        </div>
+
+    </section>
+
+
+    <section
+        class="prepare-card camera-options"
+        id="cameraOptions"
+    >
+        <h2>Optional camera practice</h2>
+
+        <div class="mode-grid">
+            <label class="mode-card active">
+                <input type="radio" name="cameraMode" value="audio_only" checked>
+                <strong>Audio only</strong>
+                <p>Practise with the existing microphone and transcript flow.</p>
+            </label>
+
+            <label class="mode-card">
+                <input type="radio" name="cameraMode" value="camera_analysis">
+                <strong>Audio + Visual Interview Coaching</strong>
+                <p>Keep your face visible for head and framing coaching. Visible shoulders, hips, or hands may add optional observations; full-body framing is not required.</p>
+            </label>
+        </div>
+
+        <label class="consent camera-consent" id="cameraConsentPanel">
+            <input type="checkbox" id="cameraConsent">
+            I consent to camera frames being analysed locally in this browser during each answer. CareerGPS stores only compact measurements and coaching results; it does not upload or store video, frames, or face and pose landmarks.
+        </label>
+
+        <p class="job-meta">Camera coaching is optional and private. Missing optional body landmarks never creates a zero score. You can continue with audio only if setup fails.</p>
+    </section>
+
+
+    <section
+        class="prepare-card delivery-options"
+        id="deliveryOptions"
+    >
+        <h2>Question delivery</h2>
+
+        <div class="mode-grid">
+            <label class="mode-card active">
+                <input type="radio" name="questionDelivery" value="text_only" checked>
+                <strong>Text only</strong>
+                <p>Read each exact interview question on screen.</p>
+            </label>
+
+            <label class="mode-card">
+                <input type="radio" name="questionDelivery" value="voice_only">
+                <strong>Interviewer voice</strong>
+                <p>Hear each exact question. The text remains available for accessibility.</p>
+            </label>
+
+            <label class="mode-card">
+                <input type="radio" name="questionDelivery" value="text_voice">
+                <strong>Text + interviewer voice</strong>
+                <p>See and hear the same stored question.</p>
+            </label>
+        </div>
+
+        <p class="job-meta">
+            If voice playback is unavailable, every question remains readable.
+        </p>
+    </section>
+
+
+    <section class="prepare-card">
+
+        <h2>
+            Interview length
+        </h2>
+
+        <div class="lengths">
+
+            <button
+                type="button"
+                class="length-btn active"
+                data-count="5"
+            >
+                Standard · 5
+            </button>
+
+            <button
+                type="button"
+                class="length-btn"
+                data-count="8"
+            >
+                Full · 8
+            </button>
+
+            <button
+                type="button"
+                class="length-btn"
+                data-count="10"
+            >
+                Extended · 10
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <section class="prepare-card">
+
+        <label class="consent">
+
+            <input
+                type="checkbox"
+                id="popiaConsent"
+            >
+
+            I consent to CareerGPS processing my
+            verified profile information and interview
+            responses for AI-powered interview practice.
+
+            <span id="voiceConsentText">
+                If I choose voice practice, this also
+                includes my interview audio and transcript.
+            </span>
+
+        </label>
+
+    </section>
+
+
+    <button
+        class="start-btn"
+        id="startBtn"
+    >
+        Prepare interview
+    </button>
+
+</div>
+
+
+<script>
+const CSRF = "{{ csrf_token }}";
+const OPPORTUNITY_ID = {{ opportunity.id }};
+
+let questionCount = 5;
+
+
+function selectedMode() {
+    return document.querySelector(
+        'input[name="mode"]:checked'
+    ).value;
+}
+
+
+function refreshModeCards() {
+    const mode = selectedMode();
+
+    document
+        .getElementById("writtenChoice")
+        .classList.toggle(
+            "active",
+            mode === "written"
+        );
+
+    document
+        .getElementById("voiceChoice")
+        .classList.toggle(
+            "active",
+            mode === "voice"
+        );
+
+    document.getElementById(
+        "deliveryOptions"
+    ).style.display = mode === "voice"
+        ? "block"
+        : "none";
+
+    document.getElementById(
+        "cameraOptions"
+    ).style.display = mode === "voice"
+        ? "block"
+        : "none";
+}
+
+
+function selectedDelivery() {
+    const selected = document.querySelector(
+        'input[name="questionDelivery"]:checked'
+    );
+    return selected ? selected.value : "text_only";
+}
+
+
+function selectedCameraMode() {
+    if (selectedMode() !== "voice") return "audio_only";
+    const selected = document.querySelector('input[name="cameraMode"]:checked');
+    return selected ? selected.value : "audio_only";
+}
+
+
+document
+    .querySelectorAll(
+        'input[name="mode"]'
+    )
+    .forEach(input => {
+        input.addEventListener(
+            "change",
+            refreshModeCards
+        );
+    });
+
+
+document
+    .querySelectorAll('input[name="questionDelivery"]')
+    .forEach(input => {
+        input.addEventListener("change", () => {
+            const selected = document.querySelector(
+                'input[name="questionDelivery"]:checked'
+            );
+            document
+                .querySelectorAll("#deliveryOptions .mode-card")
+                .forEach(card => card.classList.toggle(
+                    "active",
+                    card.contains(selected)
+                ));
+        });
+    });
+
+
+document
+    .querySelectorAll('input[name="cameraMode"]')
+    .forEach(input => {
+        input.addEventListener("change", () => {
+            const selected = document.querySelector('input[name="cameraMode"]:checked');
+            document
+                .querySelectorAll("#cameraOptions .mode-card")
+                .forEach(card => card.classList.toggle("active", card.contains(selected)));
+            document.getElementById("cameraConsentPanel").style.display =
+                selectedCameraMode() === "camera_analysis" ? "block" : "none";
+        });
+    });
+
+
+document
+    .querySelectorAll(
+        ".length-btn"
+    )
+    .forEach(button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                document
+                    .querySelectorAll(
+                        ".length-btn"
+                    )
+                    .forEach(item =>
+                        item.classList.remove(
+                            "active"
+                        )
+                    );
+
+                button.classList.add(
+                    "active"
+                );
+
+                questionCount = Number(
+                    button.dataset.count
+                );
+            }
+        );
+    });
+
+
+function showMessage(message) {
+    const element =
+        document.getElementById(
+            "message"
+        );
+
+    element.textContent = message;
+    element.style.display = "block";
+}
+
+
+document
+    .getElementById("startBtn")
+    .addEventListener(
+        "click",
+        async () => {
+
+            const button =
+                document.getElementById(
+                    "startBtn"
+                );
+
+            const consent =
+                document.getElementById(
+                    "popiaConsent"
+                ).checked;
+
+            const mode = selectedMode();
+            const cameraMode = selectedCameraMode();
+            const cameraConsent = document.getElementById("cameraConsent").checked;
+
+            document.getElementById(
+                "message"
+            ).style.display = "none";
+
+            if (!consent) {
+                showMessage(
+                    "Please consent to interview processing before continuing."
+                );
+                return;
+            }
+
+            if (cameraMode === "camera_analysis" && !cameraConsent) {
+                showMessage(
+                    "Please consent to local camera analysis or choose audio only."
+                );
+                return;
+            }
+
+            button.disabled = true;
+            button.textContent =
+                "Preparing interview…";
+
+            try {
+
+                const response = await fetch(
+                    "{% url 'api_create_interview' %}",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json",
+
+                            "X-CSRFToken":
+                                CSRF,
+                        },
+
+                        body: JSON.stringify({
+                            opportunityId:
+                                OPPORTUNITY_ID,
+
+                            mode: mode,
+
+                            questionCount:
+                                questionCount,
+
+                            questionDelivery:
+                                selectedDelivery(),
+
+                            popiaConsent:
+                                true,
+
+                            cameraMode:
+                                cameraMode,
+
+                            cameraConsent:
+                                cameraMode === "camera_analysis" && cameraConsent,
+                        }),
+                    }
+                );
+
+                const data =
+                    await response.json();
+
+                if (!response.ok) {
+                    throw new Error(
+                        data.message
+                        ||
+                        "CareerGPS could not prepare the interview."
+                    );
+                }
+
+                window.location.href =
+                    data.liveUrl;
+
+            } catch (error) {
+
+                showMessage(
+                    error.message
+                );
+
+                button.disabled = false;
+                button.textContent =
+                    "Prepare interview";
+            }
+        }
+    );
+</script>
+
+{% endblock %}

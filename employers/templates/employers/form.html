@@ -1,0 +1,1 @@
+{% extends 'employers/base.html' %}{% block content %}<h1>{{ title }}</h1>{% if intro %}<p>{{ intro }}</p>{% endif %}<form class="card editor" method="post">{% csrf_token %}{{ form.as_p }}<button>{{ button }}</button></form>{% endblock %}

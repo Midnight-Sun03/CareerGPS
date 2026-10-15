@@ -1,0 +1,31 @@
+=== APPLIED MIGRATIONS PER APP ===
+admin 3
+applications 6
+auth 12
+contenttypes 2
+core 23
+employers 8
+ingestion 14
+interview 5
+sessions 1
+TOTAL_APPLIED 74
+=== OPPORTUNITY STATUS DIST ===
+lifecycle_status {'active': 2347, 'expired': 128, 'removed': 195}
+is_active {True: 2347, False: 323}
+scope_status {'unclassified': 2587, 'in_scope': 83}
+listing_kind {'vacancy': 2649, 'pipeline': 4, 'talent_pool': 17}
+professionally_ready 1977
+with_active_clean_rev 2421
+=== RELATIONSHIP ASSESSMENT final_class ===
+{'RELATED': 7, 'UNRESOLVED': 2906, 'EXACT': 14, 'TITLE_MATCH': 1}
+=== PROFILE FEED EVALUATION (v2) discovery_category ===
+{'EXACT': 24, 'RELATED': 14, 'UNRESOLVED': 2290}
+=== LEGACY ProfileOpportunityEvaluation discovery_category ===
+{'PROFILE_RELEVANT': 1121, 'TARGET': 7}
+=== CAREER TARGET RESOLUTION state ===
+{'UNRESOLVED': 4, 'PARTIAL': 1}
+=== GENERATION state (ProfileEvaluationGeneration) ===
+{'COMPLETE': 12, 'ACTIVE': 5, 'SUPERSEDED': 20, 'FAILED': 1}
+=== PROFILEFEEDSTATE state ===
+{'NO_TARGETS': 9, 'READY': 5}
+DONE2

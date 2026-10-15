@@ -1,0 +1,14 @@
+{% extends 'public_pages.html' %}
+{% block title %}About | CareerGPS{% endblock %}
+{% block content %}
+<main class="legal-page">
+  <h1>About CareerGPS</h1>
+  <p class="lead">CareerGPS helps candidates prepare and navigate applications, and helps approved organisations manage their own hiring work.</p>
+  <h2>For candidates</h2>
+  <p>Organise your profile and professional evidence, discover opportunities, review evidence-based matches, work on applications, prepare CVs and cover letters, and practise interviews.</p>
+  <h2>For employers</h2>
+  <p>Organisations can complete the CareerGPS verification workflow, publish vacancies, manage applicants, review evidence, use opt-in talent discovery, send invitations, and collaborate on hiring stages.</p>
+  <p>CareerGPS supports decisions with information and explanations. Employers make their own hiring decisions; CareerGPS does not automatically hire or reject candidates.</p>
+  <p>Learn more in our <a href="{% url 'terms' %}">Terms</a> and <a href="{% url 'privacy' %}">Privacy Notice</a>.</p>
+</main>
+{% endblock %}

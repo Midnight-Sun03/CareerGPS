@@ -1,0 +1,397 @@
+{% extends "dashboard_pages.html" %}
+
+{% block title %}
+CareerGPS - Interview Feedback
+{% endblock %}
+
+{% block content %}
+<style>
+.feedback-page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+}
+
+.back-link {
+    color: #667085;
+    text-decoration: none;
+}
+
+.eyebrow {
+    margin-top: 1.5rem;
+    color: #E8612A;
+    font-size: .72rem;
+    font-weight: 800;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+}
+
+.feedback-page h1 {
+    margin: .4rem 0 .3rem;
+    font-size: 2rem;
+}
+
+.meta {
+    color: #667085;
+}
+
+.feedback-card {
+    background: #fff;
+    border: 1px solid rgba(0,0,0,.09);
+    border-radius: 16px;
+    padding: 1.4rem;
+    margin-top: 1rem;
+}
+
+.feedback-card h2 {
+    margin: 0 0 .8rem;
+    font-size: 1.08rem;
+}
+
+.feedback-card p,
+.feedback-card li {
+    color: #475467;
+    line-height: 1.65;
+}
+
+.feedback-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.answer {
+    background: #f7f8fa;
+    color: #344054;
+    border-radius: 12px;
+    padding: 1rem;
+    white-space: pre-wrap;
+    margin-bottom: 1rem;
+}
+
+.rating-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+    margin: .8rem 0;
+}
+
+.rating {
+    background: #fff7ed;
+    color: #9a3412;
+    font-size: .78rem;
+    padding: .3rem .55rem;
+    border-radius: 999px;
+}
+
+.delivery-grid {
+    display: grid;
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(145px, 1fr)
+        );
+    gap: .6rem;
+    margin: .9rem 0;
+}
+
+.metric {
+    padding: .7rem .8rem;
+    background: #f7f8fa;
+    border-radius: 10px;
+    color: #475467;
+    font-size: .83rem;
+}
+
+.feedback-actions {
+    margin-top: 2rem;
+    display: flex;
+    gap: .7rem;
+    flex-wrap: wrap;
+}
+
+.feedback-btn {
+    text-decoration: none;
+    padding: .75rem 1rem;
+    border-radius: 999px;
+    font-weight: 800;
+}
+
+.feedback-btn.primary {
+    background: #E8612A;
+    color: #fff;
+}
+
+.feedback-btn.secondary {
+    background: #f2f4f7;
+    color: #344054;
+}
+
+audio {
+    width: 100%;
+    margin-top: 1rem;
+}
+
+@media (max-width: 650px) {
+    .feedback-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+
+
+<div class="feedback-page">
+
+    <a
+        class="back-link"
+        href="{% url 'interview_saved' %}"
+    >
+        ← My Interviews
+    </a>
+
+    <div class="eyebrow">
+        Interview feedback
+    </div>
+
+    <h1>
+        {% if interview.opportunity %}
+            {{ interview.clean_revision.cleaned_title }}
+        {% else %}
+            {{ interview.occupation }}
+        {% endif %}
+    </h1>
+
+    <div class="meta">
+
+        {% if interview.opportunity %}
+            {{ interview.clean_revision.company }}
+            ·
+        {% endif %}
+
+        {{ interview.get_mode_display }}
+
+        ·
+
+        {{ interview.created_at|date:"j F Y" }}
+
+    </div>
+
+
+    <section class="feedback-card">
+
+        <h2>
+            Overall
+        </h2>
+
+        <p>
+            {{ feedback.overall_summary|default:interview.feedback_summary }}
+        </p>
+
+    </section>
+
+    {% if visual_summary %}
+    <section class="feedback-card">
+        <h2>Overall Visual Interview Coaching</h2>
+        <p>{{ visual_summary.message }}</p>
+        {% if visual_summary.observations %}
+        <strong>Observed</strong>
+        <ul>{% for item in visual_summary.observations %}<li>{{ item }}</li>{% endfor %}</ul>
+        {% endif %}
+        {% if visual_summary.practice_tips %}
+        <strong>Try</strong>
+        <ul>{% for item in visual_summary.practice_tips %}<li>{{ item }}</li>{% endfor %}</ul>
+        {% endif %}
+    </section>
+    {% endif %}
+
+
+    <div class="feedback-grid">
+
+        <section class="feedback-card">
+
+            <h2>
+                What you did well
+            </h2>
+
+            <ul>
+                {% for item in feedback.strengths %}
+                    <li>
+                        {{ item }}
+                    </li>
+                {% empty %}
+                    <li>
+                        No strengths recorded yet.
+                    </li>
+                {% endfor %}
+            </ul>
+
+        </section>
+
+
+        <section class="feedback-card">
+
+            <h2>
+                What to work on
+            </h2>
+
+            <ul>
+                {% for item in feedback.improvements %}
+                    <li>
+                        {{ item }}
+                    </li>
+                {% empty %}
+                    <li>
+                        No improvements recorded yet.
+                    </li>
+                {% endfor %}
+            </ul>
+
+        </section>
+
+    </div>
+
+
+    {% for question in questions %}
+
+    <section class="feedback-card">
+
+        <h2>
+            Question {{ forloop.counter }}
+        </h2>
+
+        <p>
+            <strong>
+                {{ question.question_text }}
+            </strong>
+        </p>
+
+
+        <div class="answer">
+            {{ question.answer_text|default:"No answer recorded." }}
+        </div>
+
+
+        {% if question.evaluation %}
+
+        <h2>1. Answer Analysis</h2>
+
+        <div class="rating-row">
+
+            <span class="rating">
+                Relevance:
+                {{ question.evaluation.relevance }}
+            </span>
+
+            <span class="rating">
+                Structure:
+                {{ question.evaluation.structure }}
+            </span>
+
+            <span class="rating">
+                Specificity:
+                {{ question.evaluation.specificity }}
+            </span>
+
+        </div>
+
+
+        <h2>
+            Feedback
+        </h2>
+
+        <p>
+            {{ question.evaluation.feedback }}
+        </p>
+
+
+        {% if question.evaluation.strengths %}
+
+        <strong>
+            What worked
+        </strong>
+
+        <ul>
+            {% for item in question.evaluation.strengths %}
+                <li>
+                    {{ item }}
+                </li>
+            {% endfor %}
+        </ul>
+
+        {% endif %}
+
+        {% if question.evaluation.improvements %}
+
+        <strong>
+            What could be stronger
+        </strong>
+
+        <ul>
+            {% for item in question.evaluation.improvements %}
+                <li>
+                    {{ item }}
+                </li>
+            {% endfor %}
+        </ul>
+
+        {% endif %}
+
+
+        {% if question.evaluation.better_approach %}
+
+        <strong>
+            Better answer approach
+        </strong>
+
+        <p>
+            {{ question.evaluation.better_approach }}
+        </p>
+
+        {% endif %}
+
+        {% endif %}
+
+
+        {% include "interview/_voice_analysis.html" %}
+        {% include "interview/_camera_analysis.html" %}
+
+
+        {% if question.audio_file %}
+
+        <audio
+            controls
+            src="{% url 'interview_media' question.id 'audio' %}"
+        ></audio>
+
+        {% endif %}
+
+    </section>
+
+    {% endfor %}
+
+
+    <div class="feedback-actions">
+
+        {% if interview.opportunity %}
+
+        <a
+            class="feedback-btn primary"
+            href="{% url 'interview_prepare' interview.opportunity.id %}"
+        >
+            Practise again
+        </a>
+
+        {% endif %}
+
+        <a
+            class="feedback-btn secondary"
+            href="{% url 'interview_saved' %}"
+        >
+            All interviews
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

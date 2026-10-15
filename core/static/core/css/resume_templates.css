@@ -1,0 +1,72 @@
+.resume-template-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.resume-template-card {
+  display: grid;
+  grid-template-columns: 74px 1fr;
+  gap: 12px;
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #d9dee7;
+  border-radius: 12px;
+  background: #fff;
+  color: #1f2937;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color .15s ease, box-shadow .15s ease, transform .15s ease;
+}
+
+.resume-template-card:hover,
+.resume-template-card.selected-template {
+  border-color: #f28c28;
+  box-shadow: 0 0 0 2px rgba(242, 140, 40, .12);
+  transform: translateY(-1px);
+}
+
+.resume-miniature {
+  display: block;
+  height: 96px;
+  border: 1px solid #d5d9df;
+  border-radius: 4px;
+  padding: 8px;
+  background: #fff;
+  overflow: hidden;
+}
+
+.resume-miniature .mini-head,
+.resume-miniature .mini-line {
+  display: block;
+  height: 5px;
+  border-radius: 3px;
+  background: #4b5563;
+  margin-bottom: 5px;
+}
+.resume-miniature .mini-head { width: 58%; height: 8px; }
+.resume-miniature .mini-line { width: 58%; background: #c9ced6; }
+.resume-miniature .mini-line.long { width: 88%; }
+.resume-miniature .mini-columns { display: grid; grid-template-columns: 32% 1fr; gap: 6px; height: 55px; margin-top: 7px; }
+.resume-miniature .mini-columns span { display: block; border-radius: 2px; background: linear-gradient(#dfe3e8 20%, transparent 20% 30%, #dfe3e8 30% 40%, transparent 40% 50%, #dfe3e8 50% 60%, transparent 60%); }
+
+.resume-miniature.rr-azurill .mini-columns span:first-child { background: #26364c; }
+.resume-miniature.rr-bronzor { border-top: 5px solid #7d6645; }
+.resume-miniature.rr-bronzor .mini-columns { grid-template-columns: 38% 1fr; }
+.resume-miniature.rr-bronzor .mini-columns span:first-child { background: #f0ece3; }
+.resume-miniature.rr-chikorita .mini-head,
+.resume-miniature.rr-chikorita .mini-line { margin-left: auto; margin-right: auto; }
+.resume-miniature.rr-chikorita .mini-columns { grid-template-columns: 1fr; }
+.resume-miniature.rr-ditto .mini-columns { grid-template-columns: 1fr; }
+
+.template-copy { display: flex; flex-direction: column; gap: 4px; }
+.template-copy strong { font-size: .98rem; }
+.template-copy small { color: #667085; line-height: 1.35; }
+.density-label { display: block; margin-top: 14px; font-weight: 600; }
+.tool-select { width: 100%; margin-top: 6px; padding: 10px 12px; border: 1px solid #d9dee7; border-radius: 8px; background: #fff; }
+.tool-results .editor-link { font-weight: 700; }
+
+@media (max-width: 700px) {
+  .resume-template-grid { grid-template-columns: 1fr; }
+}

@@ -1,0 +1,33 @@
+START: profile=9 target='Accountant'
+
+==============================================================================
+EXPECTED anchors for text 'Accountant'
+==============================================================================
+  esco: exact-label concepts=[(17559, 'financial controller'), (19222, 'accountant')]
+  onet: exact-label concepts=[(23890, 'Accountants and Auditors')]
+  isco: exact-label concepts=[(24935, 'Accountants')]
+
+==============================================================================
+CAPTURE: BASELINE Accountant
+==============================================================================
+target_roles='Accountant'
+intent=4c545dc66448245a...
+state=UPDATING_INTENT pending='intent_resolving:careerpreference_changed' active_generation_id=34
+authoritative=True
+-- target resolutions --
+  target 8 'Software Engineer' ordinal=0
+    source=ofo state=RESOLVED matched='Software Engineer' route=exact_specialisation_label concepts=[(25846, 'Software Developer')]
+    source=esco state=RESOLVED matched='software engineer' route=exact_alternative_label concepts=[(19265, 'software developer')]
+-- relationship assessment classes (all target resolutions) --
+  rows=0 {}
+-- active generation rows by discovery_category --
+  gen=34 state=ACTIVE evals=7 intent=4c545dc66448245a... reason='careerpreference_changed'
+-- v2_feed_queryset (authoritative view) --
+  rows=0 ids=[]
+  titles=[]
+
+==============================================================================
+EXPECTED anchors for text 'Financial Adviser'
+==============================================================================
+  esco: exact-label concepts=[(16815, 'financial planner')]
+PHASE3_VERIFY rc=1 OperationalError('database is locked')

@@ -1,0 +1,177 @@
+START: profile=9 target='Accountant'
+
+==============================================================================
+EXPECTED anchors for text 'Accountant'
+==============================================================================
+  esco: exact-label concepts=[(17559, 'financial controller'), (19222, 'accountant')]
+  onet: exact-label concepts=[(23890, 'Accountants and Auditors')]
+  isco: exact-label concepts=[(24935, 'Accountants')]
+
+==============================================================================
+CAPTURE: BASELINE Accountant
+==============================================================================
+target_roles='Accountant'
+intent=4c545dc66448245a...
+state=UPDATING_INTENT pending='intent_resolving:careerpreference_changed' active_generation_id=34
+authoritative=True
+-- target resolutions --
+  target 8 'Software Engineer' ordinal=0
+    source=ofo state=RESOLVED matched='Software Engineer' route=exact_specialisation_label concepts=[(25846, 'Software Developer')]
+    source=esco state=RESOLVED matched='software engineer' route=exact_alternative_label concepts=[(19265, 'software developer')]
+-- relationship assessment classes (all target resolutions) --
+  rows=0 {}
+-- active generation rows by discovery_category --
+  gen=34 state=ACTIVE evals=7 intent=4c545dc66448245a... reason='careerpreference_changed'
+-- v2_feed_queryset (authoritative view) --
+  rows=0 ids=[]
+  titles=[]
+
+==============================================================================
+EXPECTED anchors for text 'Financial Adviser'
+==============================================================================
+  esco: exact-label concepts=[(16815, 'financial planner')]
+POST -> 'Financial Adviser': status=302 duration=7.64s
+persisted target_roles='Financial Adviser' (match=True)
+drain[Financial Adviser]: join=True 118.3s
+
+==============================================================================
+CAPTURE: AFTER Financial Adviser
+==============================================================================
+target_roles='Financial Adviser'
+intent=27075e9a6d76aeb4...
+state=READY pending='' active_generation_id=36
+authoritative=True
+-- target resolutions --
+  target 8 'Financial Adviser' ordinal=0
+    source=ofo state=UNRESOLVED matched='' route= concepts=[]
+    source=esco state=RESOLVED matched='financial adviser' route=exact_alternative_label concepts=[(16815, 'financial planner')]
+-- relationship assessment classes (all target resolutions) --
+  rows=293 {'RELATED': 1, 'UNRESOLVED': 292}
+  EXACT/RELATED tiers: {'RELATED_SAFE_HIERARCHY': 1}
+-- active generation rows by discovery_category --
+  gen=36 state=ACTIVE evals=1 intent=27075e9a6d76aeb4... reason='careerpreference_changed'
+  RELATED: rows=1 jobs=1 ids=[6022]
+    #6022 Private Banker band=F rank=2 assess=RELATED
+-- v2_feed_queryset (authoritative view) --
+  rows=1 ids=[6022]
+  titles=['Private Banker']
+dashboard ids for 'Financial Adviser': ['6022']
+
+==============================================================================
+EXPECTED anchors for text 'Software Engineer'
+==============================================================================
+  esco: exact-label concepts=[(19265, 'software developer')]
+  onet: exact-label concepts=[(23920, 'Software Developers')]
+  ofo: exact-label concepts=[(25846, 'Software Developer')]
+POST -> 'Software Engineer': status=302 duration=0.89s
+persisted target_roles='Software Engineer' (match=True)
+drain[Software Engineer]: join=True 0.2s
+
+==============================================================================
+CAPTURE: AFTER Software Engineer
+==============================================================================
+target_roles='Software Engineer'
+intent=f5d8dbad7764dbb3...
+state=READY pending='' active_generation_id=36
+authoritative=False
+-- target resolutions --
+  target 8 'Financial Adviser' ordinal=0
+    source=ofo state=UNRESOLVED matched='' route= concepts=[]
+    source=esco state=RESOLVED matched='financial adviser' route=exact_alternative_label concepts=[(16815, 'financial planner')]
+-- relationship assessment classes (all target resolutions) --
+  rows=293 {'RELATED': 1, 'UNRESOLVED': 292}
+  EXACT/RELATED tiers: {'RELATED_SAFE_HIERARCHY': 1}
+-- active generation rows by discovery_category --
+  gen=36 state=ACTIVE evals=1 intent=27075e9a6d76aeb4... reason='careerpreference_changed'
+  RELATED: rows=1 jobs=1 ids=[6022]
+    #6022 Private Banker band=F rank=2 assess=RELATED
+-- v2_feed_queryset (authoritative view) --
+  rows=0 ids=[]
+  titles=[]
+dashboard ids for 'Software Engineer': ['5979', '5988', '6190', '6192', '6193']
+
+==============================================================================
+EXPECTED anchors for text 'Actuarial Analyst'
+==============================================================================
+  esco: exact-label concepts=[(16475, 'actuarial consultant')]
+  onet: exact-label concepts=[(23935, 'Actuaries'), (24491, 'Statistical Assistants')]
+POST -> 'Actuarial Analyst': status=302 duration=0.14s
+persisted target_roles='Actuarial Analyst' (match=True)
+drain[Actuarial Analyst]: join=True 11.7s
+
+==============================================================================
+CAPTURE: AFTER Actuarial Analyst
+==============================================================================
+target_roles='Actuarial Analyst'
+intent=d69e6f100ce68458...
+state=READY pending='' active_generation_id=33
+authoritative=True
+-- target resolutions --
+  target 8 'Actuarial Analyst' ordinal=0
+    source=ofo state=UNRESOLVED matched='' route= concepts=[]
+    source=esco state=RESOLVED matched='actuarial analyst' route=exact_alternative_label concepts=[(16475, 'actuarial consultant')]
+-- relationship assessment classes (all target resolutions) --
+  rows=0 {}
+-- active generation rows by discovery_category --
+  gen=33 state=ACTIVE evals=0 intent=d69e6f100ce68458... reason='careerpreference_changed'
+-- v2_feed_queryset (authoritative view) --
+  rows=0 ids=[]
+  titles=[]
+dashboard ids for 'Actuarial Analyst': ['5979', '5988', '6190', '6192', '6193']
+
+==============================================================================
+EXPECTED anchors for text 'Accountant'
+==============================================================================
+  esco: exact-label concepts=[(17559, 'financial controller'), (19222, 'accountant')]
+  onet: exact-label concepts=[(23890, 'Accountants and Auditors')]
+  isco: exact-label concepts=[(24935, 'Accountants')]
+POST -> 'Accountant': status=302 duration=0.12s
+persisted target_roles='Accountant' (match=True)
+drain[Accountant]: join=True 5.9s
+
+==============================================================================
+CAPTURE: AFTER Accountant
+==============================================================================
+target_roles='Accountant'
+intent=4c545dc66448245a...
+state=READY pending='' active_generation_id=37
+authoritative=True
+-- target resolutions --
+  target 8 'Accountant' ordinal=0
+    source=ofo state=UNRESOLVED matched='' route= concepts=[]
+    source=esco state=RESOLVED matched='' route= concepts=[(17559, 'financial controller'), (19222, 'accountant')]
+-- relationship assessment classes (all target resolutions) --
+  rows=10 {'RELATED': 7, 'UNRESOLVED': 3}
+  EXACT/RELATED tiers: {'RELATED_SAFE_HIERARCHY': 7}
+-- active generation rows by discovery_category --
+  gen=37 state=ACTIVE evals=7 intent=4c545dc66448245a... reason='careerpreference_changed'
+  RELATED: rows=7 jobs=7 ids=[5433, 5434, 5435, 5436, 5437, 5438, 5439]
+    #5433 Accountant band=D rank=2 assess=RELATED
+    #5434 Accountant band=D rank=2 assess=RELATED
+    #5435 Accountant band=D rank=2 assess=RELATED
+    #5436 Accountant band=D rank=2 assess=RELATED
+    #5437 Accountant band=D rank=2 assess=RELATED
+    #5438 Accountant band=D rank=2 assess=RELATED
+-- v2_feed_queryset (authoritative view) --
+  rows=7 ids=[5433, 5434, 5435, 5436, 5437, 5438, 5439]
+  titles=['Accountant', 'Accountant', 'Accountant', 'Accountant', 'Accountant', 'Accountant', 'Accountant']
+dashboard ids for 'Accountant': ['5433', '5434', '5436', '5437', '5439']
+
+==============================================================================
+COMPARISON TABLE
+==============================================================================
+target              gen   visible EXACT  RELATED  TMATCH  dashboard  
+Accountant          37    7       0      7        0       5          
+  authoritative ids: [5433, 5434, 5435, 5436, 5437, 5438, 5439]
+  dashboard ids:     ['5433', '5434', '5436', '5437', '5439']
+Financial Adviser   36    1       0      1        0       1          
+  authoritative ids: [6022]
+  dashboard ids:     ['6022']
+Software Engineer   36    0       0      1        0       5          
+  authoritative ids: []
+  dashboard ids:     ['5979', '5988', '6190', '6192', '6193']
+Actuarial Analyst   33    0       0      0        0       5          
+  authoritative ids: []
+  dashboard ids:     ['5979', '5988', '6190', '6192', '6193']
+PHASE3_VERIFY_DONE
+PHASE3_VERIFY rc=0

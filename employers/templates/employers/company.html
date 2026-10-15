@@ -1,0 +1,7 @@
+{% extends 'employers/base.html' %}{% block content %}<p class="eyebrow">Company</p><h1>{{ organization.name }}</h1>
+{% include 'employers/verification_status_panel.html' %}
+<section class="card"><h2>Company profile</h2><p>{{ organization.description|default:'No description supplied.' }}</p><p>{{ organization.website }}</p><p>{{ organization.industry }}{% if organization.location %} &middot; {{ organization.location }}{% endif %}</p>{% if 'settings' in permissions %}<a href="{% url 'employers:organization_settings' organization.id %}">Edit company profile</a>{% endif %}</section>
+{% if membership.role == 'owner' %}<section class="card"><h2>Verification</h2><p>CareerGPS staff verify company authority before publication and candidate access.</p><a href="{% url 'employers:verification' organization.id %}">View verification and messages</a></section>{% endif %}
+{% if 'team' in permissions %}<section class="card"><h2>Team</h2><p>Manage members, invitations and roles.</p><a href="{% url 'employers:team' organization.id %}">Manage team</a></section>{% endif %}
+<details class="card"><summary>Company activity</summary>{% if employer_approved %}<a href="{% url 'employers:activity' organization.id %}">View recorded activity</a>{% else %}<p>Available after verification.</p>{% endif %}</details>
+<p><a href="{% url 'employers:home' %}">Switch organisation or accept an invitation</a></p>{% endblock %}

@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+{% block title %}Sign In | CareerGPS{% endblock %}
+
+{% block content %}
+<style>
+  .login-wrap {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+    background: var(--light-bg);
+  }
+  .login-card {
+    background: #fff;
+    border: 1px solid var(--card-border);
+    border-radius: 1.25rem;
+    padding: 2.5rem 2rem;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: 0 4px 32px rgba(0,0,0,.06);
+  }
+  .login-brand {
+    font-size: .7rem;
+    font-weight: 800;
+    letter-spacing: .2em;
+    color: var(--orange);
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    display: block;
+  }
+  .login-title {
+    font-size: 1.75rem;
+    font-weight: 800;
+    font-family: Georgia, serif;
+    margin-bottom: .4rem;
+  }
+  .login-sub {
+    font-size: .9rem;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+  }
+  .field { margin-bottom: 1.25rem; }
+  .field label {
+    display: block;
+    font-size: .75rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    margin-bottom: .5rem;
+  }
+  .field input {
+    width: 100%;
+    background: rgba(0,0,0,.03);
+    border: 1px solid var(--card-border);
+    border-radius: .6rem;
+    padding: .75rem 1rem;
+    color: #1a2535;
+    font-size: .95rem;
+    outline: none;
+    transition: border-color .2s;
+    font-family: 'Inter', sans-serif;
+  }
+  .field input:focus { border-color: var(--orange); }
+  .btn-login {
+    width: 100%;
+    background: var(--orange);
+    color: #fff;
+    font-weight: 800;
+    padding: .9rem;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    font-family: 'Inter', sans-serif;
+    transition: background .2s;
+    margin-top: .5rem;
+  }
+  .btn-login:hover { background: var(--orange-light); }
+  .error-list {
+    background: rgba(217,95,59,.08);
+    border: 1px solid rgba(217,95,59,.3);
+    border-radius: .6rem;
+    padding: .75rem 1rem;
+    color: #c0392b;
+    font-size: .875rem;
+    margin-bottom: 1.25rem;
+    list-style: none;
+  }
+  .error-list li { margin-bottom: .25rem; }
+  .error-list li:last-child { margin-bottom: 0; }
+</style>
+
+<div class="login-wrap">
+  <div class="login-card">
+    <span class="login-brand">🇿🇦 CareerGPS</span>
+    <h1 class="login-title">Welcome back</h1>
+    <p class="login-sub">Sign in to continue your interview practice.</p>
+
+    {% if form.errors %}
+    <ul class="error-list">
+      <li>Invalid username or password. Please try again.</li>
+    </ul>
+    {% endif %}
+
+    <form method="post">
+      {% csrf_token %}
+      <div class="field">
+        <label for="id_username">Username</label>
+        <input type="text" name="username" id="id_username" autocomplete="username" autofocus />
+      </div>
+      <div class="field">
+        <label for="id_password">Password</label>
+        <input type="password" name="password" id="id_password" autocomplete="current-password" />
+      </div>
+      <input type="hidden" name="next" value="{{ next }}" />
+      <button type="submit" class="btn-login">Sign In</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends "dashboard_pages.html" %}
+{% load static %}
+
+{% block title %}CareerGPS | My Profile{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'core/css/profile.css' %}">
+{% endblock %}
+
+{% block content %}
+<header class="profile-hub-header">
+  <div>
+    <p class="eyebrow">Your CareerGPS profile</p>
+    <h1>My Profile</h1>
+    <p class="profile-intro">Build your career profile at your own pace. More detail improves personalisation, but never limits what you can browse or apply for.</p>
+  </div>
+  <div class="strength-card" aria-label="Profile strength {{ completion_percentage }} percent">
+    <strong>{{ completion_percentage }}%</strong>
+    <span>Profile strength</span>
+    <div class="strength-track"><span style="width: {{ completion_percentage }}%"></span></div>
+  </div>
+</header>
+
+<section class="profile-grid" aria-label="Profile sections">
+  {% for tile in tiles %}
+    {% if tile.personal %}
+      <a class="profile-tile" href="{% url 'profile_personal' %}">
+    {% else %}
+      <a class="profile-tile" href="{% url 'profile_section' tile.slug %}">
+    {% endif %}
+        <span class="tile-status {% if tile.complete %}complete{% endif %}">
+          {% if tile.complete %}Added{% else %}Not added{% endif %}
+        </span>
+        <h2>{{ tile.title }}</h2>
+        <p>{{ tile.summary }}</p>
+        <span class="tile-count">
+          {% if tile.personal %}
+            Manage details
+          {% elif tile.count == 1 %}
+            1 record
+          {% else %}
+            {{ tile.count }} records
+          {% endif %}
+          <span aria-hidden="true">→</span>
+        </span>
+      </a>
+  {% endfor %}
+</section>
+
+<section class="profile-progress" aria-labelledby="profile-progress-title">
+  <div>
+    <p class="eyebrow">Optional progress guide</p>
+    <h2 id="profile-progress-title">Sections you can strengthen</h2>
+  </div>
+  <div class="progress-checklist">
+    {% for item in progress_items %}
+      <span class="progress-item {% if item.complete %}complete{% endif %}">
+        {% if item.complete %}✓{% else %}○{% endif %} {{ item.label }}
+      </span>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

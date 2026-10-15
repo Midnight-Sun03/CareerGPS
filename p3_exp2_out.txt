@@ -1,0 +1,26 @@
+
+==============================================================================
+EXPECTED anchors for text 'Financial Adviser'
+==============================================================================
+  esco: exact-label concepts=[(16815, 'financial planner')]
+
+==============================================================================
+EXPECTED anchors for text 'Software Engineer'
+==============================================================================
+  esco: exact-label concepts=[(19265, 'software developer')]
+  onet: exact-label concepts=[(23920, 'Software Developers')]
+  ofo: exact-label concepts=[(25846, 'Software Developer')]
+
+==============================================================================
+EXPECTED anchors for text 'Actuarial Analyst'
+==============================================================================
+  esco: exact-label concepts=[(16475, 'actuarial consultant')]
+  onet: exact-label concepts=[(23935, 'Actuaries'), (24491, 'Statistical Assistants')]
+
+==============================================================================
+EXPECTED anchors for text 'Accountant'
+==============================================================================
+  esco: exact-label concepts=[(17559, 'financial controller'), (19222, 'accountant')]
+  onet: exact-label concepts=[(23890, 'Accountants and Auditors')]
+  isco: exact-label concepts=[(24935, 'Accountants')]
+PHASE3_EXPECT rc=0

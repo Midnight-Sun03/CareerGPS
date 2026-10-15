@@ -1,0 +1,117 @@
+{% extends "dashboard_pages.html" %}
+{% load static %}
+
+{% block title %}
+CareerGPS - Resources
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'core/css/resources.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/main.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<!-- Search -->
+<h1 class="page-title">Resources</h1>
+<div class="search-box">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="text" id="searchInput" placeholder="Search resources by title or content..." />
+</div>
+
+<!-- Filters -->
+<div class="filters">
+  <button class="filter-btn active-btn" data-type="all">All</button>
+  <button class="filter-btn" data-type="cv">CV Writing</button>
+  <button class="filter-btn" data-type="cover">Cover Letters</button>
+  <button class="filter-btn" data-type="interview">Interview Prep</button>
+</div>
+
+<!-- Cards -->
+<div id="resourceList">
+
+  <!-- CV Enhancer Card -->
+  <div class="resource-card" data-category="cv" data-speak>
+    <div class="card-header">
+      <span class="card-tag">CV Writing</span>
+      <span class="card-tag card-tag-ai">AI Powered</span>
+    </div>
+    <h3>AI CV Enhancer</h3>
+    <p class="card-desc">Upload your CV and get an AI-enhanced version tailored to your profile and the specific opportunity you're applying for.</p>
+
+    <h4>How it works</h4>
+    <ol>
+      <li><strong>Upload or Paste</strong> - Upload your CV (PDF, DOCX, TXT) or paste your content</li>
+      <li><strong>Select Opportunity</strong> - Choose a specific role to tailor your CV for</li>
+      <li><strong>Add Notes</strong> - Optional: add any special instructions</li>
+      <li><strong>Generate</strong> - AI creates a personalised, ATS-friendly CV</li>
+      <li><strong>Download or Save</strong> - Save to your profile or download as .docx / .pdf</li>
+    </ol>
+
+    <div class="pro-tip-box">
+      <p><strong>Pro Tip</strong></p>
+      <p>Use the AI CV Enhancer to tailor your CV for each opportunity you apply to! Upload once, generate multiple versions.</p>
+    </div>
+
+    <hr class="card-divider" />
+    <div class="card-actions">
+      <a href="{% url 'cv_enhancer' %}" class="see-more">Enhance Your CV &rarr;</a>
+    </div>
+  </div>
+
+  <!-- Cover Letter Generator Card -->
+  <div class="resource-card" data-category="cover" data-speak>
+    <div class="card-header">
+      <span class="card-tag">Cover Letters</span>
+      <span class="card-tag card-tag-ai">AI Powered</span>
+    </div>
+    <h3> AI Cover Letter Generator</h3>
+    <p class="card-desc">Generate professional cover letters tailored to your profile, saved opportunities, or any job description. Choose from multiple tones to match your style.</p>
+
+    <h4>How it works</h4>
+    <ol>
+      <li><strong>Select Opportunity</strong> - Choose a saved opportunity or paste a job description</li>
+      <li><strong>Add Personal Notes</strong> - Highlight specific achievements or experiences</li>
+      <li><strong>Choose Tone</strong> - Professional, Enthusiastic, Confident, Humble, Creative, or Direct</li>
+      <li><strong>Generate</strong> - AI creates a personalised, professional cover letter</li>
+      <li><strong>Download</strong> - Save as .docx or .pdf</li>
+    </ol>
+
+    <div class="pro-tip-box">
+      <p><strong>Pro Tip</strong></p>
+      <p>Tailor your cover letter to each opportunity! Use the job description and saved opportunities to create targeted applications that stand out.</p>
+    </div>
+
+    <hr class="card-divider" />
+    <div class="card-actions">
+      <a href="{% url 'cover_letter_generator' %}" class="see-more">Generate Cover Letter &rarr;</a>
+    </div>
+  </div>
+
+  <!-- Interview Card -->
+  <div class="resource-card" data-category="interview" data-speak>
+    <div class="card-header"><span class="card-tag">Interview Prep</span></div>
+    <h3>Ace Your Next Interview</h3>
+    <p class="card-desc">Practice confidence, communication and the STAR technique to answer any question with clarity.</p>
+    <ul>
+      <li><strong>STAR Method:</strong> Situation, Task, Action, Result; structure every answer.</li>
+      <li><strong>Research the company</strong> before you walk in.</li>
+      <li><strong>Prepare 3–5 questions</strong> to ask the interviewer.</li>
+      <li><strong>Body language:</strong> Eye contact, firm handshake, upright posture.</li>
+    </ul>
+    <hr class="card-divider" />
+    <div class="card-actions">
+      <a href="#" class="see-more">See full guide &rarr;</a>
+      <a href="{% url 'interview_home' %}" class="interview-btn">
+        <i class="fa-solid fa-play"></i> Start Interview Practice
+      </a>
+    </div>
+  </div>
+
+</div>
+
+{% endblock %}
+
+{% block javascript %}
+<script src="{% static 'core/js/resources.js' %}"></script>
+{% endblock %}

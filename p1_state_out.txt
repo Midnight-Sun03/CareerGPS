@@ -1,0 +1,18 @@
+journal: wal
+busy: 30000
+--- profile 9 tasks (latest 6) ---
+  task 5419 feed-v2 RUNNING att=2 err='Worker lease expired before completion.' created=2026-10-07 15:29:41.052178+00:00 completed=None
+  task 5411 feed-v2 COMPLETE att=1 err='' created=2026-10-02 02:18:44.617393+00:00 completed=2026-10-02 02:32:44.852520+00:00
+  task 5410 feed-v2 FAILED att=3 err='Worker lease expired before completion.' created=2026-10-01 18:10:57.503520+00:00 completed=2026-10-01 19:50:40.364104+00:00
+  task 5409 feed-v2 SUPERSEDED att=0 err='' created=2026-10-01 18:09:14.487432+00:00 completed=None
+  task 5395 feed-v2 COMPLETE att=1 err='' created=2026-10-01 04:28:02.163371+00:00 completed=2026-10-01 05:28:13.514419+00:00
+  task 5391 feed-v2 SUPERSEDED att=0 err='' created=2026-10-01 04:27:59.882002+00:00 completed=None
+  feed state=UPDATING_INTENT pending='intent_resolving:careerpreference_changed' active_gen=26 updated=2026-10-07 15:29:38.884890+00:00
+--- profile 19 tasks (latest 6) ---
+  task 5418 provisional-v1 COMPLETE att=0 err='' created=2026-10-07 00:17:06.940536+00:00 completed=2026-10-07 15:49:02.278713+00:00
+  task 5417 feed-v2 RUNNING att=2 err='Worker lease expired before completion.' created=2026-10-07 00:17:06.847506+00:00 completed=None
+  task 5416 feed-v2 COMPLETE att=1 err='' created=2026-10-04 13:16:28.515263+00:00 completed=2026-10-04 13:16:53.591445+00:00
+  task 5415 feed-v2 SUPERSEDED att=1 err='database is locked' created=2026-10-04 13:10:33.949983+00:00 completed=None
+  task 5414 feed-v2 SUPERSEDED att=0 err='' created=2026-10-04 13:09:27.256825+00:00 completed=None
+  feed state=UPDATING_INTENT pending='intent_resolving:careerpreference_changed' active_gen=None updated=2026-10-07 00:17:06.829815+00:00
+PHASE1_STATE_DONE

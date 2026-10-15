@@ -1,0 +1,11 @@
+{% extends 'employers/base.html' %}{% load employer_display %}{% block content %}<p class="eyebrow">Submitted applications</p><h1>Applications{% if vacancy %}: {{ vacancy.title }}{% endif %}</h1>
+<p>Only people who submitted an application appear here. Consented Talent discovery is separate.</p>
+<form method="get" class="card editor"><label>Search candidate or job <input name="q" value="{{ request.GET.q|default:'' }}" maxlength="100"></label>
+{% if not vacancy %}<label>Job <select name="vacancy"><option value="">All jobs</option>{% for item in vacancies %}<option value="{{ item.pk }}" {% if request.GET.vacancy == item.pk|stringformat:'s' %}selected{% endif %}>{{ item.title }}</option>{% endfor %}</select></label>{% endif %}
+<label>Stage <select name="stage"><option value="">All stages</option>{% for value,label in stages %}<option value="{{ value }}" {% if request.GET.stage == value %}selected{% endif %}>{{ label }}</option>{% endfor %}</select></label><button>Filter applications</button></form>
+{% for hiring in page %}<article class="card"><h2><a href="{% url 'employers:applicant' organization.id hiring.id %}">{{ hiring.application.user|candidate_identity }}</a></h2>
+<p>{{ hiring.vacancy.title }} &middot; Submitted {{ hiring.submitted_at|date:'d M Y' }} &middot; {% if hiring.withdrawn_at %}Withdrawn{% else %}{{ hiring.get_stage_display }}{% endif %}</p>
+{% if hiring.match_result %}<p><strong>{{ hiring.match_result.summary.label }}</strong> &middot; {{ hiring.match_result.summary.found_count }} evidenced &middot; {{ hiring.match_result.summary.related_count }} related &middot; {{ hiring.match_result.summary.unknown_count }} not enough information</p>
+{% if hiring.evidence_highlights %}<p>Evidence: {{ hiring.evidence_highlights|join:', ' }}</p>{% endif %}{% if hiring.evidence_caution %}<p>Review required criterion: {{ hiring.evidence_caution }}. Missing profile evidence is not proof of absence.</p>{% endif %}
+{% else %}<p>Current CareerGPS evidence comparison unavailable.</p>{% endif %}<a href="{% url 'employers:applicant' organization.id hiring.id %}">Review application and evidence</a></article>
+{% empty %}<section class="card"><p>No submitted applications match this view.</p></section>{% endfor %}{% include 'employers/talent_pagination.html' %}{% endblock %}

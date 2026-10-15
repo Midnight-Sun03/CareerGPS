@@ -1,0 +1,293 @@
+{% extends "dashboard_pages.html" %}
+{% load static %}
+
+{% block title %}
+CareerGPS | Notifications
+{% endblock %}
+
+{% block content %}
+
+<div class="notifications-centre">
+
+<div class="notifications-centre-header">
+
+    <div>
+        <p class="notifications-eyebrow">
+            Activity
+        </p>
+
+        <h1>
+            Notifications
+        </h1>
+
+        <p>
+            Updates that may need your attention.
+        </p>
+    </div>
+
+
+    {% if unread_count %}
+
+        <form
+            method="POST"
+            action="{% url 'notifications_read_all' %}"
+        >
+            {% csrf_token %}
+
+            {% if selected_notification %}
+                <input
+                    type="hidden"
+                    name="selected"
+                    value="{{ selected_notification.id }}"
+                >
+            {% endif %}
+            <input type="hidden" name="page" value="{{ page_obj.number }}">
+
+            <button
+                type="submit"
+                class="notifications-mark-all"
+            >
+                Mark all as read
+            </button>
+
+        </form>
+
+    {% endif %}
+
+</div>
+
+
+<div class="notifications-layout">
+
+    <!-- =================================================
+         LEFT SIDE — NOTIFICATION LIST
+         ================================================= -->
+
+    <aside class="notifications-list-panel">
+
+        <div class="notifications-list-heading">
+
+            <strong>
+                All notifications
+            </strong>
+
+            {% if unread_count %}
+                <span>
+                    {{ unread_count }} unread
+                </span>
+            {% endif %}
+
+        </div>
+
+
+        <div class="notifications-list">
+
+            {% for notification in notifications %}
+
+                <form method="post" action="{% url 'notification_open' notification.id %}" class="notification-open-form">{% csrf_token %}<button type="submit"
+                    class="
+                        notifications-list-item
+                        {% if not notification.is_read %}
+                            notifications-list-item--unread
+                        {% endif %}
+                        {% if selected_notification and selected_notification.id == notification.id %}
+                            notifications-list-item--selected
+                        {% endif %}
+                    "
+                >
+
+                    <div class="notifications-list-icon">
+
+                        {% if notification.notification_type == "story_approved" %}
+                            ✓
+
+                        {% elif notification.notification_type == "story_rejected" %}
+                            !
+
+                        {% elif notification.notification_type == "opportunity_deadline" %}
+                            ⏱
+
+                        {% elif notification.notification_type == "application_status" %}
+                            ↗
+
+                        {% else %}
+                            C
+                        {% endif %}
+
+                    </div>
+
+
+                    <div class="notifications-list-copy">
+
+                        <div class="notifications-list-title-row">
+
+                            <strong>
+                                {{ notification.title }}
+                            </strong>
+
+                            {% if not notification.is_read %}
+
+                                <span
+                                    class="notifications-unread-dot"
+                                    aria-label="Unread"
+                                ></span>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <p>
+                            {% if notification.message %}
+                                {{ notification.message|truncatechars:95 }}
+                            {% else %}
+                                {{ notification.title|truncatechars:95 }}
+                            {% endif %}
+                        </p>
+
+
+                        <span class="notifications-list-time">
+                            {{ notification.created_at|timesince }} ago
+                        </span>
+
+                    </div>
+
+                </button></form>
+
+
+            {% empty %}
+
+                <div class="notifications-list-empty">
+
+                    <div class="notifications-list-empty-icon">
+                        ✓
+                    </div>
+
+                    <strong>
+                        You're all caught up
+                    </strong>
+
+                    <p>
+                        New CareerGPS activity will appear here.
+                    </p>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+        {% if page_obj.has_other_pages %}
+        <nav class="notifications-pagination" aria-label="Notification pages">
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}{% if selected_notification %}&amp;selected={{ selected_notification.id }}{% endif %}">Previous</a>
+            {% endif %}
+            <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}{% if selected_notification %}&amp;selected={{ selected_notification.id }}{% endif %}">Next</a>
+            {% endif %}
+        </nav>
+        {% endif %}
+
+    </aside>
+
+
+    <!-- =================================================
+         RIGHT SIDE — OPENED NOTIFICATION
+         ================================================= -->
+
+    <section class="notifications-detail-panel">
+
+        {% if selected_notification %}
+
+            <div class="notifications-detail">
+
+                <div class="notifications-detail-icon">
+
+                    {% if selected_notification.notification_type == "story_approved" %}
+                        ✓
+
+                    {% elif selected_notification.notification_type == "story_rejected" %}
+                        !
+
+                    {% elif selected_notification.notification_type == "opportunity_deadline" %}
+                        ⏱
+
+                    {% elif selected_notification.notification_type == "application_status" %}
+                        ↗
+
+                    {% else %}
+                        C
+                    {% endif %}
+
+                </div>
+
+
+                <div class="notifications-detail-heading">
+
+                    <p class="notifications-detail-label">
+                        Notification
+                    </p>
+
+                    <h2>
+                        {{ selected_notification.title }}
+                    </h2>
+
+                    <span>
+                        {{ selected_notification.created_at|timesince }} ago
+                    </span>
+
+                </div>
+
+
+                {% if selected_notification.message %}
+
+                    <div class="notifications-detail-message">
+                        {{ selected_notification.message|linebreaks }}
+                    </div>
+
+                {% endif %}
+
+
+                {% if selected_notification.safe_target_url %}
+
+                    <a
+                        href="{{ selected_notification.safe_target_url }}"
+                        class="notifications-detail-action"
+                    >
+                        View related item
+                        <span>→</span>
+                    </a>
+
+                {% endif %}
+
+            </div>
+
+
+        {% else %}
+
+            <div class="notifications-detail-empty">
+
+                <div class="notifications-detail-empty-icon">
+                    🔔
+                </div>
+
+                <h2>
+                    Select a notification
+                </h2>
+
+                <p>
+                    Choose a notification from the list to read the full update.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+    </section>
+
+</div>
+
+</div>
+
+{% endblock %}

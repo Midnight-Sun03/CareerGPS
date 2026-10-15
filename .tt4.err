@@ -1,0 +1,14 @@
+Creating test database for alias 'default'...
+System check identified some issues:
+
+WARNINGS:
+?: (careergps.W001) Public operator/contact details are incomplete: CAREERGPS_OPERATOR_NAME, CAREERGPS_OPERATOR_LEGAL_STATUS, CAREERGPS_OPERATOR_PHYSICAL_ADDRESS, CAREERGPS_OPERATOR_LEGAL_SERVICE_ADDRESS, CAREERGPS_OPERATOR_TELEPHONE, CAREERGPS_CONTACT_EMAIL, CAREERGPS_PRIVACY_EMAIL, CAREERGPS_INFORMATION_OFFICER.
+	HINT: Supply verified owner facts before public production launch; review registration details and Information Officer information where applicable.
+
+System check identified 1 issue (0 silenced).
+.........
+----------------------------------------------------------------------
+Ran 9 tests in 22.251s
+
+OK
+Destroying test database for alias 'default'...

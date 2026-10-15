@@ -1,0 +1,88 @@
+{% extends "dashboard_pages.html" %}
+{% load static %}
+
+{% block title %}CareerGPS | Opportunity Detail {% endblock %}
+
+{% block fonts %}
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'core/css/opportunity_detail.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<a href="{% url 'opportunities' %}" class="back-link">
+← Back to Opportunities
+</a>
+
+<div class="hero-card">
+
+  <div class="top-row">
+    <div>
+      <span class="badge">
+        {{ clean_revision.get_opportunity_kind_display }}
+      </span>
+    </div>
+  </div>
+
+  <h1>
+    {{ clean_revision.cleaned_title }}
+  </h1>
+
+  <div class="meta">
+    <span>{{ clean_revision.company }}</span>
+    <span>{{ location }}</span>
+    <span>{{ clean_revision.get_work_arrangement_display }}</span>
+    {% if clean_revision.closing_at %}<span>Closing: {{ clean_revision.closing_at }}</span>{% endif %}
+  </div>
+
+</div>
+
+<section class="trust-panel" aria-labelledby="trust-heading">
+  <h2 id="trust-heading">Listing evidence</h2>
+  {% if opportunity.employer_trust %}
+    <div class="employer-trust">
+      <strong>Employer approved by CareerGPS after review</strong>
+      <p>CareerGPS Direct vacancy &middot; Organization joined {{ opportunity.employer_trust.joined|date:'F Y' }}</p>
+      <p>CareerGPS reviewed this organization. Approval is not a guarantee that every vacancy or future action is safe.</p>
+    </div>
+  {% endif %}
+  <p>Source information held by CareerGPS. This is not a safety verification.</p>
+  <dl>
+    <dt>Source</dt><dd>{{ clean_revision.source_name }}</dd>
+    <dt>Source reference</dt><dd>{{ clean_revision.external_opportunity_id }}</dd>
+    <dt>Captured</dt><dd>{{ clean_revision.source_captured_at|date:"d M Y H:i" }}</dd>
+    <dt>Closing date</dt><dd>{{ clean_revision.closing_at|default:"Not disclosed" }}</dd>
+    <dt>Listing state</dt><dd>{{ opportunity.get_lifecycle_status_display }} / {{ opportunity.get_listing_kind_display }}</dd>
+    <dt>External application destination</dt><dd>{{ clean_revision.source_url|default:"Not recorded" }}</dd>
+  </dl>
+  <a href="{% url 'report_opportunity' opportunity.id %}" class="report-link">Report this opportunity</a>
+</section>
+
+<div class="actions">
+
+  <form action="{% url 'toggle_save' opportunity.id %}" method="post">
+    {% csrf_token %}
+    <button class="save-btn" type="submit">
+      {% if is_saved %}Saved{% else %}Save{% endif %}
+    </button>
+  </form>
+
+  <a href="{% url 'applications:start' opportunity.id %}" class="apply-btn">
+    {{ application_action_label }}
+  </a>
+
+  {% if clean_revision.source_url %}
+    <a href="{{ clean_revision.source_url }}" target="_blank" rel="noopener noreferrer" class="apply-btn">Apply ↗</a>
+  {% endif %}
+
+</div>
+
+<section class="card">
+  <h2>About this opportunity</h2>
+  <p>{{ clean_revision.cleaned_description }}</p>
+</section>
+
+{% endblock %}

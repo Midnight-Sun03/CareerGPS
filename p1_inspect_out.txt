@@ -1,0 +1,63 @@
+READY catalogue size: 1880
+Total opportunities: 2670
+
+Users with non-empty target_roles:
+  profile=19 user='tebogoashley13@gmail.com' target='Data engineer' source=user_entered updated=2026-10-07 00:17:06.629984+00:00 feed_state=UPDATING_INTENT pending=intent_resolving:careerpreference_changed active_gen=None generations=0
+  profile=12 user='mpofubongani088@gmail.com' target='Data Engineer' source=user_entered updated=2026-09-18 02:38:47.037627+00:00 feed_state=READY pending= active_gen=25 generations=6
+  profile=10 user='maapoleleashley@gmail.com' target='Data Engineer' source=user_entered updated=2026-10-02 05:04:04.284109+00:00 feed_state=READY pending= active_gen=27 generations=2
+  profile=9 user='crisfri@gmail.com' target='Accountant' source=user_entered updated=2026-10-02 02:18:44.481508+00:00 feed_state=READY pending= active_gen=26 generations=7
+  profile=8 user='thedog@mate.com' target='Logistics' source=user_entered updated=2026-09-25 23:00:32.451893+00:00 feed_state=READY pending= active_gen=22 generations=6
+
+Sample catalogue titles (first 40 by pk):
+   (1, None)
+   (2, None)
+   (3, None)
+   (4, None)
+   (5, None)
+   (6, 'Service Consultant')
+   (7, None)
+   (8, None)
+   (9, None)
+   (10, None)
+   (11, None)
+   (12, None)
+   (13, None)
+   (14, None)
+   (15, 'Manager: Cre Risk Monitoring and Reportingdit 1')
+   (16, None)
+   (17, None)
+   (18, None)
+   (19, None)
+   (20, None)
+   (21, None)
+   (22, 'Software Developer')
+   (23, None)
+   (24, None)
+   (25, None)
+   (26, None)
+   (27, None)
+   (28, None)
+   (29, None)
+   (30, None)
+   (31, None)
+   (32, None)
+   (33, None)
+   (34, None)
+   (35, None)
+   (36, None)
+   (37, None)
+   (38, None)
+   (39, None)
+   (40, None)
+
+Distinct cleaned-title word clouds not computed; showing profession ready titles count by keyword:
+  Engineer: 263
+  Data: 52
+  Nurse: 11
+  Teacher: 0
+  Account: 122
+  Warehouse: 1
+  Driver: 0
+  Chef: 2
+  Developer: 15
+  Analyst: 90

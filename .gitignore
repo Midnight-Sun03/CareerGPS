@@ -1,0 +1,57 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+myenv/
+venv/
+.venv/
+env/
+
+# VS Code settings
+.vscode/
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+
+# Local validation databases, backups and browser artifacts
+.validation/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Prepared Sentence Transformer models, staging directories and setup locks
+.local_models/
+db.sqlite3*
+Taxonomies/ISCO-08/ISCO-08 Volume 1.pdf
+.git_old/
+.git_old/
+.venv/
+.venv_old/
+.validation/
+.local_models/
+.env
+db.sqlite3*
+*.sqlite3-journal
+
+
+media/
+logs/
+*.jsonl
+ONET-31.0/db_31_0_csv.zip
+
+zip_check/
+source_export/
+ui-audit-captures/
+
+export_db.sqlite3
+CareerGPS_database.zip
+CareerGPS_source.zip
+ONET-31.0/

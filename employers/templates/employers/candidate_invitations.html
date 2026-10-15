@@ -1,0 +1,22 @@
+{% extends 'dashboard_pages.html' %}
+{% load static %}
+{% block title %}Recruitment invitations | CareerGPS{% endblock %}
+{% block css %}<link rel="stylesheet" href="{% static 'applications/css/workspace.css' %}">{% endblock %}
+{% block content %}
+<div class="application-workspace">
+  <h1>Recruitment invitations</h1>
+  <p>Consider each vacancy on its own terms. Accepting opens your application workspace; it does not submit an application or share documents.</p>
+  {% for item in items %}{% with invitation=item.invitation %}
+  <section class="workspace-card">
+    <h2>{{ invitation.vacancy.title }}</h2>
+    <p>{{ invitation.organization.name }} &middot; {{ invitation.vacancy.location }}{% if invitation.vacancy.work_arrangement %} &middot; {{ invitation.vacancy.get_work_arrangement_display }}{% endif %}</p>
+    <p>{{ invitation.vacancy.description|truncatewords:45 }}</p>
+    <p>Invited {{ invitation.created_at|date:'d M Y H:i' }} &middot; {{ invitation.get_status_display }}</p>
+    {% if invitation.status == 'pending' %}
+      {% if item.available %}<form method="post" action="{% url 'employers:candidate_invitation_response' invitation.id %}">{% csrf_token %}<button name="action" value="accepted">Accept and prepare application</button></form>{% else %}<p>This vacancy is no longer accepting applications.</p>{% endif %}
+      <form method="post" action="{% url 'employers:candidate_invitation_response' invitation.id %}">{% csrf_token %}<button name="action" value="declined">Decline</button></form>
+    {% elif invitation.status == 'accepted' and item.application_id %}<a href="{% url 'applications:workspace' item.application_id %}">Open application workspace</a>{% endif %}
+  </section>
+  {% endwith %}{% empty %}<p>No recruitment invitations yet.</p>{% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends "dashboard_pages.html" %}
+{% load static %}
+
+{% block title %}CareerGPS - Document Preview{% endblock %}
+{% block css %}<link rel="stylesheet" href="{% static 'applications/css/cv_editor.css' %}">{% endblock %}
+
+{% block content %}
+<div class="cv-editor-shell">
+  <div class="cv-editor-toolbar">
+    <div>
+      <p class="editor-kicker">{{ document.get_document_type_display }} preview</p>
+      <h1>{% if document.document_type == 'cv' %}{{ resume.basics.name|default:"Your CV" }}{% else %}Cover Letter{% endif %}</h1>
+      {% if document.document_type == 'cv' %}<p>Template: {{ template_label }} · {{ layout.density|capfirst }} spacing</p>{% else %}<p>Review the saved letter before downloading it.</p>{% endif %}
+    </div>
+    <div class="editor-actions">
+      <a class="editor-button primary" href="{% url 'applications:document_edit' document.id %}">Edit {% if document.document_type == 'cv' %}CV{% else %}Cover Letter{% endif %}</a>
+      {% if document.pdf_file %}<a class="editor-button" href="{% url 'applications:document_download' document.id 'pdf' %}" download>Download PDF</a>{% endif %}
+      {% if document.docx_file %}<a class="editor-button" href="{% url 'applications:document_download' document.id 'docx' %}" download>Download DOCX</a>{% endif %}
+    </div>
+  </div>
+  <section class="preview-stage preview-only">
+    {% if document.document_type == 'cv' %}
+      {% include "applications/_cv_preview.html" %}
+    {% else %}
+      <article class="letter-paper">
+        {% if letter.date %}<p>{{ letter.date }}</p>{% endif %}
+        <p>{{ letter.recipient_line|default:"Hiring Manager" }}</p>
+        {% if letter.location %}<p>{{ letter.location }}</p>{% endif %}
+        <p>{{ letter.salutation|default:"Dear Hiring Manager," }}</p>
+        <p>{{ letter.opening }}</p>
+        {% for paragraph in letter.body_paragraphs %}<p>{{ paragraph }}</p>{% endfor %}
+        <p>{{ letter.closing }}</p>
+        <p class="letter-signature">{{ letter.sign_off|default:"Kind regards," }}<br>{{ letter.signature_name }}</p>
+      </article>
+    {% endif %}
+  </section>
+</div>
+{% endblock %}

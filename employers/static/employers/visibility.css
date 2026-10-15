@@ -1,0 +1,9 @@
+.visibility-page { max-width:900px; padding:20px; color:var(--text-color,#202136); overflow-wrap:anywhere; }
+.visibility-page p { line-height:1.6; margin:12px 0; }.visibility-page h1 { margin:12px 0 20px; }
+.visibility-card { padding:24px; margin:24px 0; border:1px solid #dedfe8; border-radius:14px; background:var(--card-bg,#fff); }
+.visibility-field { margin:20px 0; }.visibility-choice { display:flex; align-items:flex-start; gap:12px; font-weight:600; line-height:1.5; }
+.visibility-choice input { flex:0 0 20px; width:20px; height:20px; margin-top:2px; }.visibility-field p { font-size:14px; margin-left:32px; }
+.visibility-card input:not([type=checkbox]) { display:block; width:100%; min-width:0; border:1px solid #bcc1ce; border-radius:8px; padding:10px; margin:10px 0; font:inherit; }
+.visibility-card button { border:0; border-radius:8px; padding:12px 18px; background:#d94e05; color:white; font:inherit; cursor:pointer; }
+.visibility-card .errorlist { color:#a21a18; }.visibility-card form { margin:18px 0; }
+@media(max-width:600px) { .visibility-page { padding:8px; }.visibility-card { padding:16px; } }

@@ -1,0 +1,249 @@
+{% extends 'base.html' %}
+{% block title %}Feedback Report | CareerGPS{% endblock %}
+
+{% block content %}
+<style>
+  :root{--orange:#E8612A;--orange-light:#ff8c5a;--green:#4caf82;--red:#d95f3b;--light-bg:#f5f6fa;--card-bg:#ffffff;--card-border:rgba(0,0,0,.09);--text-muted:#6b7c93;}
+  body{background:var(--light-bg);color:#1a2535;font-family:'Inter',sans-serif;}
+  .fb-wrap{max-width:900px;margin:0 auto;padding:3rem 1.5rem 5rem;}
+  .back-link{color:var(--text-muted);text-decoration:none;font-size:.85rem;display:inline-flex;align-items:center;gap:.4rem;margin-bottom:2rem;transition:color .2s;}
+  .back-link:hover{color:#1a2535;}
+  .page-label{font-size:.7rem;font-weight:700;letter-spacing:.2em;color:var(--orange);text-transform:uppercase;margin-bottom:.5rem;}
+  .page-title{font-size:2rem;font-weight:800;font-family:Georgia,serif;margin-bottom:.25rem;}
+  .page-sub{color:var(--text-muted);font-size:.9rem;margin-bottom:2.5rem;}
+
+  /* Overall card */
+  .overall-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:1.25rem;padding:2rem;display:flex;flex-direction:column;gap:1.5rem;align-items:center;text-align:center;margin-bottom:2rem;}
+  @media(min-width:640px){.overall-card{flex-direction:row;text-align:left;}}
+  .ring-wrap{flex-shrink:0;}
+  .marcus-summary h2{font-size:1.1rem;font-weight:800;font-family:Georgia,serif;margin-bottom:.5rem;}
+  .marcus-summary p{font-size:.9rem;color:var(--text-muted);line-height:1.65;}
+
+  /* Score cards */
+  .score-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-bottom:2rem;}
+  @media(min-width:640px){.score-grid{grid-template-columns:repeat(4,1fr);}}
+  .score-card{background:var(--card-bg);border-radius:1rem;padding:1.25rem;}
+  .score-card .label{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text-muted);margin-bottom:.5rem;}
+  .score-card .val{font-size:1.75rem;font-weight:800;font-family:Georgia,serif;margin-bottom:.4rem;}
+  .score-card .bar{height:4px;border-radius:999px;background:rgba(0,0,0,.06);}
+  .score-card .bar-fill{height:100%;border-radius:999px;}
+  .score-card .desc{font-size:.75rem;color:var(--text-muted);margin-top:.4rem;}
+
+  /* Body scores */
+  .body-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:1.25rem;padding:1.5rem;margin-bottom:2rem;}
+  .section-title{font-size:1.1rem;font-weight:800;font-family:Georgia,serif;margin-bottom:1.25rem;}
+  .body-row{display:flex;align-items:center;gap:.75rem;margin-bottom:.8rem;}
+  .body-row:last-child{margin-bottom:0;}
+  .body-label{font-size:.85rem;color:var(--text-muted);width:110px;flex-shrink:0;}
+  .body-bar-wrap{flex:1;height:8px;background:rgba(0,0,0,.06);border-radius:999px;overflow:hidden;}
+  .body-bar-fill{height:100%;border-radius:999px;}
+  .body-val{font-size:.875rem;font-weight:700;width:40px;text-align:right;}
+
+  /* Strengths / Improvements */
+  .si-grid{display:grid;grid-template-columns:1fr;gap:1rem;margin-bottom:2rem;}
+  @media(min-width:640px){.si-grid{grid-template-columns:1fr 1fr;}}
+  .si-card{background:var(--card-bg);border-radius:1.25rem;padding:1.5rem;}
+  .si-card.green{border:1px solid rgba(76,175,130,.2);}
+  .si-card.amber{border:1px solid rgba(201,168,76,.2);}
+  .si-head{display:flex;align-items:center;gap:.5rem;margin-bottom:1rem;font-weight:700;font-size:.95rem;}
+  .si-head.green{color:var(--green);}
+  .si-head.amber{color:var(--orange);}
+  .si-card ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:.6rem;}
+  .si-card li{font-size:.875rem;color:#c2d0de;line-height:1.5;display:flex;gap:.5rem;align-items:flex-start;}
+
+  /* Q breakdown */
+  .q-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:1rem;overflow:hidden;margin-bottom:.75rem;}
+  .q-header{display:flex;align-items:center;gap:1rem;padding:1.1rem 1.25rem;cursor:pointer;transition:background .15s;}
+  .q-header:hover{background:rgba(255,255,255,.03);}
+  .q-num{width:28px;height:28px;border-radius:50%;background:rgba(201,168,76,.12);color:var(--orange);font-weight:800;font-size:.8rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .q-text{flex:1;font-size:.9rem;color:#dce6ef;}
+  .q-meta{display:flex;gap:.75rem;align-items:center;font-size:.75rem;color:var(--text-muted);}
+  .q-body{padding:1.25rem;border-top:1px solid var(--card-border);display:none;}
+  .q-body.open{display:block;}
+  .q-sub-label{font-size:.72rem;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.4rem;}
+  .q-answer{font-size:.875rem;color:var(--text-muted);line-height:1.6;background:rgba(15,25,35,.6);padding:.75rem 1rem;border-radius:.6rem;margin-bottom:1rem;}
+  .q-feedback{font-size:.875rem;color:var(--text-muted);line-height:1.6;margin-bottom:1rem;}
+  .q-si-row{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;}
+  .q-si-box{background:rgba(255,255,255,.03);border-radius:.6rem;padding:.75rem;}
+  .q-si-box ul{list-style:none;padding:0;margin:.4rem 0 0;display:flex;flex-direction:column;gap:.35rem;}
+  .q-si-box li{font-size:.78rem;color:#99aec2;}
+
+  /* Audio */
+  audio{width:100%;height:36px;margin-top:.5rem;color-scheme:dark;}
+
+  /* CTA */
+  .cta-row{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap;margin-top:2.5rem;}
+  .btn-gold{background:var(--orange);color:#ffffff;font-weight:700;padding:.75rem 1.75rem;border-radius:999px;border:none;cursor:pointer;font-size:.95rem;text-decoration:none;display:inline-flex;align-items:center;gap:.5rem;transition:background .2s;}
+  .btn-gold:hover{background:var(--orange-light);color:#ffffff;text-decoration:none;}
+  .btn-outline{background:transparent;color:#1a2535;border:1px solid var(--card-border);padding:.75rem 1.75rem;border-radius:999px;font-size:.95rem;text-decoration:none;display:inline-flex;align-items:center;gap:.5rem;transition:all .2s;}
+  .btn-outline:hover{border-color:var(--orange);color:var(--orange);text-decoration:none;}
+</style>
+
+<div class="fb-wrap">
+  <a href="{% url 'interview_saved' %}" class="back-link">← Back to My Interviews</a>
+
+  <div class="page-label">Post-Interview Report</div>
+  <h1 class="page-title">{{ interview.occupation }}</h1>
+  <p class="page-sub">
+    {{ interview.get_experience_level_display }} · {{ questions|length }} questions ·
+    {{ interview.created_at|date:"j F Y" }}
+  </p>
+
+  <!-- Overall card -->
+  {% with overall=interview.overall_presence_score|default:0 %}
+  <div class="overall-card">
+    <div class="ring-wrap">
+      <svg width="120" height="120">
+        <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="8"/>
+        <circle cx="60" cy="60" r="50" fill="none"
+          stroke="{% if overall >= 75 %}var(--green){% elif overall >= 50 %}var(--orange){% else %}var(--red){% endif %}"
+          stroke-width="8" stroke-linecap="round"
+          stroke-dasharray="314"
+          stroke-dashoffset="{{ 314|add:"-"|add:overall|floatformat:0 }}"
+          style="stroke-dashoffset:{{ 314|add:0|floatformat:0 }};transform:rotate(-90deg);transform-origin:60px 60px;transition:stroke-dashoffset 1s ease;"
+          id="ringCircle"
+        />
+        <text x="50%" y="46%" dominant-baseline="middle" text-anchor="middle" font-size="24" font-weight="700"
+          fill="{% if overall >= 75 %}var(--green){% elif overall >= 50 %}var(--orange){% else %}var(--red){% endif %}">
+          {{ overall|floatformat:0 }}
+        </text>
+        <text x="50%" y="64%" dominant-baseline="middle" text-anchor="middle" font-size="10" fill="var(--text-muted)">/ 100</text>
+      </svg>
+      <p style="font-size:.8rem;font-weight:700;text-align:center;margin-top:.25rem;color:{% if overall >= 80 %}var(--green){% elif overall >= 65 %}var(--orange){% else %}var(--red){% endif %}">
+        {% if overall >= 80 %}Outstanding{% elif overall >= 65 %}Strong{% elif overall >= 50 %}Developing{% else %}Needs Work{% endif %}
+      </p>
+      <p style="font-size:.72rem;color:var(--text-muted);text-align:center;">Overall Presence</p>
+    </div>
+    <div class="marcus-summary">
+      <h2>Marcus Reid's Assessment</h2>
+      <p>{{ interview.feedback_summary|default:"Feedback is being generated…" }}</p>
+    </div>
+  </div>
+
+  <!-- Animate ring on load -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const circle = document.getElementById('ringCircle');
+      const overall = {{ overall|floatformat:0 }};
+      const offset = 314 - (overall / 100) * 314;
+      setTimeout(() => { circle.style.strokeDashoffset = offset; }, 100);
+    });
+  </script>
+  {% endwith %}
+
+  <!-- Score cards -->
+  <div class="score-grid">
+    {% for label, score, desc in score_cards %}
+    {% with colour=score|floatformat:0 %}
+    <div class="score-card" style="border:1px solid {% if score >= 75 %}rgba(76,175,130,.2){% elif score >= 50 %}rgba(201,168,76,.2){% else %}rgba(217,95,59,.2){% endif %}">
+      <div class="label">{{ label }}</div>
+      <div class="val" style="color:{% if score >= 75 %}var(--green){% elif score >= 50 %}var(--orange){% else %}var(--red){% endif %}">{{ score|floatformat:0 }}</div>
+      <div class="bar"><div class="bar-fill" style="width:{{ score|floatformat:0 }}%;background:{% if score >= 75 %}var(--green){% elif score >= 50 %}var(--orange){% else %}var(--red){% endif %}"></div></div>
+      <div class="desc">{{ desc }}</div>
+    </div>
+    {% endwith %}
+    {% empty %}
+    {% for label, score, desc in default_scores %}
+    <div class="score-card" style="border:1px solid var(--card-border)">
+      <div class="label">{{ label }}</div>
+      <div class="val" style="color:var(--orange)">{{ score|floatformat:0 }}</div>
+      <div class="bar"><div class="bar-fill" style="width:{{ score|floatformat:0 }}%;background:var(--orange)"></div></div>
+      <div class="desc">{{ desc }}</div>
+    </div>
+    {% endfor %}
+    {% endfor %}
+  </div>
+
+  <!-- Body language -->
+  <div class="body-card">
+    <div class="section-title">👁️ Body Language Dashboard</div>
+    {% for label, score in body_scores %}
+    <div class="body-row">
+      <span class="body-label">{{ label }}</span>
+      <div class="body-bar-wrap">
+        <div class="body-bar-fill" style="width:{{ score|floatformat:0 }}%;background:{% if score >= 75 %}var(--green){% elif score >= 50 %}var(--orange){% else %}var(--red){% endif %}"></div>
+      </div>
+      <span class="body-val" style="color:{% if score >= 75 %}var(--green){% elif score >= 50 %}var(--orange){% else %}var(--red){% endif %}">{{ score|floatformat:0 }}%</span>
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- Strengths & Improvements -->
+  <div class="si-grid">
+    <div class="si-card green">
+      <div class="si-head green">✅ Strengths</div>
+      <ul>
+        {% for s in interview.strengths %}<li>⭐ {{ s }}</li>{% empty %}<li>No strengths recorded yet.</li>{% endfor %}
+      </ul>
+    </div>
+    <div class="si-card amber">
+      <div class="si-head amber">📈 Areas to Improve</div>
+      <ul>
+        {% for s in interview.improvements %}<li>→ {{ s }}</li>{% empty %}<li>No improvements recorded yet.</li>{% endfor %}
+      </ul>
+    </div>
+  </div>
+
+  <!-- Per-question breakdown -->
+  <div class="section-title">Question-by-Question Breakdown</div>
+  {% for q in questions %}
+  <div class="q-card">
+    <div class="q-header" onclick="toggleQ({{ forloop.counter0 }})">
+      <div class="q-num">{{ forloop.counter }}</div>
+      <div class="q-text">{{ q.question_text }}</div>
+      <div class="q-meta">
+        <span style="text-transform:capitalize">{{ q.question_type }}</span>
+        {% if q.presence_score %}<span style="color:{% if q.presence_score >= 75 %}var(--green){% elif q.presence_score >= 50 %}var(--orange){% else %}var(--red){% endif %}">{{ q.presence_score|floatformat:0 }}%</span>{% endif %}
+        <span id="chevron-{{ forloop.counter0 }}">▼</span>
+      </div>
+    </div>
+    <div class="q-body" id="qbody-{{ forloop.counter0 }}">
+      {% if q.answer_text %}
+      <div class="q-sub-label">Your answer (transcribed)</div>
+      <div class="q-answer">{{ q.answer_text }}</div>
+      {% endif %}
+
+      {% if q.answer_feedback %}
+      <div class="q-sub-label">Marcus Reid's Feedback</div>
+      <div class="q-feedback">{{ q.answer_feedback }}</div>
+      {% endif %}
+
+      {% if q.answer_strengths or q.answer_improvements %}
+      <div class="q-si-row">
+        <div class="q-si-box">
+          <div class="q-sub-label" style="color:var(--green)">Strengths</div>
+          <ul>{% for s in q.answer_strengths %}<li>✅ {{ s }}</li>{% empty %}<li>—</li>{% endfor %}</ul>
+        </div>
+        <div class="q-si-box">
+          <div class="q-sub-label">Improvements</div>
+          <ul>{% for s in q.answer_improvements %}<li>→ {{ s }}</li>{% empty %}<li>—</li>{% endfor %}</ul>
+        </div>
+      </div>
+      {% endif %}
+
+      {% if q.audio_file %}
+      <div class="q-sub-label" style="margin-top:1rem">🎙️ Audio Recording</div>
+      <audio controls src="{{ q.audio_file.url }}"></audio>
+      {% endif %}
+    </div>
+  </div>
+  {% endfor %}
+
+  <!-- CTA -->
+  <div class="cta-row">
+    <a href="{% url 'interview_setup' %}" class="btn-gold">🎙️ Practice Again</a>
+    <a href="{% url 'interview_saved' %}" class="btn-outline">📋 All My Interviews</a>
+  </div>
+</div>
+
+<script>
+  function toggleQ(idx) {
+    const body = document.getElementById(`qbody-${idx}`);
+    const chevron = document.getElementById(`chevron-${idx}`);
+    const open = body.classList.toggle('open');
+    chevron.textContent = open ? '▲' : '▼';
+  }
+  // Open first question by default
+  document.addEventListener('DOMContentLoaded', () => toggleQ(0));
+</script>
+{% endblock %}

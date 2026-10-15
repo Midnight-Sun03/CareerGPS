@@ -1,0 +1,593 @@
+/* ===========================
+   Global
+=========================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+:root{
+
+    --orange:#e85d04;
+    --orange-dark:#cf4f00;
+    --orange-light:#fff7f2;
+
+    --bg:#f8f8f8;
+
+    --text:#222;
+    --text-light:#666;
+
+    --border:#e8e8e8;
+
+}
+
+body{
+
+    background:var(--bg);
+
+    font-family:"Open Sans",sans-serif;
+
+    color:var(--text);
+
+}
+
+
+/* ===========================
+   Layout
+=========================== */
+
+.container{
+
+    max-width:950px;
+
+    margin:45px auto;
+
+    padding:0 20px;
+
+}
+
+
+/* ===========================
+   Back Link
+=========================== */
+
+.back-link{
+
+    display:inline-block;
+
+    margin-bottom:22px;
+
+    color:var(--orange);
+
+    font-weight:600;
+
+    text-decoration:none;
+
+}
+
+.back-link:hover{
+
+    text-decoration:underline;
+
+}
+
+
+/* ===========================
+   Hero Card
+=========================== */
+
+.hero-card{
+
+    background:#fff;
+
+    border:1px solid var(--border);
+
+    border-radius:14px;
+
+    padding:36px;
+
+    margin-bottom:24px;
+
+    box-shadow:0 8px 24px rgba(0,0,0,.05);
+
+}
+
+
+/* ===========================
+   Badges
+=========================== */
+
+.top-row{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    margin-bottom:18px;
+
+}
+
+.badge{
+
+    display:inline-block;
+
+    padding:5px 12px;
+
+    border-radius:6px;
+
+    background:var(--orange-light);
+
+    color:var(--orange);
+
+    font-size:12px;
+
+    font-weight:700;
+
+    text-transform:uppercase;
+
+    letter-spacing:.4px;
+
+}
+
+.match{
+
+    display:inline-block;
+
+    margin-left:10px;
+
+    padding:5px 12px;
+
+    border-radius:6px;
+
+    background:#edf8ef;
+
+    color:#2b8a3e;
+
+    font-size:12px;
+
+    font-weight:700;
+
+}
+
+
+/* ===========================
+   Title
+=========================== */
+
+.hero-card h1{
+
+    font-family:"Montserrat",sans-serif;
+
+    font-size:34px;
+
+    margin-bottom:18px;
+
+}
+
+
+/* ===========================
+   Meta
+=========================== */
+
+.meta{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:18px;
+
+    color:var(--text-light);
+
+    font-size:14px;
+
+    margin-bottom:30px;
+
+}
+
+.meta span{
+
+    padding-right:16px;
+
+    border-right:1px solid #ddd;
+
+}
+
+.meta span:last-child{
+
+    border-right:none;
+
+}
+
+
+/* ===========================
+   Buttons
+=========================== */
+
+.actions{
+
+    display:flex;
+
+    gap:12px;
+
+}
+
+.save-btn{
+
+    background:#fff;
+
+    border:1px solid var(--border);
+
+    color:#555;
+
+    padding:12px 24px;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+.save-btn:hover{
+
+    border-color:var(--orange);
+
+    color:var(--orange);
+
+    background:var(--orange-light);
+
+}
+
+.apply-btn{
+
+    background:var(--orange);
+
+    color:#fff;
+
+    border:none;
+
+    padding:12px 24px;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    font-weight:600;
+
+    transition:.2s;
+
+}
+
+.apply-btn:hover{
+
+    background:var(--orange-dark);
+
+}
+
+
+/* ===========================
+   Sections
+=========================== */
+
+.card{
+
+    background:#fff;
+
+    border:1px solid var(--border);
+
+    border-radius:14px;
+
+    padding:30px;
+
+    margin-bottom:20px;
+
+    box-shadow:0 6px 16px rgba(0,0,0,.04);
+
+}
+
+.card h2{
+
+    font-family:"Montserrat",sans-serif;
+
+    font-size:22px;
+
+    margin-bottom:18px;
+
+}
+
+.card p{
+
+    line-height:1.8;
+
+    color:#555;
+
+}
+
+
+/* ===========================
+   Why Matches
+=========================== */
+
+.why-box{
+
+    background:var(--orange-light);
+
+    border-left:4px solid var(--orange);
+
+    border-radius:8px;
+
+    padding:18px;
+
+}
+
+.why-box ul{
+
+    padding-left:20px;
+
+}
+
+.why-box li{
+
+    margin-bottom:12px;
+
+    color:#444;
+
+}
+
+.profile-evidence .why-box p{
+    margin:0;
+    line-height:1.55;
+}
+
+.profile-evidence .discovery-note{
+    margin-top:10px !important;
+    font-size:13px;
+}
+
+.evidence-policy,
+.shared-unknown,
+.evidence-detail{
+    font-size:13px;
+    line-height:1.5;
+}
+
+.evidence-policy{
+    margin-top:12px;
+}
+
+.evidence-policy summary,
+.shared-unknown summary,
+.evidence-detail summary{
+    color:#375a9e;
+    cursor:pointer;
+    font-weight:600;
+}
+
+.evidence-policy p,
+.shared-unknown p,
+.evidence-detail p{
+    margin:8px 0 0;
+    line-height:1.5;
+}
+
+.evidence-counts{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin:10px 0 12px;
+}
+
+.evidence-counts span{
+    background:#f3f5f7;
+    border-radius:999px;
+    color:#414b58;
+    font-size:12px;
+    font-weight:600;
+    padding:5px 10px;
+}
+
+.shared-unknown{
+    background:#f7f8fa;
+    border-radius:8px;
+    margin:8px 0;
+    padding:10px 12px;
+}
+
+.evidence-item--major{
+    background:#fffaf4;
+    border-left:4px solid #ba5a12 !important;
+}
+
+.evidence-group--preferred .evidence-status--not-found-on-profile{
+    background:#eef3ff;
+    color:#375a9e;
+}
+
+.evidence-detail{
+    margin-top:7px;
+}
+
+.evidence-group{
+    margin-top:26px;
+}
+
+.evidence-group h3{
+    font-family:"Montserrat",sans-serif;
+    font-size:17px;
+    margin-bottom:5px;
+}
+
+.evidence-helper{
+    font-size:13px;
+    margin-bottom:12px;
+}
+
+.evidence-list{
+    display:grid;
+    gap:10px;
+    list-style:none;
+    padding:0;
+}
+
+.evidence-item{
+    border:1px solid var(--border);
+    border-radius:9px;
+    padding:14px 16px;
+}
+
+.evidence-heading{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    margin-bottom:0;
+}
+
+.evidence-status{
+    border-radius:999px;
+    flex-shrink:0;
+    font-size:11px;
+    font-weight:700;
+    padding:4px 9px;
+}
+
+.evidence-status--found{
+    background:#edf8ef;
+    color:#2b8a3e;
+}
+
+.evidence-status--not-found-on-profile{
+    background:#fff4e6;
+    color:#a54b00;
+}
+
+.evidence-status--unknown{
+    background:#f1f3f5;
+    color:#5f6368;
+}
+
+.evidence-status--related{
+    background:#eef3ff;
+    color:#375a9e;
+}
+
+.evidence-criterion,
+.evidence-explanation,
+.evidence-source{
+    font-size:14px;
+    line-height:1.5 !important;
+}
+
+.evidence-criterion{
+    color:var(--text) !important;
+    font-weight:600;
+}
+
+.evidence-explanation{
+    margin-top:4px;
+}
+
+.evidence-source{
+    color:#2b8a3e !important;
+    margin-top:4px;
+}
+
+
+/* ===========================
+   CV Tips
+=========================== */
+
+.tip-box{
+
+    background:#f7fafc;
+
+    border-left:4px solid #4b6cb7;
+
+    border-radius:8px;
+
+    padding:18px;
+
+}
+
+.tip-box p{
+
+    color:#444;
+
+}
+
+.tip-box + .tip-box{
+    margin-top:12px;
+}
+
+
+/* ===========================
+   Responsive
+=========================== */
+
+@media(max-width:768px){
+
+.hero-card{
+
+padding:26px;
+
+}
+
+.hero-card h1{
+
+font-size:28px;
+
+}
+
+.actions{
+
+flex-direction:column;
+
+}
+
+.save-btn,
+.apply-btn{
+
+width:100%;
+
+}
+
+.meta{
+
+flex-direction:column;
+
+gap:10px;
+
+}
+
+.meta span{
+
+border-right:none;
+
+padding-right:0;
+
+}
+
+.card{
+
+padding:22px;
+
+}
+
+.evidence-heading{
+align-items:flex-start;
+flex-direction:column;
+gap:6px;
+}
+
+}
+.trust-panel { padding: 24px; margin: 22px 0; border: 1px solid #e9e5e2; border-radius: 14px; background: var(--card-bg, #fff); overflow-wrap: anywhere; }
+.trust-panel h2 { font-size: 1.2rem; }
+.trust-panel dl { display: grid; grid-template-columns: minmax(110px, 1fr) minmax(0, 3fr); gap: 10px 20px; }
+.trust-panel dt { font-weight: 600; }
+.trust-panel dd { margin: 0; }
+.report-link { color: #c4490a; font-weight: 600; }
+@media (max-width: 600px) { .trust-panel dl { grid-template-columns: minmax(0, 1fr); } .trust-panel dd { margin-bottom: 10px; } }

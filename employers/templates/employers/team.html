@@ -1,0 +1,2 @@
+{% extends 'employers/base.html' %}{% block content %}<h1>Team</h1><section class="card"><ul class="activity">{% for member in members %}<li><strong>{{ member.user.get_username }}</strong><span>{{ member.get_role_display }} · {{ member.get_status_display }}</span></li>{% endfor %}</ul></section>
+<h2>Invite or update a member</h2><p>New members must accept their invitation in the employer area. Keep at least one active owner.</p><form class="card editor" method="post">{% csrf_token %}{{ form.as_p }}<button>Save membership</button></form>{% endblock %}

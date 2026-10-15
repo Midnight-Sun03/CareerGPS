@@ -1,0 +1,27 @@
+Found 1 test(s).
+Creating test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
+
+Operations to perform:
+  Synchronize unmigrated apps: messages, staticfiles
+  Apply all migrations: admin, applications, auth, contenttypes, core, employers, ingestion, interview, sessions
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  Applying auth.0001_initial... OK
+  Applying admin.0001_initial... OK
+  Applying admin.0002_logentry_remove_auto_add... OK
+  Applying admin.0003_logentry_add_action_flag_choices... OK
+  Applying interview.0001_initial... OK
+  Applying core.0001_initial... OK
+  Applying core.0002_opportunity_ingestion_fields_and_profile_history... OK
+  Applying core.0003_opportunity_coordinates... OK
+  Applying core.0004_opportunity_evidence_and_unclassified... OK
+  Applying core.0005_opportunity_kind_stage_and_scope... OK
+  Applying core.0006_phase_2_profile_foundation... OK
+  Applying core.0007_phase_2_3_taxonomy_foundation... OK
+  Applying core.0008_audited_taxonomy_relationships... OK
+  Applying applications.0001_initial... OK
+  Applying applications.0002_generateddocument_resume_template_layout... OK
+  Applying interview.0002_alter_interview_options_and_more...

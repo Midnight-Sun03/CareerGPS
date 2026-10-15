@@ -1,0 +1,578 @@
+Creating test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
+System check identified some issues:
+
+WARNINGS:
+?: (careergps.W001) Public operator/contact details are incomplete: CAREERGPS_OPERATOR_NAME, CAREERGPS_OPERATOR_LEGAL_STATUS, CAREERGPS_OPERATOR_PHYSICAL_ADDRESS, CAREERGPS_OPERATOR_LEGAL_SERVICE_ADDRESS, CAREERGPS_OPERATOR_TELEPHONE, CAREERGPS_CONTACT_EMAIL, CAREERGPS_PRIVACY_EMAIL, CAREERGPS_INFORMATION_OFFICER.
+	HINT: Supply verified owner facts before public production launch; review registration details and Information Officer information where applicable.
+
+System check identified 1 issue (0 silenced).
+test_concept_lookup_returns_only_relevant_jobs (core.test_indexed_retrieval.CandidateLookupTests.test_concept_lookup_returns_only_relevant_jobs) ... ok
+test_cross_taxonomy_identity_is_preserved (core.test_indexed_retrieval.CandidateLookupTests.test_cross_taxonomy_identity_is_preserved) ... ok
+test_multi_result_target_retrieves_any_match (core.test_indexed_retrieval.CandidateLookupTests.test_multi_result_target_retrieves_any_match) ... ok
+test_one_job_one_feed_row_with_many_identities (core.test_indexed_retrieval.GenerationReuseTests.test_one_job_one_feed_row_with_many_identities) ... ok
+test_resolving_state_hides_old_feed (core.test_indexed_retrieval.GenerationReuseTests.test_resolving_state_hides_old_feed) ... ok
+test_stale_assessment_is_recomputed (core.test_indexed_retrieval.GenerationReuseTests.test_stale_assessment_is_recomputed) ... ok
+test_target_change_performance_counts (core.test_indexed_retrieval.GenerationReuseTests.test_target_change_performance_counts)
+Report the OLD->NEW cost shape on a realistic mini-catalogue. ... ERROR
+test_target_change_skips_unrelated_job_resolution (core.test_indexed_retrieval.GenerationReuseTests.test_target_change_skips_unrelated_job_resolution) ... ERROR
+test_unresolved_job_never_enters_confirmed_feed (core.test_indexed_retrieval.GenerationReuseTests.test_unresolved_job_never_enters_confirmed_feed) ... ok
+test_valid_assessment_is_reused (core.test_indexed_retrieval.GenerationReuseTests.test_valid_assessment_is_reused) ... ok
+test_banner_does_not_claim_every_listing_was_validated (core.test_feed_v2.FeedAdmissionAndUiTests.test_banner_does_not_claim_every_listing_was_validated) ... ok
+test_building_generation_is_invisible_and_activation_is_atomic (core.test_feed_v2.FeedAdmissionAndUiTests.test_building_generation_is_invisible_and_activation_is_atomic) ... FAIL
+test_career_intelligence_sections_start_collapsed (core.test_feed_v2.FeedAdmissionAndUiTests.test_career_intelligence_sections_start_collapsed) ... ok
+test_evidence_change_keeps_relationship_but_marks_fit_updating (core.test_feed_v2.FeedAdmissionAndUiTests.test_evidence_change_keeps_relationship_but_marks_fit_updating) ... FAIL
+test_failed_replacement_preserves_prior_active_generation (core.test_feed_v2.FeedAdmissionAndUiTests.test_failed_replacement_preserves_prior_active_generation) ... FAIL
+test_idempotent_worker_restores_ready_and_completed_enqueue_is_quiet (core.test_feed_v2.FeedAdmissionAndUiTests.test_idempotent_worker_restores_ready_and_completed_enqueue_is_quiet) ... ok
+test_policy_change_hides_the_feed_without_a_catalogue_fallback (core.test_feed_v2.FeedAdmissionAndUiTests.test_policy_change_hides_the_feed_without_a_catalogue_fallback) ... ok
+test_rebuild_is_deterministic_and_idempotent (core.test_feed_v2.FeedAdmissionAndUiTests.test_rebuild_is_deterministic_and_idempotent) ... ok
+test_requirements_never_exclude_a_confirmed_occupationally_relevant_job (core.test_feed_v2.FeedAdmissionAndUiTests.test_requirements_never_exclude_a_confirmed_occupationally_relevant_job)
+A relevant job with no matching skills stays in the main feed. ... FAIL
+test_senior_role_is_excluded_by_the_shared_gate_on_both_pages (core.test_feed_v2.FeedAdmissionAndUiTests.test_senior_role_is_excluded_by_the_shared_gate_on_both_pages) ... ok
+test_stale_clean_pointer_suppresses_only_that_opportunity (core.test_feed_v2.FeedAdmissionAndUiTests.test_stale_clean_pointer_suppresses_only_that_opportunity) ... ERROR
+test_target_change_hides_old_target_generation_without_catalogue_fallback (core.test_feed_v2.FeedAdmissionAndUiTests.test_target_change_hides_old_target_generation_without_catalogue_fallback) ... ok
+test_unconfirmed_jobs_are_separated_and_never_labelled_as_matches (core.test_feed_v2.FeedAdmissionAndUiTests.test_unconfirmed_jobs_are_separated_and_never_labelled_as_matches) ... FAIL
+test_without_targets_the_general_feed_stays_and_prompts_for_targets (core.test_feed_v2.FeedAdmissionAndUiTests.test_without_targets_the_general_feed_stays_and_prompts_for_targets) ... ok
+test_exact_admitted_despite_weak_fit_and_skill_overlap_cannot_admit (core.test_feed_v2.FeedV2AdmissionTests.test_exact_admitted_despite_weak_fit_and_skill_overlap_cannot_admit) ... FAIL
+test_exact_for_one_target_survives_a_silent_other_target (core.test_feed_v2.FeedV2AdmissionTests.test_exact_for_one_target_survives_a_silent_other_target) ... ok
+test_related_requires_active_candidate_policy (core.test_feed_v2.FeedV2AdmissionTests.test_related_requires_active_candidate_policy) ... FAIL
+test_reusable_rule_uses_one_direct_fact_without_two_hop_expansion (core.test_feed_v2.FeedV2AdmissionTests.test_reusable_rule_uses_one_direct_fact_without_two_hop_expansion) ... ok
+test_title_match_is_admitted_in_its_own_tier (core.test_feed_v2.FeedV2AdmissionTests.test_title_match_is_admitted_in_its_own_tier)
+TITLE_MATCH is a survivor even with no taxonomy confirmation. ... ERROR
+test_unresolved_stops_before_criterion_matching (core.test_feed_v2.FeedV2AdmissionTests.test_unresolved_stops_before_criterion_matching)
+Occupational admission gates the expensive criterion pass. ... ok
+test_practical_filters_change_visibility_only (core.test_feed_v2.FeedV2FilterTests.test_practical_filters_change_visibility_only) ... ERROR
+test_building_generation_is_invisible_and_activation_is_atomic (core.test_feed_v2.FeedV2GenerationTests.test_building_generation_is_invisible_and_activation_is_atomic) ... FAIL
+test_evidence_change_keeps_relationship_but_marks_fit_updating (core.test_feed_v2.FeedV2GenerationTests.test_evidence_change_keeps_relationship_but_marks_fit_updating) ... FAIL
+test_failed_replacement_preserves_prior_active_generation (core.test_feed_v2.FeedV2GenerationTests.test_failed_replacement_preserves_prior_active_generation) ... FAIL
+test_idempotent_worker_restores_ready_and_completed_enqueue_is_quiet (core.test_feed_v2.FeedV2GenerationTests.test_idempotent_worker_restores_ready_and_completed_enqueue_is_quiet) ... ok
+test_policy_change_hides_the_feed_without_a_catalogue_fallback (core.test_feed_v2.FeedV2GenerationTests.test_policy_change_hides_the_feed_without_a_catalogue_fallback) ... ok
+test_rebuild_is_deterministic_and_idempotent (core.test_feed_v2.FeedV2GenerationTests.test_rebuild_is_deterministic_and_idempotent) ... ok
+test_stale_clean_pointer_suppresses_only_that_opportunity (core.test_feed_v2.FeedV2GenerationTests.test_stale_clean_pointer_suppresses_only_that_opportunity) ... ERROR
+test_target_change_hides_old_target_generation_without_catalogue_fallback (core.test_feed_v2.FeedV2GenerationTests.test_target_change_hides_old_target_generation_without_catalogue_fallback) ... ok
+test_exact_career_labels_search_and_one_universe_at_runtime (core.test_feed_v2.FeedV2PresentationTests.test_exact_career_labels_search_and_one_universe_at_runtime) ... FAIL
+test_unrelated_job_stays_visible_as_tier_zero_band_f (core.test_feed_v2.FeedV2PresentationTests.test_unrelated_job_stays_visible_as_tier_zero_band_f) ... FAIL
+test_duplicate_claim_and_enqueue_are_safe (core.test_feed_v2.FeedV2QueueTests.test_duplicate_claim_and_enqueue_are_safe) ... ok
+test_expired_lease_is_recoverable (core.test_feed_v2.FeedV2QueueTests.test_expired_lease_is_recoverable) ... ok
+test_failed_task_allows_a_fresh_task_and_keeps_the_old_row (core.test_feed_v2.FeedV2QueueTests.test_failed_task_allows_a_fresh_task_and_keeps_the_old_row) ... ok
+test_live_task_key_stays_unique_in_the_database (core.test_feed_v2.FeedV2QueueTests.test_live_task_key_stays_unique_in_the_database) ... ok
+test_pending_duplicate_enqueue_returns_the_same_task (core.test_feed_v2.FeedV2QueueTests.test_pending_duplicate_enqueue_returns_the_same_task) ... ok
+test_related_fanout_uses_policy_and_skill_overlap_does_not (core.test_feed_v2.FeedV2QueueTests.test_related_fanout_uses_policy_and_skill_overlap_does_not) ... ok
+test_retry_is_bounded_and_records_failure (core.test_feed_v2.FeedV2QueueTests.test_retry_is_bounded_and_records_failure) ... ok
+test_running_duplicate_enqueue_returns_the_same_task (core.test_feed_v2.FeedV2QueueTests.test_running_duplicate_enqueue_returns_the_same_task) ... ok
+test_superseded_task_allows_a_fresh_task_and_keeps_the_old_row (core.test_feed_v2.FeedV2QueueTests.test_superseded_task_allows_a_fresh_task_and_keeps_the_old_row) ... ok
+test_final_tie_breaker_is_deterministic (core.test_feed_v2.FeedV2RankingTests.test_final_tie_breaker_is_deterministic) ... FAIL
+test_relationship_class_and_tier_are_absolute_outer_order (core.test_feed_v2.FeedV2RankingTests.test_relationship_class_and_tier_are_absolute_outer_order) ... FAIL
+test_ambiguous_source_negative_keeps_the_vacancy (core.test_feed_v2.FeedV2UnrelatedExclusionTests.test_ambiguous_source_negative_keeps_the_vacancy) ... ERROR
+test_different_codes_without_policy_keep_the_vacancy_unconflicted (core.test_feed_v2.FeedV2UnrelatedExclusionTests.test_different_codes_without_policy_keep_the_vacancy_unconflicted)
+No approved policy anywhere is absent evidence, not a denial. ... ERROR
+test_discovery_rank_table_matches_the_locked_order (core.test_feed_v2.FeedV2UnrelatedExclusionTests.test_discovery_rank_table_matches_the_locked_order) ... ok
+test_every_source_negative_excludes_the_vacancy (core.test_feed_v2.FeedV2UnrelatedExclusionTests.test_every_source_negative_excludes_the_vacancy) ... ERROR
+test_explicit_negative_requires_current_policy_evidence (core.test_feed_v2.FeedV2UnrelatedExclusionTests.test_explicit_negative_requires_current_policy_evidence) ... ok
+test_incomplete_authored_target_matrix_fails_open (core.test_feed_v2.FeedV2UnrelatedExclusionTests.test_incomplete_authored_target_matrix_fails_open) ... ERROR
+test_obvious_senior_revision_never_enters_a_v2_feed (core.test_feed_v2.FeedV2UnrelatedExclusionTests.test_obvious_senior_revision_never_enters_a_v2_feed) ... ok
+test_only_obvious_senior_is_excluded_and_gates_never_hide_jobs (core.test_feed_v2.FeedV2UnrelatedExclusionTests.test_only_obvious_senior_is_excluded_and_gates_never_hide_jobs) ... ok
+test_opportunity_fanout_keeps_every_unproven_profile (core.test_feed_v2.FeedV2UnrelatedExclusionTests.test_opportunity_fanout_keeps_every_unproven_profile) ... FAIL
+test_positive_relationship_beats_a_single_negative_source (core.test_feed_v2.FeedV2UnrelatedExclusionTests.test_positive_relationship_beats_a_single_negative_source) ... ok
+test_single_source_negative_neither_proves_unrelated_nor_admits (core.test_feed_v2.FeedV2UnrelatedExclusionTests.test_single_source_negative_neither_proves_unrelated_nor_admits) ... ERROR
+test_title_gate_block_excludes_from_the_personalized_feed (core.test_feed_v2.FeedV2UnrelatedExclusionTests.test_title_gate_block_excludes_from_the_personalized_feed) ... ok
+test_unrelated_target_with_disagreeing_target_is_kept (core.test_feed_v2.FeedV2UnrelatedExclusionTests.test_unrelated_target_with_disagreeing_target_is_kept) ... ok
+test_unrelated_target_with_related_target_is_kept (core.test_feed_v2.FeedV2UnrelatedExclusionTests.test_unrelated_target_with_related_target_is_kept) ... ok
+test_verification_report_passes_with_the_widened_invariant (core.test_feed_v2.FeedV2UnrelatedExclusionTests.test_verification_report_passes_with_the_widened_invariant) ... FAIL
+test_weak_adjacency_policy_is_not_negative_proof (core.test_feed_v2.FeedV2UnrelatedExclusionTests.test_weak_adjacency_policy_is_not_negative_proof) ... ERROR
+test_only_a_fresh_unrelated_proof_excludes_a_job (core.test_feed_v2.UncertainCatalogueVisibilityTests.test_only_a_fresh_unrelated_proof_excludes_a_job)
+The uncertain area excludes a job on fresh negative proof only. ... FAIL
+test_the_three_feed_areas_never_repeat_one_job (core.test_feed_v2.UncertainCatalogueVisibilityTests.test_the_three_feed_areas_never_repeat_one_job)
+One job is in exactly one area: confirmed, discovery or uncertain. ... FAIL
+test_the_uncertain_area_writes_nothing_and_resolves_nothing (core.test_feed_v2.UncertainCatalogueVisibilityTests.test_the_uncertain_area_writes_nothing_and_resolves_nothing)
+A GET over the uncertain area is a pure stored read. ... ok
+test_title_only_evidence_is_disclosed_beside_a_confirmed_relationship (core.test_feed_v2.UncertainCatalogueVisibilityTests.test_title_only_evidence_is_disclosed_beside_a_confirmed_relationship)
+A confirmed card also discloses its retained title-only evidence. ... ERROR
+test_unassessed_jobs_stay_browsable_beside_the_transition_message (core.test_feed_v2.UncertainCatalogueVisibilityTests.test_unassessed_jobs_stay_browsable_beside_the_transition_message)
+Missing coverage never empties the page. ... ok
+test_a_build_produces_results_for_the_current_target (core.test_provisional_bridge.ProvisionalBridgeCase.test_a_build_produces_results_for_the_current_target) ... ok
+test_no_target_exposes_no_provisional_results (core.test_provisional_bridge.ProvisionalBridgeCase.test_no_target_exposes_no_provisional_results) ... ok
+test_page_request_with_provisional_rows_runs_no_matcher (core.test_provisional_bridge.ProvisionalBridgeCase.test_page_request_with_provisional_rows_runs_no_matcher) ... ok
+test_provisional_cannot_override_an_authoritative_feed (core.test_provisional_bridge.ProvisionalBridgeCase.test_provisional_cannot_override_an_authoritative_feed) ... ok
+test_provisional_failure_does_not_alter_v2 (core.test_provisional_bridge.ProvisionalBridgeCase.test_provisional_failure_does_not_alter_v2) ... FAIL
+test_provisional_is_used_while_v2_is_unresolved (core.test_provisional_bridge.ProvisionalBridgeCase.test_provisional_is_used_while_v2_is_unresolved) ... ok
+test_stale_a_completion_is_written_stale_for_b (core.test_provisional_bridge.ProvisionalBridgeCase.test_stale_a_completion_is_written_stale_for_b) ... ok
+test_stale_a_rows_may_remain_but_are_never_read (core.test_provisional_bridge.ProvisionalBridgeCase.test_stale_a_rows_may_remain_but_are_never_read) ... ok
+test_target_change_a_to_b_changes_the_identity (core.test_provisional_bridge.ProvisionalBridgeCase.test_target_change_a_to_b_changes_the_identity) ... ok
+test_target_change_enqueues_both_task_versions (core.test_provisional_bridge.ProvisionalBridgeCase.test_target_change_enqueues_both_task_versions) ... FAIL
+test_v2_activation_notifies_a_viewer_of_provisional_results (core.test_provisional_bridge.ProvisionalBridgeCase.test_v2_activation_notifies_a_viewer_of_provisional_results) ... ok
+test_v2_failure_preserves_previous_authoritative_v2 (core.test_provisional_bridge.ProvisionalBridgeCase.test_v2_failure_preserves_previous_authoritative_v2) ... FAIL
+test_v2_takes_precedence_immediately_when_authoritative (core.test_provisional_bridge.ProvisionalBridgeCase.test_v2_takes_precedence_immediately_when_authoritative) ... ok
+test_authoritative_feed_returns_immediately_after_activation (core.test_provisional_feed_contract.ProvisionalFeedContractTests.test_authoritative_feed_returns_immediately_after_activation) ... FAIL
+test_build_transition_state_does_not_make_the_feed_authoritative (core.test_provisional_feed_contract.ProvisionalFeedContractTests.test_build_transition_state_does_not_make_the_feed_authoritative)
+A BUILDING generation is not authoritative, so provisional stays on. ... ok
+test_dashboard_does_not_run_the_matcher_without_a_generation (core.test_provisional_feed_contract.ProvisionalFeedContractTests.test_dashboard_does_not_run_the_matcher_without_a_generation) ... ok
+test_dashboard_keeps_the_matcher_when_authoritative (core.test_provisional_feed_contract.ProvisionalFeedContractTests.test_dashboard_keeps_the_matcher_when_authoritative) ... ok
+test_dashboard_target_change_drops_back_to_catalogue_wording (core.test_provisional_feed_contract.ProvisionalFeedContractTests.test_dashboard_target_change_drops_back_to_catalogue_wording) ... ok
+test_no_target_profile_gets_a_paginated_general_catalogue (core.test_provisional_feed_contract.ProvisionalFeedContractTests.test_no_target_profile_gets_a_paginated_general_catalogue) ... ok
+test_old_target_evidence_never_reaches_the_new_target_view (core.test_provisional_feed_contract.ProvisionalFeedContractTests.test_old_target_evidence_never_reaches_the_new_target_view)
+Old-target assessments must not appear for the new target. ... FAIL
+test_provisional_makes_no_occupational_claim (core.test_provisional_feed_contract.ProvisionalFeedContractTests.test_provisional_makes_no_occupational_claim) ... ok
+test_provisional_page_browses_more_than_the_uncertain_cap (core.test_provisional_feed_contract.ProvisionalFeedContractTests.test_provisional_page_browses_more_than_the_uncertain_cap) ... ok
+test_switch_becomes_true_only_after_activation (core.test_provisional_feed_contract.ProvisionalFeedContractTests.test_switch_becomes_true_only_after_activation) ... ok
+test_switch_is_false_before_any_generation_exists (core.test_provisional_feed_contract.ProvisionalFeedContractTests.test_switch_is_false_before_any_generation_exists) ... ok
+test_target_change_flips_the_switch_back_immediately (core.test_provisional_feed_contract.ProvisionalFeedContractTests.test_target_change_flips_the_switch_back_immediately) ... ok
+test_a_new_target_after_clearing_starts_from_nothing (core.test_target_state_lifecycle.TargetStateLifecycleTests.test_a_new_target_after_clearing_starts_from_nothing)
+The clear -> new-target path must not inherit the old evidence. ... ok
+test_clearing_the_target_removes_all_target_specific_state (core.test_target_state_lifecycle.TargetStateLifecycleTests.test_clearing_the_target_removes_all_target_specific_state) ... FAIL
+test_purge_is_idempotent_and_safe_without_prior_state (core.test_target_state_lifecycle.TargetStateLifecycleTests.test_purge_is_idempotent_and_safe_without_prior_state) ... ok
+test_target_change_retires_the_previous_targets_state (core.test_target_state_lifecycle.TargetStateLifecycleTests.test_target_change_retires_the_previous_targets_state)
+Target A -> B: no A-specific row survives into B's build. ... FAIL
+test_vacancy_state_is_candidate_independent_and_survives_the_purge (core.test_target_state_lifecycle.TargetStateLifecycleTests.test_vacancy_state_is_candidate_independent_and_survives_the_purge)
+Purging a target must not delete shared, target-free vacancy work. ... FAIL
+test_cached_and_uncached_paths_both_still_work (core.test_target_resolution_hoist.HoistedTargetResolutionTests.test_cached_and_uncached_paths_both_still_work)
+The Phase 22 fast path and a forced recompute both still behave. ... ok
+test_multi_concept_target_keeps_every_concept (core.test_target_resolution_hoist.HoistedTargetResolutionTests.test_multi_concept_target_keeps_every_concept)
+A target resolving to two concepts still compares against both. ... ok
+test_omitting_the_argument_still_resolves_inline (core.test_target_resolution_hoist.HoistedTargetResolutionTests.test_omitting_the_argument_still_resolves_inline)
+Every existing caller keeps the original behaviour unchanged. ... ok
+test_pass_resolves_the_target_once_not_once_per_revision (core.test_target_resolution_hoist.HoistedTargetResolutionTests.test_pass_resolves_the_target_once_not_once_per_revision)
+The redundancy is gone: one resolution per target for a whole pass. ... ok
+test_pre_resolved_data_is_the_same_resolution (core.test_target_resolution_hoist.HoistedTargetResolutionTests.test_pre_resolved_data_is_the_same_resolution)
+Passing the rows in gives the identical result to resolving inline. ... ok
+test_shared_sources_are_never_mutated_between_pairs (core.test_target_resolution_hoist.HoistedTargetResolutionTests.test_shared_sources_are_never_mutated_between_pairs)
+Reusing one mapping across revisions must not alter stored state. ... ok
+test_supplied_sources_are_not_re_resolved (core.test_target_resolution_hoist.HoistedTargetResolutionTests.test_supplied_sources_are_not_re_resolved)
+A supplied resolution short-circuits resolution entirely. ... ok
+
+======================================================================
+ERROR: test_target_change_performance_counts (core.test_indexed_retrieval.GenerationReuseTests.test_target_change_performance_counts)
+Report the OLD->NEW cost shape on a realistic mini-catalogue.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\CG\core\test_indexed_retrieval.py", line 243, in test_target_change_performance_counts
+    generation, count = build_profile_generation(self.profile)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\core\services\feed_v2.py", line 674, in build_profile_generation
+    activated = _activate_generation(generation.pk, token)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\malak\AppData\Roaming\uv\python\cpython-3.12-windows-x86_64-none\Lib\contextlib.py", line 81, in inner
+    return func(*args, **kwds)
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\core\services\feed_v2.py", line 461, in _activate_generation
+    raise StaleGenerationBuild('The professional catalogue changed during generation build.')
+core.services.feed_v2.StaleGenerationBuild: The professional catalogue changed during generation build.
+
+======================================================================
+ERROR: test_target_change_skips_unrelated_job_resolution (core.test_indexed_retrieval.GenerationReuseTests.test_target_change_skips_unrelated_job_resolution)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\CG\core\test_indexed_retrieval.py", line 145, in test_target_change_skips_unrelated_job_resolution
+    generation, count = build_profile_generation(self.profile)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\core\services\feed_v2.py", line 674, in build_profile_generation
+    activated = _activate_generation(generation.pk, token)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\malak\AppData\Roaming\uv\python\cpython-3.12-windows-x86_64-none\Lib\contextlib.py", line 81, in inner
+    return func(*args, **kwds)
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\core\services\feed_v2.py", line 461, in _activate_generation
+    raise StaleGenerationBuild('The professional catalogue changed during generation build.')
+core.services.feed_v2.StaleGenerationBuild: The professional catalogue changed during generation build.
+
+======================================================================
+ERROR: test_stale_clean_pointer_suppresses_only_that_opportunity (core.test_feed_v2.FeedAdmissionAndUiTests.test_stale_clean_pointer_suppresses_only_that_opportunity)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\CG\core\test_feed_v2.py", line 396, in test_stale_clean_pointer_suppresses_only_that_opportunity
+    first = ProfileFeedEvaluation.objects.exclude(opportunity=other).get().opportunity
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\.venv\Lib\site-packages\django\db\models\query.py", line 639, in get
+    raise self.model.DoesNotExist(
+core.models.ProfileFeedEvaluation.DoesNotExist: ProfileFeedEvaluation matching query does not exist.
+
+======================================================================
+ERROR: test_title_match_is_admitted_in_its_own_tier (core.test_feed_v2.FeedV2AdmissionTests.test_title_match_is_admitted_in_its_own_tier)
+TITLE_MATCH is a survivor even with no taxonomy confirmation.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\CG\core\test_feed_v2.py", line 252, in test_title_match_is_admitted_in_its_own_tier
+    generation, count = build_profile_generation(self.profile)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\core\services\feed_v2.py", line 674, in build_profile_generation
+    activated = _activate_generation(generation.pk, token)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\malak\AppData\Roaming\uv\python\cpython-3.12-windows-x86_64-none\Lib\contextlib.py", line 81, in inner
+    return func(*args, **kwds)
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\core\services\feed_v2.py", line 461, in _activate_generation
+    raise StaleGenerationBuild('The professional catalogue changed during generation build.')
+core.services.feed_v2.StaleGenerationBuild: The professional catalogue changed during generation build.
+
+======================================================================
+ERROR: test_practical_filters_change_visibility_only (core.test_feed_v2.FeedV2FilterTests.test_practical_filters_change_visibility_only)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\CG\core\test_feed_v2.py", line 447, in test_practical_filters_change_visibility_only
+    row = baseline.get()
+          ^^^^^^^^^^^^^^
+  File "D:\CG\.venv\Lib\site-packages\django\db\models\query.py", line 639, in get
+    raise self.model.DoesNotExist(
+core.models.ProfileFeedEvaluation.DoesNotExist: ProfileFeedEvaluation matching query does not exist.
+
+======================================================================
+ERROR: test_stale_clean_pointer_suppresses_only_that_opportunity (core.test_feed_v2.FeedV2GenerationTests.test_stale_clean_pointer_suppresses_only_that_opportunity)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\CG\core\test_feed_v2.py", line 396, in test_stale_clean_pointer_suppresses_only_that_opportunity
+    first = ProfileFeedEvaluation.objects.exclude(opportunity=other).get().opportunity
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\.venv\Lib\site-packages\django\db\models\query.py", line 639, in get
+    raise self.model.DoesNotExist(
+core.models.ProfileFeedEvaluation.DoesNotExist: ProfileFeedEvaluation matching query does not exist.
+
+======================================================================
+ERROR: test_ambiguous_source_negative_keeps_the_vacancy (core.test_feed_v2.FeedV2UnrelatedExclusionTests.test_ambiguous_source_negative_keeps_the_vacancy)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\CG\core\test_feed_v2.py", line 1028, in test_ambiguous_source_negative_keeps_the_vacancy
+    generation, count = build_profile_generation(self.profile)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\core\services\feed_v2.py", line 674, in build_profile_generation
+    activated = _activate_generation(generation.pk, token)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\malak\AppData\Roaming\uv\python\cpython-3.12-windows-x86_64-none\Lib\contextlib.py", line 81, in inner
+    return func(*args, **kwds)
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\core\services\feed_v2.py", line 461, in _activate_generation
+    raise StaleGenerationBuild('The professional catalogue changed during generation build.')
+core.services.feed_v2.StaleGenerationBuild: The professional catalogue changed during generation build.
+
+======================================================================
+ERROR: test_different_codes_without_policy_keep_the_vacancy_unconflicted (core.test_feed_v2.FeedV2UnrelatedExclusionTests.test_different_codes_without_policy_keep_the_vacancy_unconflicted)
+No approved policy anywhere is absent evidence, not a denial.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\CG\core\test_feed_v2.py", line 831, in test_different_codes_without_policy_keep_the_vacancy_unconflicted
+    generation, count = build_profile_generation(self.profile)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\core\services\feed_v2.py", line 674, in build_profile_generation
+    activated = _activate_generation(generation.pk, token)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\malak\AppData\Roaming\uv\python\cpython-3.12-windows-x86_64-none\Lib\contextlib.py", line 81, in inner
+    return func(*args, **kwds)
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\core\services\feed_v2.py", line 461, in _activate_generation
+    raise StaleGenerationBuild('The professional catalogue changed during generation build.')
+core.services.feed_v2.StaleGenerationBuild: The professional catalogue changed during generation build.
+
+======================================================================
+ERROR: test_every_source_negative_excludes_the_vacancy (core.test_feed_v2.FeedV2UnrelatedExclusionTests.test_every_source_negative_excludes_the_vacancy)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\CG\core\test_feed_v2.py", line 777, in test_every_source_negative_excludes_the_vacancy
+    generation, count = build_profile_generation(self.profile)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\core\services\feed_v2.py", line 674, in build_profile_generation
+    activated = _activate_generation(generation.pk, token)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\malak\AppData\Roaming\uv\python\cpython-3.12-windows-x86_64-none\Lib\contextlib.py", line 81, in inner
+    return func(*args, **kwds)
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\core\services\feed_v2.py", line 461, in _activate_generation
+    raise StaleGenerationBuild('The professional catalogue changed during generation build.')
+core.services.feed_v2.StaleGenerationBuild: The professional catalogue changed during generation build.
+
+======================================================================
+ERROR: test_incomplete_authored_target_matrix_fails_open (core.test_feed_v2.FeedV2UnrelatedExclusionTests.test_incomplete_authored_target_matrix_fails_open)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\CG\core\test_feed_v2.py", line 880, in test_incomplete_authored_target_matrix_fails_open
+    generation, count = build_profile_generation(self.profile)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\core\services\feed_v2.py", line 674, in build_profile_generation
+    activated = _activate_generation(generation.pk, token)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\malak\AppData\Roaming\uv\python\cpython-3.12-windows-x86_64-none\Lib\contextlib.py", line 81, in inner
+    return func(*args, **kwds)
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\core\services\feed_v2.py", line 461, in _activate_generation
+    raise StaleGenerationBuild('The professional catalogue changed during generation build.')
+core.services.feed_v2.StaleGenerationBuild: The professional catalogue changed during generation build.
+
+======================================================================
+ERROR: test_single_source_negative_neither_proves_unrelated_nor_admits (core.test_feed_v2.FeedV2UnrelatedExclusionTests.test_single_source_negative_neither_proves_unrelated_nor_admits)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\CG\core\test_feed_v2.py", line 799, in test_single_source_negative_neither_proves_unrelated_nor_admits
+    generation, count = build_profile_generation(self.profile)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\core\services\feed_v2.py", line 674, in build_profile_generation
+    activated = _activate_generation(generation.pk, token)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\malak\AppData\Roaming\uv\python\cpython-3.12-windows-x86_64-none\Lib\contextlib.py", line 81, in inner
+    return func(*args, **kwds)
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\core\services\feed_v2.py", line 461, in _activate_generation
+    raise StaleGenerationBuild('The professional catalogue changed during generation build.')
+core.services.feed_v2.StaleGenerationBuild: The professional catalogue changed during generation build.
+
+======================================================================
+ERROR: test_weak_adjacency_policy_is_not_negative_proof (core.test_feed_v2.FeedV2UnrelatedExclusionTests.test_weak_adjacency_policy_is_not_negative_proof)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\CG\core\test_feed_v2.py", line 853, in test_weak_adjacency_policy_is_not_negative_proof
+    generation, count = build_profile_generation(self.profile)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\core\services\feed_v2.py", line 674, in build_profile_generation
+    activated = _activate_generation(generation.pk, token)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\malak\AppData\Roaming\uv\python\cpython-3.12-windows-x86_64-none\Lib\contextlib.py", line 81, in inner
+    return func(*args, **kwds)
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\core\services\feed_v2.py", line 461, in _activate_generation
+    raise StaleGenerationBuild('The professional catalogue changed during generation build.')
+core.services.feed_v2.StaleGenerationBuild: The professional catalogue changed during generation build.
+
+======================================================================
+ERROR: test_title_only_evidence_is_disclosed_beside_a_confirmed_relationship (core.test_feed_v2.UncertainCatalogueVisibilityTests.test_title_only_evidence_is_disclosed_beside_a_confirmed_relationship)
+A confirmed card also discloses its retained title-only evidence.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\CG\core\test_feed_v2.py", line 1398, in test_title_only_evidence_is_disclosed_beside_a_confirmed_relationship
+    card = response.context['results'][0]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^
+IndexError: list index out of range
+
+======================================================================
+FAIL: test_building_generation_is_invisible_and_activation_is_atomic (core.test_feed_v2.FeedAdmissionAndUiTests.test_building_generation_is_invisible_and_activation_is_atomic)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\CG\core\test_feed_v2.py", line 341, in test_building_generation_is_invisible_and_activation_is_atomic
+    self.assertTrue(v2_feed_queryset(self.profile).exists())
+AssertionError: False is not true
+
+======================================================================
+FAIL: test_evidence_change_keeps_relationship_but_marks_fit_updating (core.test_feed_v2.FeedAdmissionAndUiTests.test_evidence_change_keeps_relationship_but_marks_fit_updating)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\CG\core\test_feed_v2.py", line 376, in test_evidence_change_keeps_relationship_but_marks_fit_updating
+    self.assertTrue(v2_feed_queryset(self.profile).exists())
+AssertionError: False is not true
+
+======================================================================
+FAIL: test_failed_replacement_preserves_prior_active_generation (core.test_feed_v2.FeedAdmissionAndUiTests.test_failed_replacement_preserves_prior_active_generation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\CG\core\test_feed_v2.py", line 355, in test_failed_replacement_preserves_prior_active_generation
+    with self.assertRaisesRegex(RuntimeError, 'synthetic'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: RuntimeError not raised
+
+======================================================================
+FAIL: test_requirements_never_exclude_a_confirmed_occupationally_relevant_job (core.test_feed_v2.FeedAdmissionAndUiTests.test_requirements_never_exclude_a_confirmed_occupationally_relevant_job)
+A relevant job with no matching skills stays in the main feed.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\CG\core\test_feed_v2.py", line 1157, in test_requirements_never_exclude_a_confirmed_occupationally_relevant_job
+    self.assertIn(listing.pk, ids)
+AssertionError: 2 not found in []
+
+======================================================================
+FAIL: test_unconfirmed_jobs_are_separated_and_never_labelled_as_matches (core.test_feed_v2.FeedAdmissionAndUiTests.test_unconfirmed_jobs_are_separated_and_never_labelled_as_matches)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\CG\core\test_feed_v2.py", line 1175, in test_unconfirmed_jobs_are_separated_and_never_labelled_as_matches
+    self.assertTrue(confirmed_ids)
+AssertionError: [] is not true
+
+======================================================================
+FAIL: test_exact_admitted_despite_weak_fit_and_skill_overlap_cannot_admit (core.test_feed_v2.FeedV2AdmissionTests.test_exact_admitted_despite_weak_fit_and_skill_overlap_cannot_admit)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\CG\core\test_feed_v2.py", line 146, in test_exact_admitted_despite_weak_fit_and_skill_overlap_cannot_admit
+    self.assertEqual(count, 1)
+AssertionError: 0 != 1
+
+======================================================================
+FAIL: test_related_requires_active_candidate_policy (core.test_feed_v2.FeedV2AdmissionTests.test_related_requires_active_candidate_policy)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\CG\core\test_feed_v2.py", line 180, in test_related_requires_active_candidate_policy
+    self.assertEqual(count, 1)
+AssertionError: 0 != 1
+
+======================================================================
+FAIL: test_building_generation_is_invisible_and_activation_is_atomic (core.test_feed_v2.FeedV2GenerationTests.test_building_generation_is_invisible_and_activation_is_atomic)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\CG\core\test_feed_v2.py", line 341, in test_building_generation_is_invisible_and_activation_is_atomic
+    self.assertTrue(v2_feed_queryset(self.profile).exists())
+AssertionError: False is not true
+
+======================================================================
+FAIL: test_evidence_change_keeps_relationship_but_marks_fit_updating (core.test_feed_v2.FeedV2GenerationTests.test_evidence_change_keeps_relationship_but_marks_fit_updating)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\CG\core\test_feed_v2.py", line 376, in test_evidence_change_keeps_relationship_but_marks_fit_updating
+    self.assertTrue(v2_feed_queryset(self.profile).exists())
+AssertionError: False is not true
+
+======================================================================
+FAIL: test_failed_replacement_preserves_prior_active_generation (core.test_feed_v2.FeedV2GenerationTests.test_failed_replacement_preserves_prior_active_generation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\CG\core\test_feed_v2.py", line 355, in test_failed_replacement_preserves_prior_active_generation
+    with self.assertRaisesRegex(RuntimeError, 'synthetic'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: RuntimeError not raised
+
+======================================================================
+FAIL: test_exact_career_labels_search_and_one_universe_at_runtime (core.test_feed_v2.FeedV2PresentationTests.test_exact_career_labels_search_and_one_universe_at_runtime)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\CG\core\test_feed_v2.py", line 626, in test_exact_career_labels_search_and_one_universe_at_runtime
+    self.assertEqual(count, 1)
+AssertionError: 0 != 1
+
+======================================================================
+FAIL: test_unrelated_job_stays_visible_as_tier_zero_band_f (core.test_feed_v2.FeedV2PresentationTests.test_unrelated_job_stays_visible_as_tier_zero_band_f)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\CG\core\test_feed_v2.py", line 691, in test_unrelated_job_stays_visible_as_tier_zero_band_f
+    self.assertNotContains(response, catalogue_title)
+  File "D:\CG\.venv\Lib\site-packages\django\test\testcases.py", line 676, in assertNotContains
+    self.assertEqual(
+AssertionError: 3 != 0 : Response should not contain 'Warehouse Clerk'
+
+======================================================================
+FAIL: test_final_tie_breaker_is_deterministic (core.test_feed_v2.FeedV2RankingTests.test_final_tie_breaker_is_deterministic)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\CG\core\test_feed_v2.py", line 329, in test_final_tie_breaker_is_deterministic
+    self.assertEqual(set(one), {first.pk, second.pk})
+AssertionError: Items in the second set but not the first:
+1
+2
+
+======================================================================
+FAIL: test_relationship_class_and_tier_are_absolute_outer_order (core.test_feed_v2.FeedV2RankingTests.test_relationship_class_and_tier_are_absolute_outer_order)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\CG\core\test_feed_v2.py", line 309, in test_relationship_class_and_tier_are_absolute_outer_order
+    self.assertEqual(count, 3)
+AssertionError: 0 != 3
+
+======================================================================
+FAIL: test_opportunity_fanout_keeps_every_unproven_profile (core.test_feed_v2.FeedV2UnrelatedExclusionTests.test_opportunity_fanout_keeps_every_unproven_profile)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\CG\core\test_feed_v2.py", line 897, in test_opportunity_fanout_keeps_every_unproven_profile
+    self.assertEqual(_opportunity_fanout(task), [])
+AssertionError: Lists differ: [1] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+1
+
+- [1]
+?  -
+
++ []
+
+======================================================================
+FAIL: test_verification_report_passes_with_the_widened_invariant (core.test_feed_v2.FeedV2UnrelatedExclusionTests.test_verification_report_passes_with_the_widened_invariant)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\CG\.venv\Lib\site-packages\django\test\utils.py", line 461, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\core\test_feed_v2.py", line 1112, in test_verification_report_passes_with_the_widened_invariant
+    self.assertEqual(count, 1)
+AssertionError: 0 != 1
+
+======================================================================
+FAIL: test_only_a_fresh_unrelated_proof_excludes_a_job (core.test_feed_v2.UncertainCatalogueVisibilityTests.test_only_a_fresh_unrelated_proof_excludes_a_job)
+The uncertain area excludes a job on fresh negative proof only.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\CG\core\test_feed_v2.py", line 1351, in test_only_a_fresh_unrelated_proof_excludes_a_job
+    self.assertIn(exact.pk, self.area_ids(response, 'results'))
+AssertionError: 1 not found in set()
+
+======================================================================
+FAIL: test_the_three_feed_areas_never_repeat_one_job (core.test_feed_v2.UncertainCatalogueVisibilityTests.test_the_three_feed_areas_never_repeat_one_job)
+One job is in exactly one area: confirmed, discovery or uncertain.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\CG\core\test_feed_v2.py", line 1319, in test_the_three_feed_areas_never_repeat_one_job
+    self.assertIn(confirmed.pk, confirmed_ids)
+AssertionError: 1 not found in set()
+
+======================================================================
+FAIL: test_provisional_failure_does_not_alter_v2 (core.test_provisional_bridge.ProvisionalBridgeCase.test_provisional_failure_does_not_alter_v2)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\CG\core\test_provisional_bridge.py", line 193, in test_provisional_failure_does_not_alter_v2
+    self.assertTrue(v2_feed_queryset(self.profile).exists())
+AssertionError: False is not true
+
+======================================================================
+FAIL: test_target_change_enqueues_both_task_versions (core.test_provisional_bridge.ProvisionalBridgeCase.test_target_change_enqueues_both_task_versions)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\CG\core\test_provisional_bridge.py", line 247, in test_target_change_enqueues_both_task_versions
+    self.assertTrue(v2_tasks.exists())
+AssertionError: False is not true
+
+======================================================================
+FAIL: test_v2_failure_preserves_previous_authoritative_v2 (core.test_provisional_bridge.ProvisionalBridgeCase.test_v2_failure_preserves_previous_authoritative_v2)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\CG\core\test_provisional_bridge.py", line 205, in test_v2_failure_preserves_previous_authoritative_v2
+    with self.assertRaises(RuntimeError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: RuntimeError not raised
+
+======================================================================
+FAIL: test_authoritative_feed_returns_immediately_after_activation (core.test_provisional_feed_contract.ProvisionalFeedContractTests.test_authoritative_feed_returns_immediately_after_activation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\CG\core\test_provisional_feed_contract.py", line 177, in test_authoritative_feed_returns_immediately_after_activation
+    self.assertEqual(len(response.context['results']), 1)
+AssertionError: 0 != 1
+
+======================================================================
+FAIL: test_old_target_evidence_never_reaches_the_new_target_view (core.test_provisional_feed_contract.ProvisionalFeedContractTests.test_old_target_evidence_never_reaches_the_new_target_view)
+Old-target assessments must not appear for the new target.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\CG\core\test_provisional_feed_contract.py", line 150, in test_old_target_evidence_never_reaches_the_new_target_view
+    self.assertTrue(
+AssertionError: False is not true
+
+======================================================================
+FAIL: test_clearing_the_target_removes_all_target_specific_state (core.test_target_state_lifecycle.TargetStateLifecycleTests.test_clearing_the_target_removes_all_target_specific_state)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\CG\core\test_target_state_lifecycle.py", line 125, in test_clearing_the_target_removes_all_target_specific_state
+    self.assertTrue(populated['assessments'])
+AssertionError: 0 is not true
+
+======================================================================
+FAIL: test_target_change_retires_the_previous_targets_state (core.test_target_state_lifecycle.TargetStateLifecycleTests.test_target_change_retires_the_previous_targets_state)
+Target A -> B: no A-specific row survives into B's build.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\CG\core\test_target_state_lifecycle.py", line 86, in test_target_change_retires_the_previous_targets_state
+    self.assertGreater(before['assessments'], 0)
+AssertionError: 0 not greater than 0
+
+======================================================================
+FAIL: test_vacancy_state_is_candidate_independent_and_survives_the_purge (core.test_target_state_lifecycle.TargetStateLifecycleTests.test_vacancy_state_is_candidate_independent_and_survives_the_purge)
+Purging a target must not delete shared, target-free vacancy work.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\CG\core\test_target_state_lifecycle.py", line 170, in test_vacancy_state_is_candidate_independent_and_survives_the_purge
+    self.assertGreater(vacancy_rows, 0)
+AssertionError: 0 not greater than 0
+
+----------------------------------------------------------------------
+Ran 110 tests in 178.863s
+
+FAILED (failures=26, errors=13)
+Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...

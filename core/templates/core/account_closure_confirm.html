@@ -1,0 +1,82 @@
+{% extends "dashboard_pages.html" %}
+{% load static %}
+
+{% block title %}CareerGPS – Confirm Account Deletion{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'core/css/account_closure.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="closure-shell">
+
+    <section class="closure-card closure-card-wide">
+
+        <p class="closure-eyebrow">Final confirmation</p>
+        <h1 class="closure-title">Delete your CareerGPS account?</h1>
+
+        <p class="closure-lead">
+            This cannot be undone and it takes effect immediately.
+        </p>
+
+        <div class="closure-panels">
+
+            <div class="closure-panel closure-panel-danger">
+                <h2>Removed straight away</h2>
+                <ul>
+                    <li>Your profile, career evidence, skills and preferences</li>
+                    <li>
+                        Practice interviews, recordings, transcripts, voice and
+                        camera analysis, and feedback
+                    </li>
+                    <li>
+                        Generated CVs and cover letters, saved opportunities and
+                        notifications
+                    </li>
+                    <li>Employer visibility choices and organisation blocks</li>
+                    <li>Your name, email address and sign-in access on this account</li>
+                </ul>
+            </div>
+
+            <div class="closure-panel">
+                <h2>Kept in limited, anonymised form</h2>
+                <ul>
+                    <li>Your acceptance of the Terms of Service and Privacy Notice</li>
+                    <li>
+                        Hiring history an employer already received for an
+                        application you submitted, shown without your name or
+                        contact details
+                    </li>
+                    <li>Privacy request, moderation and security records</li>
+                </ul>
+            </div>
+
+        </div>
+
+        <p class="closure-note">
+            Retained records are held without your name or contact details and are
+            covered by the retention review described in the
+            <a href="{% url 'privacy' %}">Privacy Notice</a>.
+        </p>
+
+        <div class="closure-actions">
+            <a class="closure-cancel" href="{% url 'settings' %}">Cancel</a>
+
+            <form method="post" class="closure-form-inline">
+                {% csrf_token %}
+                <button type="submit" class="closure-delete">
+                    Yes, I want to delete my account
+                </button>
+            </form>
+        </div>
+
+        <p class="closure-note">
+            We will email a confirmation to the address on your account.
+        </p>
+
+    </section>
+
+</div>
+
+{% endblock %}

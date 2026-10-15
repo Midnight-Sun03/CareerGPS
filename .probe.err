@@ -1,0 +1,23 @@
+Creating test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
+System check identified some issues:
+
+WARNINGS:
+?: (careergps.W001) Public operator/contact details are incomplete: CAREERGPS_OPERATOR_NAME, CAREERGPS_OPERATOR_LEGAL_STATUS, CAREERGPS_OPERATOR_PHYSICAL_ADDRESS, CAREERGPS_OPERATOR_LEGAL_SERVICE_ADDRESS, CAREERGPS_OPERATOR_TELEPHONE, CAREERGPS_CONTACT_EMAIL, CAREERGPS_PRIVACY_EMAIL, CAREERGPS_INFORMATION_OFFICER.
+	HINT: Supply verified owner facts before public production launch; review registration details and Information Officer information where applicable.
+
+System check identified 1 issue (0 silenced).
+test_probe (core.test_zz_probe.FanoutProbe.test_probe) ... FAIL
+
+======================================================================
+FAIL: test_probe (core.test_zz_probe.FanoutProbe.test_probe)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\CG\core\test_zz_probe.py", line 59, in test_probe
+    self.fail(f'probe result={result}')
+AssertionError: probe result=[1]
+
+----------------------------------------------------------------------
+Ran 1 test in 4.007s
+
+FAILED (failures=1)
+Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...

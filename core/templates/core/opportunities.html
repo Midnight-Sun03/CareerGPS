@@ -1,0 +1,258 @@
+{% extends "dashboard_pages.html" %}
+{% load static %}
+
+{% block title %}
+CareerGPS - Opportunities
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="{% static 'core/css/opportunities.css' %}">
+{% endblock %}
+
+{% block content %}
+
+      <!-- Main Content -->
+
+        <h1 class="page-title">Opportunities</h1>
+        {% if has_targets %}
+        {% if results and uses_provisional_feed %}
+        <p class="page-subtitle">
+          Your matches are updating. These {{ results|length }}
+          listing{{ results|length|pluralize }} match your saved career targets while
+          CareerGPS is still resolving occupations for them. They are current target
+          matches ranked from your profile evidence, not confirmed occupational
+          relationships yet.
+        </p>
+        {% elif results %}
+        <p class="page-subtitle">
+          These {{ results|length }} listing{{ results|length|pluralize }} passed the shared senior check and were
+          confirmed as an exact or approved related occupational match to your targets. Your current fit against
+          each one is shown separately. Requirements and eligibility affect ranking and explanation, never
+          inclusion.
+        </p>
+        {% else %}
+        <p class="page-subtitle">
+          No listing is currently confirmed as a match to your targets. CareerGPS is still resolving
+          occupations, so this is an incomplete picture rather than an empty market.
+        </p>
+        {% endif %}
+        {% else %}
+        <p class="page-subtitle">
+          Showing all current opportunities, because no target roles are saved yet. Add target roles to see
+          which listings are confirmed occupational matches for your goals. Current fit is shown separately.
+        </p>
+        {% endif %}
+
+        <!-- Search -->
+        <form class="search-box" method="get">
+    <button type="submit" class="search-submit" aria-label="Search opportunities">
+        <i class="fa-solid fa-magnifying-glass"></i>
+    </button>
+
+    <input
+        type="text"
+        id="searchInput"
+        name="search"
+        value="{{ search }}"
+        placeholder="Search opportunities..."
+    />
+
+    <button
+        type="button"
+        id="voiceSearchBtn"
+        class="voice-search-btn"
+        title="Search by voice"
+        aria-label="Search by voice"
+    >
+        <i class="fa-solid fa-microphone"></i>
+    </button>
+        <input type="hidden" name="type" value="{{ selected_type }}">
+        <input type="hidden" name="feed" value="{{ selected_feed }}">
+</form>
+
+        <!-- Filters: exactly five opportunity-type choices, applied inside the feed -->
+        <form method="get" class="practical-filters">
+          <input type="hidden" name="feed" value="{{ selected_feed }}">
+          <input type="hidden" name="search" value="{{ search }}">
+          <label for="opportunityType">Opportunity type</label>
+          <select id="opportunityType" name="type" onchange="this.form.submit()">
+            <option value="all" {% if selected_type == 'all' %}selected{% endif %}>All</option>
+            <option value="internship" {% if selected_type == 'internship' %}selected{% endif %}>Internships</option>
+            <option value="learnership" {% if selected_type == 'learnership' %}selected{% endif %}>Learnerships</option>
+            <option value="graduate" {% if selected_type == 'graduate' %}selected{% endif %}>Graduate</option>
+            <option value="entry_level" {% if selected_type == 'entry_level' %}selected{% endif %}>Entry-level</option>
+          </select>
+        </form>
+
+        {% if feed_explanation %}
+        <section class="feed-empty" aria-live="polite">
+          <h2>{{ feed_explanation.title }}</h2>
+          <p>{{ feed_explanation.message }}</p>
+          {% if feed_explanation.action_url %}<a href="{{ feed_explanation.action_url }}">{{ feed_explanation.action_label }}</a>{% endif %}
+        </section>
+        {% endif %}
+
+        {# Disclosure only: why the feed is updating, never what to show. #}
+        {% if feed_transition %}
+        <section class="feed-empty feed-transition" aria-live="polite" data-transition-state="{{ feed_transition.state }}">
+          <h2>{{ feed_transition.title }}</h2>
+          <p>{{ feed_transition.message }}</p>
+        </section>
+        {% endif %}
+
+        <!-- Cards -->
+        <div class="jobs-grid">
+          {# Example loop for dynamic opportunities #}
+          {% for match in results %}
+            <div class="job-card"
+                  data-speak="{{ match.clean_revision.cleaned_title }} at {{ match.clean_revision.company }}, {{ match.location }}.">
+              <div class="card-top">
+                <form
+              action="{% url 'toggle_save' match.opportunity.id %}"
+              method="post"
+              class="bookmark-form">
+               {% csrf_token %}
+
+             <button type="submit" class="bookmark-btn {% if match.is_saved %}saved{% endif %}">
+
+                <svg width="18" height="18" viewBox="0 0 24 24">
+                   <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+                </svg>
+
+             </button>
+
+             </form>
+
+            </div>
+          
+              <div class="job-title">{{ match.clean_revision.cleaned_title }}</div>
+              <div class="job-meta">
+                <span>{{ match.clean_revision.company }}</span>
+                <span>{{ match.location }}</span>
+                <span>{{ match.clean_revision.get_work_arrangement_display }}</span>
+                <span>{{ match.clean_revision.get_opportunity_kind_display }}</span>
+                {% if match.clean_revision.closing_at %}<span class="closing-label">Closing: {{ match.clean_revision.closing_at }}</span>{% endif %}
+              </div>
+              <span class="badge badge-match">{{ match.fit_label }}</span>
+
+              <div class="match-reason">
+<!-- relationship evidence migrated to template summary -->
+<!-- title-only evidence no longer rendered -->
+<!-- title-only evidence no longer rendered -->
+{{ match.card_reason }}
+
+              </div>
+              {% if match.major_warning %}<p class="card-warning">{{ match.major_warning }}</p>{% endif %}
+
+              <div class="card-actions">
+                <a href="{% url 'opportunity_detail' match.opportunity.id %}" class="view-link">View opportunity</a>
+                <a href="{% url 'applications:start' match.opportunity.id %}" class="btn-apply">{{ match.application_action_label }}</a>
+                {% if match.clean_revision.source_url %}<a href="{{ match.clean_revision.source_url }}" target="_blank" rel="noopener noreferrer" class="btn-apply">Apply ↗</a>{% endif %}
+              </div>
+
+            </div>
+          {% endfor %}
+        </div><!-- /jobs-grid -->
+
+        {% if discovery_results %}
+        <section class="feed-discovery" aria-labelledby="feed-discovery-heading">
+          <h2 id="feed-discovery-heading">Not yet confirmed for your targets</h2>
+          <p class="feed-discovery-note">
+            These {{ discovery_results|length }} listing{{ discovery_results|length|pluralize }} passed the senior
+            check, but CareerGPS has not confirmed an occupation relationship to your targets. That is not
+            the same as being unrelated, so they are kept here for discovery rather than presented as matches.
+          </p>
+          <div class="jobs-grid">
+            {% for match in discovery_results %}
+              <div class="job-card job-card-unconfirmed" data-speak="{{ match.clean_revision.cleaned_title }} at {{ match.clean_revision.company }}, {{ match.location }}.">
+                <div class="card-top">
+                  <form action="{% url 'toggle_save' match.opportunity.id %}" method="post" class="bookmark-form">
+                    {% csrf_token %}
+                    <button type="submit" class="bookmark-btn{% if match.is_saved %}saved{% endif %}"
+                            aria-label="{% if match.is_saved %}Remove from saved{% else %}Save{% endif %} {{ match.clean_revision.cleaned_title }}">
+                      <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+                      </svg>
+                    </button>
+                  </form>
+                </div>
+                <div class="job-title">{{ match.clean_revision.cleaned_title }}</div>
+                <div class="job-company">{{ match.clean_revision.company }}</div>
+                <div class="job-location">{{ match.location }}</div>
+                <p class="card-reason">{{ match.card_reason }}</p>reason">{{ match.card_reason }}</p>
+                {% if match.major_warning %}<p class="card-warning">{{ match.major_warning }}</p>{% endif %}
+                <div class="card-actions">
+                  <a href="{% url 'opportunity_detail' match.opportunity.id %}" class="view-job">View details</a>
+                  <span class="fit-label">{{ match.fit_label }}</span>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </section>
+        {% endif %}
+
+        {# Uncertain area: eligible current jobs that no fresh stored assessment
+           covers. Kept separate from the assessed areas, shown next to the real
+           transition message, and never labelled as a match. #}
+        {% if uncertain_results %}
+        <section class="feed-uncertain" aria-labelledby="feed-uncertain-heading">
+          <h2 id="feed-uncertain-heading">Current jobs not yet assessed for your targets</h2>
+          <p class="feed-uncertain-note">
+            These {{ uncertain_count }} current listing{{ uncertain_count|pluralize }} passed the shared senior
+            check, but CareerGPS has no stored occupational assessment against your targets for them yet. Missing
+            coverage is not a judgement: none of them is presented as a match, and none of them is dropped as
+            unrelated either.
+          </p>
+          <p class="feed-uncertain-ordering">{{ uncertain_ordering }}</p>
+          <div class="jobs-grid">
+            {% for match in uncertain_results %}
+              <div class="job-card job-card-unconfirmed" data-speak="{{ match.clean_revision.cleaned_title }} at {{ match.clean_revision.company }}, {{ match.location }}.">
+                <div class="card-top">
+                  <form action="{% url 'toggle_save' match.opportunity.id %}" method="post" class="bookmark-form">
+                    {% csrf_token %}
+                    <button type="submit" class="bookmark-btn{% if match.is_saved %}saved{% endif %}"
+                            aria-label="{% if match.is_saved %}Remove from saved{% else %}Save{% endif %} {{ match.clean_revision.cleaned_title }}">
+                      <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+                      </svg>
+                    </button>
+                  </form>
+                </div>
+                <div class="job-title">{{ match.clean_revision.cleaned_title }}</div>
+                <div class="job-company">{{ match.clean_revision.company }}</div>
+                <div class="job-location">{{ match.location }}</div>
+                <p class="card-reason">{{ match.card_reason }}</p>
+                <div class="card-actions">
+                  <a href="{% url 'opportunity_detail' match.opportunity.id %}" class="view-job">View details</a>
+                  {% if match.clean_revision.source_url %}<a href="{{ match.clean_revision.source_url }}" target="_blank" rel="noopener noreferrer" class="btn-apply">Apply &#8599;</a>{% endif %}
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+          {% if uncertain_count > uncertain_results|length and not provisional_primary %}
+          <p class="feed-uncertain-ordering">Showing the {{ uncertain_results|length }} most recently posted of {{ uncertain_count }}.</p>
+          {% endif %}
+          {% if provisional_primary and uncertain_page_obj %}
+          <p class="feed-uncertain-ordering">Showing {{ uncertain_results|length }} of {{ uncertain_count }}, most recently posted first. Page {{ uncertain_page_obj.number }} of {{ uncertain_page_obj.paginator.num_pages }}.</p>
+          {% endif %}
+        </section>
+        {% endif %}
+
+        {% if page_obj.paginator.num_pages > 1 %}
+        <nav class="pagination" aria-label="Opportunity pages">
+          {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}&amp;search={{ search|urlencode }}&amp;type={{ selected_type }}&amp;feed={{ selected_feed }}">Previous</a>
+          {% endif %}
+          <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+          {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}&amp;search={{ search|urlencode }}&amp;type={{ selected_type }}&amp;feed={{ selected_feed }}">Next</a>
+          {% endif %}
+        </nav>
+        {% endif %}
+
+   {% endblock %}
+
+{% block javascript %}
+    <script src="{% static 'core/js/opportunities.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends "dashboard_pages.html" %}
+{% load static %}
+
+{% block title %}CareerGPS - CV Template Editor{% endblock %}
+{% block css %}<link rel="stylesheet" href="{% static 'applications/css/cv_editor.css' %}">{% endblock %}
+
+{% block content %}
+<div class="cv-editor-shell">
+  <div class="cv-editor-toolbar">
+    <div>
+      <p class="editor-kicker">CV template editor</p>
+      <h1>{{ resume.basics.name|default:"Your CV" }}</h1>
+      <p>Edit generated prose and presentation for this CV. Your profile evidence remains unchanged.</p>
+    </div>
+    <div class="editor-actions">
+      <a class="editor-button" href="{% url 'applications:document_preview' document.id %}">Cancel</a>
+      {% if document.pdf_file %}<a id="downloadPdfBtn" class="editor-button" href="{% url 'applications:document_download' document.id 'pdf' %}" download>Download PDF</a>{% endif %}
+      {% if document.docx_file %}<a class="editor-button" href="{% url 'applications:document_download' document.id 'docx' %}" download>Download DOCX</a>{% endif %}
+    </div>
+  </div>
+
+  {% if edit_error %}<p class="edit-error" role="alert">{{ edit_error }}</p>{% endif %}
+  <div class="cv-editor-grid">
+    <aside class="editor-controls">
+      <form class="document-text-form" method="post" action="{% url 'applications:update_document_content' document.id %}">
+        {% csrf_token %}
+        <section class="control-card"><h2>Professional Summary</h2><textarea name="summary" rows="7">{{ cv.summary }}</textarea></section>
+        {% for row in cv_edit.work %}
+        <section class="control-card">
+          <h2>Experience</h2>
+          <p class="factual-label">{{ row.item.title }}{% if row.item.company %} · {{ row.item.company }}{% elif row.item.organisation %} · {{ row.item.organisation }}{% endif %}{% if row.item.dates %} · {{ row.item.dates }}{% endif %}</p>
+          <label>Bullets <small>One bullet per line.</small><textarea name="work_{{ row.index }}_bullets" rows="7">{{ row.bullets_text }}</textarea></label>
+        </section>
+        {% endfor %}
+        {% for row in cv_edit.projects %}
+        <section class="control-card">
+          <h2>Project</h2><p class="factual-label">{{ row.item.title }}</p>
+          <label>Description<textarea name="project_{{ row.index }}_description" rows="5">{{ row.item.description }}</textarea></label>
+          <label>Bullets <small>One bullet per line.</small><textarea name="project_{{ row.index }}_bullets" rows="6">{{ row.bullets_text }}</textarea></label>
+        </section>
+        {% endfor %}
+        {% for row in cv_edit.awards %}<section class="control-card"><h2>Achievement</h2><p class="factual-label">{{ row.item.title }}</p><label>Description<textarea name="award_{{ row.index }}_summary" rows="4">{{ row.item.summary }}</textarea></label></section>{% endfor %}
+        {% for row in cv_edit.volunteer %}<section class="control-card"><h2>Volunteering</h2><p class="factual-label">{{ row.item.position }} · {{ row.item.organization }}</p><label>Description<textarea name="volunteer_{{ row.index }}_summary" rows="4">{{ row.item.summary }}</textarea></label></section>{% endfor %}
+        {% for row in cv_edit.certificates %}<section class="control-card"><h2>Certification display</h2><textarea name="certificate_{{ row.index }}_display" rows="3">{{ row.display }}</textarea></section>{% endfor %}
+        {% for row in cv_edit.skill_groups %}<section class="control-card"><h2>{{ row.item.category|default:"Skills" }}</h2><label>One skill per line<textarea name="skills_{{ row.index }}_items" rows="6">{{ row.items_text }}</textarea></label></section>{% endfor %}
+        <div class="editor-actions"><a class="editor-button" href="{% url 'applications:document_preview' document.id %}">Cancel</a><button type="submit" class="editor-button primary">Save Changes</button></div>
+      </form>
+
+      <form id="layoutForm" method="post" action="{% url 'applications:update_cv_layout' document.id %}">
+        {% csrf_token %}
+        <section class="control-card">
+          <h2>Template</h2>
+          <div class="editor-template-list">
+            {% for template in resume_templates %}
+            <label class="editor-template-option{% if document.template_key == template.key %} active{% endif %}" data-template-option="{{ template.key }}"><input type="radio" name="template_key" value="{{ template.key }}" {% if document.template_key == template.key %}checked{% endif %}><span><strong>{{ template.label }}</strong><small>{{ template.description }}</small></span></label>
+            {% endfor %}
+          </div>
+        </section>
+        <section class="control-card"><h2>Spacing</h2><select name="density" id="densityControl"><option value="comfortable" {% if layout.density == 'comfortable' %}selected{% endif %}>Comfortable</option><option value="compact" {% if layout.density == 'compact' %}selected{% endif %}>Compact</option></select></section>
+        <section class="control-card">
+          <h2>Sections</h2><p class="control-help">Hide a section from this CV only. Your profile data is not deleted.</p>
+          <div class="section-toggle-list">{% for key,label in section_options %}<label><input type="checkbox" class="section-toggle" value="{{ key }}" {% if key not in hidden_sections %}checked{% endif %}><span>{{ label }}</span></label>{% endfor %}</div><div id="hiddenInputs"></div>
+        </section>
+        <button type="submit" class="editor-button primary save-layout">Save layout & rebuild documents</button><p id="layoutStatus" class="layout-status" role="status"></p>
+      </form>
+    </aside>
+    <section class="preview-stage">{% include "applications/_cv_preview.html" %}</section>
+  </div>
+</div>
+{% endblock %}
+
+{% block javascript %}<script src="{% static 'applications/js/cv_editor.js' %}"></script><script src="{% static 'applications/js/document_text_editor.js' %}"></script>{% endblock %}

@@ -1,0 +1,6 @@
+{% extends 'employers/base.html' %}{% block content %}<p class="eyebrow">Hire with CareerGPS</p><h1>Your organizations</h1>
+<p>Publish vacancies and manage applications using your existing CareerGPS account.</p><a class="button" href="{% url 'employers:organization_create' %}">Create organization</a>
+<div class="cards">{% for member in memberships %}<section class="card"><h2>{{ member.organization.name }}</h2><p>{{ member.get_role_display }} · {{ member.get_status_display }}</p>
+{% if member.organization.account_status == 'suspended' %}<p>This organization is suspended. Contact CareerGPS platform administration.</p>
+{% elif member.status == 'invited' %}<form method="post" action="{% url 'employers:accept_invitation' member.id %}">{% csrf_token %}<button>Accept invitation</button></form>
+{% else %}<a href="{% url 'employers:dashboard' member.organization_id %}">Open employer dashboard</a>{% endif %}</section>{% empty %}<p>No organization memberships yet. Create an organization to start.</p>{% endfor %}</div>{% endblock %}

@@ -1,0 +1,58 @@
+
+==============================================================================
+EXPECTED floor for target 'Financial Adviser'
+==============================================================================
+  esco: concepts=1 [(16815, 'financial planner')]
+  esco: same-concept READY jobs=0
+  TITLE_MATCH candidates (title==target, no concept overlap): 0
+
+==============================================================================
+EXPECTED floor for target 'Software Engineer'
+==============================================================================
+  esco: concepts=1 [(19265, 'software developer')]
+  esco: same-concept READY jobs=6
+    #22 Software Developer
+    #49 Software Developer
+    #4502 Software engineer
+    #4503 Software Engineer
+    #4858 Applications Engineer
+    #5427 Software Engineer
+  onet: concepts=1 [(23920, 'Software Developers')]
+  onet: same-concept READY jobs=0
+  ofo: concepts=1 [(25846, 'Software Developer')]
+  ofo: same-concept READY jobs=5
+    #22 Software Developer
+    #49 Software Developer
+    #4502 Software engineer
+    #4503 Software Engineer
+    #5427 Software Engineer
+  TITLE_MATCH candidates (title==target, no concept overlap): 0
+
+==============================================================================
+EXPECTED floor for target 'Actuarial Analyst'
+==============================================================================
+  esco: concepts=1 [(16475, 'actuarial consultant')]
+  esco: same-concept READY jobs=0
+  onet: concepts=2 [(24491, 'Statistical Assistants'), (23935, 'Actuaries')]
+  onet: same-concept READY jobs=0
+  TITLE_MATCH candidates (title==target, no concept overlap): 0
+
+==============================================================================
+EXPECTED floor for target 'Accountant'
+==============================================================================
+  esco: concepts=2 [(19222, 'accountant'), (17559, 'financial controller')]
+  esco: same-concept READY jobs=7
+    #5433 Accountant
+    #5434 Accountant
+    #5435 Accountant
+    #5436 Accountant
+    #5437 Accountant
+    #5438 Accountant
+    #5439 Accountant
+  onet: concepts=1 [(23890, 'Accountants and Auditors')]
+  onet: same-concept READY jobs=0
+  isco: concepts=1 [(24935, 'Accountants')]
+  isco: same-concept READY jobs=0
+  TITLE_MATCH candidates (title==target, no concept overlap): 1
+    #6744 Accountant
+PHASE3_EXPECT rc=0

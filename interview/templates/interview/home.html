@@ -1,0 +1,357 @@
+{% extends "dashboard_pages.html" %}
+
+{% block title %}
+CareerGPS - Interview Practice
+{% endblock %}
+
+{% block content %}
+<style>
+.interview-page {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+}
+
+.interview-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: flex-start;
+    margin-bottom: 2rem;
+}
+
+.interview-eyebrow {
+    color: #E8612A;
+    font-size: .75rem;
+    font-weight: 800;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+}
+
+.interview-header h1 {
+    margin: .35rem 0 .5rem;
+    font-size: 2rem;
+}
+
+.interview-intro {
+    color: #667085;
+    line-height: 1.6;
+    max-width: 720px;
+}
+
+.history-link {
+    color: #E8612A;
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.interview-section {
+    margin: 2rem 0;
+}
+
+.interview-section h2 {
+    font-size: 1.15rem;
+    margin-bottom: .85rem;
+}
+
+.opportunity-grid {
+    display: grid;
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(290px, 1fr)
+        );
+    gap: 1rem;
+}
+
+.opportunity-card {
+    background: #fff;
+    border: 1px solid rgba(0,0,0,.09);
+    border-radius: 16px;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: .65rem;
+}
+
+.opportunity-card h3 {
+    font-size: 1rem;
+    margin: 0;
+}
+
+.opportunity-meta {
+    color: #667085;
+    font-size: .88rem;
+    line-height: 1.45;
+}
+
+.status-pill {
+    align-self: flex-start;
+    padding: .25rem .55rem;
+    border-radius: 999px;
+    background: #f2f4f7;
+    color: #475467;
+    font-size: .72rem;
+    font-weight: 700;
+}
+
+.practice-btn {
+    margin-top: auto;
+    display: inline-flex;
+    justify-content: center;
+    padding: .75rem 1rem;
+    border-radius: 999px;
+    background: #E8612A;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 750;
+}
+
+.empty-card {
+    border: 1px dashed rgba(0,0,0,.15);
+    background: #fff;
+    border-radius: 16px;
+    padding: 1.25rem;
+    color: #667085;
+}
+
+.recent {
+    border-top: 1px solid rgba(0,0,0,.08);
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+}
+
+.recent-row {
+    background: #fff;
+    border: 1px solid rgba(0,0,0,.08);
+    border-radius: 12px;
+    padding: .9rem 1rem;
+    margin-bottom: .65rem;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: center;
+}
+
+.recent-row a {
+    color: #E8612A;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+@media (max-width: 650px) {
+    .interview-header {
+        flex-direction: column;
+    }
+
+    .recent-row {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}
+</style>
+
+
+<div class="interview-page">
+
+    <header class="interview-header">
+        <div>
+            <div class="interview-eyebrow">
+                Interview Practice
+            </div>
+
+            <h1>
+                Prepare for an opportunity
+                you already care about
+            </h1>
+
+            <p class="interview-intro">
+                Choose a saved opportunity or an
+                application workspace. CareerGPS will
+                prepare the interview using the vacancy
+                information and your verified profile.
+            </p>
+        </div>
+
+        <a
+            class="history-link"
+            href="{% url 'interview_saved' %}"
+        >
+            My Interviews
+        </a>
+    </header>
+
+
+    <section class="interview-section">
+        <h2>
+            Applications in progress
+        </h2>
+
+        {% if applications %}
+
+        <div class="opportunity-grid">
+
+            {% for application in applications %}
+
+            <article class="opportunity-card">
+
+                <span class="status-pill">
+                    {{ application.get_status_display }}
+                </span>
+
+                <h3>
+                    {{ application.clean_revision.cleaned_title }}
+                </h3>
+
+                <div class="opportunity-meta">
+                    {{ application.clean_revision.company }}
+
+                    {% if application.clean_revision.location %}
+                        ·
+                        {{ application.clean_revision.location }}
+                    {% endif %}
+                </div>
+
+                <a
+                    class="practice-btn"
+                    href="{% url 'interview_prepare' application.opportunity.id %}"
+                >
+                    Prepare interview
+                </a>
+
+            </article>
+
+            {% endfor %}
+
+        </div>
+
+        {% else %}
+
+        <div class="empty-card">
+            No active application workspaces yet.
+        </div>
+
+        {% endif %}
+    </section>
+
+
+    <section class="interview-section">
+        <h2>
+            Saved opportunities
+        </h2>
+
+        {% if saved_opportunities %}
+
+        <div class="opportunity-grid">
+
+            {% for saved in saved_opportunities %}
+
+            <article class="opportunity-card">
+
+                <span class="status-pill">
+                    Saved
+                </span>
+
+                <h3>
+                    {{ saved.opportunity.active_clean_revision.cleaned_title }}
+                </h3>
+
+                <div class="opportunity-meta">
+                    {{ saved.opportunity.active_clean_revision.company }}
+
+                    {% if saved.opportunity.active_clean_revision.location %}
+                        ·
+                        {{ saved.opportunity.active_clean_revision.location }}
+                    {% endif %}
+                </div>
+
+                <a
+                    class="practice-btn"
+                    href="{% url 'interview_prepare' saved.opportunity.id %}"
+                >
+                    Prepare interview
+                </a>
+
+            </article>
+
+            {% endfor %}
+
+        </div>
+
+        {% else %}
+
+        <div class="empty-card">
+            No additional saved opportunities.
+            Save an opportunity and it will become
+            available for interview practice here.
+        </div>
+
+        {% endif %}
+    </section>
+
+
+    {% if recent_interviews %}
+
+    <section class="recent">
+
+        <h2>
+            Recent practice
+        </h2>
+
+        {% for interview in recent_interviews %}
+
+        <div class="recent-row">
+
+            <div>
+                <strong>
+                    {% if interview.opportunity %}
+                        {{ interview.clean_revision.cleaned_title }}
+                    {% else %}
+                        {{ interview.occupation }}
+                    {% endif %}
+                </strong>
+
+                <div class="opportunity-meta">
+                    {{ interview.get_mode_display }}
+                    ·
+                    {{ interview.created_at|date:"j M Y" }}
+                </div>
+            </div>
+
+            {% if interview.status == "completed" %}
+
+            <a
+                href="{% url 'interview_feedback' interview.id %}"
+            >
+                View feedback
+            </a>
+
+            {% elif interview.status == "transcript_review" or interview.status == "evaluating" %}
+
+            <a
+                href="{% url 'interview_transcript_review' interview.id %}"
+            >
+                Review transcripts
+            </a>
+
+            {% else %}
+
+            <a
+                href="{% url 'interview_live' interview.id %}"
+            >
+                Continue
+            </a>
+
+            {% endif %}
+
+        </div>
+
+        {% endfor %}
+
+    </section>
+
+    {% endif %}
+
+</div>
+{% endblock %}

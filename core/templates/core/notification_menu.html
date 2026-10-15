@@ -1,0 +1,198 @@
+        <div class="cgps-top-actions">
+
+            <div
+                class="notification-menu"
+                data-notification-menu
+            >
+
+                <button
+                    type="button"
+                    class="notification-bell"
+                    data-notification-toggle
+                    aria-label="Notifications{% if notification_summary.unread_count %}: {{ notification_summary.unread_count }} unread{% endif %}"
+                    aria-expanded="false"
+                    aria-controls="notificationDropdown"
+                >
+
+                    <svg
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                    >
+                        <path
+                            d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"
+                        />
+
+                        <path
+                            d="M13.73 21a2 2 0 0 1-3.46 0"
+                        />
+                    </svg>
+
+
+                    {% if notification_summary.unread_count %}
+
+                        <span class="notification-count" aria-hidden="true">
+
+                            {% if notification_summary.unread_count > 99 %}
+                                99+
+                            {% else %}
+                                {{ notification_summary.unread_count }}
+                            {% endif %}
+
+                        </span>
+
+                    {% endif %}
+
+                </button>
+
+
+                <!-- =========================================
+                     NOTIFICATION PREVIEW DROPDOWN
+                     ========================================= -->
+
+                <div
+                    class="notification-dropdown"
+                    id="notificationDropdown"
+                    data-notification-dropdown
+                    hidden
+                >
+
+                    <div class="notification-dropdown-header">
+
+                        <div>
+
+                            <h3>
+                                Notifications
+                            </h3>
+
+                            {% if notification_summary.unread_count %}
+
+                                <span>
+                                    {{ notification_summary.unread_count }}
+                                    unread
+                                </span>
+
+                            {% else %}
+
+                                <span>
+                                    You're all caught up
+                                </span>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="notification-preview-list">
+
+                        {% for notification in notification_summary.items %}
+
+                            <form method="post" action="{% url 'notification_open' notification.id %}" class="notification-open-form">{% csrf_token %}<button type="submit"
+                                class="notification-preview-item {% if not notification.is_read %}notification-preview-item--unread{% endif %}"
+                            >
+
+                                <div class="notification-preview-icon">
+
+                                    {% if notification.notification_type == "story_approved" %}
+                                        ✓
+
+                                    {% elif notification.notification_type == "story_rejected" %}
+                                        !
+
+                                    {% elif notification.notification_type == "opportunity_deadline" %}
+                                        ⏱
+
+                                    {% elif notification.notification_type == "application_status" %}
+                                        ↗
+
+                                    {% else %}
+                                        C
+                                    {% endif %}
+
+                                </div>
+
+
+                                <div class="notification-preview-body">
+
+                                    <div class="notification-preview-title">
+
+                                        <strong>
+                                            {{ notification.title }}
+                                        </strong>
+
+                                        {% if not notification.is_read %}
+
+                                            <span
+                                                class="notification-unread-dot"
+                                                aria-label="Unread"
+                                            ></span>
+
+                                        {% endif %}
+
+                                    </div>
+
+
+                                    <p>
+
+                                        {% if notification.message %}
+
+                                            {{ notification.message|truncatechars:90 }}
+
+                                        {% else %}
+
+                                            {{ notification.title|truncatechars:90 }}
+
+                                        {% endif %}
+
+                                    </p>
+
+
+                                    <span class="notification-preview-time">
+                                        {{ notification.created_at|timesince }} ago
+                                    </span>
+
+                                </div>
+
+                            </button></form>
+
+
+                        {% empty %}
+
+                            <div class="notification-preview-empty">
+
+                                <div class="notification-preview-empty-icon">
+                                    ✓
+                                </div>
+
+                                <strong>
+                                    You're all caught up
+                                </strong>
+
+                                <p>
+                                    New CareerGPS activity will appear here.
+                                </p>
+
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+
+
+                    <a
+                        href="{% url 'notifications' %}"
+                        class="notification-view-all"
+                    >
+                        View all notifications
+
+                        <span>
+                            →
+                        </span>
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>

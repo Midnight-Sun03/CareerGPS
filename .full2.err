@@ -1,0 +1,143 @@
+Creating test database for alias 'default'...
+System check identified some issues:
+
+WARNINGS:
+?: (careergps.W001) Public operator/contact details are incomplete: CAREERGPS_OPERATOR_NAME, CAREERGPS_OPERATOR_LEGAL_STATUS, CAREERGPS_OPERATOR_PHYSICAL_ADDRESS, CAREERGPS_OPERATOR_LEGAL_SERVICE_ADDRESS, CAREERGPS_OPERATOR_TELEPHONE, CAREERGPS_CONTACT_EMAIL, CAREERGPS_PRIVACY_EMAIL, CAREERGPS_INFORMATION_OFFICER.
+	HINT: Supply verified owner facts before public production launch; review registration details and Information Officer information where applicable.
+
+System check identified 1 issue (0 silenced).
+...Semantic model | source=local_disk | local_files_only=true | verified=true
+Semantic model warmup | outcome=ok | source=local_disk | model_load=0.012s
+....Document timing | type=cv | outcome=failed | model_source=not_needed | job_context=0.000s | candidate_bundle=0.000s | semantic_model_load=0.000s | semantic_selection=0.000s | gemini=0.000s | pdf=0.000s | docx=0.000s | persistence=0.000s | total=0.031s
+.........AI attempt failed task=document provider=gemini slot=primary attempt=1 model=gemini-3.5-flash category=http_400 continued=False
+.AI attempt failed task=document provider=gemini slot=primary attempt=1 model=gemini-3.5-flash category=http_429 continued=True
+..............................................................................................manifest.record_count=2 does not match 1 valid unique result(s)
+manifest reconciliation digest does not match cleaned source identities/hashes
+line 3: duplicate cleaned result for pipeline-source:job-1 (first on line 2)
+manifest.record_count=2 does not match 1 valid unique result(s)
+manifest reconciliation digest does not match cleaned source identities/hashes
+.line 2: source identity does not match an OpportunitySourceRecord
+manifest.record_count=1 does not match 0 valid unique result(s)
+manifest reconciliation digest does not match cleaned source identities/hashes
+manifest reconciliation digest does not match cleaned source identities/hashes
+manifest contains unknown field(s): ignored
+.line 2: record must be a JSON object, got list
+...........................s..F.....F...............................CareerGPS could not send the account closure confirmation: smtp unavailable
+..............................................................................CareerGPS registration verification delivery failed.
+Traceback (most recent call last):
+  File "E:\CG\core\views.py", line 412, in register_view
+    _create_and_send_otp(
+  File "E:\CG\core\views.py", line 311, in _create_and_send_otp
+    _send_verification_email(
+  File "E:\CG\core\views.py", line 204, in _send_verification_email
+    raise RuntimeError(
+RuntimeError: CareerGPS email delivery is not configured.
+.........sss.................................................................s.sssssssssssss................................................................s........s...s.....s...........s................s.....s..................................................................................................s......ss.........ss.....................s...........s..........s......ss..................................................................................................s...........................................................................................AI attempt failed task=interview_evaluation provider=gemini slot=primary attempt=1 model=gemini-3.5-flash category=transport continued=True
+.AI attempt failed task=interview_questions provider=gemini slot=primary attempt=1 model=gemini-3.5-flash category=application continued=False
+..AI attempt failed task=interview_questions provider=gemini slot=primary attempt=1 model=gemini-3.5-flash category=provider_transient continued=True
+.AI attempt failed task=interview_questions provider=gemini slot=primary attempt=1 model=gemini-3.5-flash category=transport continued=True
+.AI attempt failed task=interview_questions provider=gemini slot=primary attempt=1 model=gemini-3.5-flash category=transport continued=False
+..........AI attempt failed task=interview_questions provider=gemini slot=primary attempt=1 model=gemini-3.5-flash category=transport continued=True
+AI attempt failed task=interview_evaluation provider=gemini slot=primary attempt=1 model=gemini-3.5-flash category=transport continued=True
+.AI attempt failed task=test_task provider=gemini slot=primary attempt=1 model=gemini-test category=transport continued=True
+AI attempt failed task=test_task provider=openai slot=fallback attempt=2 model=openai-test category=transport continued=False
+.AI attempt failed task=test_task provider=gemini slot=primary attempt=1 model=gemini-test category=http_400 continued=False
+.AI attempt failed task=test_task provider=gemini slot=primary attempt=1 model=gemini-test category=transport continued=True
+..AI attempt failed task=test_task provider=gemini slot=primary attempt=1 model=gemini-test category=transport continued=True
+.AI attempt failed task=test_task provider=openai slot=fallback attempt=1 model=openai-test category=contract continued=False
+.AI attempt failed task=test_task provider=gemini slot=primary attempt=1 model=gemini-test category=transport continued=True
+...AI attempt failed task=test_task provider=gemini slot=primary attempt=1 model=gemini-test category=transport continued=True
+AI attempt failed task=test_task provider=gemini slot=fallback attempt=2 model=gemini-test category=transport continued=True
+........AI attempt failed task=interview_questions provider=groq slot=fallback attempt=1 model=openai/gpt-oss-120b category=transport continued=False
+...AI attempt failed task=interview_questions provider=gemini slot=primary attempt=1 model=gemini-test category=transport continued=True
+AI attempt failed task=interview_questions provider=gemini slot=fallback attempt=2 model=gemini-test category=transport continued=True
+AI attempt failed task=interview_questions provider=groq slot=fallback attempt=3 model=openai/gpt-oss-120b category=http_429 continued=True
+.AI attempt failed task=interview_questions provider=groq slot=fallback attempt=1 model=openai/gpt-oss-120b category=transport continued=True
+.AI attempt failed task=interview_questions provider=gemini slot=primary attempt=1 model=gemini-test category=transport continued=True
+AI attempt failed task=interview_questions provider=gemini slot=fallback attempt=2 model=gemini-test category=transport continued=True
+AI attempt failed task=interview_questions provider=groq slot=fallback attempt=3 model=openai/gpt-oss-120b category=application continued=False
+.AI attempt failed task=interview_questions provider=gemini slot=primary attempt=1 model=gemini-test category=transport continued=True
+.AI attempt failed task=interview_questions provider=gemini slot=primary attempt=1 model=gemini-test category=transport continued=True
+AI attempt failed task=interview_questions provider=gemini slot=fallback attempt=2 model=gemini-test category=transport continued=True
+..AI attempt failed task=interview_questions provider=gemini slot=primary attempt=1 model=gemini-test category=transport continued=True
+AI attempt failed task=interview_questions provider=gemini slot=fallback attempt=2 model=gemini-test category=transport continued=True
+AI attempt failed task=interview_questions provider=groq slot=fallback attempt=3 model=openai/gpt-oss-120b category=malformed continued=False
+.AI attempt failed task=interview_questions provider=gemini slot=primary attempt=1 model=gemini-test category=transport continued=True
+AI attempt failed task=interview_questions provider=gemini slot=fallback attempt=2 model=gemini-test category=transport continued=True
+AI attempt failed task=interview_questions provider=groq slot=fallback attempt=3 model=openai/gpt-oss-120b category=transport continued=True
+.AI attempt failed task=interview_questions provider=gemini slot=primary attempt=1 model=gemini-test category=transport continued=True
+.AI attempt failed task=web_research provider=gemini slot=primary attempt=1 model=gemini-test category=transport continued=True
+AI attempt failed task=web_research provider=gemini slot=fallback attempt=2 model=gemini-test category=transport continued=True
+..........Semantic startup timing | outcome=ok | validation=deep | manifest_check=0.031s | artifact_validation=0.002s | import_sentence_transformers=0.000s | model_construct=0.000s | dimension_check=0.000s | total=0.034s
+..Semantic startup timing | outcome=failed | validation=deep | manifest_check=0.010s | artifact_validation=0.002s | import_sentence_transformers=0.000s | model_construct=0.000s | dimension_check=0.000s | total=0.012s
+.Semantic startup timing | outcome=ok | validation=deep | manifest_check=0.003s | artifact_validation=0.003s | import_sentence_transformers=0.000s | model_construct=0.000s | dimension_check=0.000s | total=0.006s
+.Semantic startup timing | outcome=ok | validation=deep | manifest_check=0.060s | artifact_validation=0.002s | import_sentence_transformers=0.000s | model_construct=0.000s | dimension_check=0.000s | total=0.063s
+.Semantic startup timing | outcome=failed | validation=deep | manifest_check=0.000s | artifact_validation=0.000s | import_sentence_transformers=0.000s | model_construct=0.000s | dimension_check=0.000s | total=0.000s
+Semantic startup timing | outcome=ok | validation=deep | manifest_check=0.007s | artifact_validation=0.003s | import_sentence_transformers=0.000s | model_construct=0.000s | dimension_check=0.000s | total=0.010s
+Semantic startup timing | outcome=ok | validation=deep | manifest_check=0.001s | artifact_validation=0.002s | import_sentence_transformers=0.000s | model_construct=0.000s | dimension_check=0.000s | total=0.004s
+.Semantic startup timing | outcome=failed | validation=deep | manifest_check=0.000s | artifact_validation=0.000s | import_sentence_transformers=0.000s | model_construct=0.000s | dimension_check=0.000s | total=0.000s
+Semantic startup timing | outcome=ok | validation=deep | manifest_check=0.006s | artifact_validation=0.002s | import_sentence_transformers=0.000s | model_construct=0.000s | dimension_check=0.000s | total=0.008s
+.Semantic startup timing | outcome=failed | validation=deep | manifest_check=0.000s | artifact_validation=0.000s | import_sentence_transformers=0.000s | model_construct=0.000s | dimension_check=0.000s | total=0.000s
+Semantic startup timing | outcome=ok | validation=deep | manifest_check=0.009s | artifact_validation=0.004s | import_sentence_transformers=0.000s | model_construct=0.000s | dimension_check=0.000s | total=0.013s
+.Semantic startup timing | outcome=ok | validation=deep | manifest_check=0.005s | artifact_validation=0.003s | import_sentence_transformers=0.000s | model_construct=0.000s | dimension_check=0.000s | total=0.008s
+..Semantic startup timing | outcome=failed | validation=lightweight | manifest_check=0.004s | artifact_validation=0.000s | import_sentence_transformers=0.000s | model_construct=0.000s | dimension_check=0.000s | total=0.004s
+Semantic selection unavailable locally; using all genuine candidate facts. Run manage.py prepare_semantic_model and restart Django. No runtime model download is attempted.
+.Semantic startup timing | outcome=failed | validation=lightweight | manifest_check=0.005s | artifact_validation=0.000s | import_sentence_transformers=0.000s | model_construct=0.000s | dimension_check=0.000s | total=0.005s
+.Semantic startup timing | outcome=ok | validation=lightweight | manifest_check=0.006s | artifact_validation=0.000s | import_sentence_transformers=0.000s | model_construct=0.000s | dimension_check=0.000s | total=0.006s
+Semantic model | source=local_disk | local_files_only=true | verified=true
+Semantic selection unavailable locally; using all genuine candidate facts. Run manage.py prepare_semantic_model and restart Django. No runtime model download is attempted.
+..Semantic startup timing | outcome=ok | validation=lightweight | manifest_check=0.007s | artifact_validation=0.000s | import_sentence_transformers=0.000s | model_construct=0.000s | dimension_check=0.000s | total=0.007s
+Semantic model | source=local_disk | local_files_only=true | verified=true
+...Semantic startup timing | outcome=ok | validation=lightweight | manifest_check=0.003s | artifact_validation=0.000s | import_sentence_transformers=0.000s | model_construct=0.000s | dimension_check=0.000s | total=0.004s
+Semantic model | source=local_disk | local_files_only=true | verified=true
+.Semantic startup timing | outcome=ok | validation=lightweight | manifest_check=0.004s | artifact_validation=0.000s | import_sentence_transformers=0.000s | model_construct=0.000s | dimension_check=0.000s | total=0.004s
+Semantic model | source=local_disk | local_files_only=true | verified=true
+.Semantic startup timing | outcome=ok | validation=lightweight | manifest_check=0.005s | artifact_validation=0.000s | import_sentence_transformers=0.000s | model_construct=0.000s | dimension_check=0.000s | total=0.005s
+Semantic model | source=local_disk | local_files_only=true | verified=true
+.....Semantic startup timing | outcome=failed | validation=lightweight | manifest_check=0.001s | artifact_validation=0.000s | import_sentence_transformers=0.000s | model_construct=0.000s | dimension_check=0.000s | total=0.001s
+Semantic model warmup | outcome=failed | source=local_disk | model_load=0.005s | Server will continue with the genuine-facts fallback if local loading remains unavailable. Check local model preparation and permissions; no download is attempted.
+.Semantic startup timing | outcome=failed | validation=lightweight | manifest_check=0.000s | artifact_validation=0.000s | import_sentence_transformers=0.000s | model_construct=0.000s | dimension_check=0.000s | total=0.000s
+Semantic selection unavailable locally; using all genuine candidate facts. Run manage.py prepare_semantic_model and restart Django. No runtime model download is attempted.
+.Semantic startup timing | outcome=failed | validation=deep | manifest_check=0.000s | artifact_validation=0.000s | import_sentence_transformers=0.000s | model_construct=0.000s | dimension_check=0.000s | total=0.000s
+Semantic startup timing | outcome=ok | validation=deep | manifest_check=0.006s | artifact_validation=0.002s | import_sentence_transformers=0.000s | model_construct=0.000s | dimension_check=0.000s | total=0.009s
+.Semantic startup timing | outcome=ok | validation=lightweight | manifest_check=0.003s | artifact_validation=0.000s | import_sentence_transformers=0.000s | model_construct=0.000s | dimension_check=0.000s | total=0.004s
+Semantic model | source=local_disk | local_files_only=true | verified=true
+Semantic model warmup | outcome=ok | source=local_disk | model_load=0.008s
+.Semantic startup timing | outcome=ok | validation=lightweight | manifest_check=0.004s | artifact_validation=0.000s | import_sentence_transformers=0.000s | model_construct=0.000s | dimension_check=0.000s | total=0.004s
+Semantic model | source=local_disk | local_files_only=true | verified=true
+Semantic model warmup | outcome=ok | source=local_disk | model_load=0.009s
+.Semantic startup timing | outcome=failed | validation=deep | manifest_check=0.010s | artifact_validation=0.006s | import_sentence_transformers=0.000s | model_construct=0.000s | dimension_check=0.000s | total=0.016s
+.Semantic model warmup | outcome=disabled
+Semantic startup timing | outcome=ok | validation=lightweight | manifest_check=0.038s | artifact_validation=0.000s | import_sentence_transformers=0.000s | model_construct=0.000s | dimension_check=0.000s | total=0.055s
+Semantic model | source=local_disk | local_files_only=true | verified=true
+Semantic model warmup | outcome=ok | source=local_disk | model_load=0.072s
+....System check identified some issues:
+
+WARNINGS:
+?: (careergps.W001) Public operator/contact details are incomplete: CAREERGPS_OPERATOR_NAME, CAREERGPS_OPERATOR_LEGAL_STATUS, CAREERGPS_OPERATOR_PHYSICAL_ADDRESS, CAREERGPS_OPERATOR_LEGAL_SERVICE_ADDRESS, CAREERGPS_OPERATOR_TELEPHONE, CAREERGPS_CONTACT_EMAIL, CAREERGPS_PRIVACY_EMAIL, CAREERGPS_INFORMATION_OFFICER.
+	HINT: Supply verified owner facts before public production launch; review registration details and Information Officer information where applicable.
+
+System check identified 1 issue (0 silenced).
+..Semantic model warmup | outcome=failed | source=local_disk | model_load=0.001s | Server will continue with the genuine-facts fallback if local loading remains unavailable. Check local model preparation and permissions; no download is attempted.
+........................sssssssss
+======================================================================
+FAIL: test_past_deadline_excluded_history_retained (core.test_community.OpportunityIntegrityTests.test_past_deadline_excluded_history_retained)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\CG\core\test_community.py", line 426, in test_past_deadline_excluded_history_retained
+    self.assertFalse(opportunity.is_catalogue_available)
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_expired_reporting_requires_own_history (core.test_community.OpportunityReportingTests.test_expired_reporting_requires_own_history)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\CG\core\test_community.py", line 396, in test_expired_reporting_requires_own_history
+    self.assertEqual(self.client.get(url).status_code, 404)
+AssertionError: 200 != 404
+
+----------------------------------------------------------------------
+Ran 955 tests in 1596.832s
+
+FAILED (failures=2, skipped=45)
+Destroying test database for alias 'default'...

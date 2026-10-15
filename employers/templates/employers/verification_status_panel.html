@@ -1,0 +1,29 @@
+<section class="card">
+<h2>
+{% if organization.account_status == 'suspended' %}Action required
+{% elif organization.verification_status == 'approved' %}Verified
+{% elif organization.verification_status == 'submitted' or organization.verification_status == 'under_review' %}Verification pending
+{% else %}Action required
+{% endif %}
+</h2>
+<p>
+{% if organization.account_status == 'suspended' %}
+Your company's CareerGPS access is suspended. Contact CareerGPS support for review. Your organization records and candidates' application histories are retained.
+{% elif organization.verification_status == 'approved' %}
+Your company is verified.{% if organization.approved_at %} Verified {{ organization.approved_at|date:'d M Y' }}.{% endif %}
+{% elif organization.verification_status == 'submitted' or organization.verification_status == 'under_review' %}
+Your company is being verified by CareerGPS.
+{% elif organization.verification_status == 'draft' %}
+Your company has not been verified yet. Submit verification evidence so CareerGPS can review it.
+{% else %}
+We need some additional information before we can verify your company.
+{% endif %}
+</p>
+{% if contact_recheck_required %}
+<p>CareerGPS needs to re-check your company contact. Published jobs stay on hold until the review is complete. The owner can submit verification evidence again for staff review.</p>
+{% endif %}
+{% if verification_message and not contact_recheck_required %}
+<h3>Message from CareerGPS</h3>
+<p>{{ verification_message|linebreaksbr }}</p>
+{% endif %}
+</section>

@@ -1,0 +1,26 @@
+{% extends "dashboard_pages.html" %}
+{% load static %}
+
+{% block title %}CareerGPS - Edit Cover Letter{% endblock %}
+{% block css %}<link rel="stylesheet" href="{% static 'applications/css/cv_editor.css' %}">{% endblock %}
+
+{% block content %}
+<div class="cv-editor-shell narrow-editor">
+  <div class="cv-editor-toolbar">
+    <div><p class="editor-kicker">Cover Letter editor</p><h1>Edit generated text</h1><p>These changes affect this document only.</p></div>
+    <div class="editor-actions"><a class="editor-button" href="{% url 'applications:document_preview' document.id %}">Cancel</a></div>
+  </div>
+  {% if edit_error %}<p class="edit-error" role="alert">{{ edit_error }}</p>{% endif %}
+  <form class="document-text-form" method="post" action="{% url 'applications:update_document_content' document.id %}">
+    {% csrf_token %}
+    <label>Salutation<textarea name="salutation" rows="2">{{ letter.salutation }}</textarea></label>
+    <label>Opening<textarea name="opening" rows="5">{{ letter.opening }}</textarea></label>
+    <label>Body paragraphs <small>Separate paragraphs with a blank line.</small><textarea name="body_paragraphs" rows="12">{{ body_paragraphs_text }}</textarea></label>
+    <label>Closing<textarea name="closing" rows="5">{{ letter.closing }}</textarea></label>
+    <label>Sign-off<textarea name="sign_off" rows="2">{{ letter.sign_off }}</textarea></label>
+    <label>Signature<textarea name="signature_name" rows="2">{{ letter.signature_name }}</textarea></label>
+    <div class="editor-actions"><a class="editor-button" href="{% url 'applications:document_preview' document.id %}">Cancel</a><button class="editor-button primary" type="submit">Save Changes</button></div>
+  </form>
+</div>
+{% endblock %}
+{% block javascript %}<script src="{% static 'applications/js/document_text_editor.js' %}"></script>{% endblock %}

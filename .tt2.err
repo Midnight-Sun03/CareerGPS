@@ -1,0 +1,47 @@
+Creating test database for alias 'default'...
+System check identified some issues:
+
+WARNINGS:
+?: (careergps.W001) Public operator/contact details are incomplete: CAREERGPS_OPERATOR_NAME, CAREERGPS_OPERATOR_LEGAL_STATUS, CAREERGPS_OPERATOR_PHYSICAL_ADDRESS, CAREERGPS_OPERATOR_LEGAL_SERVICE_ADDRESS, CAREERGPS_OPERATOR_TELEPHONE, CAREERGPS_CONTACT_EMAIL, CAREERGPS_PRIVACY_EMAIL, CAREERGPS_INFORMATION_OFFICER.
+	HINT: Supply verified owner facts before public production launch; review registration details and Information Officer information where applicable.
+
+System check identified 1 issue (0 silenced).
+.....................................................F..............................F..................F..............................................
+======================================================================
+FAIL: test_exact_for_one_target_survives_a_silent_other_target (core.test_feed_v2.FeedV2AdmissionTests.test_exact_for_one_target_survives_a_silent_other_target)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\CG\core\test_feed_v2.py", line 231, in test_exact_for_one_target_survives_a_silent_other_target
+    self.assertEqual(row.conflicting_target_assessment_ids, [])
+AssertionError: Lists differ: [1] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+1
+
+- [1]
+?  -
+
++ []
+
+======================================================================
+FAIL: test_unrelated_target_with_disagreeing_target_is_kept (core.test_feed_v2.FeedV2UnrelatedExclusionTests.test_unrelated_target_with_disagreeing_target_is_kept)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\CG\core\test_feed_v2.py", line 845, in test_unrelated_target_with_disagreeing_target_is_kept
+    self.assertEqual(len(row.conflicting_target_assessment_ids), 1)
+AssertionError: 2 != 1
+
+======================================================================
+FAIL: test_20_positive_band_plus_major_gap_becomes_e (core.test_candidate_feed_runtime.RecommendationBandTests.test_20_positive_band_plus_major_gap_becomes_e)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\CG\core\test_candidate_feed_runtime.py", line 305, in test_20_positive_band_plus_major_gap_becomes_e
+    self.assertIn("Blocked Exact Role", rows)
+AssertionError: 'Blocked Exact Role' not found in {}
+
+----------------------------------------------------------------------
+Ran 150 tests in 113.721s
+
+FAILED (failures=3)
+Destroying test database for alias 'default'...

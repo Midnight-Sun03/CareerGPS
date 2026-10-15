@@ -1,0 +1,12 @@
+{% extends 'employers/base.html' %}
+{% block content %}
+{% include 'employers/talent_nav.html' %}
+<h1>Vacancy invitations</h1>
+<p>Each invitation concerns one vacancy. Current profile access still follows the candidate's visibility choices.</p>
+{% for item in items %}<section class="card">
+  <h2>{% if item.candidate_id %}<a href="{% url 'employers:talent_candidate' organization.id item.candidate_id %}?vacancy={{ item.invitation.vacancy_id }}">{{ item.candidate_name }}</a>{% else %}{{ item.candidate_name }}{% endif %}</h2>
+  <p>{{ item.invitation.vacancy.title }} &middot; {{ item.invitation.get_status_display }} &middot; Sent {{ item.invitation.created_at|date:'d M Y H:i' }}</p>
+  {% if item.invitation.responded_at %}<p>Answered {{ item.invitation.responded_at|date:'d M Y H:i' }}</p>{% endif %}
+</section>{% empty %}<p>No vacancy invitations sent yet.</p>{% endfor %}
+{% include 'employers/pagination.html' %}
+{% endblock %}

@@ -1,0 +1,19 @@
+<section class="workspace-card direct-submission">
+<h2>Apply through CareerGPS</h2>
+{% if job.application_instructions %}<h3>Application instructions</h3><p>{{ job.application_instructions|linebreaksbr }}</p>{% endif %}
+{% if hiring %}
+<p>Received {{ hiring.submitted_at|date:'d M Y H:i' }} by {{ opportunity.company }}.</p>
+<p>Application status: <strong>{{ application.get_status_display }}</strong></p>
+{% if hiring.withdrawn_at %}<p><strong>Withdrawn {{ hiring.withdrawn_at|date:'d M Y H:i' }}</strong></p>
+{% else %}{% if candidate_stage %}<p><strong>Employer update: {{ candidate_stage.get_to_stage_display }}</strong></p>{% endif %}
+{% if hiring.stage != 'hired' and hiring.stage != 'rejected' %}<form method="post" action="{% url 'employers:candidate_withdraw' application.id %}">{% csrf_token %}<button type="submit" class="secondary-btn">Withdraw application</button></form>{% endif %}{% endif %}
+<h3>Submitted versions</h3><p>Later generation or layout changes do not replace these files.</p>
+{% for submitted in submitted_documents %}<p>{{ submitted.get_document_type_display }}:
+{% if submitted.pdf_sha256 %}<a href="{% url 'employers:candidate_document' submitted.id 'pdf' %}">Submitted PDF</a>{% endif %}
+{% if submitted.docx_sha256 %}<a href="{% url 'employers:candidate_document' submitted.id 'docx' %}">Submitted DOCX</a>{% endif %}</p>{% endfor %}
+{% else %}
+<p>Select the versions you want to send. Your selected documents and job-relevant profile evidence will be shared with this employer. Your private application notes stay private.</p>
+{% if opportunity.is_catalogue_available %}<form class="submission-form" method="post" action="{% url 'employers:candidate_submit' application.id %}">{% csrf_token %}{{ submission_form.as_p }}<button type="submit" class="primary-btn">Submit application</button></form>
+{% else %}<p>This vacancy is not accepting applications.</p>{% endif %}
+{% endif %}
+</section>

@@ -1,0 +1,28 @@
+{% extends 'public_pages.html' %}
+{% block title %}Contact and privacy requests | CareerGPS{% endblock %}
+{% block content %}
+<main class="legal-page">
+  <h1>Contact and privacy requests</h1>
+  <p>For general questions{% if contact_email %}, email <a href="mailto:{{ contact_email }}">{{ contact_email }}</a>{% else %}, contact details will be published after the operator supplies them{% endif %}. For privacy questions{% if privacy_email %}, email <a href="mailto:{{ privacy_email }}">{{ privacy_email }}</a>{% else %}, sign in to use the request form below{% endif %}.</p>
+  {% if user.is_authenticated %}
+    <h2>Make a privacy request</h2>
+    <p>Requests for access, correction, deletion, restriction or objection, export, and other enquiries are reviewed. A deletion request does not immediately erase your account or submitted hiring history.</p>
+    <form class="request-form" method="post">
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+      <label for="{{ form.category.id_for_label }}">Request type</label>
+      {{ form.category }} {{ form.category.errors }}
+      <label for="{{ form.description.id_for_label }}">What would you like us to review?</label>
+      {{ form.description }} {{ form.description.errors }}
+      <button type="submit">Send privacy request</button>
+    </form>
+    <p><a href="{% url 'contact' %}?category=deletion">Request account deletion</a></p>
+    <h2>Your requests</h2>
+    {% for item in history %}
+      <p><a href="{% url 'privacy_request_detail' item.pk %}">{{ item.get_category_display }} — {{ item.created_at|date:'j M Y' }}</a> · {{ item.get_status_display }}</p>
+    {% empty %}<p>No requests yet.</p>{% endfor %}
+  {% else %}
+    <p class="notice"><a href="{% url 'login' %}">Sign in</a>, then return to Contact to send a privacy request linked to your account. If you cannot sign in, use the configured contact address above when available.</p>
+  {% endif %}
+</main>
+{% endblock %}

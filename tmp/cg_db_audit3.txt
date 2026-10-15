@@ -1,0 +1,59 @@
+=== TAXONOMY ===
+TaxonomyRelease 4
+TaxonomyConcept 21995
+TaxonomyLabel 215296
+TaxonomyRelation 172948
+TaxonomyCrosswalk 4253
+TaxonomyReleaseSet 1
+TaxonomyEmbedding 0
+TaxonomyOccupationContext 198462
+releases: [('esco', True, '1.2.1'), ('isco', True, '08'), ('ofo', True, '2021'), ('onet', True, '31.0')]
+=== CLEAN JOBS ===
+OpportunityCleanAttempt 2423
+OpportunityCleanRevision 2421
+CleanOpportunityCriterion 24533
+CleanCriterionEvidence 26322
+=== OCCUPATIONAL INTELLIGENCE ===
+OpportunityOccupationResolution 0
+OpportunityOccupationIdentity 0
+CareerTargetResolution 5
+CareerTargetIdentity 1
+OccupationSourceResolution 2916
+OccupationRelationshipPolicy 0
+OccupationRelationshipRule 1
+TargetOpportunityRelationshipAssessment 2928
+OccupationDefiningCriterion 0
+=== INGESTION ===
+IngestionSource 66
+GreenhouseBoard 53
+SmartRecruitersCompany 2
+WorkdayBoard 5
+IngestionRun 108
+RawOpportunity 3321
+OpportunitySourceRecord 2666
+OpportunityExtraction 1857
+RawOpportunity normalization_status Counter({'unclassified': 2648, 'out_of_scope': 585, 'published': 88})
+IngestionRun status Counter({'success': 101, 'failed': 5, 'partial': 2})
+OpportunityExtraction status Counter({'stale': 1857})
+=== CANDIDATE ===
+Profile 16
+CareerPreference 5
+ProfileSkill 31
+WorkExperience 5
+Education 6
+ProjectCapability 0
+=== EMPLOYER ===
+Organization 2
+EmployerVacancy 1
+HiringApplication 1
+TalentPool 0
+SavedCandidate 0
+TalentInvitation 0
+OrganizationVerification 3
+=== APPLICATIONS/DOCS ===
+Application 16
+GeneratedDocument Counter({'cover_letter': 6, 'cv': 6})
+=== INTERVIEW ===
+Interview 2
+InterviewQuestion 10
+DONE3

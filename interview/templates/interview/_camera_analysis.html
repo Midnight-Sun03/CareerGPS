@@ -1,0 +1,56 @@
+{% if question.answer_mode == "voice" %}
+<h2>3. {% if question.visual_metrics.schema_version == "careergps-visual-v2" %}Visual Interview Coaching{% else %}Camera / Body Analysis{% endif %}</h2>
+{% if question.visual_analysis_status == "complete" or question.visual_analysis_status == "partial" %}
+<p>{{ question.visual_metrics.coaching.summary }}</p>
+{% if question.visual_metrics.schema_version == "careergps-visual-v2" %}
+<div class="delivery-grid">
+    <div class="metric">Analysis quality: {{ question.visual_metrics.analysis_quality }}</div>
+    <div class="metric">Usable head frames: {{ question.visual_metrics.face_frames }} of {{ question.visual_metrics.frames_sampled }}</div>
+    <div class="metric">Head coverage: {{ question.visual_metrics.signal_coverage.head.status }}</div>
+    <div class="metric">Sustained approximate head-orientation changes: {{ question.visual_metrics.head_orientation.sustained_away_events }}</div>
+    <div class="metric">Large head-position changes: {{ question.visual_metrics.head_orientation.significant_position_events }}</div>
+    <div class="metric">Face outside preview: {{ question.visual_metrics.framing.outside_frame_frames }} frames</div>
+</div>
+{% if question.visual_metrics.shoulders %}
+<strong>Additional shoulder observations</strong>
+<div class="delivery-grid">
+    <div class="metric">Average shoulder tilt: {{ question.visual_metrics.shoulders.mean_shoulder_tilt_degrees }} degrees</div>
+    <div class="metric">Large shoulder-position shifts: {{ question.visual_metrics.shoulders.significant_events }}</div>
+</div>
+{% endif %}
+{% if question.visual_metrics.hips %}
+<strong>Additional torso observations</strong>
+<div class="delivery-grid"><div class="metric">Large relative torso shifts: {{ question.visual_metrics.hips.significant_events }}</div></div>
+{% endif %}
+{% if question.visual_metrics.gestures %}
+<strong>Additional visible hand observations</strong>
+<div class="delivery-grid"><div class="metric">Broad gesture events: {{ question.visual_metrics.gestures.event_count }}</div></div>
+{% endif %}
+{% else %}
+<div class="delivery-grid">
+    <div class="metric">Analysis quality: {{ question.visual_metrics.analysis_quality }}</div>
+    <div class="metric">Analysed pose frames: {{ question.visual_metrics.pose_frames }} of {{ question.visual_metrics.frames_sampled }}</div>
+    <div class="metric">Sustained posture shifts: {{ question.visual_metrics.posture.sustained_lean_events }}</div>
+    <div class="metric">Large upper-body shifts: {{ question.visual_metrics.movement.significant_events }}</div>
+    <div class="metric">Visible gesture events: {{ question.visual_metrics.gestures.event_count }}</div>
+    <div class="metric">Sustained head-orientation changes: {{ question.visual_metrics.head_orientation.sustained_away_events }}</div>
+</div>
+{% endif %}
+{% if question.visual_metrics.coaching.observations %}
+<strong>Observed</strong>
+<ul>
+    {% for item in question.visual_metrics.coaching.observations %}<li>{{ item }}</li>{% endfor %}
+</ul>
+{% endif %}
+{% if question.visual_metrics.coaching.practice_tips %}
+<strong>Try</strong>
+<ul>
+    {% for item in question.visual_metrics.coaching.practice_tips %}<li>{{ item }}</li>{% endfor %}
+</ul>
+{% endif %}
+{% elif question.visual_analysis_status == "not_requested" %}
+<p>Not performed. Camera analysis was not requested for this answer.</p>
+{% else %}
+<p>Not available. Camera analysis could not produce reliable head observations for this answer.</p>
+{% endif %}
+{% endif %}

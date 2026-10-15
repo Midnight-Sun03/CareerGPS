@@ -1,0 +1,7 @@
+<ul class="career-job-list">
+  {% for job in jobs %}
+    <li><a href="{% url 'opportunity_detail' job.id %}">{{ job.title }}</a>{% if job.company %} &middot; {{ job.company }}{% endif %}</li>
+  {% empty %}
+    <li>No comparable job recorded.</li>
+  {% endfor %}
+</ul>

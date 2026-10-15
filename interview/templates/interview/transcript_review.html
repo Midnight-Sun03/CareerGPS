@@ -1,0 +1,109 @@
+{% extends "dashboard_pages.html" %}
+
+{% block title %}CareerGPS - Review Interview Transcripts{% endblock %}
+
+{% block content %}
+<style>
+.review-page { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+.eyebrow { color: #E8612A; font-size: .72rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+.review-page h1 { margin: .4rem 0; }
+.intro { color: #667085; line-height: 1.6; max-width: 760px; }
+.review-card { background: #fff; border: 1px solid rgba(0,0,0,.09); border-radius: 16px; padding: 1.3rem; margin-top: 1rem; }
+.question { color: #344054; line-height: 1.55; }
+.status { display: inline-block; border-radius: 999px; padding: .3rem .55rem; margin-bottom: .7rem; background: #f2f4f7; color: #475467; font-size: .78rem; font-weight: 700; }
+.status.unavailable { background: #fff3ef; color: #9d3515; }
+textarea { box-sizing: border-box; width: 100%; min-height: 135px; border: 1px solid rgba(0,0,0,.14); border-radius: 12px; padding: .9rem; font: inherit; resize: vertical; }
+audio { width: 100%; margin: .8rem 0; }
+.message { display: none; padding: .8rem 1rem; margin: 1rem 0; background: #fff3ef; color: #9d3515; border: 1px solid #ffd1c2; border-radius: 12px; }
+.continue { margin-top: 1.3rem; border: 0; border-radius: 999px; padding: .85rem 1.15rem; background: #E8612A; color: #fff; font-weight: 800; cursor: pointer; }
+.continue:disabled { opacity: .55; cursor: not-allowed; }
+</style>
+
+<div class="review-page">
+    <div class="eyebrow">Interview complete</div>
+    <h1>Review transcript accuracy</h1>
+    <p class="intro">
+        Correct speech-to-text mistakes so feedback reflects what you intended to say.
+        This is for transcription accuracy, not rewriting the interview. Your original
+        audio, raw transcript, recognised fillers, pace and pause measurements remain unchanged.
+    </p>
+
+    <div class="message" id="message" role="alert"></div>
+
+    {% for question in questions %}
+    <section class="review-card">
+        <div class="eyebrow">Question {{ forloop.counter }}</div>
+        <p class="question"><strong>{{ question.question_text }}</strong></p>
+
+        {% if question.transcription_status == "available" %}
+            <span class="status">Audio transcription ready</span>
+        {% else %}
+            <span class="status unavailable">Transcription unavailable</span>
+            <p class="intro">
+                Your audio is saved. Enter what you said so CareerGPS can evaluate the answer;
+                voice measurements remain unavailable where audio processing failed.
+            </p>
+        {% endif %}
+
+        {% if question.audio_file %}
+        <audio controls src="{% url 'interview_media' question.id 'audio' %}"></audio>
+        {% endif %}
+
+        <label for="transcript-{{ question.id }}"><strong>Transcript</strong></label>
+        <textarea
+            id="transcript-{{ question.id }}"
+            data-question-id="{{ question.id }}"
+        >{{ question.corrected_transcript|default:question.provisional_transcript|default:"" }}</textarea>
+    </section>
+    {% endfor %}
+
+    {% if interview.status == "evaluating" %}
+        <p class="intro">Feedback is already being generated. Refresh shortly.</p>
+    {% else %}
+        <button class="continue" id="continueButton">Continue to Feedback</button>
+    {% endif %}
+</div>
+
+<script>
+const CSRF = "{{ csrf_token }}";
+const INTERVIEW_ID = {{ interview.id }};
+const messageBox = document.getElementById("message");
+
+function showMessage(message) {
+    messageBox.textContent = message;
+    messageBox.style.display = "block";
+}
+
+document.getElementById("continueButton")?.addEventListener("click", async event => {
+    const button = event.currentTarget;
+    button.disabled = true;
+    messageBox.style.display = "none";
+    const transcripts = Array.from(document.querySelectorAll("textarea[data-question-id]")).map(
+        textarea => ({
+            questionId: Number(textarea.dataset.questionId),
+            transcript: textarea.value.trim(),
+        })
+    );
+    try {
+        let response = await fetch(`/interview/api/${INTERVIEW_ID}/transcripts/`, {
+            method: "POST",
+            headers: {"Content-Type": "application/json", "X-CSRFToken": CSRF},
+            body: JSON.stringify({transcripts}),
+        });
+        let data = await response.json();
+        if (!response.ok) throw new Error(data.message || "CareerGPS could not save the transcripts.");
+
+        response = await fetch(`/interview/api/${INTERVIEW_ID}/complete/`, {
+            method: "POST",
+            headers: {"X-CSRFToken": CSRF},
+        });
+        data = await response.json();
+        if (!response.ok) throw new Error(data.message || "CareerGPS could not generate feedback.");
+        window.location.href = data.feedbackUrl;
+    } catch (error) {
+        showMessage(error.message);
+        button.disabled = false;
+    }
+});
+</script>
+{% endblock %}

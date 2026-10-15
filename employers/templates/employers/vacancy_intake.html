@@ -1,0 +1,5 @@
+{% extends 'employers/base.html' %}{% block content %}<p class="eyebrow">Jobs</p><h1>Post a job</h1>
+<p>Give CareerGPS your existing vacancy. It will propose facts and requirements for your review; nothing is published or treated as confirmed yet.</p>
+<form method="post" enctype="multipart/form-data" class="card editor">{% csrf_token %}{{ form.as_p }}<button>Structure vacancy for review</button></form>
+<details class="card"><summary>Start manually instead</summary><p>If you do not have vacancy text, you can create a structured draft yourself.</p><a href="{% url 'employers:vacancy_manual' organization.id %}">Enter job details manually</a></details>
+{% if not employer_approved %}<p>Company verification is required before publication. You can prepare and confirm a draft now.</p>{% endif %}{% endblock %}

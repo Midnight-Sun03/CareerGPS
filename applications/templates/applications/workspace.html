@@ -1,0 +1,94 @@
+{% extends "dashboard_pages.html" %}
+{% load static %}
+
+{% block title %}CareerGPS - Application Workspace{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'applications/css/workspace.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="application-workspace">
+  <div class="workspace-header">
+    <div>
+      <p class="workspace-eyebrow">Application Workspace</p>
+      <h1>{{ job.title|default:"Professional job context unavailable" }}</h1>
+      <p class="workspace-meta">Candidate status: <strong>{{ application.get_status_display }}</strong> &middot; Opportunity: <strong>{% if opportunity_closed %}Opportunity closed{% else %}Active vacancy{% endif %}</strong></p>
+      <p class="workspace-meta">{{ job.employer }}{% if job.location %} · {{ job.location }}{% endif %}</p>
+    </div>
+    {% if not hiring %}<form method="post" action="{% url 'applications:update_status' application.id %}" class="status-form">
+      {% csrf_token %}
+      <label for="applicationStatus">Candidate application status</label>
+      <select id="applicationStatus" name="status">
+        {% for value,label in status_choices %}
+          <option value="{{ value }}" {% if application.status == value %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+      </select>
+      <button type="submit">Save status</button>
+    </form>{% endif %}
+  </div>
+
+  {% if opportunity_closed %}<section class="info-banner catalogue"><strong>Opportunity closed</strong><p>This vacancy is no longer active. Your application, notes, and generated documents remain available here.</p></section>{% endif %}
+
+  <section class="info-banner catalogue">
+    <strong>Source information available</strong>
+    <p>CareerGPS uses the information supplied by the source. Fields not shown here remain unknown.</p>
+  </section>
+
+  <div class="workspace-grid">
+    <section class="workspace-card">
+      <div class="card-heading-row">
+        <h2>Job information</h2>
+      </div>
+
+      {% if job.description %}<p class="job-description">{{ job.description }}</p>{% endif %}
+
+      {% if job.qualifications %}<h3>Qualifications</h3><ul>{% for item in job.qualifications %}<li>{{ item }}</li>{% endfor %}</ul>{% endif %}
+      {% if job.experience %}<h3>Experience</h3><ul>{% for item in job.experience %}<li>{{ item }}</li>{% endfor %}</ul>{% endif %}
+      {% if job.skills %}<h3>Skills</h3><ul>{% for item in job.skills %}<li>{{ item }}</li>{% endfor %}</ul>{% endif %}
+      {% if job.responsibilities %}<h3>Responsibilities</h3><ul>{% for item in job.responsibilities %}<li>{{ item }}</li>{% endfor %}</ul>{% endif %}
+      {% if job.preferred_requirements %}<h3>Preferred</h3><ul>{% for item in job.preferred_requirements %}<li>{{ item }}</li>{% endfor %}</ul>{% endif %}
+    </section>
+
+    <aside>
+      <section class="workspace-card actions-card">
+        <h2>Prepare application</h2>
+        <a class="primary-btn" href="{% url 'cv_enhancer' %}?opportunity={{ opportunity.id }}">Tailor CV</a>
+        <a class="secondary-link" href="{% url 'cover_letter_generator' %}?opportunity={{ opportunity.id }}">Generate cover letter</a>
+        {% if not opportunity_closed and opportunity.external_application_url %}
+          <a class="external-link" href="{{ opportunity.external_application_url }}" target="_blank" rel="noopener">Apply on employer site ↗</a>
+        {% endif %}
+      </section>
+
+      <section class="workspace-card">
+        <h2>Notes</h2>
+        <form method="post" action="{% url 'applications:save_notes' application.id %}">
+          {% csrf_token %}
+          <textarea name="notes" rows="7" placeholder="Application notes...">{{ application.notes }}</textarea>
+          <button class="primary-btn" type="submit">Save notes</button>
+        </form>
+      </section>
+    </aside>
+  </div>
+
+  {% if is_direct %}{% include "employers/candidate_submission.html" %}{% endif %}
+
+  <section class="workspace-card documents-card">
+    <h2>Generated documents</h2>
+    {% if documents %}
+      <div class="document-list">
+        {% for document in documents %}
+          <div class="document-row">
+            <div><strong>{{ document.get_document_type_display }}</strong><span>{{ document.created_at|date:"d M Y H:i" }}</span></div>
+            <div class="document-links">
+              <a href="{% url 'applications:document_preview' document.id %}">Preview</a>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p class="muted">No documents generated for this application yet.</p>
+    {% endif %}
+  </section>
+</div>
+{% endblock %}

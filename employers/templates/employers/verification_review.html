@@ -1,0 +1,75 @@
+{% extends "admin/base_site.html" %}{% load static %}{% block extrastyle %}{{ block.super }}<link rel="stylesheet" href="{% static "employers/review.css" %}">{% endblock %}
+{% block content %}
+<div class="trust-review">
+<p class="eyebrow">Employer verification</p>
+<h1>{{ organization.name }}</h1>
+<p>{{ organization.get_verification_status_display }} &middot; {{ organization.get_account_status_display }}</p>
+<p><a href="{% url "admin:employers_organizationverification_changelist" %}">Verification queue</a> &middot; <a href="{% url "admin:core_opportunityreport_changelist" %}">Opportunity report moderation</a></p>
+{% if decision_form.errors %}<div class="cannot-verify" role="alert">{{ decision_form.errors }}</div>{% endif %}
+{% if organization.verification_status == "approved" %}
+<section class="verify-card"><h2>Verified</h2>
+<p>Your company is verified{% if organization.approved_at %} &middot; {{ organization.approved_at|date:"d M Y" }}{% endif %}. No verification action is needed.</p></section>
+{% else %}
+<section class="verify-card">
+<h2>Submitted information</h2>
+{% if verification %}
+<p>Submitted {{ verification.submitted_at|date:"d M Y" }} by {{ verification.submitted_by.get_username }} &middot; {{ verification.get_status_display }}</p>
+<dl class="verify-summary">
+<dt>Company</dt><dd>{{ organization.name }}</dd>
+<dt>Registrant</dt><dd>{{ verification.legal_name }}{% if verification.trading_name %} &middot; {{ verification.trading_name }}{% endif %}</dd>
+<dt>Email</dt><dd>{{ verification.business_email|default:"Not supplied" }}</dd>
+<dt>Website</dt><dd>{{ verification.website|default:"Not supplied" }}</dd>
+<dt>Company information</dt><dd>{{ verification.get_organization_type_display }} &middot; {{ verification.country }}{% if verification.registration_number %} &middot; Registration {{ verification.registration_number }}{% endif %}<br>
+Registry / institutional evidence: {{ verification.registry_source|default:"Not supplied" }} / {{ verification.registry_reference|default:"Not supplied" }}<br>
+Evidence notes: {{ verification.evidence_notes|default:"Not supplied" }}</dd>
+</dl>
+{% else %}<p>No verification submission yet.</p>{% endif %}
+</section>
+{% if verification %}
+<section class="verify-card">
+<h2>What do you want to do?</h2>
+<form method="post" class="verify-form">{% csrf_token %}
+<p><label>Message to the employer<br>{{ decision_form.employer_message }}</label></p>
+<p class="helptext">Visible to the employer. Required to decline or request information. Optional when verifying.</p>
+<p><label>Internal note (optional)<br>{{ decision_form.internal_note }}</label></p>
+<div class="actions">
+<button type="submit" name="action" value="verify" class="button default">Verify employer</button>
+<button type="submit" name="action" value="decline">Decline employer</button>
+<button type="submit" name="action" value="request_info" class="secondary">Request missing information</button>
+</div></form></section>
+{% endif %}
+{% endif %}
+
+<details class="card"><summary>Previous submissions and review history</summary>
+{% for submission in submissions %}<article><h3>{{ submission.legal_name }} &middot; {{ submission.get_status_display }}</h3>
+<p>Submitted {{ submission.submitted_at }}</p>{% for document in submission.documents.all %}<p><a href="{% url "employers:verification_document" document.pk %}">Download {{ document.filename }}</a></p>{% endfor %}
+{% for event in submission.review_events.all %}<p>{{ event.action }} &middot; {{ event.actor.get_username }} &middot; {{ event.created_at }} &middot; {{ event.from_status }} to {{ event.to_status }}</p>
+<p>Employer-visible: {{ event.employer_message|default:"None" }}</p><p>Internal: {{ event.internal_note|default:"None" }}</p>{% endfor %}</article>{% empty %}<p>No submissions.</p>{% endfor %}
+</details>
+
+<details class="card"><summary>Security flags &mdash; platform only</summary>
+{% for flag in flags %}<article><h3>{{ flag.code }} &middot; {{ flag.get_severity_display }}</h3>
+<p>Detected {{ flag.detected_at }} &middot; Updated {{ flag.updated_at }}</p><pre>{{ flag.evidence }}</pre>
+{% if flag.resolved_at %}<p>Resolved {{ flag.resolved_at }} by {{ flag.resolved_by.get_username }}: {{ flag.resolution_note }}</p>{% else %}<form method="post" action="{% url "employers:verification_flag_resolve" organization.pk flag.pk %}">{% csrf_token %}<label>Resolution reason <input name="reason" maxlength="1000" required></label><button>Resolve flag</button></form>{% endif %}</article>{% empty %}<p>No recorded flags. This is not a guarantee of safety.</p>{% endfor %}
+</details>
+
+<details class="card"><summary>Member domain signals</summary>
+{% for member in members %}<p>{{ member.user.get_username }} &middot; {{ member.get_role_display }} &middot; {{ member.domain_signal.email_domain|default:"Business email domain could not be established" }} &middot; {% if member.domain_signal.matches_organization %}Organization domain matches{% else %}Domain not established / differs{% endif %}{% if member.domain_signal.free_email %} &middot; Free email provider used{% endif %}</p>{% empty %}<p>No members.</p>{% endfor %}
+</details>
+
+<details class="card"><summary>Vacancies held for review</summary>
+{% for vacancy in held_vacancies %}<article><h3>{{ vacancy.title }}</h3>
+<form method="post" action="{% url "employers:verification_vacancy_release" organization.pk vacancy.pk %}">{% csrf_token %}<label>Restoration reason <input name="reason" maxlength="1000" required></label><button>Release publication hold</button></form>
+<p>Requires an approved active organization and the employer's no-fee confirmation. Existing opportunity suppression remains in force.</p></article>{% empty %}<p>No publication holds.</p>{% endfor %}
+</details>
+
+<details class="card"><summary>Report history &mdash; platform only</summary>
+{% for report in reports %}<article><h3>{{ report.opportunity.title }} &middot; {{ report.get_reason_display }}</h3>
+<p>{{ report.created_at }} &middot; {{ report.get_status_display }}</p><p>{{ report.details|linebreaksbr }}</p></article>{% empty %}<p>No reports.</p>{% endfor %}
+</details>
+
+<details class="card"><summary>Operational history &mdash; platform only</summary>
+{% for event in operational_events %}<p>{{ event.display_label }} &middot; {{ event.actor.get_username }} &middot; {{ event.created_at }}</p><pre>{{ event.context }}</pre>{% empty %}<p>No operational changes.</p>{% endfor %}
+</details>
+</div>
+{% endblock %}

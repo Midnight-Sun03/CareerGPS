@@ -1,0 +1,28 @@
+
+==============================================================================
+CAPTURE: BASELINE-READONLY Accountant
+==============================================================================
+target_roles='Accountant'
+intent=4c545dc66448245a...
+state=READY pending='' active_generation_id=30
+authoritative=True
+-- target resolutions --
+  target 8 'Accountant' ordinal=0
+    source=ofo state=UNRESOLVED matched='' route= concepts=[]
+    source=esco state=RESOLVED matched='' route= concepts=[(17559, 'financial controller'), (19222, 'accountant')]
+-- relationship assessment classes (all target resolutions) --
+  rows=10 {'RELATED': 7, 'UNRESOLVED': 3}
+  EXACT/RELATED tiers: {'RELATED_SAFE_HIERARCHY': 7}
+-- active generation rows by discovery_category --
+  gen=30 state=ACTIVE evals=7 intent=4c545dc66448245a... reason='careerpreference_changed'
+  RELATED: rows=7 jobs=7 ids=[5433, 5434, 5435, 5436, 5437, 5438, 5439]
+    #5433 Accountant band=D rank=2 assess=RELATED
+    #5434 Accountant band=D rank=2 assess=RELATED
+    #5435 Accountant band=D rank=2 assess=RELATED
+    #5436 Accountant band=D rank=2 assess=RELATED
+    #5437 Accountant band=D rank=2 assess=RELATED
+    #5438 Accountant band=D rank=2 assess=RELATED
+-- v2_feed_queryset (authoritative view) --
+  rows=7 ids=[5433, 5434, 5435, 5436, 5437, 5438, 5439]
+  titles=['Accountant', 'Accountant', 'Accountant', 'Accountant', 'Accountant', 'Accountant', 'Accountant']
+PHASE3_CAPTURE rc=0

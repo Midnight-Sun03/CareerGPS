@@ -1,0 +1,40 @@
+{% if question.answer_mode == "voice" %}
+<h2>2. Voice Analysis</h2>
+{% if question.voice_analysis_status == "unavailable" %}
+<p>
+    Voice measurements are unavailable for this answer. Answer-content
+    feedback is still available.
+</p>
+{% else %}
+<div class="delivery-grid">
+    <div class="metric">
+        Total answer duration:
+        {% if question.delivery_metrics.duration_seconds != None %}{{ question.delivery_metrics.duration_seconds }} seconds{% else %}unavailable{% endif %}
+    </div>
+    <div class="metric">
+        Actual speech:
+        {% if question.delivery_metrics.speech_duration_seconds != None %}{{ question.delivery_metrics.speech_duration_seconds }} seconds{% else %}unavailable{% endif %}
+    </div>
+    <div class="metric">
+        Recognised words:
+        {% if question.delivery_metrics.recognized_word_count != None %}{{ question.delivery_metrics.recognized_word_count }}{% else %}unavailable{% endif %}
+    </div>
+    <div class="metric">
+        Speaking pace:
+        {% if question.delivery_metrics.pace_status == "available" %}{{ question.delivery_metrics.words_per_minute }} WPM{% elif question.delivery_metrics.pace_status == "insufficient_speech" %}insufficient speech{% else %}unavailable{% endif %}
+    </div>
+    <div class="metric">
+        Meaningful pauses:
+        {% if question.delivery_metrics.pause_status == "available" %}{{ question.delivery_metrics.pause_count }}{% else %}unavailable{% endif %}
+    </div>
+    <div class="metric">
+        Longest meaningful pause:
+        {% if question.delivery_metrics.pause_status == "available" %}{{ question.delivery_metrics.longest_pause_seconds }} seconds{% else %}unavailable{% endif %}
+    </div>
+    <div class="metric">
+        Recognised filler words:
+        {% if question.delivery_metrics.filler_status == "available" %}{{ question.delivery_metrics.filler_word_count }}{% else %}unavailable{% endif %}
+    </div>
+</div>
+{% endif %}
+{% endif %}

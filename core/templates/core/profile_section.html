@@ -1,0 +1,90 @@
+{% extends "dashboard_pages.html" %}
+{% load static %}
+
+{% block title %}CareerGPS | {{ section_title }}{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'core/css/profile_complete.css' %}">
+{% endblock %}
+
+{% block content %}
+<a class="back-link" href="{% url 'profile' %}">← Back to Profile</a>
+
+<header class="section-page-header">
+  <div>
+    <p class="eyebrow">My Profile</p>
+    <h1>{{ section_title }}</h1>
+    <p>{{ helper_text }}</p>
+  </div>
+  <span class="profile-strength">{{ completion_percentage }}% profile strength</span>
+</header>
+
+{% if personal %}
+  <section class="profile-section-card">
+    <p class="account-email"><strong>Account email:</strong> {{ user.email }}</p>
+    <form method="post" action="{% url 'profile_personal_save' %}" class="section-form">
+      {% csrf_token %}
+      {{ personal_form.as_p }}
+      <button type="submit" class="save-btn">Save personal info</button>
+    </form>
+  </section>
+{% else %}
+  <section class="profile-section-card">
+    <div class="section-heading-row">
+      <h2>Added</h2>
+      <span class="section-count">{{ entries|length }}</span>
+    </div>
+
+    <div class="entry-list {% if section == 'skills' or section == 'interests' %}chip-list{% endif %}">
+      {% for entry in entries %}
+        <article class="profile-entry {% if section == 'skills' or section == 'interests' %}profile-chip{% endif %}">
+          <div class="entry-summary">
+            <strong>{{ entry.display.title }}</strong>
+            {% if entry.display.meta %}<span>{{ entry.display.meta }}</span>{% endif %}
+            {% if entry.display.detail %}<small>{{ entry.display.detail }}</small>{% endif %}
+            {% if not entry.object.confirmed_by_user %}<span class="needs-confirmation">Needs your confirmation</span>{% endif %}
+          </div>
+          <div class="entry-actions">
+            <details {% if entry.form.errors %}open{% endif %}>
+              <summary>Edit</summary>
+              <form method="post" action="{% url 'profile_section_edit' section entry.object.id %}" class="section-form compact-form">
+                {% csrf_token %}
+                {{ entry.form.as_p }}
+                <button type="submit" class="save-btn">Save changes</button>
+              </form>
+            </details>
+            <form method="post" action="{% url 'profile_section_delete' section entry.object.id %}">
+              {% csrf_token %}
+              <button type="submit" class="delete-btn" aria-label="Delete {{ entry.display.title }}">Delete</button>
+            </form>
+          </div>
+        </article>
+      {% empty %}
+        <p class="empty-copy">Nothing added yet. Add your first entry below when you are ready.</p>
+      {% endfor %}
+    </div>
+  </section>
+
+  {% if not single or not entries %}
+    <section class="profile-section-card add-card">
+      <details class="add-entry" {% if add_form.errors %}open{% endif %}>
+        <summary>+ Add {{ section_title|lower }}</summary>
+        {% if section == 'skills' %}
+          <datalist id="skill-suggestions">{% for suggestion in skill_suggestions %}<option value="{{ suggestion.name }}">{% endfor %}</datalist>
+        {% elif section == 'interests' %}
+          <datalist id="interest-suggestions">{% for suggestion in interest_suggestions %}<option value="{{ suggestion.name }}">{% endfor %}</datalist>
+        {% endif %}
+        <form method="post" action="{% url 'profile_section_add' section %}" class="section-form">
+          {% csrf_token %}
+          {{ add_form.as_p }}
+          <button type="submit" class="save-btn">Add</button>
+        </form>
+      </details>
+    </section>
+  {% endif %}
+{% endif %}
+{% endblock %}
+
+{% block javascript %}
+<script src="{% static 'core/js/profile_sections.js' %}"></script>
+{% endblock %}

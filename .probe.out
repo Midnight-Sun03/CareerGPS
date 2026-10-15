@@ -1,0 +1,90 @@
+Found 1 test(s).
+Operations to perform:
+  Synchronize unmigrated apps: messages, staticfiles
+  Apply all migrations: admin, applications, auth, contenttypes, core, employers, ingestion, interview, sessions
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  Applying auth.0001_initial... OK
+  Applying admin.0001_initial... OK
+  Applying admin.0002_logentry_remove_auto_add... OK
+  Applying admin.0003_logentry_add_action_flag_choices... OK
+  Applying interview.0001_initial... OK
+  Applying core.0001_initial... OK
+  Applying core.0002_opportunity_ingestion_fields_and_profile_history... OK
+  Applying core.0003_opportunity_coordinates... OK
+  Applying core.0004_opportunity_evidence_and_unclassified... OK
+  Applying core.0005_opportunity_kind_stage_and_scope... OK
+  Applying core.0006_phase_2_profile_foundation... OK
+  Applying core.0007_phase_2_3_taxonomy_foundation... OK
+  Applying core.0008_audited_taxonomy_relationships... OK
+  Applying applications.0001_initial... OK
+  Applying applications.0002_generateddocument_resume_template_layout... OK
+  Applying interview.0002_alter_interview_options_and_more... OK
+  Applying interview.0003_interview_voice_foundation... OK
+  Applying interview.0004_interview_camera_analysis... OK
+  Applying ingestion.0001_initial... OK
+  Applying ingestion.0002_seed_sources... OK
+  Applying ingestion.0003_update_sasol_source_url... OK
+  Applying ingestion.0004_update_capitec_source_url... OK
+  Applying ingestion.0005_phase_1_2_status_and_urls... OK
+  Applying ingestion.0006_update_nedbank_source_url... OK
+  Applying ingestion.0007_classification_dimensions... OK
+  Applying ingestion.0008_phase_2_4_ai_opportunity_extraction... OK
+  Applying ingestion.0009_alter_ingestionsource_source_type... OK
+  Applying core.0009_story_moderation_note_notification... OK
+  Applying core.0010_community_and_career_intelligence... OK
+  Applying core.0011_notification_categories... OK
+  Applying employers.0001_initial... OK
+  Applying employers.0002_talentpool_talentpoolmember_talentpoolmemberevent_and_more... OK
+  Applying employers.0003_hiringassignment_hiringtask_hiringtaskevent_and_more... OK
+  Applying employers.0004_employerabusecounter_organizationverification_and_more... OK
+  Applying applications.0003_alter_application_status... OK
+  Applying employers.0005_talentinvitation_and_more... OK
+  Applying core.0012_privacyrequest_legalacceptanceevent_and_more... OK
+  Applying ingestion.0010_purge_adzuna... OK
+  Applying core.0013_opportunitycleanattempt_opportunitycleanrevision_and_more... OK
+  Applying applications.0004_remove_adzuna_enrichment... OK
+  Applying applications.0005_alter_application_status... OK
+  Applying applications.0006_application_clean_revision_and_more... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying auth.0009_alter_user_last_name_max_length... OK
+  Applying auth.0010_alter_group_name_max_length... OK
+  Applying auth.0011_update_proxy_permissions... OK
+  Applying auth.0012_alter_user_first_name_max_length... OK
+  Applying core.0014_taxonomycrosswalk_source_external_id_and_more... OK
+  Applying core.0015_remove_opportunitycareerassignment_occupation_and_more... OK
+  Applying core.0016_remove_taxonomylabel_unique_taxonomy_concept_label_and_more... OK
+  Applying core.0017_occupational_intelligence_block1... OK
+  Applying core.0018_feed_v2_materialization... OK
+  Applying core.0019_alter_profilefeedevaluation_discovery_category_and_more... OK
+  Applying core.0020_datarightsevent... OK
+  Applying core.0021_occupationsourceresolution_result_count_and_more... OK
+  Applying core.0022_evaluation_task_live_key_constraint... OK
+  Applying core.0023_candidate_concept_lookup... OK
+  Applying employers.0006_organizationverification_independent_contact_confirmed_at_and_more... OK
+  Applying employers.0007_require_independent_contact_for_legacy_approvals... OK
+  Applying employers.0008_hold_all_unverified_legacy_approvals... OK
+  Applying ingestion.0011_smartrecruiterscompany... OK
+  Applying ingestion.0012_seed_smartrecruiters_sources... OK
+  Applying ingestion.0013_workdayboard... OK
+  Applying ingestion.0014_seed_workday_boards... OK
+  Applying interview.0005_interview_clean_revision... OK
+  Applying sessions.0001_initial... OK
+PROBE tasks: [(1, 'feed-v2', 1)]
+PROBE revision: 1
+PROBE blocked: False
+PROBE ready: True
+PROBE targets: 1
+PROBE overlap: set()
+PROBE vacancy state: READY
+PROBE fanout result: [1]

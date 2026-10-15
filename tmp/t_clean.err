@@ -1,0 +1,35 @@
+Using existing test database for alias 'default'...
+System check identified some issues:
+
+WARNINGS:
+?: (careergps.W001) Public operator/contact details are incomplete: CAREERGPS_OPERATOR_NAME, CAREERGPS_OPERATOR_LEGAL_STATUS, CAREERGPS_OPERATOR_PHYSICAL_ADDRESS, CAREERGPS_OPERATOR_LEGAL_SERVICE_ADDRESS, CAREERGPS_OPERATOR_TELEPHONE, CAREERGPS_CONTACT_EMAIL, CAREERGPS_PRIVACY_EMAIL, CAREERGPS_INFORMATION_OFFICER.
+	HINT: Supply verified owner facts before public production launch; review registration details and Information Officer information where applicable.
+
+System check identified 1 issue (0 silenced).
+....................................................F...............................F.sss........
+======================================================================
+FAIL: test_exact_career_labels_search_and_one_universe_at_runtime (core.test_feed_v2.FeedV2PresentationTests.test_exact_career_labels_search_and_one_universe_at_runtime)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\CG\core\test_feed_v2.py", line 632, in test_exact_career_labels_search_and_one_universe_at_runtime
+    self.assertContains(response, 'Exact match')
+  File "D:\CG\.venv\Lib\site-packages\django\test\testcases.py", line 660, in assertContains
+    self.assertTrue(
+AssertionError: False is not true : Couldn't find 'Exact match' in response
+
+======================================================================
+FAIL: test_title_only_evidence_is_disclosed_beside_a_confirmed_relationship (core.test_feed_v2.UncertainCatalogueVisibilityTests.test_title_only_evidence_is_disclosed_beside_a_confirmed_relationship)
+A confirmed card also discloses its retained title-only evidence.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\CG\core\test_feed_v2.py", line 1427, in test_title_only_evidence_is_disclosed_beside_a_confirmed_relationship
+    self.assertContains(response, 'not counted as a relationship')
+  File "D:\CG\.venv\Lib\site-packages\django\test\testcases.py", line 660, in assertContains
+    self.assertTrue(
+AssertionError: False is not true : Couldn't find 'not counted as a relationship' in response
+
+----------------------------------------------------------------------
+Ran 97 tests in 161.860s
+
+FAILED (failures=2, skipped=3)
+Preserving test database for alias 'default'...

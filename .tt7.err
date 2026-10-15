@@ -1,0 +1,30 @@
+Creating test database for alias 'default'...
+System check identified some issues:
+
+WARNINGS:
+?: (careergps.W001) Public operator/contact details are incomplete: CAREERGPS_OPERATOR_NAME, CAREERGPS_OPERATOR_LEGAL_STATUS, CAREERGPS_OPERATOR_PHYSICAL_ADDRESS, CAREERGPS_OPERATOR_LEGAL_SERVICE_ADDRESS, CAREERGPS_OPERATOR_TELEPHONE, CAREERGPS_CONTACT_EMAIL, CAREERGPS_PRIVACY_EMAIL, CAREERGPS_INFORMATION_OFFICER.
+	HINT: Supply verified owner facts before public production launch; review registration details and Information Officer information where applicable.
+
+System check identified 1 issue (0 silenced).
+....................s..F.....F......................
+======================================================================
+FAIL: test_past_deadline_excluded_history_retained (core.test_community.OpportunityIntegrityTests.test_past_deadline_excluded_history_retained)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\CG\core\test_community.py", line 426, in test_past_deadline_excluded_history_retained
+    self.assertFalse(opportunity.is_catalogue_available)
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_expired_reporting_requires_own_history (core.test_community.OpportunityReportingTests.test_expired_reporting_requires_own_history)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\CG\core\test_community.py", line 396, in test_expired_reporting_requires_own_history
+    self.assertEqual(self.client.get(url).status_code, 404)
+AssertionError: 200 != 404
+
+----------------------------------------------------------------------
+Ran 52 tests in 14.561s
+
+FAILED (failures=2, skipped=1)
+Destroying test database for alias 'default'...

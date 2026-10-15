@@ -1,0 +1,167 @@
+Creating test database for alias 'default'...
+System check identified some issues:
+
+WARNINGS:
+?: (careergps.W001) Public operator/contact details are incomplete: CAREERGPS_OPERATOR_NAME, CAREERGPS_OPERATOR_LEGAL_STATUS, CAREERGPS_OPERATOR_PHYSICAL_ADDRESS, CAREERGPS_OPERATOR_LEGAL_SERVICE_ADDRESS, CAREERGPS_OPERATOR_TELEPHONE, CAREERGPS_CONTACT_EMAIL, CAREERGPS_PRIVACY_EMAIL, CAREERGPS_INFORMATION_OFFICER.
+	HINT: Supply verified owner facts before public production launch; review registration details and Information Officer information where applicable.
+
+System check identified 1 issue (0 silenced).
+.F.....F..F..........FF.....F.......................FF....................F......FF.F.......................F.....F........F..........................
+======================================================================
+FAIL: test_approved_alias_and_stage_variant_are_exact (core.test_occupational_intelligence.CandidateSetComparisonTests.test_approved_alias_and_stage_variant_are_exact)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\CG\core\test_occupational_intelligence.py", line 299, in test_approved_alias_and_stage_variant_are_exact
+    self.assertEqual(stage.final_class, 'EXACT')
+AssertionError: 'TITLE_MATCH' != 'EXACT'
+- TITLE_MATCH
++ EXACT
+
+
+======================================================================
+FAIL: test_identical_candidate_sets_are_not_automatically_exact (core.test_occupational_intelligence.CandidateSetComparisonTests.test_identical_candidate_sets_are_not_automatically_exact)
+Identical candidate sets are evaluated, not assumed.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\CG\core\test_occupational_intelligence.py", line 484, in test_identical_candidate_sets_are_not_automatically_exact
+    self.assertEqual(assessment.evidence_tier, 'EXACT_STAGE_VARIANT')
+AssertionError: 'TITLE_ONLY' != 'EXACT_STAGE_VARIANT'
+- TITLE_ONLY
++ EXACT_STAGE_VARIANT
+
+
+======================================================================
+FAIL: test_material_resolver_disagreement_is_conflict (core.test_occupational_intelligence.CandidateSetComparisonTests.test_material_resolver_disagreement_is_conflict)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\CG\core\test_occupational_intelligence.py", line 278, in test_material_resolver_disagreement_is_conflict
+    self.assertEqual(assessment.final_class, 'CONFLICT')
+AssertionError: 'EXACT' != 'CONFLICT'
+- EXACT
++ CONFLICT
+
+
+======================================================================
+FAIL: test_stage_variant_is_not_presented_as_a_taxonomy_confirmation (core.test_occupational_intelligence.CandidateSetComparisonTests.test_stage_variant_is_not_presented_as_a_taxonomy_confirmation)
+A title match stays in its own weaker tier with no policy evidence.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\CG\core\test_occupational_intelligence.py", line 527, in test_stage_variant_is_not_presented_as_a_taxonomy_confirmation
+    self.assertEqual(assessment.final_class, 'EXACT')
+AssertionError: 'TITLE_MATCH' != 'EXACT'
+- TITLE_MATCH
++ EXACT
+
+
+======================================================================
+FAIL: test_approved_alias_and_stage_variant_are_exact (core.test_occupational_intelligence.OccupationalIntelligenceTests.test_approved_alias_and_stage_variant_are_exact)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\CG\core\test_occupational_intelligence.py", line 299, in test_approved_alias_and_stage_variant_are_exact
+    self.assertEqual(stage.final_class, 'EXACT')
+AssertionError: 'TITLE_MATCH' != 'EXACT'
+- TITLE_MATCH
++ EXACT
+
+
+======================================================================
+FAIL: test_material_resolver_disagreement_is_conflict (core.test_occupational_intelligence.OccupationalIntelligenceTests.test_material_resolver_disagreement_is_conflict)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\CG\core\test_occupational_intelligence.py", line 278, in test_material_resolver_disagreement_is_conflict
+    self.assertEqual(assessment.final_class, 'CONFLICT')
+AssertionError: 'EXACT' != 'CONFLICT'
+- EXACT
++ CONFLICT
+
+
+======================================================================
+FAIL: test_exact_admitted_despite_weak_fit_and_skill_overlap_cannot_admit (core.test_feed_v2.FeedV2AdmissionTests.test_exact_admitted_despite_weak_fit_and_skill_overlap_cannot_admit)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\CG\core\test_feed_v2.py", line 150, in test_exact_admitted_despite_weak_fit_and_skill_overlap_cannot_admit
+    self.assertEqual(survived.discovery_rank, 4)
+AssertionError: 5 != 4
+
+======================================================================
+FAIL: test_exact_for_one_target_survives_conflict_for_another (core.test_feed_v2.FeedV2AdmissionTests.test_exact_for_one_target_survives_conflict_for_another)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\CG\core\test_feed_v2.py", line 220, in test_exact_for_one_target_survives_conflict_for_another
+    self.assertEqual(
+AssertionError: Items in the second set but not the first:
+'CONFLICT'
+
+======================================================================
+FAIL: test_discovery_rank_table_matches_the_locked_order (core.test_feed_v2.FeedV2UnrelatedExclusionTests.test_discovery_rank_table_matches_the_locked_order)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\CG\core\test_feed_v2.py", line 859, in test_discovery_rank_table_matches_the_locked_order
+    self.assertEqual(FEED_DISCOVERY_RANK, {
+AssertionError: {'EXACT': 1, 'RELATED': 2, 'CONFLICT': 3, 'TITLE_MATCH': 4, 'UNRESOLVED': 5} != {'EXACT': 1, 'RELATED': 2, 'CONFLICT': 3, 'UNRESOLVED': 4}
+- {'CONFLICT': 3, 'EXACT': 1, 'RELATED': 2, 'TITLE_MATCH': 4, 'UNRESOLVED': 5}
+?                                          ------------------               ^
+
++ {'CONFLICT': 3, 'EXACT': 1, 'RELATED': 2, 'UNRESOLVED': 4}
+?                                                         ^
+
+
+======================================================================
+FAIL: test_positive_relationship_beats_a_single_negative_source (core.test_feed_v2.FeedV2UnrelatedExclusionTests.test_positive_relationship_beats_a_single_negative_source)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\CG\core\test_feed_v2.py", line 770, in test_positive_relationship_beats_a_single_negative_source
+    self.assertEqual(assessment.final_class, 'CONFLICT')
+AssertionError: 'RELATED' != 'CONFLICT'
+- RELATED
++ CONFLICT
+
+
+======================================================================
+FAIL: test_single_source_negative_keeps_the_vacancy (core.test_feed_v2.FeedV2UnrelatedExclusionTests.test_single_source_negative_keeps_the_vacancy)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\CG\core\test_feed_v2.py", line 669, in test_single_source_negative_keeps_the_vacancy
+    self.assertEqual(row.discovery_rank, 4)
+AssertionError: 5 != 4
+
+======================================================================
+FAIL: test_unrelated_target_with_conflicting_target_is_kept (core.test_feed_v2.FeedV2UnrelatedExclusionTests.test_unrelated_target_with_conflicting_target_is_kept)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\CG\core\test_feed_v2.py", line 832, in test_unrelated_target_with_conflicting_target_is_kept
+    self.assertEqual(classes, {UNRELATED_CLASS, 'CONFLICT'})
+AssertionError: Items in the first set but not the second:
+'RELATED'
+Items in the second set but not the first:
+'CONFLICT'
+
+======================================================================
+FAIL: test_01_non_senior_opportunities_remain_in_results (core.test_candidate_feed_runtime.CandidateUniverseVisibilityTests.test_01_non_senior_opportunities_remain_in_results)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\CG\core\test_candidate_feed_runtime.py", line 126, in test_01_non_senior_opportunities_remain_in_results
+    self.assertIn("NON_SENIOR Data Analyst", self.feed_titles())
+AssertionError: 'NON_SENIOR Data Analyst' not found in ['Zzz Unmapped Qqq Role', 'Ambiguous Data Role', 'Zero Evidence Qqq Role', 'UNCERTAIN Review Clerk']
+
+======================================================================
+FAIL: test_41_no_target_profile_sees_everything_ranked_at_tier_zero (core.test_candidate_feed_runtime.CandidateUniverseVisibilityTests.test_41_no_target_profile_sees_everything_ranked_at_tier_zero)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\CG\core\test_candidate_feed_runtime.py", line 154, in test_41_no_target_profile_sees_everything_ranked_at_tier_zero
+    self.assertEqual(len(rows), 5)
+AssertionError: 4 != 5
+
+======================================================================
+FAIL: test_20_positive_band_plus_major_gap_becomes_e (core.test_candidate_feed_runtime.RecommendationBandTests.test_20_positive_band_plus_major_gap_becomes_e)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\CG\core\test_candidate_feed_runtime.py", line 305, in test_20_positive_band_plus_major_gap_becomes_e
+    self.assertIn("Blocked Exact Role", rows)
+AssertionError: 'Blocked Exact Role' not found in {}
+
+----------------------------------------------------------------------
+Ran 150 tests in 180.862s
+
+FAILED (failures=15)
+Destroying test database for alias 'default'...

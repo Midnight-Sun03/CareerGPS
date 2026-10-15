@@ -1,0 +1,11 @@
+{% load static notification_tags %}<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CareerGPS | Employers</title><link rel="stylesheet" href="{% static 'employers/employers.css' %}"><link rel="stylesheet" href="{% static 'core/css/notifications.css' %}"><link rel="stylesheet" href="{% static 'core/css/setfunctions.css' %}"><link rel="stylesheet" href="{% static 'core/css/public_legal.css' %}"></head>
+<body class="employer-shell">{% notification_summary 5 as notification_summary %}<a class="skip" href="#content">Skip to content</a>
+<header><a class="brand" href="{% url 'employers:home' %}">Career<span>GPS</span> <small>Employers</small></a>
+<nav aria-label="Account"><a href="{% url 'dashboard' %}">Switch to Candidate</a><a href="{% url 'settings' %}">Settings</a><a href="{% url 'logout_confirm' %}">Sign out</a></nav>{% include 'core/notification_menu.html' %}</header>
+<div class="employer-layout"><aside>
+{% if organization %}<h2>{{ organization.name }}</h2><p>{{ membership.get_role_display }}</p>
+<nav aria-label="Employer navigation"><a href="{% url 'employers:dashboard' organization.id %}">Jobs</a>{% if employer_approved %}<a href="{% url 'employers:applicants' organization.id %}">Applications</a>{% else %}<span title="Available after verification">Applications</span>{% endif %}{% if 'talent' in permissions %}<a href="{% url 'employers:talent_search' organization.id %}">Talent</a>{% else %}<span title="Requires Talent permission">Talent</span>{% endif %}<a href="{% url 'employers:company' organization.id %}">Company</a></nav>{% else %}<a href="{% url 'employers:home' %}">Your organizations</a>{% endif %}</aside>
+<main id="content">{% if messages %}<div role="status">{% for message in messages %}<p class="message">{{ message }}</p>{% endfor %}</div>{% endif %}
+{% block content %}{% endblock %}</main></div>{% include 'partials/public_footer.html' %}{% block scripts %}{% endblock %}<script src="{% static 'core/js/notifications.js' %}"></script><script src="{% static 'core/js/settings.js' %}"></script></body></html>

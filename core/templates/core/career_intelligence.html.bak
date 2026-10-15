@@ -1,0 +1,77 @@
+{% extends "dashboard_pages.html" %}
+{% load static %}
+{% block title %}CareerGPS | Career Intelligence{% endblock %}
+{% block css %}<link rel="stylesheet" href="{% static 'core/css/career_intelligence.css' %}">{% endblock %}
+{% block content %}
+<div class="career-page career-brief">
+  <header class="career-brief-header">
+    <p class="career-eyebrow">Your direction</p>
+    <h1>Career Intelligence</h1>
+    <p>A grounded view of your saved career direction, your confirmed evidence, and what current relevant employers are asking for.</p>
+  </header>
+
+  <section class="career-card" aria-labelledby="career-targets-heading">
+    <div class="career-heading-row"><div><p class="career-eyebrow">Direction</p><h2 id="career-targets-heading">Your career direction</h2></div><a href="{% url 'profile_section' 'career-preferences' %}">Edit Career Preferences</a></div>
+    {% if direction_roles %}
+      <p>Career direction: {% for role in direction_roles %}<strong>{{ role }}</strong>{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+      {% if not brief.targets %}<p>We cannot identify a single trusted occupation from this wording. Your career direction is saved; occupation-specific analysis is limited for now.</p>{% endif %}
+    {% else %}
+      <p>No career direction saved yet. Add target roles in Profile → Career Preferences.</p>
+    {% endif %}
+  </section>
+
+  <section class="career-card" aria-labelledby="career-position-heading">
+    <p class="career-eyebrow">Evidence, not intent</p><h2 id="career-position-heading">Your current position</h2>
+    <p>{{ brief.position_summary }}</p>
+    {% if brief.candidate_evidence %}<details><summary>Profile evidence used for comparison</summary><div class="career-evidence-grid">{% for category in brief.candidate_evidence %}<div><h3>{{ category.label }} <small>({{ category.count }})</small></h3><ul>{% for item in category.items %}<li>{{ item }}</li>{% endfor %}</ul></div>{% endfor %}</div><p><a href="{% url 'profile' %}">Update profile evidence</a></p></details>
+    {% else %}<p>No confirmed substantive skills, qualifications, work history, certifications or languages are available for this comparison. <a href="{% url 'profile' %}">Add profile evidence</a>.</p>{% endif %}
+  </section>
+
+  <section class="career-card" aria-labelledby="career-picture-heading">
+    <p class="career-eyebrow">Current opportunities</p><h2 id="career-picture-heading">Opportunity picture</h2>
+    {% if brief.targets %}
+      <p><strong>{{ brief.opportunity_count }}</strong> active target or trusted-related opportunit{{ brief.opportunity_count|pluralize:"y,ies" }} in your personalised feed.</p>
+      {% if brief.opportunity_count %}<div class="career-stat-row"><span><strong>{{ brief.exact_count }}</strong> exact target</span><span><strong>{{ brief.specialisation_count }}</strong> specialisations</span><span><strong>{{ brief.related_count }}</strong> direct-related careers</span><span><strong>{{ brief.strong_count }}</strong> strong or good current fit</span><span><strong>{{ brief.current_gap_count }}</strong> Current Gap fit</span></div>
+        {% if brief.locations or brief.work_modes %}<details><summary>Observed locations and work modes</summary>{% if brief.locations %}<h3>Locations</h3><ul>{% for item in brief.locations %}<li>{{ item.label }} &mdash; {{ item.count }} vacancies</li>{% endfor %}</ul>{% endif %}{% if brief.work_modes %}<h3>Work modes</h3><ul>{% for item in brief.work_modes %}<li>{{ item.label }} &mdash; {{ item.count }} vacancies</li>{% endfor %}</ul>{% endif %}</details>{% endif %}
+      {% else %}<p>There is currently insufficient active vacancy evidence for market intelligence about these targets.</p>{% endif %}
+      <a href="{% url 'opportunities' %}">View relevant opportunities</a>
+    {% else %}<p>Occupation-specific market analysis is unavailable for this direction. Evidence-supported jobs remain available on <a href="{% url 'opportunities' %}">Opportunities</a>.</p>{% endif %}
+  </section>
+
+  <section class="career-card" aria-labelledby="career-demand-heading">
+    <p class="career-eyebrow">Employer demand</p><h2 id="career-demand-heading">What employers are asking for</h2>
+    {% if brief.demand_sections %}<p>Observed structured requirements in {{ brief.opportunity_count }} active target or trusted-related vacancies. These are employer requests, not skills CareerGPS assumes you have.</p>
+      <div class="career-grid">{% for section in brief.demand_sections %}<div class="career-demand-group"><h3>{{ section.label }}</h3><ul class="career-ranked-list">{% for item in section.items %}<li><span>{{ item.label|truncatechars:100 }} <small>{{ item.importance|title }}</small></span><strong>{{ item.count }} of {{ brief.opportunity_count }}</strong></li>{% endfor %}</ul></div>{% endfor %}</div>
+      <details><summary>How these counts work</summary><p>Each vacancy counts once per distinct structured criterion. Required and preferred requests remain separate; alternatives are kept together. Missing criteria are unknown, not assumed absent.</p></details>
+    {% else %}<p>No current structured employer requirements are available for this target cohort. CareerGPS will not infer demand from a thin advert or fill this section with generic trends.</p>{% endif %}
+  </section>
+
+  <section class="career-card" aria-labelledby="career-strongest-heading">
+    <p class="career-eyebrow">Confirmed profile evidence</p><h2 id="career-strongest-heading">Your strongest evidence</h2>
+    {% for item in brief.strongest_evidence %}<div class="career-brief-row"><strong>{{ item.label }}</strong><p>Confirmed or reliably related profile evidence supports this required criterion in {{ item.supported_count }} active relevant vacancies.</p>{% if item.profile_evidence %}<details><summary>Supporting profile evidence</summary><ul>{% for evidence in item.profile_evidence %}<li>{{ evidence }}</li>{% endfor %}</ul></details>{% endif %}</div>
+    {% empty %}<p>No required employer criterion is supported by your profile across multiple current target or trusted-related vacancies. This does not mean you have no useful experience.</p>{% endfor %}
+  </section>
+
+  <section class="career-card" aria-labelledby="career-gaps-heading">
+    <p class="career-eyebrow">Compared with employer requests</p><h2 id="career-gaps-heading">Your evidence gaps</h2>
+    {% if brief.required_gaps %}<h3>Required evidence not found in your profile</h3><ul class="career-brief-list">{% for item in brief.required_gaps %}<li><strong>{{ item.label|truncatechars:110 }}</strong><p>Not found in your profile for {{ item.missing_count }} of {{ item.count }} vacancies requesting it.{% if item.major_count %} A major required gap in {{ item.major_count }}.{% endif %}</p></li>{% endfor %}</ul>{% endif %}
+    {% if brief.unknown_gaps %}<h3>Unable to verify</h3><ul class="career-brief-list">{% for item in brief.unknown_gaps %}<li><strong>{{ item.label|truncatechars:110 }}</strong><p>CareerGPS cannot verify this from your current profile for {{ item.unknown_count }} of {{ item.count }} vacancies requesting it. It is not counted as missing.</p></li>{% endfor %}</ul>{% endif %}
+    {% if brief.preferred_gaps %}<details><summary>Preferred evidence not found</summary><ul class="career-brief-list">{% for item in brief.preferred_gaps %}<li><strong>{{ item.label|truncatechars:110 }}</strong><p>Not found in your profile for {{ item.missing_count }} vacancies listing it as preferred.</p></li>{% endfor %}</ul></details>{% endif %}
+    {% if not brief.required_gaps and not brief.unknown_gaps and not brief.preferred_gaps %}<p>No comparable evidence gaps can be established from the currently available target-career requirements.</p>{% endif %}
+    {% if brief.required_gaps or brief.unknown_gaps %}<p><a href="{% url 'profile' %}">Review profile evidence</a></p>{% endif %}
+  </section>
+
+  <section class="career-card" aria-labelledby="career-related-heading">
+    <p class="career-eyebrow">Trusted taxonomy links</p><h2 id="career-related-heading">Related career paths</h2>
+    {% for path in brief.related_paths %}<div class="career-brief-row"><strong>{{ path.label }}</strong><span class="career-tag">{{ path.kind }}</span><p>Connected to your target {{ path.target_label }} &middot; {{ path.count }} active vacanc{{ path.count|pluralize:"y,ies" }}</p></div>
+    {% empty %}<p>No trusted specialisation or directly related occupation is currently identified for your selected targets. CareerGPS does not infer related paths from similar titles alone.</p>{% endfor %}
+  </section>
+
+  <section class="career-card" aria-labelledby="career-priorities-heading">
+    <p class="career-eyebrow">Based on recurring requests</p><h2 id="career-priorities-heading">Development priorities</h2>
+    {% for item in brief.priorities %}<div class="career-brief-row"><strong>{{ item.label|truncatechars:110 }}</strong><p>Requested as required evidence in {{ item.count }} active vacancies connected to your career direction. CareerGPS found no supporting profile evidence in {{ item.missing_count }} of them. Review what evidence you may already have, then consider whether this is worth developing.</p></div>
+    {% empty %}<p>No recurring confirmed evidence gap is strong enough to suggest a development priority right now. CareerGPS will not invent generic advice from sparse data.</p>{% endfor %}
+    {% if brief.priorities %}<p>Addressing a requirement may strengthen future applications; it does not guarantee employment. <a href="{% url 'profile' %}">Update profile evidence</a></p>{% endif %}
+  </section>
+</div>
+{% endblock %}

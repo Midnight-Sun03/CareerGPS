@@ -1,0 +1,245 @@
+/* =========================================================
+   CareerGPS — Sign Out
+   ========================================================= */
+
+.logout-container {
+    min-height: calc(100vh - 80px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    background:
+        radial-gradient(
+            circle at top left,
+            rgba(232, 93, 4, 0.08),
+            transparent 35%
+        ),
+        #f8f8f8;
+}
+
+
+/* ---------------------------------------------------------
+   Card
+   --------------------------------------------------------- */
+
+.logout-card {
+    width: 100%;
+    max-width: 480px;
+
+    background: #ffffff;
+
+    border: 1px solid #ece7e3;
+    border-radius: 18px;
+
+    padding: 42px 38px;
+
+    text-align: center;
+
+    box-shadow:
+        0 18px 45px rgba(0, 0, 0, 0.08);
+}
+
+
+/* ---------------------------------------------------------
+   Sign-out icon
+   --------------------------------------------------------- */
+
+.logout-card::before {
+    content: "⏻";
+
+    width: 64px;
+    height: 64px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin: 0 auto 22px;
+
+    border-radius: 50%;
+
+    background: rgba(232, 93, 4, 0.10);
+
+    color: #e85d04;
+
+    font-size: 28px;
+    font-weight: 700;
+}
+
+
+/* ---------------------------------------------------------
+   Heading
+   --------------------------------------------------------- */
+
+.logout-card h1 {
+    margin: 0 0 12px;
+
+    color: #1f1f1f;
+
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+
+/* ---------------------------------------------------------
+   Message
+   --------------------------------------------------------- */
+
+.logout-card p {
+    max-width: 370px;
+
+    margin: 0 auto 30px;
+
+    color: #6f6f6f;
+
+    font-size: 0.98rem;
+    line-height: 1.65;
+}
+
+
+/* ---------------------------------------------------------
+   Actions
+   --------------------------------------------------------- */
+
+.logout-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 12px;
+}
+
+
+/* Remove default form spacing */
+
+.logout-actions form {
+    margin: 0;
+}
+
+
+/* ---------------------------------------------------------
+   Shared button styles
+   --------------------------------------------------------- */
+
+.cancel-btn,
+.logout-btn {
+    min-width: 130px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 12px 22px;
+
+    border-radius: 9px;
+
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 600;
+
+    text-decoration: none;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+/* ---------------------------------------------------------
+   Cancel
+   --------------------------------------------------------- */
+
+.cancel-btn {
+    background: #ffffff;
+
+    color: #4b4b4b;
+
+    border: 1px solid #d8d8d8;
+}
+
+.cancel-btn:hover {
+    background: #f4f4f4;
+
+    color: #252525;
+
+    border-color: #c7c7c7;
+}
+
+
+/* ---------------------------------------------------------
+   Sign Out
+   --------------------------------------------------------- */
+
+.logout-btn {
+    border: 1px solid #e85d04;
+
+    background: #e85d04;
+
+    color: #ffffff;
+}
+
+.logout-btn:hover {
+    background: #cf5000;
+
+    border-color: #cf5000;
+
+    box-shadow:
+        0 8px 20px rgba(232, 93, 4, 0.20);
+}
+
+
+/* ---------------------------------------------------------
+   Button interaction
+   --------------------------------------------------------- */
+
+.cancel-btn:active,
+.logout-btn:active {
+    transform: translateY(1px);
+}
+
+.cancel-btn:focus-visible,
+.logout-btn:focus-visible {
+    outline: 3px solid rgba(232, 93, 4, 0.25);
+    outline-offset: 3px;
+}
+
+
+/* ---------------------------------------------------------
+   Mobile
+   --------------------------------------------------------- */
+
+@media (max-width: 560px) {
+
+    .logout-container {
+        padding: 24px 16px;
+    }
+
+    .logout-card {
+        padding: 34px 22px;
+        border-radius: 15px;
+    }
+
+    .logout-card h1 {
+        font-size: 1.7rem;
+    }
+
+    .logout-actions {
+        flex-direction: column-reverse;
+    }
+
+    .logout-actions form,
+    .cancel-btn,
+    .logout-btn {
+        width: 100%;
+    }
+
+    .logout-btn {
+        box-sizing: border-box;
+    }
+}

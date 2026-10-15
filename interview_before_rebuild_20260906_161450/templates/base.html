@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en-ZA">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}CareerGPS{% endblock %}</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --orange: #E8612A;
+      --orange-light: #ff8c5a;
+      --green: #4caf82;
+      --red: #d95f3b;
+      --light-bg: #f5f6fa;
+      --card-bg: #ffffff;
+      --card-border: rgba(0,0,0,0.09);
+      --text-muted: #6b7c93;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: 'Inter', sans-serif;
+      background: var(--light-bg);
+      color: #1a2535;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; }
+
+    /* ── Django messages ── */
+    .django-messages {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: .5rem;
+      max-width: 360px;
+    }
+    .django-msg {
+      padding: .75rem 1.25rem;
+      border-radius: .75rem;
+      font-size: .875rem;
+      font-weight: 600;
+      box-shadow: 0 4px 16px rgba(0,0,0,.12);
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      animation: slideIn .25s ease;
+    }
+    .django-msg.success { background: #e8f7f0; color: #1a7a4a; border: 1px solid #b7e4cc; }
+    .django-msg.error   { background: #fdf0ed; color: #c0392b; border: 1px solid #f5c6bc; }
+    .django-msg.warning { background: #fef9ec; color: #9a6d0a; border: 1px solid #f5e4a3; }
+    .django-msg.info    { background: #edf4fd; color: #1a5fa8; border: 1px solid #bcd9f7; }
+    @keyframes slideIn { from { opacity:0; transform:translateX(20px); } to { opacity:1; transform:none; } }
+  </style>
+
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+
+  {% if messages %}
+  <div class="django-messages">
+    {% for message in messages %}
+    <div class="django-msg {{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+  </div>
+  <script>
+    setTimeout(() => {
+      document.querySelectorAll('.django-msg').forEach(el => el.remove());
+    }, 4000);
+  </script>
+  {% endif %}
+
+  {% block content %}{% endblock %}
+
+</body>
+</html>

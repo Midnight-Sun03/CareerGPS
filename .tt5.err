@@ -1,0 +1,63 @@
+Creating test database for alias 'default'...
+System check identified some issues:
+
+WARNINGS:
+?: (careergps.W001) Public operator/contact details are incomplete: CAREERGPS_OPERATOR_NAME, CAREERGPS_OPERATOR_LEGAL_STATUS, CAREERGPS_OPERATOR_PHYSICAL_ADDRESS, CAREERGPS_OPERATOR_LEGAL_SERVICE_ADDRESS, CAREERGPS_OPERATOR_TELEPHONE, CAREERGPS_CONTACT_EMAIL, CAREERGPS_PRIVACY_EMAIL, CAREERGPS_INFORMATION_OFFICER.
+	HINT: Supply verified owner facts before public production launch; review registration details and Information Officer information where applicable.
+
+System check identified 1 issue (0 silenced).
+FFFFF...........................................................................................................................................
+======================================================================
+FAIL: test_filter_states_apply_inside_the_personalized_survivor_feed (core.tests.CandidateFeedTypeFilterTests.test_filter_states_apply_inside_the_personalized_survivor_feed) (choice='all')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\CG\core\tests.py", line 250, in test_filter_states_apply_inside_the_personalized_survivor_feed
+    self.assertEqual(self.titles({'type': choice}), expected)
+AssertionError: Items in the second set but not the first:
+'Graduate Programme Placement'
+'Junior Data Assistant'
+'Data Internship Placement'
+'Data Operations Role'
+'Data Learnership Placement'
+
+======================================================================
+FAIL: test_filter_states_apply_inside_the_personalized_survivor_feed (core.tests.CandidateFeedTypeFilterTests.test_filter_states_apply_inside_the_personalized_survivor_feed) (choice='internship')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\CG\core\tests.py", line 250, in test_filter_states_apply_inside_the_personalized_survivor_feed
+    self.assertEqual(self.titles({'type': choice}), expected)
+AssertionError: Items in the second set but not the first:
+'Data Internship Placement'
+
+======================================================================
+FAIL: test_filter_states_apply_inside_the_personalized_survivor_feed (core.tests.CandidateFeedTypeFilterTests.test_filter_states_apply_inside_the_personalized_survivor_feed) (choice='learnership')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\CG\core\tests.py", line 250, in test_filter_states_apply_inside_the_personalized_survivor_feed
+    self.assertEqual(self.titles({'type': choice}), expected)
+AssertionError: Items in the second set but not the first:
+'Data Learnership Placement'
+
+======================================================================
+FAIL: test_filter_states_apply_inside_the_personalized_survivor_feed (core.tests.CandidateFeedTypeFilterTests.test_filter_states_apply_inside_the_personalized_survivor_feed) (choice='graduate')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\CG\core\tests.py", line 250, in test_filter_states_apply_inside_the_personalized_survivor_feed
+    self.assertEqual(self.titles({'type': choice}), expected)
+AssertionError: Items in the second set but not the first:
+'Graduate Programme Placement'
+
+======================================================================
+FAIL: test_filter_states_apply_inside_the_personalized_survivor_feed (core.tests.CandidateFeedTypeFilterTests.test_filter_states_apply_inside_the_personalized_survivor_feed) (choice='entry_level')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\CG\core\tests.py", line 250, in test_filter_states_apply_inside_the_personalized_survivor_feed
+    self.assertEqual(self.titles({'type': choice}), expected)
+AssertionError: Items in the second set but not the first:
+'Junior Data Assistant'
+
+----------------------------------------------------------------------
+Ran 140 tests in 247.088s
+
+FAILED (failures=5)
+Destroying test database for alias 'default'...

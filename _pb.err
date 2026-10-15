@@ -1,0 +1,73 @@
+Creating test database for alias 'default'...
+System check identified some issues:
+
+WARNINGS:
+?: (careergps.W001) Public operator/contact details are incomplete: CAREERGPS_OPERATOR_NAME, CAREERGPS_OPERATOR_LEGAL_STATUS, CAREERGPS_OPERATOR_PHYSICAL_ADDRESS, CAREERGPS_OPERATOR_LEGAL_SERVICE_ADDRESS, CAREERGPS_OPERATOR_TELEPHONE, CAREERGPS_CONTACT_EMAIL, CAREERGPS_PRIVACY_EMAIL, CAREERGPS_INFORMATION_OFFICER.
+	HINT: Supply verified owner facts before public production launch; review registration details and Information Officer information where applicable.
+
+System check identified 1 issue (0 silenced).
+..F......F.F.
+======================================================================
+FAIL: test_page_request_with_provisional_rows_runs_no_matcher (core.test_provisional_bridge.ProvisionalBridgeCase.test_page_request_with_provisional_rows_runs_no_matcher)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\CG\core\test_provisional_bridge.py", line 236, in test_page_request_with_provisional_rows_runs_no_matcher
+    response = self.client.get('/opportunities/')
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\.venv\Lib\site-packages\django\test\client.py", line 930, in get
+    response = super().get(path, data=data, secure=secure, headers=headers, **extra)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\.venv\Lib\site-packages\django\test\client.py", line 457, in get
+    return self.generic(
+           ^^^^^^^^^^^^^
+  File "D:\CG\.venv\Lib\site-packages\django\test\client.py", line 609, in generic
+    return self.request(**r)
+           ^^^^^^^^^^^^^^^^^
+  File "D:\CG\.venv\Lib\site-packages\django\test\client.py", line 894, in request
+    self.check_exception(response)
+  File "D:\CG\.venv\Lib\site-packages\django\test\client.py", line 741, in check_exception
+    raise exc_value
+  File "D:\CG\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\.venv\Lib\site-packages\django\contrib\auth\decorators.py", line 23, in _wrapper_view
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\core\views.py", line 1584, in opportunities_view
+    ranked = get_matched_opportunities(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\malak\AppData\Roaming\uv\python\cpython-3.12-windows-x86_64-none\Lib\unittest\mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\malak\AppData\Roaming\uv\python\cpython-3.12-windows-x86_64-none\Lib\unittest\mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\malak\AppData\Roaming\uv\python\cpython-3.12-windows-x86_64-none\Lib\unittest\mock.py", line 1198, in _execute_mock_call
+    raise effect
+AssertionError: matcher must not run
+
+======================================================================
+FAIL: test_target_change_enqueues_both_task_versions (core.test_provisional_bridge.ProvisionalBridgeCase.test_target_change_enqueues_both_task_versions)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\CG\core\test_provisional_bridge.py", line 247, in test_target_change_enqueues_both_task_versions
+    self.assertTrue(v2_tasks.exists())
+AssertionError: False is not true
+
+======================================================================
+FAIL: test_v2_failure_preserves_previous_authoritative_v2 (core.test_provisional_bridge.ProvisionalBridgeCase.test_v2_failure_preserves_previous_authoritative_v2)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\CG\core\test_provisional_bridge.py", line 205, in test_v2_failure_preserves_previous_authoritative_v2
+    with self.assertRaises(RuntimeError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: RuntimeError not raised
+
+----------------------------------------------------------------------
+Ran 13 tests in 15.143s
+
+FAILED (failures=3)
+Destroying test database for alias 'default'...

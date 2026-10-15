@@ -1,0 +1,10 @@
+computed task_key: feed-v2:profile:9:d611317970ced49ad25f81eb2649f20ae86a9664731239a0a275879f8878a650
+intent fingerprint: 4c545dc66448245a191dfff67c23293911ec9d76dff08673c025e9466cb7b4f0
+tasks with exactly this key:
+  pk=3315 state=SUPERSEDED reason='all_profiles_v2_backfill' created=2026-10-01 03:19:39.140146+00:00 completed=None
+  pk=5411 state=COMPLETE reason='careerpreference_changed' created=2026-10-02 02:18:44.617393+00:00 completed=2026-10-02 02:32:44.852520+00:00
+keys of the two recent feed-v2 tasks:
+  pk=5411 feed-v2 state=COMPLETE key=feed-v2:profile:9:d611317970ced49ad25f81eb2649f20ae86a9664731239a0a275879f8878a650
+  pk=5419 feed-v2 state=COMPLETE key=feed-v2:profile:9:d34549972cec10dc971e99e18230d1d749c8044b4f77ebf574af26de72b7ab46
+  pk=5420 provisional-v1 state=COMPLETE key=provisional-v1:profile:9:6089c996e4c244e746b039605c330b01ed056165643d6d39800da264ae11bca6
+PROBE_DONE

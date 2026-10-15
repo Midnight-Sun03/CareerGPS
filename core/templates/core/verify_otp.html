@@ -1,0 +1,88 @@
+{% extends "public_pages.html" %}
+{% load static %}
+
+{% block title %}CareerGPS | Verify OTP{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'core/css/login.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<nav class="nav">
+    <a href="{% url 'landing' %}" class="nav__logo">
+        <span class="nav__logo-icon">C</span>
+        <span class="nav__logo-text">
+            <span class="logo-career">Career</span><span class="logo-gps">GPS</span>
+        </span>
+    </a>
+</nav>
+
+<main class="main">
+    <div class="panel panel--left">
+        <h1 class="form__title">Verify your email</h1>
+        <p class="form__subtitle">
+            We sent a 6-digit verification code to
+            <strong>{{ email }}</strong>.
+            Check your inbox and enter it below.
+            The code expires in 10 minutes.
+        </p>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="error-message">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form__group">
+                <label>Enter OTP</label>
+                <input 
+                    type="text" 
+                    name="otp" 
+                    placeholder="e.g. 483920"
+                    maxlength="6"
+                    autofocus
+                    required
+                >
+            </div>
+            <button type="submit" class="btn btn--primary">
+                Verify & Continue
+            </button>
+        </form>
+
+        <form
+            method="POST"
+            action="{% url 'resend_otp' %}"
+            style="margin-top: 16px;"
+        >
+            {% csrf_token %}
+
+            <p style="
+                font-size: 0.85rem;
+                color: #888;
+                margin-bottom: 8px;
+            ">
+                Didn't receive the code?
+            </p>
+
+            <button
+                type="submit"
+                style="
+                    border: 0;
+                    background: transparent;
+                    color: #e85d04;
+                    padding: 0;
+                    cursor: pointer;
+                    font: inherit;
+                    font-weight: 600;
+                "
+            >
+                Send a new code
+            </button>
+        </form>
+    </div>
+</main>
+
+{% endblock %}

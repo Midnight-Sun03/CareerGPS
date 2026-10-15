@@ -1,0 +1,198 @@
+{% extends "dashboard_pages.html" %}
+{% load static %}
+{% block title %}CareerGPS | Career Intelligence{% endblock %}
+{% block css %}<link rel="stylesheet" href="{% static 'core/css/career_intelligence.css' %}">{% endblock %}
+{% block content %}
+<div class="career-page career-brief">
+  <header class="career-brief-header">
+    <p class="career-eyebrow">Your direction</p>
+    <h1>Career Intelligence</h1>
+    <p>What the current market repeatedly asks for in your chosen direction, what you already demonstrate, what is not yet demonstrated, and what CareerGPS cannot confirm.</p>
+  </header>
+
+  <section class="career-card career-disclosure" aria-labelledby="career-profile-heading">
+    <details class="career-disclosure-details">
+      <summary class="career-disclosure-summary" aria-controls="career-profile-body">
+        <span class="career-eyebrow">What your profile shows</span>
+        <span class="career-disclosure-title" id="career-profile-heading">This is the evidence CareerGPS currently has about you</span>
+      </summary>
+      <div class="career-disclosure-body" id="career-profile-body">
+        <p class="career-disclosure-meta"><a href="{% url 'profile' %}">View or update your profile</a></p>
+        {% if analysis.evidence.buckets %}
+          <div class="career-evidence-grid">
+            {% for bucket in analysis.evidence.buckets %}
+              <div>
+                <h3>{{ bucket.label }} <small>({{ bucket.count }})</small></h3>
+                <ul>{% for item in bucket.items %}<li>{{ item }}</li>{% endfor %}</ul>
+                {% if bucket.hidden %}<p class="career-evidence-more">Showing {{ bucket.items|length }} of {{ bucket.count }} &mdash; <a href="{% url 'profile' %}">see them all on your profile</a>.</p>{% endif %}
+              </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <p>You have not confirmed any skills, qualifications, work history, certifications or languages yet, so there is nothing to compare against employers. <a href="{% url 'profile' %}">Add profile evidence</a>.</p>
+        {% endif %}
+      </div>
+    </details>
+  </section>
+
+  {% if not analysis.has_targets %}
+    <section class="career-card">
+      <h2>Your career direction</h2>
+      <p>You have not saved a career direction yet. Add target roles in Profile &rarr; Career Preferences, and CareerGPS will compare them with current jobs.</p>
+      <p><a href="{% url 'profile_section' 'career-preferences' %}">Add a career direction</a></p>
+    </section>
+  {% else %}
+  {% with target=analysis.selected %}
+  <section class="career-card" aria-labelledby="career-targets-heading">
+    <p class="career-eyebrow">Your direction</p>
+    <h2 id="career-targets-heading">{{ target.label }}</h2>
+    <p>
+      <a href="{% url 'profile_section' 'career-preferences' %}">Edit Career Preferences</a>
+    </p>
+    <div class="career-target-tabs">
+      {% for panel in analysis.authored_targets %}
+        <a class="career-target-tab{% if panel.ordinal == analysis.selected_ordinal %} is-active{% endif %}" href="?target={{ panel.ordinal }}"{% if panel.ordinal == analysis.selected_ordinal %} aria-current="true"{% endif %}>{{ panel.label }}</a>
+      {% endfor %}
+    </div>
+    <p class="career-scope">
+      {% if target.job_count %}
+        Based on <strong>{{ target.job_count }}</strong> current {{ target.label }} opportunit{{ target.job_count|pluralize:"y,ies" }}.
+      {% else %}
+        No confirmed comparison with current jobs yet.
+      {% endif %}
+      <span class="career-scope-date">Last checked {% now "j F Y" %}.</span>
+    </p>
+    {% if target.state != 'compared' %}
+    <div class="career-state-warn">
+      {% if target.state == 'needs_clarification' %}
+        <p>This wording does not match a career CareerGPS can identify yet, so it cannot be compared with employer requirements. Try the exact job title you would search for.</p>
+      {% elif target.state == 'updating' %}
+        <p>Some current job records are still being checked, so the picture for this direction is incomplete. This is not an empty market.</p>
+      {% elif target.state == 'insufficient_coverage' %}
+        <p>Only {{ target.analysable_job_count }} of the {{ target.job_count }} current comparable jobs in this direction list requirements CareerGPS can read. That is not yet enough to confirm what recurs, and at least {{ analysis.min_jobs }} are needed before anything is reported as recurring.</p>
+      {% elif target.state == 'no_requirements' %}
+        <p>The current jobs linked to this direction do not yet carry requirements CareerGPS can read, so there is no requirement list to show. CareerGPS does not infer requirements from advert text.</p>
+      {% elif target.undecided_job_count or target.title_only_job_count or target.uncovered_job_count %}
+        <p>Some current jobs were not included because CareerGPS could not establish that they belong to this career direction. The picture is incomplete rather than guessed.</p>
+      {% else %}
+        <p>No current jobs could be confirmed as part of this career direction yet, so there is nothing to compare.</p>
+      {% endif %}
+    </div>
+    {% endif %}
+  </section>
+    {% if target.state == 'compared' %}
+  {% if target.required_shown or target.required_not_shown or target.required_cannot_confirm %}
+  <section class="career-card" aria-labelledby="career-glance-heading">
+    <p class="career-eyebrow">At a glance</p><h2 id="career-glance-heading">Recurring requirements in current jobs</h2>
+    <div class="career-stat-row">
+      <span><strong>{{ target.required_shown|length }}</strong> Already showing</span>
+      <span><strong>{{ target.required_not_shown|length }}</strong> Not yet shown</span>
+      <span><strong>{{ target.required_cannot_confirm|length }}</strong> Can&rsquo;t confirm</span>
+    </div>
+    <p class="career-note">Not shown on your profile does not mean you lack the ability.</p>
+  </section>
+  {% else %}
+  <section class="career-card" aria-labelledby="career-glance-heading">
+    <p class="career-eyebrow">At a glance</p><h2 id="career-glance-heading">Recurring requirements in current jobs</h2>
+    <p>CareerGPS compared the current {{ target.label }} jobs it could read, but no requirement appeared often enough across them to report as recurring. There is nothing to break down for this direction yet.</p>
+    <p class="career-note">This is not a judgement about your profile &mdash; it means the current job records in this direction don&rsquo;t yet carry requirements CareerGPS can compare.</p>
+  </section>
+  {% endif %}
+
+  <section class="career-card" aria-labelledby="career-shown-heading">
+    <p class="career-eyebrow">What you already demonstrate</p><h2 id="career-shown-heading">Already showing</h2>
+    {% for item in target.required_shown %}
+      <div class="career-brief-row">
+        <strong>{{ item.label|truncatechars:80 }}</strong>
+        <p>Required in {{ item.job_count }} of {{ item.total_jobs }} current comparable jobs.</p>
+        {% if item.evidence %}<p>Supported by your profile: {{ item.evidence|join:", " }}.</p>{% endif %}
+        <details><summary>See the jobs</summary>{% include "core/partials/career_job_list.html" with jobs=item.jobs %}</details>
+      </div>
+    {% empty %}
+      <p>No recurring required item could be matched to your confirmed profile yet.</p>
+    {% endfor %}
+  </section>
+
+  <section class="career-card" aria-labelledby="career-gap-heading">
+    <p class="career-eyebrow">What is not yet demonstrated</p><h2 id="career-gap-heading">Frequently required &mdash; not currently shown in your confirmed profile</h2>
+    {% for item in target.required_not_shown %}
+      <div class="career-brief-row">
+        <strong>{{ item.label|truncatechars:80 }}</strong>
+        <p>Required in {{ item.job_count }} of {{ item.total_jobs }} current comparable jobs.</p>
+        <p>Not currently shown in your confirmed profile. If you have this evidence, add it to your profile.</p>
+        <p><a href="{% url 'profile' %}">Add evidence</a></p>
+        <details><summary>See the jobs</summary>{% include "core/partials/career_job_list.html" with jobs=item.jobs %}</details>
+      </div>
+    {% empty %}
+      <p>Nothing that recurs across these jobs is missing from your profile.</p>
+    {% endfor %}
+  </section>
+
+  <section class="career-card" aria-labelledby="career-unknown-heading">
+    <p class="career-eyebrow">What CareerGPS cannot confirm</p><h2 id="career-unknown-heading">CareerGPS can&rsquo;t confirm</h2>
+    {% for item in target.required_cannot_confirm %}
+      <div class="career-brief-row">
+        <strong>{{ item.label|truncatechars:80 }}</strong>
+        <p>Required in {{ item.job_count }} of {{ item.total_jobs }} current comparable jobs.</p>
+        <p>CareerGPS doesn&rsquo;t currently have enough profile evidence to determine whether this applies to you.</p>
+        <details><summary>See the jobs</summary>{% include "core/partials/career_job_list.html" with jobs=item.jobs %}</details>
+      </div>
+    {% empty %}
+      <p>Nothing recurring required by these jobs is beyond what CareerGPS can check.</p>
+    {% endfor %}
+  </section>
+
+  {% if target.less_common or target.preferred %}
+  <section class="career-card">
+    <details>
+      <summary>Other requirements seen in current jobs</summary>
+      {% if target.less_common %}
+        <h3>Less common requests</h3>
+        <ul class="career-brief-list">
+          {% for item in target.less_common %}
+            <li><strong>{{ item.label|truncatechars:80 }}</strong> &mdash; required in {{ item.job_count }} of {{ item.total_jobs }} comparable job{{ item.total_jobs|pluralize:"s" }}.</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+      {% if target.preferred %}
+        <h3>Sometimes preferred</h3>
+        <ul class="career-brief-list">
+          {% for item in target.preferred %}
+            <li><strong>{{ item.label|truncatechars:80 }}</strong> &mdash; preferred in {{ item.job_count }} of {{ item.total_jobs }} comparable job{{ item.total_jobs|pluralize:"s" }}{% if item.supported_count %}, your profile shows this in {{ item.supported_count }}{% endif %}.</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    </details>
+  </section>
+  {% endif %}
+  {% endif %}
+  <section class="career-card career-disclosure" aria-labelledby="career-requirements-heading">
+    <details class="career-disclosure-details">
+      <summary class="career-disclosure-summary" aria-controls="career-requirements-body">
+        <span class="career-eyebrow">What comparable jobs are asking for</span>
+        <span class="career-disclosure-title" id="career-requirements-heading">Comparable jobs</span>
+        {% if target.job_count %}<span class="career-disclosure-current">{{ target.job_count }} comparable job{{ target.job_count|pluralize:"s" }}</span>{% endif %}
+      </summary>
+      <div class="career-disclosure-body" id="career-requirements-body">
+        <p>See the requirements found in these comparable jobs</p>
+        {% if target.observed %}
+          <ul class="career-brief-list">
+            {% for item in target.observed %}
+              <li><strong>{{ item.label|truncatechars:80 }}</strong> &mdash; {% if item.level == 'PREFERRED' %}preferred{% else %}required{% endif %} in {{ item.job_count }} of {{ item.total_jobs }} comparable job{{ item.total_jobs|pluralize:"s" }}{% if item.state == 'shown' %}, shown on your profile{% elif item.state == 'cannot_confirm' %}, cannot confirm{% else %}, not shown on your profile{% endif %}.</li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p>No requirement list is available for this direction yet.</p>
+        {% endif %}
+        {% if target.jobs %}
+          {% include "core/partials/career_job_list.html" with jobs=target.jobs %}
+        {% endif %}
+        <p class="career-note">Not shown on your profile does not mean you lack the ability.</p>
+      </div>
+    </details>
+  </section>
+  <p><a href="{% url 'opportunities' %}">Browse opportunities</a></p>
+  {% endwith %}
+  {% endif %}
+</div>
+{% endblock %}

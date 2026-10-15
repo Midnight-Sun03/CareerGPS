@@ -1,0 +1,77 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>CareerGPS adaptive visual metrics test</title>
+<body>RUNNING</body>
+<script type="module">
+import {VisualMetricsAccumulator} from "../static/interview/js/visual_metrics.js";
+
+const point = (x, y, visibility = 1) => ({x, y, z: 0, visibility});
+const face = () => ({
+    nose: point(.5, .2), leftEye: point(.46, .17), rightEye: point(.54, .17),
+    forehead: point(.5, .09), chin: point(.5, .31),
+});
+const pose = ({shoulders = false, hips = false, wrists = false, reversed = false} = {}) => ({
+    nose: point(.5, .2),
+    leftShoulder: shoulders ? point(reversed ? .65 : .35, .4) : null,
+    rightShoulder: shoulders ? point(reversed ? .35 : .65, .42) : null,
+    leftHip: hips ? point(.41, .7) : null,
+    rightHip: hips ? point(.59, .7) : null,
+    leftWrist: wrists ? point(.28, .62) : null,
+    rightWrist: wrists ? point(.72, .62) : null,
+});
+const observe = (body = null, head = true) => ({
+    inferenceMs: 10, face: head ? face() : null, pose: body,
+});
+function check(condition, label) {
+    if (!condition) throw new Error(label);
+}
+function measure(bodyForIndex, headForIndex = () => true) {
+    const meter = new VisualMetricsAccumulator();
+    for (let index = 0; index < 3; index += 1) {
+        const setup = meter.addCalibration(observe(null));
+        check(setup.analysisReady, "head-only calibration must be ready");
+    }
+    meter.start();
+    for (let index = 0; index < 10; index += 1) {
+        meter.add(observe(bodyForIndex(index), headForIndex(index)));
+    }
+    return meter.finish(20);
+}
+
+try {
+    const headOnly = measure(() => null);
+    check(headOnly.status === "complete" && headOnly.face_frames === 10
+        && headOnly.pose_frames === 0 && !headOnly.shoulders && !headOnly.hips,
+    "portrait/head-only analysis");
+
+    const headShoulders = measure(() => pose({shoulders: true, reversed: true}));
+    check(headShoulders.shoulders?.mean_shoulder_tilt_degrees >= 0
+        && headShoulders.shoulders.mean_shoulder_tilt_degrees <= 90
+        && !headShoulders.hips, "reversed shoulder labels and independent hips");
+
+    const headHips = measure(() => pose({hips: true}));
+    check(Boolean(headHips.hips) && !headHips.shoulders, "head plus hips without shoulders");
+
+    const full = measure(() => pose({shoulders: true, hips: true, wrists: true}));
+    check(Boolean(full.shoulders && full.hips && full.gestures), "full-frame optional analyses");
+
+    const intermittent = measure(index => index < 3
+        ? pose({shoulders: true, wrists: true}) : null);
+    check(intermittent.coverage.shoulder_frames === 3
+        && intermittent.coverage.wrist_frames === 3
+        && !intermittent.shoulders && !intermittent.gestures,
+    "intermittent optional landmarks must not fabricate metrics");
+
+    const lostHead = measure(() => null, index => index < 3);
+    check(lostHead.status === "partial" && lostHead.face_frames === 3,
+        "temporary head loss must preserve partial analysis");
+    const noHead = measure(() => null, () => false);
+    check(noHead.status === "unavailable" && !noHead.head_orientation,
+        "absent head must be unavailable");
+
+    document.body.textContent = "PASS: 7 adaptive visual scenarios";
+} catch (error) {
+    document.body.textContent = `FAIL: ${error.message}`;
+    throw error;
+}
+</script>

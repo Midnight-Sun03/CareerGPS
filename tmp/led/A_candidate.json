@@ -1,0 +1,42 @@
+[
+ {
+  "ledger_id":"A1","area":"A. Candidate evidence & profile","capability":"Candidate identity, profile store & evidence CRUD",
+  "intention":{"behavior":"Rich candidate profile with structured evidence (education, skills, experience, projects, certifications, languages, links, preferences) editable per section.","source":"IMPLEMENTATION_REPORT.md; core/views.py profile_* views"},
+  "implementation":{"status":"IMPLEMENTED","evidence":"core/urls.py:54-61 profile routes; core/views.py profile_view/_profile_hub_context/add|edit|delete_profile_section; core/models.py Profile + UserFact subclasses (Education, ProfileSkill, WorkExperience, Certification, Language, CareerPreference, ProjectCapability, ProfileLink).","execution_path":"GET/POST /profile/<section>/ → profile_view → _profile_section_context → UserFact subclass save"},
+  "verification":{"status":"VERIFIED-TEST + CODE-TRACED","evidence":"DB: Profile=16, ProfileSkill=31, Education=6, WorkExperience=5; core/test_career_selection.py, test_career_helpers.py"},
+  "known_gaps":"Small live dataset (Profile=16) so breadth of real-world use is thin; no git history to confirm provenance.",
+  "confidence":"high","uncertainties":"","related_entries":["A2","A3"]
+ },
+ {
+  "ledger_id":"A2","area":"A. Candidate evidence & profile","capability":"CV text extraction / evidence prefill",
+  "intention":{"behavior":"Upload a CV and extract text to prefill profile evidence (CV enhancer).","source":"PHASE_2_6_APPLICATION_CV_WORKSPACE.md; core/urls.py:45 cv_enhancer"},
+  "implementation":{"status":"PARTIALLY IMPLEMENTED","evidence":"core/views.py:9 _extract_text_from_cv; core/views.py cv_enhancer_view, generate_cv. No dedicated structured CV-parsing service in applications/services.","execution_path":"/resources/cv-enhancer → cv_enhancer_view → _extract_text_from_cv (text only) → prefill"},
+  "verification":{"status":"CODE-TRACED","evidence":"Read core/views.py; no dedicated parser module found"},
+  "known_gaps":"Text extraction only; no structured field/entity parsing or evidence-confirmation workflow. Unverified against real CVs.",
+  "confidence":"medium","uncertainties":"Whether a downstream structured parser exists elsewhere (none found in inspected scope).","related_entries":["A1","E3"]
+ },
+ {
+  "ledger_id":"A3","area":"A. Candidate evidence & profile","capability":"Evidence verification / provenance status",
+  "intention":{"behavior":"Distinguish confirmed vs unconfirmed candidate evidence (evidence-based matching depends on it).","source":"MONSTER_M1/M2 reports (evidence-based vision); core/services/evidence_fit.py"},
+  "implementation":{"status":"PARTIALLY IMPLEMENTED","evidence":"core/services/evidence_fit.py EvidenceStatus enum; professional_matching.confirmed_evidence(profile); core/services/evidence_fit.prefetch_confirmed_evidence. No explicit user-facing 'confirm this evidence' UI verified.","execution_path":"feed build → professional_matching → evidence_fit.confirmed vs unconfirmed bands"},
+  "verification":{"status":"CODE-TRACED","evidence":"Read evidence_fit.py, professional_matching.py; DB ProjectCapability=0"},
+  "known_gaps":"Confirmation is implicit (presence in profile), not an explicit verification action with provenance/audit.",
+  "confidence":"medium","uncertainties":"Whether an explicit verification action was intended for candidate evidence or only for employer/clean data.","related_entries":["A1","D2"]
+ },
+ {
+  "ledger_id":"A4","area":"A. Candidate evidence & profile","capability":"Career targets & preferences",
+  "intention":{"behavior":"Candidate authors target roles; feed build keys off authored targets.","source":"FEED_V2_OPERATIONS.md; core/services/feed_v2.py authored_target_roles"},
+  "implementation":{"status":"IMPLEMENTED BUT INCOMPLETE","evidence":"core/models.py CareerPreference; core/services/feed_v2.py authored_target_roles/has_authored_targets.","execution_path":"profile career section → CareerPreference → feed_v2 authored target fingerprint"},
+  "verification":{"status":"VERIFIED-RUNTIME","evidence":"DB: CareerPreference=5; ProfileFeedState {NO_TARGETS 9, READY 5}"},
+  "known_gaps":"Only 5 preferences across 16 profiles; NO_TARGETS=9 shows many profiles never author targets, suppressing v2 yield.",
+  "confidence":"high","uncertainties":"","related_entries":["C3","D4","E1"]
+ },
+ {
+  "ledger_id":"A5","area":"A. Candidate evidence & profile","capability":"Data provenance & evidence ownership / data rights",
+  "intention":{"behavior":"POPIA-style data rights: export, deletion, consent, audit events.","source":"core/legal.py, core/data_rights.py; DEFERRED_SECURITY_FINDINGS.md"},
+  "implementation":{"status":"IMPLEMENTED","evidence":"core/models.py LegalAcceptanceEvent, PrivacyRequest, DataRightsEvent; core/legal_views.py data_export/account_closure(_confirm); core/urls.py:80-86.","execution_path":"/settings/data-export, /settings/delete-account → legal_views → PrivacyRequest/DataRightsEvent"},
+  "verification":{"status":"VERIFIED-TEST","evidence":"core/test_legal_privacy.py, core/test_data_rights.py present (not re-executed in full this audit)"},
+  "known_gaps":"Execution evidence for these two suites was not regenerated in this pass (only clean_architecture/community/feed_v2 were run).",
+  "confidence":"medium","uncertainties":"Live POPIA end-to-end not independently verified this audit.","related_entries":["G5"]
+ }
+]

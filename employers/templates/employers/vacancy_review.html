@@ -1,0 +1,13 @@
+{% extends 'employers/base.html' %}{% load static %}{% block content %}<p class="eyebrow">Post a job · review</p><h1>Confirm your job</h1>
+<p>CareerGPS interpreted your supplied vacancy. Correct or remove anything inaccurate, add anything missing, then confirm. Only your final choices become employer-authored requirements.</p>
+{% if intake.extraction_notice %}<p role="status">{{ intake.extraction_notice }}</p>{% endif %}
+<details class="card"><summary>Supplied vacancy text{% if intake.source_filename %} · {{ intake.source_filename }}{% endif %}</summary><p>{{ intake.source_text|linebreaksbr }}</p></details>
+<form method="post" class="editor">{% csrf_token %}<section class="card"><h2>Job facts</h2>{{ form.as_p }}<label><input type="checkbox" name="confirm_facts" required> I reviewed and confirm the final job facts, application information and no-fee declaration.</label></section>
+<h2>Requirements</h2><p>Required and preferred mean different things. If the source did not make this clear, choose deliberately. Remove a proposed item if it is not a requirement.</p>
+{{ requirements.management_form }}{{ requirements.non_form_errors }}<div id="requirement-rows">{% for row in requirements %}<fieldset class="card requirement-row"><legend>Requirement {{ forloop.counter }}</legend>{% if row.initial.source_excerpt %}<details><summary>Where did CareerGPS get this?</summary><p>{{ row.initial.source_excerpt }}</p></details>{% endif %}{{ row.as_p }}</fieldset>{% endfor %}</div>
+<template id="empty-requirement"><fieldset class="card requirement-row"><legend>Additional requirement</legend>{{ requirements.empty_form.as_p }}</fieldset></template>
+<button class="secondary" id="add-requirement" type="button">Add requirement</button>
+<p><label><input type="checkbox" name="confirm_requirements" required> I reviewed, corrected and confirm these final requirements.</label></p>
+<button type="submit">Confirm and save draft</button></form>
+{% if not employer_approved %}<p>Company verification must be completed before this job can be published.</p>{% endif %}{% endblock %}
+{% block scripts %}<script src="{% static 'employers/vacancy_form.js' %}"></script>{% endblock %}

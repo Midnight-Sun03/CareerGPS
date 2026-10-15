@@ -1,0 +1,18 @@
+{% extends "dashboard_pages.html" %}
+{% load static %}
+{% block title %}CareerGPS | Report an item{% endblock %}
+{% block css %}<link rel="stylesheet" href="{% static 'core/css/career_intelligence.css' %}">{% endblock %}
+{% block content %}
+<div class="career-page report-page">
+<a href="{% url return_route %}">Back</a>
+<h1>Report this item</h1>
+<section class="career-card">
+<h2>{{ target.title }}</h2>
+<p>Your report is private and will be reviewed by an authorized moderator. Reporting does not automatically remove the item.</p>
+<form method="post" class="career-form">{% csrf_token %}{{ form.as_p }}
+<button type="submit" class="career-button">Submit report</button>
+<a href="{% url return_route %}" class="career-link">Cancel</a>
+</form>
+</section>
+</div>
+{% endblock %}

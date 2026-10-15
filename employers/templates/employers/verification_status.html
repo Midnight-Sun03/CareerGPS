@@ -1,0 +1,8 @@
+{% extends 'employers/base.html' %}{% block content %}<p class="eyebrow">Employer account</p><h1>{{ organization.name }}</h1>{% include 'employers/verification_status_panel.html' %}
+<section class="card"><h2>Needs your attention</h2><ul>
+{% if membership.role == 'owner' %}{% if organization.verification_status == 'submitted' or organization.verification_status == 'under_review' %}<li>Verification is in progress &mdash; no action needed right now.</li>{% else %}<li><a href="{% url 'employers:verification' organization.pk %}">Submit or update verification evidence</a> &mdash; CareerGPS reviews it before your company can be verified.</li>{% endif %}{% endif %}
+{% if 'settings' in permissions %}<li><a href="{% url 'employers:organization_settings' organization.pk %}">Complete company profile</a></li>{% endif %}
+{% if 'vacancy' in permissions %}<li><a href="{% url 'employers:vacancy_create' organization.pk %}">Prepare a vacancy draft</a> &mdash; drafts can be saved now and published after verification.</li>{% endif %}
+</ul></section>
+{% if membership.role == 'owner' %}<a class="button" href="{% url 'employers:verification' organization.pk %}">Verification evidence and history</a>{% endif %}
+{% endblock %}

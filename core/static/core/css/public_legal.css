@@ -1,0 +1,133 @@
+.public-footer {
+  padding: 24px 20px;
+  background: #1A1A2E;
+  color: #fff;
+  border-top: 1px solid #2A2A3E;
+}
+
+.public-footer__inner {
+  max-width: 1080px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.public-footer a {
+  color: #D8D8E2;
+  text-decoration: none;
+}
+
+.public-footer a:hover,
+.public-footer a:focus {
+  color: #E8651A;
+  text-decoration: none;
+}
+
+.public-footer__brand {
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: #fff;
+}
+
+.public-footer nav {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.legal-page {
+  max-width: 900px;
+  margin: 48px auto;
+  padding: 0 24px 60px;
+  color: #24352f;
+  line-height: 1.65;
+}
+
+.legal-page h1 {
+  font-size: 2.35rem;
+  line-height: 1.15;
+}
+
+.legal-page h2 {
+  font-size: 1.4rem;
+  margin-top: 32px;
+}
+
+.legal-page a {
+  color: #a53912;
+  text-decoration: underline;
+}
+
+.legal-page .lead {
+  font-size: 1.1rem;
+}
+
+.legal-page .fact-list {
+  display: grid;
+  grid-template-columns: minmax(140px, 220px) 1fr;
+  gap: 10px;
+  margin: 24px 0;
+}
+
+.legal-page .fact-list dt {
+  font-weight: 700;
+}
+
+.legal-page .fact-list dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.legal-page .request-form {
+  display: grid;
+  gap: 14px;
+  margin: 24px 0;
+  max-width: 620px;
+}
+
+.legal-page .request-form label {
+  font-weight: 700;
+}
+
+.legal-page .request-form select,
+.legal-page .request-form textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #66776c;
+  border-radius: 6px;
+  font: inherit;
+}
+
+.legal-page .request-form button {
+  width: max-content;
+  background: #ae421c;
+  color: #fff;
+  border: 0;
+  border-radius: 6px;
+  padding: 12px 18px;
+  font: inherit;
+  cursor: pointer;
+}
+
+.legal-page .errorlist {
+  color: #ae241b;
+}
+
+.legal-page .notice {
+  padding: 14px;
+  background: #f6f0dc;
+  border-left: 4px solid #ae421c;
+}
+
+@media (max-width: 600px) {
+  .legal-page .fact-list {
+    grid-template-columns: 1fr;
+  }
+
+  .legal-page .fact-list dd {
+    margin-bottom: 8px;
+  }
+}

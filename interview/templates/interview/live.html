@@ -1,0 +1,582 @@
+{% extends "dashboard_pages.html" %}
+{% load static %}
+
+{% block title %}CareerGPS - Interview{% endblock %}
+
+{% block content %}
+<style>
+.live-page { max-width: 820px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+.live-header { display: flex; justify-content: space-between; gap: 1rem; align-items: flex-start; }
+.eyebrow { color: #E8612A; text-transform: uppercase; letter-spacing: .12em; font-size: .72rem; font-weight: 800; }
+.live-header h1 { margin: .3rem 0; font-size: 1.4rem; }
+.muted { color: #667085; font-size: .88rem; }
+.progress { height: 5px; margin: 1rem 0 1.5rem; background: #eceff3; border-radius: 999px; overflow: hidden; }
+.progress-bar { height: 100%; background: #E8612A; width: 0; transition: width .25s; }
+.card { background: #fff; border: 1px solid rgba(0,0,0,.09); border-radius: 18px; padding: 1.5rem; }
+.question-type { color: #E8612A; font-size: .72rem; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; }
+.question-text { font-size: 1.2rem; line-height: 1.6; margin: .7rem 0 1.25rem; }
+textarea { box-sizing: border-box; width: 100%; min-height: 180px; border: 1px solid rgba(0,0,0,.12); border-radius: 12px; padding: 1rem; font: inherit; resize: vertical; }
+.actions { margin-top: 1rem; display: flex; gap: .65rem; flex-wrap: wrap; }
+.btn { border: 0; border-radius: 999px; padding: .75rem 1rem; font-weight: 800; cursor: pointer; }
+.btn-primary { background: #E8612A; color: #fff; }
+.btn-secondary { background: #f2f4f7; color: #344054; }
+.btn-danger { background: #b42318; color: #fff; }
+.btn:disabled { opacity: .55; cursor: not-allowed; }
+.voice-panel, .question-card { display: none; }
+.voice-status { margin: .8rem 0; background: #f7f8fa; color: #475467; padding: .75rem 1rem; border-radius: 12px; }
+.state { display: inline-block; margin-bottom: .4rem; color: #475467; font-size: .72rem; font-weight: 800; letter-spacing: .08em; }
+.message { display: none; margin-bottom: 1rem; padding: .8rem 1rem; background: #fff3ef; color: #9d3515; border: 1px solid #ffd1c2; border-radius: 12px; }
+.mic-meter { width: 100%; height: 8px; border-radius: 99px; background: #e4e7ec; overflow: hidden; margin: .8rem 0; }
+.mic-level { width: 0; height: 100%; background: #12b76a; transition: width .08s; }
+.provisional { min-height: 1.4rem; color: #667085; font-size: .85rem; font-style: italic; }
+.camera-check { display: none; }
+.camera-preview { width: min(100%, 640px); max-height: 360px; object-fit: cover; border-radius: 14px; background: #101828; transform: scaleX(-1); }
+.camera-answer-preview { display: none; margin: .8rem 0; }
+.privacy-note { padding: .75rem; border-radius: 12px; background: #ecfdf3; color: #027a48; font-size: .84rem; line-height: 1.5; }
+</style>
+
+<div class="live-page">
+    <header class="live-header">
+        <div>
+            <div class="eyebrow">{{ interview.get_mode_display }} Interview</div>
+            <h1>
+                {% if interview.clean_revision %}{{ interview.clean_revision.cleaned_title }}{% else %}{{ interview.occupation }}{% endif %}
+            </h1>
+            <div class="muted">
+                {% if interview.clean_revision %}{{ interview.clean_revision.company }} · {% endif %}
+                <span id="questionCounter"></span>
+            </div>
+        </div>
+        <a class="muted" href="{% url 'interview_home' %}">Exit</a>
+    </header>
+
+    <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+    <div class="message" id="message" role="alert"></div>
+
+    {% if interview.mode == "voice" %}
+    <section class="card" id="microphoneCheck">
+        <div class="eyebrow">Microphone check</div>
+        <h2>Check your microphone before Question 1</h2>
+        <p class="muted">CareerGPS will request microphone permission and confirm that audio input is available. This check is not scored.</p>
+        <div class="voice-status" id="microphoneStatus">Ready to check your microphone.</div>
+        <div class="mic-meter" aria-hidden="true"><div class="mic-level" id="micLevel"></div></div>
+        <div class="actions">
+            <button class="btn btn-secondary" id="checkMicrophone">Check microphone</button>
+            <button class="btn btn-primary" id="beginInterview" disabled>{% if interview.camera_mode == "camera_analysis" %}Continue to camera check{% else %}Start interview{% endif %}</button>
+        </div>
+    </section>
+
+    {% if interview.camera_mode == "camera_analysis" %}
+    <section class="card camera-check" id="cameraCheck">
+        <div class="eyebrow">Optional camera check</div>
+        <h2>Set up private Visual Interview Coaching</h2>
+        <p class="muted">Keep your face visible inside the preview. Shoulders, hips, or hands may add optional coaching when visible; full-body framing is not required.</p>
+        <video class="camera-preview" id="cameraPreview" autoplay muted playsinline aria-label="Your camera preview"></video>
+        <div class="voice-status" id="cameraStatus" aria-live="polite">Ready to check your camera.</div>
+        <p class="privacy-note">Frames stay in this browser and are discarded after analysis. No video, image, or landmark stream is uploaded or stored.</p>
+        <div class="actions">
+            <button class="btn btn-secondary" id="checkCamera">Check camera</button>
+            <button class="btn btn-secondary" id="continueAudioOnly">Continue with audio only</button>
+            <button class="btn btn-primary" id="beginCameraInterview" disabled>Start interview</button>
+        </div>
+    </section>
+    {% endif %}
+    {% endif %}
+
+    <article class="card question-card" id="questionCard">
+        <div class="question-type" id="questionType"></div>
+        <div class="question-text" id="questionText"></div>
+
+        <section id="writtenPanel">
+            <textarea id="writtenAnswer" placeholder="Type your answer here…"></textarea>
+            <div class="actions"><button class="btn btn-primary" id="writtenSubmit">Submit &amp; continue</button></div>
+        </section>
+
+        <section class="voice-panel" id="voicePanel">
+            <span class="state" id="questionState">QUESTION_READY</span>
+            <div class="voice-status" id="voiceStatus">Preparing the question…</div>
+            <div class="provisional" id="provisionalTranscript" aria-live="polite"></div>
+            {% if interview.camera_mode == "camera_analysis" %}
+            <div class="camera-answer-preview" id="answerCameraPreview"></div>
+            <div class="muted" id="cameraAnswerStatus">Camera analysis waits until you start an answer.</div>
+            {% endif %}
+            <div class="actions">
+                <button class="btn btn-secondary" id="playQuestion">Replay question</button>
+                <button class="btn btn-primary" id="recordButton">Start Answer</button>
+            </div>
+        </section>
+    </article>
+</div>
+
+{{ questions_json|json_script:"interview-questions-data" }}
+<script>
+const CSRF = "{{ csrf_token }}";
+const INTERVIEW_ID = {{ interview.id }};
+const MODE = "{{ interview.mode }}";
+const QUESTION_DELIVERY = "{{ interview.question_delivery }}";
+const CAMERA_MODE = "{{ interview.camera_mode }}";
+const QUESTIONS = JSON.parse(document.getElementById("interview-questions-data").textContent);
+
+const QUESTION_READY = "QUESTION_READY";
+const LISTENING = "LISTENING";
+const READY_TO_ANSWER = "READY_TO_ANSWER";
+const ANSWERING = "ANSWERING";
+const ANSWER_COMPLETE = "ANSWER_COMPLETE";
+
+const firstIncompleteIndex = QUESTIONS.findIndex(question => {
+    if (MODE === "written") return !(question.answer_text || "").trim();
+    return question.transcription_status === "pending";
+});
+let currentIndex = firstIncompleteIndex === -1
+    ? Math.max(QUESTIONS.length - 1, 0)
+    : firstIncompleteIndex;
+let questionState = QUESTION_READY;
+let recorder = null;
+let mediaStream = null;
+let chunks = [];
+let recordingStartedAt = 0;
+let recognition = null;
+let provisionalText = "";
+let pendingAudio = null;
+let pendingDuration = 0;
+let pendingVisualMetrics = null;
+let activeUtterance = null;
+let cameraController = null;
+let cameraUnavailableReason = null;
+
+const messageBox = document.getElementById("message");
+const questionCard = document.getElementById("questionCard");
+const questionText = document.getElementById("questionText");
+const questionType = document.getElementById("questionType");
+const questionCounter = document.getElementById("questionCounter");
+const progressBar = document.getElementById("progressBar");
+const writtenPanel = document.getElementById("writtenPanel");
+const voicePanel = document.getElementById("voicePanel");
+const playQuestionButton = document.getElementById("playQuestion");
+const recordButton = document.getElementById("recordButton");
+
+function showMessage(message) { messageBox.textContent = message; messageBox.style.display = "block"; }
+function clearMessage() { messageBox.style.display = "none"; }
+function friendlyType(value) {
+    return value.replaceAll("_", " ").replace(/\b\w/g, letter => letter.toUpperCase());
+}
+
+function unavailableVisualPayload(durationSeconds, reason, status = "unavailable") {
+    return {
+        schema_version: "careergps-visual-v2",
+        mediapipe_version: "1.0.1",
+        status,
+        unavailable_reason: reason || "candidate_continued_audio_only",
+        duration_seconds: Math.max(0, Number(durationSeconds) || 0),
+        frames_sampled: 0,
+        pose_frames: 0,
+        face_frames: 0,
+        inference_ms_total: 0,
+        coverage: {shoulder_frames: 0, hip_frames: 0, wrist_frames: 0},
+    };
+}
+
+function setQuestionState(nextState) {
+    questionState = nextState;
+    document.getElementById("questionState").textContent = nextState;
+    playQuestionButton.disabled = nextState === LISTENING || nextState === ANSWERING || nextState === ANSWER_COMPLETE;
+    recordButton.disabled = ![READY_TO_ANSWER, ANSWERING].includes(nextState);
+    if (nextState === QUESTION_READY) document.getElementById("voiceStatus").textContent = "Preparing the question…";
+    if (nextState === LISTENING) document.getElementById("voiceStatus").textContent = "Listening to the interviewer…";
+    if (nextState === READY_TO_ANSWER) document.getElementById("voiceStatus").textContent = "Ready when you are.";
+    if (nextState === ANSWERING) document.getElementById("voiceStatus").textContent = "Answering…";
+    if (nextState === ANSWER_COMPLETE) document.getElementById("voiceStatus").textContent = "Saving audio and preparing the transcript…";
+}
+
+function exactStoredQuestion() { return QUESTIONS[currentIndex].question_text; }
+
+function speakQuestion() {
+    if (questionState === ANSWERING || questionState === ANSWER_COMPLETE) return;
+    if (!("speechSynthesis" in window) || !("SpeechSynthesisUtterance" in window)) {
+        showMessage("Interviewer voice is unavailable in this browser. The exact question remains readable.");
+        setQuestionState(READY_TO_ANSWER);
+        return;
+    }
+    window.speechSynthesis.cancel();
+    activeUtterance = new SpeechSynthesisUtterance(exactStoredQuestion());
+    activeUtterance.lang = "en-ZA";
+    activeUtterance.onend = () => {
+        activeUtterance = null;
+        if (questionState === LISTENING) setQuestionState(READY_TO_ANSWER);
+    };
+    activeUtterance.onerror = () => {
+        activeUtterance = null;
+        showMessage("Interviewer voice could not play. The exact question remains readable.");
+        setQuestionState(READY_TO_ANSWER);
+    };
+    setQuestionState(LISTENING);
+    try {
+        window.speechSynthesis.speak(activeUtterance);
+    } catch (_) {
+        activeUtterance = null;
+        showMessage("Interviewer voice could not play. The exact question remains readable.");
+        setQuestionState(READY_TO_ANSWER);
+    }
+}
+
+function deliverQuestion() {
+    setQuestionState(QUESTION_READY);
+    if (QUESTION_DELIVERY === "text_only") setQuestionState(READY_TO_ANSWER);
+    else speakQuestion();
+}
+
+function renderQuestion() {
+    clearMessage();
+    const question = QUESTIONS[currentIndex];
+    questionText.textContent = question.question_text;
+    questionType.textContent = friendlyType(question.question_type);
+    questionCounter.textContent = `Question ${currentIndex + 1} of ${QUESTIONS.length}`;
+    progressBar.style.width = `${(currentIndex / QUESTIONS.length) * 100}%`;
+    document.getElementById("writtenAnswer").value = question.answer_text || "";
+    document.getElementById("provisionalTranscript").textContent = "";
+    pendingAudio = null;
+    pendingDuration = 0;
+    pendingVisualMetrics = null;
+    provisionalText = "";
+    if (MODE === "voice") {
+        recordButton.textContent = "Start Answer";
+        recordButton.classList.remove("btn-danger");
+        recordButton.classList.add("btn-primary");
+        deliverQuestion();
+    }
+}
+
+async function completeWrittenInterview() {
+    const response = await fetch(`/interview/api/${INTERVIEW_ID}/complete/`, {
+        method: "POST",
+        headers: {"X-CSRFToken": CSRF},
+    });
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.message || "CareerGPS could not generate interview feedback.");
+    window.location.href = data.feedbackUrl;
+}
+
+async function nextWrittenOrFinish() {
+    if (currentIndex < QUESTIONS.length - 1) {
+        currentIndex += 1;
+        renderQuestion();
+        return;
+    }
+    progressBar.style.width = "100%";
+    await completeWrittenInterview();
+}
+
+document.getElementById("writtenSubmit").addEventListener("click", async () => {
+    clearMessage();
+    const answer = document.getElementById("writtenAnswer").value.trim();
+    if (!answer) { showMessage("Enter an answer before continuing."); return; }
+    const button = document.getElementById("writtenSubmit");
+    button.disabled = true;
+    try {
+        const question = QUESTIONS[currentIndex];
+        const response = await fetch(`/interview/api/question/${question.id}/answer-written/`, {
+            method: "POST",
+            headers: {"Content-Type": "application/json", "X-CSRFToken": CSRF},
+            body: JSON.stringify({answerText: answer}),
+        });
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.message || "CareerGPS could not save your answer.");
+        question.answer_text = answer;
+        await nextWrittenOrFinish();
+    } catch (error) {
+        showMessage(error.message);
+        button.disabled = false;
+    }
+});
+
+function supportedRecorderOptions() {
+    const candidates = ["audio/webm;codecs=opus", "audio/webm", "audio/mp4", "audio/ogg"];
+    const mimeType = candidates.find(type => MediaRecorder.isTypeSupported(type));
+    return mimeType ? {mimeType} : {};
+}
+
+async function checkMicrophone() {
+    const status = document.getElementById("microphoneStatus");
+    const begin = document.getElementById("beginInterview");
+    begin.disabled = true;
+    status.textContent = "Checking microphone…";
+    if (!("MediaRecorder" in window)) {
+        status.textContent = "Recording unsupported. You can start a written interview instead.";
+        return;
+    }
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        status.textContent = "No microphone detected or microphone access is unavailable.";
+        return;
+    }
+    let checkStream;
+    let context;
+    try {
+        checkStream = await navigator.mediaDevices.getUserMedia({audio: true, video: false});
+        new MediaRecorder(checkStream, supportedRecorderOptions());
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (AudioContextClass) {
+            context = new AudioContextClass();
+            const analyser = context.createAnalyser();
+            context.createMediaStreamSource(checkStream).connect(analyser);
+            const samples = new Uint8Array(analyser.fftSize);
+            analyser.getByteTimeDomainData(samples);
+            const peak = Math.max(...samples.map(value => Math.abs(value - 128)));
+            document.getElementById("micLevel").style.width = `${Math.max(8, Math.min(100, peak * 2))}%`;
+        }
+        status.textContent = "Microphone ready. Audio input is available.";
+        begin.disabled = false;
+    } catch (error) {
+        if (error && error.name === "NotAllowedError") status.textContent = "Permission denied. Allow microphone access, then retry.";
+        else if (error && error.name === "NotFoundError") status.textContent = "No microphone detected. Connect one, then retry.";
+        else status.textContent = "The microphone could not be opened. Check the selected input device and retry.";
+    } finally {
+        if (checkStream) checkStream.getTracks().forEach(track => track.stop());
+        if (context) context.close().catch(() => {});
+    }
+}
+
+document.getElementById("checkMicrophone")?.addEventListener("click", checkMicrophone);
+document.getElementById("beginInterview")?.addEventListener("click", () => {
+    document.getElementById("microphoneCheck").style.display = "none";
+    if (CAMERA_MODE === "camera_analysis") {
+        document.getElementById("cameraCheck").style.display = "block";
+    } else {
+        questionCard.style.display = "block";
+        renderQuestion();
+    }
+});
+
+async function checkCamera() {
+    const button = document.getElementById("checkCamera");
+    const beginButton = document.getElementById("beginCameraInterview");
+    button.disabled = true;
+    beginButton.disabled = true;
+    cameraUnavailableReason = null;
+    document.getElementById("cameraStatus").textContent = "Starting Camera Analysis...";
+    if (cameraController) cameraController.close();
+    cameraController = null;
+    try {
+        const cameraModule = await import("{% static 'interview/js/camera_analysis.js' %}");
+        const controller = new cameraModule.CameraAnalysisController({
+            video: document.getElementById("cameraPreview"),
+            status: document.getElementById("cameraStatus"),
+            readyButton: beginButton,
+            workerUrl: "{% static 'interview/js/mediapipe_worker.js' %}",
+            bundleUrl: "{% static 'interview/vendor/mediapipe/1.0.1/vision_bundle.mjs' %}",
+            wasmRootUrl: "{% static 'interview/vendor/mediapipe/1.0.1/wasm' %}",
+            poseModelUrl: "{% static 'interview/models/mediapipe/pose_landmarker_lite-v1.task' %}",
+            faceModelUrl: "{% static 'interview/models/mediapipe/face_landmarker-v1.task' %}",
+            onReady: () => {
+                if (cameraController === controller) cameraUnavailableReason = null;
+            },
+        });
+        cameraController = controller;
+        const setupStarted = await controller.setup();
+        if (cameraController !== controller) return;
+        button.disabled = false;
+        button.textContent = "Retry Camera Analysis";
+        if (!setupStarted) cameraUnavailableReason = controller.disabledReason || "analysis_error";
+    } catch (_) {
+        cameraUnavailableReason = cameraController?.disabledReason || "runtime_unavailable";
+        document.getElementById("cameraStatus").textContent = "Camera analysis could not start. Audio practice can continue.";
+        button.disabled = false;
+        button.textContent = "Retry Camera Analysis";
+    }
+}
+
+document.getElementById("checkCamera")?.addEventListener("click", checkCamera);
+document.getElementById("continueAudioOnly")?.addEventListener("click", () => {
+    cameraUnavailableReason = cameraController?.disabledReason || "candidate_continued_audio_only";
+    if (cameraController) cameraController.continueAudioOnly();
+    document.getElementById("beginCameraInterview").disabled = false;
+    document.getElementById("cameraStatus").textContent = "Continuing with audio only. You can still complete every question.";
+});
+document.getElementById("beginCameraInterview")?.addEventListener("click", () => {
+    const cameraReady = Boolean(cameraController?.isReady);
+    const usingAudioFallback = Boolean(cameraUnavailableReason || cameraController?.disabledReason);
+    if (!cameraReady && !usingAudioFallback) return;
+    const cameraCheck = document.getElementById("cameraCheck");
+    cameraCheck.style.display = "none";
+    const preview = document.getElementById("cameraPreview");
+    if (cameraController?.stream) {
+        cameraController.finishSetup();
+        const holder = document.getElementById("answerCameraPreview");
+        holder.appendChild(preview);
+        holder.style.display = "block";
+    }
+    questionCard.style.display = "block";
+    renderQuestion();
+});
+
+playQuestionButton.addEventListener("click", () => {
+    clearMessage();
+    if (![QUESTION_READY, READY_TO_ANSWER].includes(questionState)) return;
+    speakQuestion();
+});
+
+function startSpeechRecognition() {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) return;
+    recognition = new SpeechRecognition();
+    recognition.continuous = true;
+    recognition.interimResults = true;
+    recognition.lang = "en-ZA";
+    recognition.onresult = event => {
+        let interim = "";
+        for (let index = event.resultIndex; index < event.results.length; index += 1) {
+            const text = event.results[index][0].transcript;
+            if (event.results[index].isFinal) provisionalText += `${text} `;
+            else interim += text;
+        }
+        document.getElementById("provisionalTranscript").textContent =
+            `Live transcription (provisional): ${(provisionalText + interim).trim()}`;
+    };
+    recognition.onerror = () => {};
+    try { recognition.start(); } catch (_) { recognition = null; }
+}
+
+async function beginAnswer() {
+    if (questionState !== READY_TO_ANSWER || recorder) return;
+    if ("speechSynthesis" in window) window.speechSynthesis.cancel();
+    try {
+        mediaStream = await navigator.mediaDevices.getUserMedia({audio: true, video: false});
+        chunks = [];
+        recorder = new MediaRecorder(mediaStream, supportedRecorderOptions());
+        recorder.ondataavailable = event => { if (event.data.size) chunks.push(event.data); };
+        recorder.onerror = () => showMessage("Recording failed. Finish this attempt and retry the answer.");
+        recorder.start(500);
+    } catch (_) {
+        recorder = null;
+        if (mediaStream) mediaStream.getTracks().forEach(track => track.stop());
+        mediaStream = null;
+        showMessage("The microphone recording could not start. Check access and retry.");
+        setQuestionState(READY_TO_ANSWER);
+        return;
+    }
+    provisionalText = "";
+    recordingStartedAt = performance.now();
+    startSpeechRecognition();
+    recordButton.textContent = "Finish Answer";
+    recordButton.classList.remove("btn-primary");
+    recordButton.classList.add("btn-danger");
+    setQuestionState(ANSWERING);
+    if (CAMERA_MODE === "camera_analysis") {
+        if (cameraController && !cameraController.disabledReason) {
+            cameraController.status = document.getElementById("cameraAnswerStatus");
+            cameraController.startAnswer(recordingStartedAt);
+        } else {
+            document.getElementById("cameraAnswerStatus").textContent = "Camera analysis unavailable; audio recording continues.";
+        }
+    }
+}
+
+function stopRecorder() {
+    return new Promise((resolve, reject) => {
+        if (!recorder || recorder.state !== "recording") { reject(new Error("No answer recording is active.")); return; }
+        recorder.onstop = () => resolve(new Blob(chunks, {type: recorder.mimeType || "audio/webm"}));
+        try { recorder.stop(); } catch (_) { reject(new Error("The recording could not be finished.")); }
+    });
+}
+
+async function uploadCompletedAnswer() {
+    const question = QUESTIONS[currentIndex];
+    const form = new FormData();
+    form.append("durationSeconds", String(pendingDuration));
+    form.append("provisionalTranscript", provisionalText.trim());
+    if (CAMERA_MODE === "camera_analysis") {
+        form.append("visualMetrics", JSON.stringify(
+            pendingVisualMetrics || unavailableVisualPayload(pendingDuration, cameraUnavailableReason)
+        ));
+    }
+    const type = pendingAudio.type || "audio/webm";
+    const extension = type.includes("mp4") ? "m4a" : type.includes("ogg") ? "ogg" : "webm";
+    form.append("audio", pendingAudio, `interview_${INTERVIEW_ID}_q${question.question_index + 1}.${extension}`);
+    const response = await fetch(`/interview/api/question/${question.id}/answer-voice/`, {
+        method: "POST",
+        headers: {"X-CSRFToken": CSRF},
+        body: form,
+    });
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.message || "CareerGPS could not save the audio answer.");
+    question.transcription_status = data.transcriptionStatus;
+    if (data.interviewFinished) {
+        progressBar.style.width = "100%";
+        window.location.href = data.reviewUrl;
+        return;
+    }
+    currentIndex += 1;
+    renderQuestion();
+}
+
+async function finishAnswer() {
+    if (questionState !== ANSWERING || !recorder || recorder.state !== "recording") return;
+    setQuestionState(ANSWER_COMPLETE);
+    pendingDuration = (performance.now() - recordingStartedAt) / 1000;
+    if (CAMERA_MODE === "camera_analysis") {
+        pendingVisualMetrics = cameraController
+            ? cameraController.finishAnswer(pendingDuration)
+            : unavailableVisualPayload(pendingDuration, cameraUnavailableReason);
+    }
+    if (recognition) { try { recognition.stop(); } catch (_) {} recognition = null; }
+    try {
+        pendingAudio = await stopRecorder();
+        if (!pendingAudio.size) throw new Error("No audio was captured. Please record this answer again.");
+        if (mediaStream) mediaStream.getTracks().forEach(track => track.stop());
+        mediaStream = null;
+        recorder = null;
+        await uploadCompletedAnswer();
+    } catch (error) {
+        showMessage(error.message);
+        if (mediaStream) mediaStream.getTracks().forEach(track => track.stop());
+        mediaStream = null;
+        recorder = null;
+        if (pendingAudio && pendingAudio.size) {
+            recordButton.textContent = "Retry saving answer";
+            recordButton.classList.remove("btn-danger");
+            recordButton.classList.add("btn-primary");
+            setQuestionState(ANSWER_COMPLETE);
+            recordButton.disabled = false;
+        } else {
+            recordButton.textContent = "Start Answer";
+            recordButton.classList.remove("btn-danger");
+            recordButton.classList.add("btn-primary");
+            setQuestionState(READY_TO_ANSWER);
+        }
+    }
+}
+
+async function retryAnswerUpload() {
+    if (questionState !== ANSWER_COMPLETE || !pendingAudio) return;
+    recordButton.disabled = true;
+    try {
+        await uploadCompletedAnswer();
+    } catch (error) {
+        showMessage(error.message);
+        recordButton.disabled = false;
+    }
+}
+
+recordButton.addEventListener("click", async () => {
+    if (questionState === READY_TO_ANSWER) await beginAnswer();
+    else if (questionState === ANSWERING) await finishAnswer();
+    else if (questionState === ANSWER_COMPLETE) await retryAnswerUpload();
+});
+
+if (MODE === "voice") {
+    writtenPanel.style.display = "none";
+    voicePanel.style.display = "block";
+} else {
+    writtenPanel.style.display = "block";
+    voicePanel.style.display = "none";
+    questionCard.style.display = "block";
+    renderQuestion();
+}
+
+window.addEventListener("beforeunload", () => {
+    if (mediaStream) mediaStream.getTracks().forEach(track => track.stop());
+    if (recognition) { try { recognition.stop(); } catch (_) {} }
+    if ("speechSynthesis" in window) window.speechSynthesis.cancel();
+    if (cameraController) cameraController.close();
+});
+</script>
+{% endblock %}

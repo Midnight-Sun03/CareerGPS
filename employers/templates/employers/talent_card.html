@@ -1,0 +1,11 @@
+<section class="card talent-card"><p class="eyebrow">Available for discovery</p><h2><a href="{% url 'employers:talent_candidate' organization.id card.id %}?source={{ source|default:'search' }}{% if vacancy %}&amp;vacancy={{ vacancy.id }}{% endif %}">{{ card.display_name }}</a></h2>
+{% if card.careers %}<p>{{ card.careers|join:', ' }}</p>{% endif %}{% if card.location %}<p>{{ card.location }}</p>{% endif %}
+{% if card.employment %}<p>{{ card.employment.0.title }}</p>{% endif %}
+{% for education in card.education|slice:':2' %}<p>{{ education.qualification }}{% if education.nqf_level %} &middot; NQF {{ education.nqf_level }}{% endif %}</p>{% endfor %}
+{% if card.skills %}<p><strong>Confirmed skills:</strong> {{ card.skills|slice:':8'|join:', ' }}</p>{% endif %}
+{% if card.experience_months != None %}<p>{{ card.experience_months }} months of dated experience</p>{% else %}<p>Dated experience unavailable</p>{% endif %}
+{% if card.match_summary %}<p><strong>{{ card.match_summary.label }}</strong> &middot; {{ card.match_summary.found_count }} evidenced &middot; {{ card.match_summary.related_count }} related &middot; {{ card.match_summary.unknown_count }} not enough information</p><p>Current confirmed evidence compared with this vacancy. Missing profile evidence does not prove absence.</p>{% endif %}
+{% if card.target_alignment %}<p><strong>{{ card.target_alignment.label }}</strong> &middot; Shown separately from current evidence fit.</p>{% endif %}
+<div class="actions"><a href="{% url 'employers:talent_candidate' organization.id card.id %}?source={{ source|default:'search' }}{% if vacancy %}&amp;vacancy={{ vacancy.id }}{% endif %}">View shared profile</a>
+{% if card.can_save and 'talent_manage' in permissions %}<form method="post" action="{% url 'employers:talent_save' organization.id card.id %}">{% csrf_token %}{% if vacancy %}<input type="hidden" name="vacancy_id" value="{{ vacancy.id }}">{% endif %}<button class="secondary">{% if card.is_saved %}Saved{% else %}Save candidate{% endif %}</button></form>
+<a href="{% url 'employers:talent_candidate' organization.id card.id %}?source={{ source|default:'search' }}{% if vacancy %}&amp;vacancy={{ vacancy.id }}{% endif %}#talent-pool">Add to talent pool</a>{% endif %}</div></section>

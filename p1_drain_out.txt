@@ -1,0 +1,15 @@
+sync mode: False
+join_worker=True after 41.4s (running=False)
+--- profile 9 ---
+  task 5419 feed-v2 COMPLETE att=3 err='' completed=2026-10-07 17:11:10.636537+00:00
+  task 5411 feed-v2 COMPLETE att=1 err='' completed=2026-10-02 02:32:44.852520+00:00
+  task 5410 feed-v2 FAILED att=3 err='Worker lease expired before completion.' completed=2026-10-01 19:50:40.364104+00:00
+  task 5409 feed-v2 SUPERSEDED att=0 err='' completed=None
+  feed state=READY pending='' active_gen=29 updated=2026-10-07 17:11:10.527913+00:00
+--- profile 19 ---
+  task 5418 provisional-v1 COMPLETE att=0 err='' completed=2026-10-07 15:49:02.278713+00:00
+  task 5417 feed-v2 COMPLETE att=3 err='' completed=2026-10-07 17:10:54.615694+00:00
+  task 5416 feed-v2 COMPLETE att=1 err='' completed=2026-10-04 13:16:53.591445+00:00
+  task 5415 feed-v2 SUPERSEDED att=1 err='database is locked' completed=None
+  feed state=READY pending='' active_gen=28 updated=2026-10-07 17:10:54.555209+00:00
+PHASE1_DRAIN_DONE

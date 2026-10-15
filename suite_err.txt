@@ -1,0 +1,433 @@
+Using existing test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
+System check identified some issues:
+
+WARNINGS:
+?: (careergps.W001) Public operator/contact details are incomplete: CAREERGPS_OPERATOR_NAME, CAREERGPS_OPERATOR_LEGAL_STATUS, CAREERGPS_OPERATOR_PHYSICAL_ADDRESS, CAREERGPS_OPERATOR_LEGAL_SERVICE_ADDRESS, CAREERGPS_OPERATOR_TELEPHONE, CAREERGPS_CONTACT_EMAIL, CAREERGPS_PRIVACY_EMAIL, CAREERGPS_INFORMATION_OFFICER.
+	HINT: Supply verified owner facts before public production launch; review registration details and Information Officer information where applicable.
+
+System check identified 1 issue (0 silenced).
+test_exhausted_tasks_fail_terminally (core.test_target_auto_rebuild.QueueWorkerUnitTests.test_exhausted_tasks_fail_terminally) ... ok
+test_failed_tasks_retry_with_backoff (core.test_target_auto_rebuild.QueueWorkerUnitTests.test_failed_tasks_retry_with_backoff) ... ok
+test_request_never_raises (core.test_target_auto_rebuild.QueueWorkerUnitTests.test_request_never_raises) ... ok
+test_exhausted_tasks_fail_terminally (core.test_queue_worker.QueueWorkerUnitTests.test_exhausted_tasks_fail_terminally) ... ok
+test_failed_tasks_retry_with_backoff (core.test_queue_worker.QueueWorkerUnitTests.test_failed_tasks_retry_with_backoff) ... ok
+test_request_never_raises (core.test_queue_worker.QueueWorkerUnitTests.test_request_never_raises) ... careergps queue-drain pass failed (reason=unit-probe)
+Traceback (most recent call last):
+  File "D:\CG\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: database table is locked: core_evaluationrecomputetask
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\CG\core\services\queue_worker.py", line 183, in _drain_loop
+    v2_done = drain_v2_queue(
+              ^^^^^^^^^^^^^^^
+  File "D:\CG\core\services\feed_queue.py", line 387, in drain_v2_queue
+    for task in claim_tasks(limit=limit, worker_id=worker_id):
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\core\services\feed_queue.py", line 202, in claim_tasks
+    reclaim_expired_tasks(now)
+  File "C:\Users\malak\AppData\Roaming\uv\python\cpython-3.12-windows-x86_64-none\Lib\contextlib.py", line 81, in inner
+    return func(*args, **kwds)
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\core\services\feed_queue.py", line 182, in reclaim_expired_tasks
+    for task in expired:
+                ^^^^^^^
+  File "D:\CG\.venv\Lib\site-packages\django\db\models\query.py", line 400, in __iter__
+    self._fetch_all()
+  File "D:\CG\.venv\Lib\site-packages\django\db\models\query.py", line 1886, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\.venv\Lib\site-packages\django\db\models\query.py", line 93, in __iter__
+    results = compiler.execute_sql(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1562, in execute_sql
+    cursor.execute(sql, params)
+  File "D:\CG\.venv\Lib\site-packages\django\db\backends\utils.py", line 67, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\.venv\Lib\site-packages\django\db\backends\utils.py", line 80, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\.venv\Lib\site-packages\django\db\backends\utils.py", line 84, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\.venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "D:\CG\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: database table is locked: core_evaluationrecomputetask
+ok
+test_request_when_worker_alive_does_not_double_spawn (core.test_queue_worker.QueueWorkerUnitTests.test_request_when_worker_alive_does_not_double_spawn) ... careergps queue-drain pass failed (reason=first)
+Traceback (most recent call last):
+  File "D:\CG\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: database table is locked: core_evaluationrecomputetask
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\CG\core\services\queue_worker.py", line 183, in _drain_loop
+    v2_done = drain_v2_queue(
+              ^^^^^^^^^^^^^^^
+  File "D:\CG\core\services\feed_queue.py", line 387, in drain_v2_queue
+    for task in claim_tasks(limit=limit, worker_id=worker_id):
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\core\services\feed_queue.py", line 202, in claim_tasks
+    reclaim_expired_tasks(now)
+  File "C:\Users\malak\AppData\Roaming\uv\python\cpython-3.12-windows-x86_64-none\Lib\contextlib.py", line 81, in inner
+    return func(*args, **kwds)
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\core\services\feed_queue.py", line 182, in reclaim_expired_tasks
+    for task in expired:
+                ^^^^^^^
+  File "D:\CG\.venv\Lib\site-packages\django\db\models\query.py", line 400, in __iter__
+    self._fetch_all()
+  File "D:\CG\.venv\Lib\site-packages\django\db\models\query.py", line 1886, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\.venv\Lib\site-packages\django\db\models\query.py", line 93, in __iter__
+    results = compiler.execute_sql(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1562, in execute_sql
+    cursor.execute(sql, params)
+  File "D:\CG\.venv\Lib\site-packages\django\db\backends\utils.py", line 67, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\.venv\Lib\site-packages\django\db\backends\utils.py", line 80, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\.venv\Lib\site-packages\django\db\backends\utils.py", line 84, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\.venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "D:\CG\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: database table is locked: core_evaluationrecomputetask
+careergps queue-drain pass failed (reason=second)
+Traceback (most recent call last):
+  File "D:\CG\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: database table is locked: core_evaluationrecomputetask
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\CG\core\services\queue_worker.py", line 183, in _drain_loop
+    v2_done = drain_v2_queue(
+              ^^^^^^^^^^^^^^^
+  File "D:\CG\core\services\feed_queue.py", line 387, in drain_v2_queue
+    for task in claim_tasks(limit=limit, worker_id=worker_id):
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\core\services\feed_queue.py", line 202, in claim_tasks
+    reclaim_expired_tasks(now)
+  File "C:\Users\malak\AppData\Roaming\uv\python\cpython-3.12-windows-x86_64-none\Lib\contextlib.py", line 81, in inner
+    return func(*args, **kwds)
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\core\services\feed_queue.py", line 182, in reclaim_expired_tasks
+    for task in expired:
+                ^^^^^^^
+  File "D:\CG\.venv\Lib\site-packages\django\db\models\query.py", line 400, in __iter__
+    self._fetch_all()
+  File "D:\CG\.venv\Lib\site-packages\django\db\models\query.py", line 1886, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\.venv\Lib\site-packages\django\db\models\query.py", line 93, in __iter__
+    results = compiler.execute_sql(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1562, in execute_sql
+    cursor.execute(sql, params)
+  File "D:\CG\.venv\Lib\site-packages\django\db\backends\utils.py", line 67, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\.venv\Lib\site-packages\django\db\backends\utils.py", line 80, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\.venv\Lib\site-packages\django\db\backends\utils.py", line 84, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\.venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "D:\CG\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: database table is locked: core_evaluationrecomputetask
+ok
+test_duplicate_triggers_never_spawn_a_second_worker (core.test_queue_worker.SynchronousModeTests.test_duplicate_triggers_never_spawn_a_second_worker)
+Burst of triggers: at most one in-flight drain (ownership gate). ... ok
+test_synchronous_drain_with_no_work_is_quiet_and_releases_ownership (core.test_queue_worker.SynchronousModeTests.test_synchronous_drain_with_no_work_is_quiet_and_releases_ownership) ... ok
+test_synchronous_trigger_returns_instead_of_self_deadlocking (core.test_queue_worker.SynchronousModeTests.test_synchronous_trigger_returns_instead_of_self_deadlocking) ... ok
+test_work_arriving_during_a_drain_is_coalesced_not_lost (core.test_queue_worker.SynchronousModeTests.test_work_arriving_during_a_drain_is_coalesced_not_lost)
+A trigger fired while a pass runs must cause one more pass. ... ok
+test_enabled_gate_arms_and_drains_claimable_work (core.test_queue_safety_net.SafetyNetGateTests.test_enabled_gate_arms_and_drains_claimable_work) ... ok
+test_middleware_drains_through_a_real_request_cycle (core.test_queue_safety_net.SafetyNetGateTests.test_middleware_drains_through_a_real_request_cycle) ... ok
+test_middleware_never_breaks_the_request (core.test_queue_safety_net.SafetyNetGateTests.test_middleware_never_breaks_the_request) ... careergps queue safety-net check failed
+Traceback (most recent call last):
+  File "D:\CG\core\middleware.py", line 70, in maybe_drain_from_request
+    if not claimable_work_exists():
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\malak\AppData\Roaming\uv\python\cpython-3.12-windows-x86_64-none\Lib\unittest\mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\malak\AppData\Roaming\uv\python\cpython-3.12-windows-x86_64-none\Lib\unittest\mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\malak\AppData\Roaming\uv\python\cpython-3.12-windows-x86_64-none\Lib\unittest\mock.py", line 1198, in _execute_mock_call
+    raise effect
+RuntimeError: db exploded
+ok
+test_quiet_queue_does_not_arm_a_drain (core.test_queue_safety_net.SafetyNetGateTests.test_quiet_queue_does_not_arm_a_drain) ... ok
+test_safety_net_is_disabled_by_default_under_the_test_runner (core.test_queue_safety_net.SafetyNetGateTests.test_safety_net_is_disabled_by_default_under_the_test_runner) ... ok
+test_throttled_check_skips_without_querying (core.test_queue_safety_net.SafetyNetGateTests.test_throttled_check_skips_without_querying) ... ok
+test_a_build_produces_results_for_the_current_target (core.test_provisional_bridge.ProvisionalBridgeCase.test_a_build_produces_results_for_the_current_target) ... ok
+test_no_target_exposes_no_provisional_results (core.test_provisional_bridge.ProvisionalBridgeCase.test_no_target_exposes_no_provisional_results) ... ok
+test_page_request_with_provisional_rows_runs_no_matcher (core.test_provisional_bridge.ProvisionalBridgeCase.test_page_request_with_provisional_rows_runs_no_matcher) ... ok
+test_provisional_cannot_override_an_authoritative_feed (core.test_provisional_bridge.ProvisionalBridgeCase.test_provisional_cannot_override_an_authoritative_feed) ... ok
+test_provisional_failure_does_not_alter_v2 (core.test_provisional_bridge.ProvisionalBridgeCase.test_provisional_failure_does_not_alter_v2) ... ok
+test_provisional_is_used_while_v2_is_unresolved (core.test_provisional_bridge.ProvisionalBridgeCase.test_provisional_is_used_while_v2_is_unresolved) ... ok
+test_stale_a_completion_is_written_stale_for_b (core.test_provisional_bridge.ProvisionalBridgeCase.test_stale_a_completion_is_written_stale_for_b) ... ok
+test_stale_a_rows_may_remain_but_are_never_read (core.test_provisional_bridge.ProvisionalBridgeCase.test_stale_a_rows_may_remain_but_are_never_read) ... ok
+test_target_change_a_to_b_changes_the_identity (core.test_provisional_bridge.ProvisionalBridgeCase.test_target_change_a_to_b_changes_the_identity) ... ok
+test_target_change_enqueues_both_task_versions (core.test_provisional_bridge.ProvisionalBridgeCase.test_target_change_enqueues_both_task_versions) ... careergps queue-drain pass failed (reason=careerpreference_changed)
+Traceback (most recent call last):
+  File "D:\CG\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: database table is locked: core_evaluationrecomputetask
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\CG\core\services\queue_worker.py", line 183, in _drain_loop
+    v2_done = drain_v2_queue(
+              ^^^^^^^^^^^^^^^
+  File "D:\CG\core\services\feed_queue.py", line 387, in drain_v2_queue
+    for task in claim_tasks(limit=limit, worker_id=worker_id):
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\core\services\feed_queue.py", line 202, in claim_tasks
+    reclaim_expired_tasks(now)
+  File "C:\Users\malak\AppData\Roaming\uv\python\cpython-3.12-windows-x86_64-none\Lib\contextlib.py", line 81, in inner
+    return func(*args, **kwds)
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\core\services\feed_queue.py", line 182, in reclaim_expired_tasks
+    for task in expired:
+                ^^^^^^^
+  File "D:\CG\.venv\Lib\site-packages\django\db\models\query.py", line 400, in __iter__
+    self._fetch_all()
+  File "D:\CG\.venv\Lib\site-packages\django\db\models\query.py", line 1886, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\.venv\Lib\site-packages\django\db\models\query.py", line 93, in __iter__
+    results = compiler.execute_sql(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1562, in execute_sql
+    cursor.execute(sql, params)
+  File "D:\CG\.venv\Lib\site-packages\django\db\backends\utils.py", line 67, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\.venv\Lib\site-packages\django\db\backends\utils.py", line 80, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\.venv\Lib\site-packages\django\db\backends\utils.py", line 84, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\.venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "D:\CG\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: database table is locked: core_evaluationrecomputetask
+ok
+test_v2_activation_notifies_a_viewer_of_provisional_results (core.test_provisional_bridge.ProvisionalBridgeCase.test_v2_activation_notifies_a_viewer_of_provisional_results) ... ok
+test_v2_failure_preserves_previous_authoritative_v2 (core.test_provisional_bridge.ProvisionalBridgeCase.test_v2_failure_preserves_previous_authoritative_v2) ... ok
+test_v2_takes_precedence_immediately_when_authoritative (core.test_provisional_bridge.ProvisionalBridgeCase.test_v2_takes_precedence_immediately_when_authoritative) ... ok
+test_banner_does_not_claim_every_listing_was_validated (core.test_feed_v2.FeedAdmissionAndUiTests.test_banner_does_not_claim_every_listing_was_validated) ... ok
+test_building_generation_is_invisible_and_activation_is_atomic (core.test_feed_v2.FeedAdmissionAndUiTests.test_building_generation_is_invisible_and_activation_is_atomic) ... ok
+test_career_intelligence_sections_start_collapsed (core.test_feed_v2.FeedAdmissionAndUiTests.test_career_intelligence_sections_start_collapsed) ... ok
+test_evidence_change_keeps_relationship_but_marks_fit_updating (core.test_feed_v2.FeedAdmissionAndUiTests.test_evidence_change_keeps_relationship_but_marks_fit_updating) ... ok
+test_failed_replacement_preserves_prior_active_generation (core.test_feed_v2.FeedAdmissionAndUiTests.test_failed_replacement_preserves_prior_active_generation) ... ok
+test_idempotent_worker_restores_ready_and_completed_enqueue_is_quiet (core.test_feed_v2.FeedAdmissionAndUiTests.test_idempotent_worker_restores_ready_and_completed_enqueue_is_quiet) ... ok
+test_policy_change_hides_the_feed_without_a_catalogue_fallback (core.test_feed_v2.FeedAdmissionAndUiTests.test_policy_change_hides_the_feed_without_a_catalogue_fallback) ... ok
+test_rebuild_is_deterministic_and_idempotent (core.test_feed_v2.FeedAdmissionAndUiTests.test_rebuild_is_deterministic_and_idempotent) ... ok
+test_requirements_never_exclude_a_confirmed_occupationally_relevant_job (core.test_feed_v2.FeedAdmissionAndUiTests.test_requirements_never_exclude_a_confirmed_occupationally_relevant_job)
+A relevant job with no matching skills stays in the main feed. ... ok
+test_senior_role_is_excluded_by_the_shared_gate_on_both_pages (core.test_feed_v2.FeedAdmissionAndUiTests.test_senior_role_is_excluded_by_the_shared_gate_on_both_pages) ... ok
+test_stale_clean_pointer_suppresses_only_that_opportunity (core.test_feed_v2.FeedAdmissionAndUiTests.test_stale_clean_pointer_suppresses_only_that_opportunity) ... ok
+test_target_change_hides_old_target_generation_without_catalogue_fallback (core.test_feed_v2.FeedAdmissionAndUiTests.test_target_change_hides_old_target_generation_without_catalogue_fallback) ... ok
+test_unconfirmed_jobs_are_separated_and_never_labelled_as_matches (core.test_feed_v2.FeedAdmissionAndUiTests.test_unconfirmed_jobs_are_separated_and_never_labelled_as_matches) ... ok
+test_without_targets_the_general_feed_stays_and_prompts_for_targets (core.test_feed_v2.FeedAdmissionAndUiTests.test_without_targets_the_general_feed_stays_and_prompts_for_targets) ... ok
+test_exact_admitted_despite_weak_fit_and_skill_overlap_cannot_admit (core.test_feed_v2.FeedV2AdmissionTests.test_exact_admitted_despite_weak_fit_and_skill_overlap_cannot_admit) ... ok
+test_exact_for_one_target_survives_a_silent_other_target (core.test_feed_v2.FeedV2AdmissionTests.test_exact_for_one_target_survives_a_silent_other_target) ... ok
+test_related_requires_active_candidate_policy (core.test_feed_v2.FeedV2AdmissionTests.test_related_requires_active_candidate_policy) ... ok
+test_reusable_rule_uses_one_direct_fact_without_two_hop_expansion (core.test_feed_v2.FeedV2AdmissionTests.test_reusable_rule_uses_one_direct_fact_without_two_hop_expansion) ... ok
+test_title_match_is_admitted_in_its_own_tier (core.test_feed_v2.FeedV2AdmissionTests.test_title_match_is_admitted_in_its_own_tier)
+TITLE_MATCH is a survivor even with no taxonomy confirmation. ... ok
+test_unresolved_stops_before_criterion_matching (core.test_feed_v2.FeedV2AdmissionTests.test_unresolved_stops_before_criterion_matching)
+Occupational admission gates the expensive criterion pass. ... ok
+test_practical_filters_change_visibility_only (core.test_feed_v2.FeedV2FilterTests.test_practical_filters_change_visibility_only) ... ok
+test_building_generation_is_invisible_and_activation_is_atomic (core.test_feed_v2.FeedV2GenerationTests.test_building_generation_is_invisible_and_activation_is_atomic) ... ok
+test_evidence_change_keeps_relationship_but_marks_fit_updating (core.test_feed_v2.FeedV2GenerationTests.test_evidence_change_keeps_relationship_but_marks_fit_updating) ... ok
+test_failed_replacement_preserves_prior_active_generation (core.test_feed_v2.FeedV2GenerationTests.test_failed_replacement_preserves_prior_active_generation) ... ok
+test_idempotent_worker_restores_ready_and_completed_enqueue_is_quiet (core.test_feed_v2.FeedV2GenerationTests.test_idempotent_worker_restores_ready_and_completed_enqueue_is_quiet) ... ok
+test_policy_change_hides_the_feed_without_a_catalogue_fallback (core.test_feed_v2.FeedV2GenerationTests.test_policy_change_hides_the_feed_without_a_catalogue_fallback) ... ok
+test_rebuild_is_deterministic_and_idempotent (core.test_feed_v2.FeedV2GenerationTests.test_rebuild_is_deterministic_and_idempotent) ... ok
+test_stale_clean_pointer_suppresses_only_that_opportunity (core.test_feed_v2.FeedV2GenerationTests.test_stale_clean_pointer_suppresses_only_that_opportunity) ... ok
+test_target_change_hides_old_target_generation_without_catalogue_fallback (core.test_feed_v2.FeedV2GenerationTests.test_target_change_hides_old_target_generation_without_catalogue_fallback) ... ok
+test_exact_career_labels_search_and_one_universe_at_runtime (core.test_feed_v2.FeedV2PresentationTests.test_exact_career_labels_search_and_one_universe_at_runtime) ... ok
+test_unrelated_job_stays_visible_as_tier_zero_band_f (core.test_feed_v2.FeedV2PresentationTests.test_unrelated_job_stays_visible_as_tier_zero_band_f) ... ok
+test_duplicate_claim_and_enqueue_are_safe (core.test_feed_v2.FeedV2QueueTests.test_duplicate_claim_and_enqueue_are_safe) ... ok
+test_expired_lease_is_recoverable (core.test_feed_v2.FeedV2QueueTests.test_expired_lease_is_recoverable) ... ok
+test_failed_task_allows_a_fresh_task_and_keeps_the_old_row (core.test_feed_v2.FeedV2QueueTests.test_failed_task_allows_a_fresh_task_and_keeps_the_old_row) ... ok
+test_live_task_key_stays_unique_in_the_database (core.test_feed_v2.FeedV2QueueTests.test_live_task_key_stays_unique_in_the_database) ... ok
+test_pending_duplicate_enqueue_returns_the_same_task (core.test_feed_v2.FeedV2QueueTests.test_pending_duplicate_enqueue_returns_the_same_task) ... ok
+test_related_fanout_uses_policy_and_skill_overlap_does_not (core.test_feed_v2.FeedV2QueueTests.test_related_fanout_uses_policy_and_skill_overlap_does_not) ... ok
+test_retry_is_bounded_and_records_failure (core.test_feed_v2.FeedV2QueueTests.test_retry_is_bounded_and_records_failure) ... ok
+test_running_duplicate_enqueue_returns_the_same_task (core.test_feed_v2.FeedV2QueueTests.test_running_duplicate_enqueue_returns_the_same_task) ... ok
+test_superseded_task_allows_a_fresh_task_and_keeps_the_old_row (core.test_feed_v2.FeedV2QueueTests.test_superseded_task_allows_a_fresh_task_and_keeps_the_old_row) ... ok
+test_final_tie_breaker_is_deterministic (core.test_feed_v2.FeedV2RankingTests.test_final_tie_breaker_is_deterministic) ... ok
+test_relationship_class_and_tier_are_absolute_outer_order (core.test_feed_v2.FeedV2RankingTests.test_relationship_class_and_tier_are_absolute_outer_order) ... ok
+test_ambiguous_source_negative_keeps_the_vacancy (core.test_feed_v2.FeedV2UnrelatedExclusionTests.test_ambiguous_source_negative_keeps_the_vacancy) ... ok
+test_different_codes_without_policy_keep_the_vacancy_unconflicted (core.test_feed_v2.FeedV2UnrelatedExclusionTests.test_different_codes_without_policy_keep_the_vacancy_unconflicted)
+No approved policy anywhere is absent evidence, not a denial. ... ok
+test_discovery_rank_table_matches_the_locked_order (core.test_feed_v2.FeedV2UnrelatedExclusionTests.test_discovery_rank_table_matches_the_locked_order) ... ok
+test_every_source_negative_excludes_the_vacancy (core.test_feed_v2.FeedV2UnrelatedExclusionTests.test_every_source_negative_excludes_the_vacancy) ... ok
+test_explicit_negative_requires_current_policy_evidence (core.test_feed_v2.FeedV2UnrelatedExclusionTests.test_explicit_negative_requires_current_policy_evidence) ... ok
+test_incomplete_authored_target_matrix_fails_open (core.test_feed_v2.FeedV2UnrelatedExclusionTests.test_incomplete_authored_target_matrix_fails_open) ... ok
+test_obvious_senior_revision_never_enters_a_v2_feed (core.test_feed_v2.FeedV2UnrelatedExclusionTests.test_obvious_senior_revision_never_enters_a_v2_feed) ... ok
+test_only_obvious_senior_is_excluded_and_gates_never_hide_jobs (core.test_feed_v2.FeedV2UnrelatedExclusionTests.test_only_obvious_senior_is_excluded_and_gates_never_hide_jobs) ... ok
+test_opportunity_fanout_keeps_every_unproven_profile (core.test_feed_v2.FeedV2UnrelatedExclusionTests.test_opportunity_fanout_keeps_every_unproven_profile) ... ok
+test_positive_relationship_beats_a_single_negative_source (core.test_feed_v2.FeedV2UnrelatedExclusionTests.test_positive_relationship_beats_a_single_negative_source) ... ok
+test_single_source_negative_neither_proves_unrelated_nor_admits (core.test_feed_v2.FeedV2UnrelatedExclusionTests.test_single_source_negative_neither_proves_unrelated_nor_admits) ... ok
+test_title_gate_block_excludes_from_the_personalized_feed (core.test_feed_v2.FeedV2UnrelatedExclusionTests.test_title_gate_block_excludes_from_the_personalized_feed) ... ok
+test_unrelated_target_with_disagreeing_target_is_kept (core.test_feed_v2.FeedV2UnrelatedExclusionTests.test_unrelated_target_with_disagreeing_target_is_kept) ... ok
+test_unrelated_target_with_related_target_is_kept (core.test_feed_v2.FeedV2UnrelatedExclusionTests.test_unrelated_target_with_related_target_is_kept) ... ok
+test_verification_report_passes_with_the_widened_invariant (core.test_feed_v2.FeedV2UnrelatedExclusionTests.test_verification_report_passes_with_the_widened_invariant) ... ok
+test_weak_adjacency_policy_is_not_negative_proof (core.test_feed_v2.FeedV2UnrelatedExclusionTests.test_weak_adjacency_policy_is_not_negative_proof) ... ok
+test_only_a_fresh_unrelated_proof_excludes_a_job (core.test_feed_v2.UncertainCatalogueVisibilityTests.test_only_a_fresh_unrelated_proof_excludes_a_job)
+The uncertain area excludes a job on fresh negative proof only. ... ok
+test_the_three_feed_areas_never_repeat_one_job (core.test_feed_v2.UncertainCatalogueVisibilityTests.test_the_three_feed_areas_never_repeat_one_job)
+One job is in exactly one area: confirmed, discovery or uncertain. ... ok
+test_the_uncertain_area_writes_nothing_and_resolves_nothing (core.test_feed_v2.UncertainCatalogueVisibilityTests.test_the_uncertain_area_writes_nothing_and_resolves_nothing)
+A GET over the uncertain area is a pure stored read. ... ok
+test_title_only_evidence_is_disclosed_beside_a_confirmed_relationship (core.test_feed_v2.UncertainCatalogueVisibilityTests.test_title_only_evidence_is_disclosed_beside_a_confirmed_relationship)
+A confirmed card also discloses its retained title-only evidence. ... ok
+test_unassessed_jobs_stay_browsable_beside_the_transition_message (core.test_feed_v2.UncertainCatalogueVisibilityTests.test_unassessed_jobs_stay_browsable_beside_the_transition_message)
+Missing coverage never empties the page. ... ok
+test_concept_lookup_returns_only_relevant_jobs (core.test_indexed_retrieval.CandidateLookupTests.test_concept_lookup_returns_only_relevant_jobs) ... ok
+test_cross_taxonomy_identity_is_preserved (core.test_indexed_retrieval.CandidateLookupTests.test_cross_taxonomy_identity_is_preserved) ... ok
+test_multi_result_target_retrieves_any_match (core.test_indexed_retrieval.CandidateLookupTests.test_multi_result_target_retrieves_any_match) ... ok
+test_one_job_one_feed_row_with_many_identities (core.test_indexed_retrieval.GenerationReuseTests.test_one_job_one_feed_row_with_many_identities) ... ok
+test_resolving_state_hides_old_feed (core.test_indexed_retrieval.GenerationReuseTests.test_resolving_state_hides_old_feed) ... ok
+test_stale_assessment_is_recomputed (core.test_indexed_retrieval.GenerationReuseTests.test_stale_assessment_is_recomputed) ... ok
+test_target_change_performance_counts (core.test_indexed_retrieval.GenerationReuseTests.test_target_change_performance_counts)
+Report the OLD->NEW cost shape on a realistic mini-catalogue. ... ok
+test_target_change_skips_unrelated_job_resolution (core.test_indexed_retrieval.GenerationReuseTests.test_target_change_skips_unrelated_job_resolution) ... ok
+test_unresolved_job_never_enters_confirmed_feed (core.test_indexed_retrieval.GenerationReuseTests.test_unresolved_job_never_enters_confirmed_feed) ... ok
+test_valid_assessment_is_reused (core.test_indexed_retrieval.GenerationReuseTests.test_valid_assessment_is_reused) ... ok
+test_a_new_target_after_clearing_starts_from_nothing (core.test_target_state_lifecycle.TargetStateLifecycleTests.test_a_new_target_after_clearing_starts_from_nothing)
+The clear -> new-target path must not inherit the old evidence. ... ok
+test_clearing_the_target_removes_all_target_specific_state (core.test_target_state_lifecycle.TargetStateLifecycleTests.test_clearing_the_target_removes_all_target_specific_state) ... ok
+test_deleting_the_preference_row_releases_admissions_before_cascade (core.test_target_state_lifecycle.TargetStateLifecycleTests.test_deleting_the_preference_row_releases_admissions_before_cascade)
+Deleting the target role through the profile Delete button works. ... okcareergps queue-drain pass failed (reason=careerpreference_changed)
+Traceback (most recent call last):
+  File "D:\CG\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: database table is locked: core_evaluationrecomputetask
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\CG\core\services\queue_worker.py", line 183, in _drain_loop
+    v2_done = drain_v2_queue(
+              ^^^^^^^^^^^^^^^
+  File "D:\CG\core\services\feed_queue.py", line 387, in drain_v2_queue
+    for task in claim_tasks(limit=limit, worker_id=worker_id):
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\core\services\feed_queue.py", line 202, in claim_tasks
+    reclaim_expired_tasks(now)
+  File "C:\Users\malak\AppData\Roaming\uv\python\cpython-3.12-windows-x86_64-none\Lib\contextlib.py", line 81, in inner
+    return func(*args, **kwds)
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\core\services\feed_queue.py", line 182, in reclaim_expired_tasks
+    for task in expired:
+                ^^^^^^^
+  File "D:\CG\.venv\Lib\site-packages\django\db\models\query.py", line 400, in __iter__
+    self._fetch_all()
+  File "D:\CG\.venv\Lib\site-packages\django\db\models\query.py", line 1886, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\.venv\Lib\site-packages\django\db\models\query.py", line 93, in __iter__
+    results = compiler.execute_sql(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1562, in execute_sql
+    cursor.execute(sql, params)
+  File "D:\CG\.venv\Lib\site-packages\django\db\backends\utils.py", line 67, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\.venv\Lib\site-packages\django\db\backends\utils.py", line 80, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\.venv\Lib\site-packages\django\db\backends\utils.py", line 84, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\.venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "D:\CG\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\CG\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: database table is locked: core_evaluationrecomputetask
+
+test_purge_is_idempotent_and_safe_without_prior_state (core.test_target_state_lifecycle.TargetStateLifecycleTests.test_purge_is_idempotent_and_safe_without_prior_state) ... ok
+test_target_change_retires_the_previous_targets_state (core.test_target_state_lifecycle.TargetStateLifecycleTests.test_target_change_retires_the_previous_targets_state)
+Target A -> B: no A-specific row survives into B's build. ... ok
+test_vacancy_state_is_candidate_independent_and_survives_the_purge (core.test_target_state_lifecycle.TargetStateLifecycleTests.test_vacancy_state_is_candidate_independent_and_survives_the_purge)
+Purging a target must not delete shared, target-free vacancy work. ... ok
+test_duplicate_drain_requests_are_idempotent (core.test_target_auto_rebuild.TargetChangeAutoRebuildTests.test_duplicate_drain_requests_are_idempotent) ... ok
+test_rapid_consecutive_changes_supersede_and_converge (core.test_target_auto_rebuild.TargetChangeAutoRebuildTests.test_rapid_consecutive_changes_supersede_and_converge) ... ok
+test_save_marks_intent_and_enqueues_both_versions_before_execution (core.test_target_auto_rebuild.TargetChangeAutoRebuildTests.test_save_marks_intent_and_enqueues_both_versions_before_execution)
+Enqueue + ProfileFeedState transition belong to the save itself. ... ok
+test_target_change_rebuilds_automatically_to_ready (core.test_target_auto_rebuild.TargetChangeAutoRebuildTests.test_target_change_rebuilds_automatically_to_ready) ... ok
+
+----------------------------------------------------------------------
+Ran 113 tests in 182.407s
+
+OK
+Preserving test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...

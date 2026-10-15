@@ -1,0 +1,19 @@
+now: 2026-10-07 15:38:43.162340+00:00
+profile9 target_roles: 'Data Engineer' updated_at: 2026-10-07 15:29:37.960295+00:00
+profile9 state: UPDATING_INTENT active_gen: 26 pending: intent_resolving:careerpreference_changed updated: 2026-10-07 15:29:38.884890+00:00
+profile19 state: UPDATING_INTENT active_gen: None pending: intent_resolving:careerpreference_changed updated: 2026-10-07 00:17:06.829815+00:00
+non-terminal tasks (all profiles):
+  task=5419 profile=9 ver=feed-v2 state=RUNNING attempts=1/3 avail=2026-10-07 15:29:41.042013+00:00 lease=2026-10-07 15:44:42.357732+00:00 err=''
+  task=5418 profile=19 ver=provisional-v1 state=PENDING attempts=0/3 avail=2026-10-07 00:17:06.940536+00:00 lease=None err=''
+  task=5417 profile=19 ver=feed-v2 state=RUNNING attempts=1/3 avail=2026-10-07 00:17:06.847506+00:00 lease=2026-10-07 15:41:40.546575+00:00 err=''
+profile9 task newest:
+  task=5419 ver=feed-v2 state=RUNNING attempts=1 created=2026-10-07 15:29:41.052178+00:00 err=''
+  task=5411 ver=feed-v2 state=COMPLETE attempts=1 created=2026-10-02 02:18:44.617393+00:00 err=''
+  task=5410 ver=feed-v2 state=FAILED attempts=3 created=2026-10-01 18:10:57.503520+00:00 err='Worker lease expired before completion.'
+  task=5409 ver=feed-v2 state=SUPERSEDED attempts=0 created=2026-10-01 18:09:14.487432+00:00 err=''
+profile9 generations newest:
+  gen=26 state=ACTIVE reason='careerpreference_changed' evals=1143 created=2026-10-02 02:30:24.456218+00:00
+  gen=23 state=SUPERSEDED reason='active_clean_revision_changed' evals=1150 created=2026-10-01 04:42:04.888834+00:00
+  gen=20 state=SUPERSEDED reason='block2_shadow_backfill' evals=0 created=2026-09-23 16:49:21.885521+00:00
+  gen=17 state=SUPERSEDED reason='block2_shadow_backfill' evals=0 created=2026-09-23 16:32:46.384322+00:00
+RECOVERY_CHECK_DONE

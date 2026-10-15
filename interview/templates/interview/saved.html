@@ -1,0 +1,319 @@
+{% extends "dashboard_pages.html" %}
+
+{% block title %}
+CareerGPS - My Interviews
+{% endblock %}
+
+{% block content %}
+<style>
+.history-page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+}
+
+.history-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+}
+
+.eyebrow {
+    color: #E8612A;
+    font-size: .72rem;
+    font-weight: 800;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+}
+
+.history-header h1 {
+    margin: .3rem 0;
+    font-size: 2rem;
+}
+
+.muted {
+    color: #667085;
+}
+
+.new-btn {
+    background: #E8612A;
+    color: #fff;
+    text-decoration: none;
+    padding: .7rem 1rem;
+    border-radius: 999px;
+    font-weight: 800;
+}
+
+.interview-list {
+    display: flex;
+    flex-direction: column;
+    gap: .8rem;
+}
+
+.interview-row {
+    background: #fff;
+    border: 1px solid rgba(0,0,0,.09);
+    border-radius: 15px;
+    padding: 1.1rem;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: center;
+}
+
+.row-title {
+    font-weight: 800;
+}
+
+.row-actions {
+    display: flex;
+    gap: .5rem;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.row-btn {
+    border: 0;
+    border-radius: 999px;
+    padding: .55rem .8rem;
+    text-decoration: none;
+    font-size: .85rem;
+    font-weight: 750;
+    cursor: pointer;
+}
+
+.row-btn.primary {
+    background: #fff1eb;
+    color: #b54708;
+}
+
+.row-btn.secondary {
+    background: #f2f4f7;
+    color: #344054;
+}
+
+.row-btn.danger {
+    background: #fee4e2;
+    color: #b42318;
+}
+
+.empty-state {
+    background: #fff;
+    border: 1px dashed rgba(0,0,0,.14);
+    border-radius: 15px;
+    padding: 2rem;
+    text-align: center;
+    color: #667085;
+}
+
+@media (max-width: 650px) {
+    .interview-row {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .row-actions {
+        justify-content: flex-start;
+    }
+}
+</style>
+
+
+<div class="history-page">
+
+    <header class="history-header">
+
+        <div>
+
+            <div class="eyebrow">
+                Interview Practice
+            </div>
+
+            <h1>
+                My Interviews
+            </h1>
+
+            <div class="muted">
+                {{ count }}
+                practice session{{ count|pluralize }}
+            </div>
+
+        </div>
+
+        <a
+            class="new-btn"
+            href="{% url 'interview_home' %}"
+        >
+            New interview
+        </a>
+
+    </header>
+
+
+    {% if interviews %}
+
+    <div class="interview-list">
+
+        {% for interview in interviews %}
+
+        <article
+            class="interview-row"
+            id="interview-{{ interview.id }}"
+        >
+
+            <div>
+
+                <div class="row-title">
+
+                    {% if interview.opportunity %}
+                        {{ interview.clean_revision.cleaned_title }}
+                    {% else %}
+                        {{ interview.occupation }}
+                    {% endif %}
+
+                </div>
+
+                <div class="muted">
+
+                    {% if interview.opportunity %}
+                        {{ interview.clean_revision.company }}
+                        ·
+                    {% endif %}
+
+                    {{ interview.get_mode_display }}
+
+                    ·
+
+                    {{ interview.question_count }}
+                    questions
+
+                    ·
+
+                    {{ interview.created_at|date:"j M Y" }}
+
+                </div>
+
+            </div>
+
+
+            <div class="row-actions">
+
+                {% if interview.status == "completed" %}
+
+                <a
+                    class="row-btn primary"
+                    href="{% url 'interview_feedback' interview.id %}"
+                >
+                    View feedback
+                </a>
+
+                {% elif interview.status == "transcript_review" or interview.status == "evaluating" %}
+
+                <a
+                    class="row-btn primary"
+                    href="{% url 'interview_transcript_review' interview.id %}"
+                >
+                    Review transcripts
+                </a>
+
+                {% else %}
+
+                <a
+                    class="row-btn primary"
+                    href="{% url 'interview_live' interview.id %}"
+                >
+                    Continue
+                </a>
+
+                {% endif %}
+
+
+                {% if interview.opportunity %}
+
+                <a
+                    class="row-btn secondary"
+                    href="{% url 'interview_prepare' interview.opportunity.id %}"
+                >
+                    Practise again
+                </a>
+
+                {% endif %}
+
+
+                <button
+                    class="row-btn danger"
+                    onclick="deleteInterview({{ interview.id }})"
+                >
+                    Delete
+                </button>
+
+            </div>
+
+        </article>
+
+        {% endfor %}
+
+    </div>
+
+    {% else %}
+
+    <div class="empty-state">
+        You haven't started any interview
+        practice yet.
+    </div>
+
+    {% endif %}
+
+</div>
+
+
+<script>
+const CSRF = "{{ csrf_token }}";
+
+
+async function deleteInterview(id) {
+
+    const confirmed = confirm(
+        "Delete this interview, its answers and recordings?"
+    );
+
+    if (!confirmed) {
+        return;
+    }
+
+    const response =
+        await fetch(
+            `/interview/api/${id}/delete/`,
+            {
+                method: "DELETE",
+
+                headers: {
+                    "X-CSRFToken":
+                        CSRF,
+                },
+            }
+        );
+
+    if (response.ok) {
+
+        const row =
+            document.getElementById(
+                `interview-${id}`
+            );
+
+        if (row) {
+            row.remove();
+        }
+
+    } else {
+
+        alert(
+            "CareerGPS could not delete that interview."
+        );
+    }
+}
+</script>
+
+{% endblock %}

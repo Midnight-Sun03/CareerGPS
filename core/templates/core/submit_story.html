@@ -1,0 +1,99 @@
+{% extends "dashboard_pages.html" %}
+{% load static %}
+
+{% block title %}
+CareerGPS | Share Your Story
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'core/css/submit_story.css' %}">
+{% endblock %}
+
+{% block content %}
+
+        <div class="submit-story-wrapper">
+
+            <div class="story-card">
+
+            <h1>Share Your Story</h1>
+
+            <p class="subtitle">
+                Inspire other students and graduates by sharing your experience.
+                Your story will be reviewed before it is published.
+            </p>
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="message {{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+                <div class="form-group">
+
+                    <label for="{{ form.title.id_for_label }}">
+                        Story Title
+                    </label>
+
+                    {{ form.title }}
+
+                    {% if form.title.errors %}
+                        <small class="error">
+                            {{ form.title.errors.0 }}
+                        </small>
+                    {% endif %}
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="{{ form.content.id_for_label }}">
+                        Your Story
+                    </label>
+
+                    {{ form.content }}
+
+                    {% if form.content.errors %}
+                        <small class="error">
+                            {{ form.content.errors.0 }}
+                        </small>
+                    {% endif %}
+
+                </div>
+
+                <div class="info-box">
+
+                    <strong>Before you submit</strong>
+
+                    <ul>
+                        <li>Keep your story respectful and professional.</li>
+                        <li>Avoid sharing sensitive personal information.</li>
+                        <li>Your story will be reviewed before appearing publicly.</li>
+                    </ul>
+
+                </div>
+
+                <div class="button-group">
+
+                    <button type="submit" class="submit-btn">
+                        Submit Story
+                    </button>
+
+                    <a href="{% url 'stories' %}" class="cancel-btn">
+                        Cancel
+                    </a>
+
+                </div>
+
+            </form>
+
+           </div>
+
+        </div>
+
+{% endblock %}
